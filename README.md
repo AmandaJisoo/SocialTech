@@ -16,4 +16,3 @@ real-time mobile/mobile friendly web app that will simplify the process of gathe
 #### Potential Architecture (might change in the future)
 <img src="resource/architecture_proposal.png" width="800" height="600">
 
-
