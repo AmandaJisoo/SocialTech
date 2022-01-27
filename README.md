@@ -14,6 +14,6 @@ real-time mobile/mobile friendly web app that will simplify the process of gathe
 
 ### Technical Description
 #### Potential Architecture (might change in the future)
-![Architecture Diagram](ArchDiagram.png)
+![Architecture Diagram](resource/architecture_proposal.png)
 
 
