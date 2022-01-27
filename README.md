@@ -19,12 +19,14 @@ real-time mobile/mobile friendly web app that will simplify the process of gathe
 ### User Stories
 | Priority | User | Description |
 | ----------- | ----------- | ----------- |
-P0 | As a user | I want to be able to register and edit the settings in my profile |
+P0 | As a user |I want to be able to register and edit the settings in my profile |
 
-P0 | As a user | I want to post free meal/shelter event specifying the time, location, and purpose of the event |
+P0 | As a user |I want to post free meal/shelter event specifying the time, location, and purpose of the event |
 
 P0 | As a user |upvote or downvote based on the personal experience I had on the event that is posited|
 
-P0 | As a user |P0 | As a user |upvote or downvote to alert other users if the details of the post is accurate such as date, time, location|
+P0 | As a user |As a user |upvote or downvote to alert other users if the details of the post is accurate such as date, time, location|
 
-P0 | As a user |P0 | As a user |I can write comment to discuss about details of the event with others|
+P0 | As a user |As a user |I can write comment to discuss about details of the event with others|
+
+P0 | As a user |As a user |I can filter the posted events by past, current and future event|
