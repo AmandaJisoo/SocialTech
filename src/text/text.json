@@ -1,0 +1,164 @@
+{
+    "signUp": {
+        "welocmeHeader": "WELCOME!",
+        "welcomeIntro" : "Join SocialTech to find, write, publish reviews and information for ",
+        "registeredUserPrompt": "Already have an account? "
+        
+    },
+    "signIn": {
+        "header" : "WELCOME BACK!",
+        "intro": "Please sign in  to continue...",
+        "forgotPassword": "Forgot your password?",
+        "signInBtnTxt": "Sign In",
+        "unregisterUserPrompt": "Don’t have an account?",
+        "unregisterUserPromptTwo": "Sign up here"
+    },
+    "onboard": {
+        "Intro": " We are almost there!",
+        "subIntro": "Let's have a short survey to get to know more about each other!",
+        "mainPrompt": "How can we help you?",
+        "description": "This will tell us how we can help you reach your goals!",
+        "org": {
+            "prompt": "Tell us about the shelter!",
+            "shelterScopeDropDownLabel": "Shelte Scope",
+            "FoodProvideDropDownLabel": "Food Provide",
+            "tagSelectionPrompt": "Select All Categories Applied Shelters"
+
+        },
+        "regular": {
+            "prompt": "Tell us about yourself!",
+            "genderLabel": "Gender",
+            "tagPrompt": "Conerned Category of Shelters",
+            "genderOptions": ["Male", "Female", "I prefer to not disclose"]
+        },
+        "completion": {
+            "message1": "Perfect!",
+            "message2": "Thank you for joining SocialTech!"
+        },
+        "tags": [
+            {
+                "id": "Clean",
+                "text": "Clean"
+            },
+            {
+                "id": "Food",
+                "text": "Food"
+            },
+            {
+                "id": "Quiet",
+                "text": "Quiet"
+            },
+            {
+                "id": "Warm",
+                "text": "Warm"
+            },
+            {
+                "id": "Safe",
+                "text": "Safe"
+            },
+            {
+                "id": "Bath",
+                "text": "Bath"
+            },
+            {
+                "id": "Water",
+                "text": "Water"
+            },
+            {
+                "id": "Charger",
+                "text": "Charger"
+            },
+            {
+                "id": "Wifi",
+                "text": "Wifi"
+            },
+            {
+                "id": "Park",
+                "text": "Park"
+            },
+            {
+                "id": "Locker",
+                "text": "Locker"
+            },
+            {
+                "id": "Friendly",
+                "text": "Friendly"
+            }]
+    },
+    "shelterList": {
+        "header": "Shelter Review"
+    },
+    "shelterCard": {
+        "visitWebSiteButtonText": "Visit Website"
+    },
+    "shelterDetail": {
+        "pageHeader": "Detail",
+        "backButton": "Shelter Review",
+        "directToHereButtonText": "Direct to here",
+        "visitWebSiteButtonText": "Visit Website",
+        "writeReviewButton": "Write a Review",
+        "otherReviewSectionHeader": "Other reviews"
+    },
+    "postReviewForm": {
+        "textFieldPlaceHolder": "Write some useful and friendly reviews...",
+        "chooseTagPrompt": "Choose/Create tags that best describe this shelter",
+        "cancelBtn": "Cancel",
+        "PostReviewBtn": "Post Review"
+    },
+    "usStates": 
+        [ "AK - Alaska", 
+            "AL - Alabama", 
+            "AR - Arkansas", 
+            "AS - American Samoa", 
+            "AZ - Arizona", 
+            "CA - California", 
+            "CO - Colorado", 
+            "CT - Connecticut", 
+            "DC - District of Columbia", 
+            "DE - Delaware", 
+            "FL - Florida", 
+            "GA - Georgia", 
+            "GU - Guam", 
+            "HI - Hawaii", 
+            "IA - Iowa", 
+            "ID - Idaho", 
+            "IL - Illinois", 
+            "IN - Indiana", 
+            "KS - Kansas", 
+            "KY - Kentucky", 
+            "LA - Louisiana", 
+            "MA - Massachusetts", 
+            "MD - Maryland", 
+            "ME - Maine", 
+            "MI - Michigan", 
+            "MN - Minnesota", 
+            "MO - Missouri", 
+            "MS - Mississippi", 
+            "MT - Montana", 
+            "NC - North Carolina", 
+            "ND - North Dakota", 
+            "NE - Nebraska", 
+            "NH - New Hampshire", 
+            "NJ - New Jersey", 
+            "NM - New Mexico", 
+            "NV - Nevada", 
+            "NY - New York", 
+            "OH - Ohio", 
+            "OK - Oklahoma", 
+            "OR - Oregon", 
+            "PA - Pennsylvania", 
+            "PR - Puerto Rico", 
+            "RI - Rhode Island", 
+            "SC - South Carolina", 
+            "SD - South Dakota", 
+            "TN - Tennessee", 
+            "TX - Texas", 
+            "UT - Utah", 
+            "VA - Virginia", 
+            "VI - Virgin Islands", 
+            "VT - Vermont", 
+            "WA - Washington", 
+            "WI - Wisconsin", 
+            "WV - West Virginia", 
+            "WY - Wyoming"]
+}  
