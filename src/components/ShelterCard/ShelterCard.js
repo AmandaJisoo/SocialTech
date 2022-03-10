@@ -1,26 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import { useNavigate } from 'react-router-dom'
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { ThemeProvider } from '@emotion/react';
 import appTheme from '../../theme/appTheme.json';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import { Grid } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { truncateReview, DEFAULT_UNIT, isShelterFavorited } from '../../utils/utilityFunctions'
+import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
 import ReadOnlyTags from '../ReadOnlyTags/ReadOnlyTags';
-import style from "./style";
 import text from "../../text/text.json"
 
 const public_url = process.env.PUBLIC_URL;
@@ -40,7 +31,7 @@ const ShelterCard = ({ shelterData }) => {
     return (
     <Card 
         onClick={() => {
-            navigate("/app/shelter-detail")
+            navigate("/app/shelter-detail/" + shelterData.id)
         }}
         style={{
             padding: "20px",
@@ -107,6 +98,7 @@ const ShelterCard = ({ shelterData }) => {
 };
 
 ShelterCard.propTypes = {
+    id: PropTypes.number,
     name: PropTypes.string,
     starRating: PropTypes.number,
     tags: PropTypes.array,

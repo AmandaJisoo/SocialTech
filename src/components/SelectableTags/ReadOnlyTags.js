@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import styles from "./ReactTags.module.scss";
-import text from "../../text/text.json"
-import appTheme from "../../theme/appTheme.json";
-
 const SelectableTags = ({tagData}) => {
     
     const KeyCodes = {

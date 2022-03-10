@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Rating from '@mui/material/Rating';
-import ReadOnlyTags from '../ReadOnlyTags/ReadOnlyTags';
 import appTheme from '../../theme/appTheme.json';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ImageIcon from '@mui/icons-material/Image';
@@ -15,11 +14,20 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Divider from '@mui/material/Divider';
 import style from './style.js'
 import Box from '@mui/material/Box';
+import Tag from '../SelectableTags/Tag';
 
 const PostReviewForm = ({ formData, handleClose }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
+
+    const tags = text.onboard.tags.map((data) => {
+        return <Tag key={data.id} 
+                    isSelectable={true} 
+                    text={data.text} 
+                    selectedTags={selectedTags}
+                    setSelectedTag={setSelectedTags}/>
+    })
 
     const onTextChange = () => {
 
@@ -85,8 +93,10 @@ const PostReviewForm = ({ formData, handleClose }) => {
             </Box>
 
             <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
-            {/* placeholder for select-able tags */}
-            <ReadOnlyTags tagData={text.onboard.tags}/>
+
+            <Grid>
+                {tags}
+            </Grid>
 
             <Divider style={{width: "100%", margin: "5px 0 5px 0"}}/> 
 

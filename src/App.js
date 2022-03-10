@@ -1,8 +1,6 @@
-import { BrowserRouter, Route, Routes, useHistory } from "react-router-dom"
+import {React, useState } from 'react';
+import { Route, Routes, useNavigate } from "react-router-dom"
 import './App.css';
-import CustomButton from "./components/Button";
-import Button from '@mui/material/Button';
-import styles from "./styles/buttonStyle";
 import { ThemeProvider } from "@mui/material";
 import appThemeMui from "./theme/appThemeMui";
 import Onboard from "./pages/Onboard";
@@ -12,8 +10,16 @@ import Auth from "./pages/Auth/Auth";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 
-
 const App = () => {
+
+  const [user, setUser] = useState(null);
+  const [shelterData, setShelterData] = useState(null);
+
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //  navigate('/app/dashboard')
+  // }, [])
 
   return (
     <>
@@ -21,26 +27,24 @@ const App = () => {
         <Routes>
 
           <Route index path="/app/dashboard" element={
-            <ShelterList/>
+            <ShelterList user={user} setUser={setUser} setShelterData={setShelterData}/>
           } />
 
           <Route path="/app/auth" element={<Auth/>}>
             <Route path="sign-up" element={
-              <SignUp />
+              <SignUp setUser={setUser}/>
             } />
             <Route path="sign-in" element={
-              <SignIn/>
+              <SignIn setUser={setUser}/>
             } />    
           </Route>
 
           <Route exact path="/app/onboard" element={
             <Onboard/>
           } />
-          <Route path="app/shelter-list" element={
-            <ShelterList/>
-          } />
-          <Route path="app/shelter-detail" element={
-            <ShelterDetail/>
+
+          <Route path="app/shelter-detail/:id" element={
+            <ShelterDetail data={shelterData}/>
           } />
 
           <Route path="*" element={

@@ -1,8 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Box from "@mui/material/Box";
-import Switch from "@mui/material/Switch";
-import Paper from "@mui/material/Paper";
+import {React, useState} from 'react';
 import { Button, Checkbox, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
@@ -11,13 +7,25 @@ import { TextField } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
+import mockUser from '../../mockData/mockUser.json';
+import {LENGTH_OF_AUTO_SIGN_IN, setWithExpiry, AUTH_TOKEN_KEYNAME} from '../../utils/utilityFunctions';
 
-const SignIn = () => {
+const SignIn = ({setUser}) => {
+    const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
     
     const navigate = useNavigate();
 
+    const handleCheckBoxChange = (event) => {
+      setIsRememberMeChecked(event.target.checked)
+    };
+
     const handleSignIn = () => {
         //TODO: handle sign In
+        setUser(mockUser.userData)
+        if (isRememberMeChecked) {
+          setWithExpiry(AUTH_TOKEN_KEYNAME, mockUser.userData.authToken, LENGTH_OF_AUTO_SIGN_IN);
+        }
+        sessionStorage.setItem(AUTH_TOKEN_KEYNAME, mockUser.authToken)
         navigate("/app/dashboard")
     }
 
@@ -44,7 +52,7 @@ const SignIn = () => {
   
             <Typography
               style={{marginBottom: "3em"}}>
-                {text.signIn.intro}<span style={{color: appTheme.palette.primary.main}}>shelters!</span>
+                {text.signIn.intro}
             </Typography>
             <Button 
               fullWidth
@@ -102,7 +110,11 @@ const SignIn = () => {
               direction="row"
               justifyContent="space-between"
               alignItems="center">
-              <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
+              <FormControlLabel control={
+                <Checkbox 
+                  checked={isRememberMeChecked}
+                  onChange={handleCheckBoxChange} />
+                } label="Remember me" />
   
               <Link to="">
                 <Typography

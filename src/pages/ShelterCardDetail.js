@@ -1,6 +1,5 @@
 import {React, useState} from 'react';
 import PropTypes from 'prop-types';
-import shelterInfo from '../mockData/shelterInfo'
 import UserReview from '../components/UserReview';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -15,18 +14,21 @@ import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Modal from '@mui/material/Modal';
 import text from "../text/text.json";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
 
-
-const ShelterDetail = props => {
+const ShelterDetail = (props) => {
 
     const navigate = useNavigate();
+    const params = useParams();
 
-    const shelterData = shelterInfo.shelters[0];
-    const highlightedReview = <UserReview item reviewData={shelterInfo.reviews[0]}/>
+    const shelterData = props.data.filter(obj => {
+        return obj.id === params.id
+    })[0];
+
+    const highlightedReview = <UserReview item reviewData={shelterData.reviews[0]}/>
     
-    const reviews = shelterInfo.reviews.slice(1, shelterInfo.reviews.length).map((reviewData, idx) => {
+    const reviews = shelterData.reviews.slice(1, shelterData.reviews.length).map((reviewData, idx) => {
         return <UserReview item reviewData={reviewData} key={idx}/>
     })
 
@@ -159,8 +161,7 @@ const ShelterDetail = props => {
 };
 
 ShelterDetail.propTypes = {
-    shelterName: PropTypes.string,
-    reviews: PropTypes.array
+    data: PropTypes.array,
 };
 
 export default ShelterDetail;

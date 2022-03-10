@@ -1,8 +1,6 @@
 import {React, useState} from 'react';
-import PropTypes from 'prop-types';
 import { FILTER_OPTIONS } from '../utils/utilityFunctions';
-import { Grid, Item } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Grid } from '@mui/material';
 
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -40,9 +38,10 @@ const SearchBar = props => {
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
+                wrap="nowrap"
                 style={{position: "relative"}}>
 
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                       <InputLabel id="demo-simple-select-standard-label">Filter by</InputLabel>
                       <Select
@@ -57,7 +56,7 @@ const SearchBar = props => {
                     </FormControl>
                 </Grid>
 
-                <Grid xs={8}>
+                <Grid item xs={6} md={8}>
                     <TextField item id="outlined-basic" label="Search" variant="outlined" fullWidth/>
                 </Grid>
                 
@@ -66,7 +65,8 @@ const SearchBar = props => {
                     style={{width: "30px", height: "30px", cursor: "pointer", position: "absolute", right: "0", marginRight: "1em"}}
                 />
             </Grid>
-        </Box>);
+        </Box>
+    );
 };
 
 SearchBar.propTypes = {};

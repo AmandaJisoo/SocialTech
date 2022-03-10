@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import { Button, Checkbox, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
@@ -7,17 +7,28 @@ import { TextField } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
+import mockUser from '../../mockData/mockUser.json';
+import { AUTH_TOKEN_KEYNAME, LENGTH_OF_AUTO_SIGN_IN, setWithExpiry } from '../../utils/utilityFunctions';
 
+const SignUp = ({setUser}) => {
 
-
-const SignUp = () => {
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
 
   const navigate = useNavigate()
 
   const handleSignUp = () => {
     //TODO: handle sign Up
-    navigate("/app/dashboard")
+    setUser(mockUser.userData)
+    if (isRememberMeChecked) {
+      setWithExpiry(AUTH_TOKEN_KEYNAME, mockUser.userData.authToken, LENGTH_OF_AUTO_SIGN_IN);
+    }
+    sessionStorage.setItem(AUTH_TOKEN_KEYNAME, mockUser.authToken)
+    navigate("/app/onboard")
   }
+
+  const handleCheckBoxChange = (event) => {
+    setIsRememberMeChecked(event.target.checked)
+  };
 
   return (
       <Grid 
@@ -138,7 +149,11 @@ const SignUp = () => {
               direction="row"
               justifyContent="flex-end"
               alignItems="center">
-              <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
+              <FormControlLabel control={
+                <Checkbox  
+                  checked={isRememberMeChecked}
+                  onChange={handleCheckBoxChange}/>} 
+                label="Remember me" />
             </Grid>
 
             <Button 

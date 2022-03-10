@@ -1,18 +1,10 @@
 import {React, useState} from 'react';
-import PropTypes from 'prop-types';
-import Box from "@mui/material/Box";
-import Switch from "@mui/material/Switch";
-import Paper from "@mui/material/Paper";
-import { Button, Checkbox, Typography } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import text from "../text/text.json"
 import { TextField } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { color } from '@mui/system';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -454,7 +446,7 @@ const Onboard = props => {
     
                 <Grid item>
                     <Button variant='contained' onClick={() => {
-                        navigate("/app/shelter-list")
+                        navigate("/app/dashboard")
                     }}>
                         Get Start
                     </Button>
