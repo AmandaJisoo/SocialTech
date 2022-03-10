@@ -1,5 +1,5 @@
 import {React, useState } from 'react';
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom"
 import './App.css';
 import { ThemeProvider } from "@mui/material";
 import appThemeMui from "./theme/appThemeMui";
@@ -48,7 +48,7 @@ const App = () => {
           } />
 
           <Route path="*" element={
-            <div className="no-match"></div>
+            <Navigate to="/app/dashboard"/>
           } />
         </Routes>
       </ThemeProvider>
