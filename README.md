@@ -12,7 +12,7 @@ rWe aim to create platform that provides information on shelter to help individu
 
 ### Technical Description
 #### Potential Architecture (might change in the future)
-<img src="resource/architecture_proposal.png" width="800" height="600">
+<img src="resource/homeless_shelter_design_proposal.png" width="800" height="600">
 
 ### User Stories
 | Priority | User | Description |
