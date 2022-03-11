@@ -4,7 +4,7 @@ export const AUTH_TOKEN_KEYNAME = "auth_token"
 
 export function truncateReview(review) {
     return review.length > MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD ? 
-        review.subString(0, MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD + 1) + "....." : 
+        review.substring(0, MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD + 1) + "....." : 
         review;
 }
 
