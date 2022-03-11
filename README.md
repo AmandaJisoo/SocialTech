@@ -26,7 +26,94 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
 
 
 ### Endpoints
-Coming soon...
+| load_overview | |
+| --- | --- |
+| load_overview | load overview of each shelter files |
+| Request| zipcode (type: str) |
+| Response |  
+    {
+    ids: [0, 7, 4]} represents id of each existing post|'
+    }
+
+| load_summary | |
+| --- | --- |
+| Load_summary | when user click on the overview image and full detail page is loaded |
+| Request| post_id (type: num) |
+| Response |
+    {
+    title: “Sweet Home”, rate: 3.5, tags: [“clean”, “food”, “warm”],address: [“zipcode”:98105, “street”: Main st, “City”: Seattle, State: “WA”]
+    }
+
+| load_comments | |
+| --- | --- |
+| load_comments | load existing comments on selected post |
+| Request| post_id (type: num)|
+| Response | 
+    {user_id:  str ex) “ed200,
+    rate: num ex) 3.5, 
+    Comment_body:str ex) “omg so good”, 
+    tags: str[] ex) [“clean”, “food”, “warm”],
+    likes: num ex) 135], 
+    profile_pic: str ex)KEY_TO_S3_LOCATION}
+    }
+
+| create_comment | |
+| --- | --- |
+| create_comment | users create new comment |
+| Request payload | 
+    {   
+            post_id: ex) num 2, 
+            rate: num ex) 4.5,  
+            username: num ex) “Ed”,
+            comment: str ex)“Omgk”, 
+            tags: str[] ex) [“clean”, “food”, “warm”], 
+            img: str key to s3 locatoin ex)KEY_TO_S3_Object
+    }
+
+| update_comment | |
+| --- | --- |
+| update_comment | users update existing comment made on post|
+| Request payload | 
+    {   
+            post_id: ex) num 2, 
+            comment_id: num ex) 2, 
+            rate: num ex) 4.5,  
+            username: num ex) “Ed”,
+            comment: str ex)“Omgk”, 
+            tags: str[] ex) [“clean”, “food”, “warm”], 
+            img: str key to s3 locatoin ex)KEY_TO_S3_Object
+    }
+
+
+| delete_comment | |
+| --- | --- |
+| delete_comment | user delete existing comment on the selected post|
+| Request | comment_id(type: num), user_id(type: num)|
+| Response |  N/A
+
+| heart_comment | |
+| --- | --- |
+| heart_comment |handles users like/unlike comment|
+| Request |comment_id(type: num), username (type: str) 
+| Response |  N/A
+
+| bookmark_comment | |
+| --- | --- |
+| bookmark_comment |user can bookmark post |
+| Request |post_id(type: num), username(type: str)
+| Response |  N/A
+
+| create_post | |
+| --- | --- |
+| create_post |users create post|
+| Request |title(type: str), zipcode(type: str),street:(type: str), city(type:str), state(type:str), 
+| Response |  N/A
+
+| edit_post | |
+| --- | --- |
+| create_post |users create post|
+| Request |title(type: str), zipcode(type: str),street:(type: str), city(type:str), state(type:str), 
+| Response |  N/A
 
 ### Data Models
 Coming soon...
