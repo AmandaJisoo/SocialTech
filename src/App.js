@@ -15,6 +15,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState(null);
 
+  console.log(shelterData)
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -27,7 +28,7 @@ const App = () => {
         <Routes>
 
           <Route index path="/app/dashboard" element={
-            <ShelterList user={user} setUser={setUser} setShelterData={setShelterData}/>
+            <ShelterList user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
           } />
 
           <Route path="/app/auth" element={<Auth/>}>

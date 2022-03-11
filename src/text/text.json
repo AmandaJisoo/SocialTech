@@ -33,7 +33,9 @@
         },
         "completion": {
             "message1": "Perfect!",
-            "message2": "Thank you for joining SocialTech!"
+            "message2": "Thank you for joining SocialTech!",
+            "regularUserCompletionImgAddr": "/assets/imgs/regular_finish.png",
+            "orgUserCompletionImgAddr": "/assets/imgs/Shelter_finish.png"
         },
         "tags": [
             {

@@ -29,7 +29,7 @@ const shelterData = {
             "id" : "2",
             "name": "Sacred Heart Shelter",
             "starRating": 3.6,
-            "distanceToUserLocation": "2",
+            "distanceToUserLocation": "3",
             "tags": [{
                 "id": "clean",
                 "text": "clean"
@@ -51,7 +51,7 @@ const shelterData = {
             "id" : "3",
             "name": "Seattle's Union Gospel Mission",
             "starRating": 3.8,
-            "distanceToUserLocation": "2",
+            "distanceToUserLocation": "1",
             "tags": [{
                 "id": "clean",
                 "text": "clean"
@@ -95,7 +95,7 @@ const shelterData = {
             "id" : "5",
             "name": "The bridge shelter",
             "starRating": 3.3,
-            "distanceToUserLocation": "2",
+            "distanceToUserLocation": "5",
             "tags": [{
                 "id": "clean",
                 "text": "clean"
@@ -117,7 +117,7 @@ const shelterData = {
             "id" : "6",
             "name": "St Martin De Porres Shelter",
             "starRating": 4.5,
-            "distanceToUserLocation": "2",
+            "distanceToUserLocation": "9",
             "tags": [{
                 "id": "clean",
                 "text": "clean"

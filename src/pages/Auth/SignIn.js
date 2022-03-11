@@ -35,14 +35,14 @@ const SignIn = ({setUser}) => {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          spacing={2}
-          style={{width: "100%", maxWidth: "50em", padding: "0px"}}>
+          rowSpacing={2}
+          style={{width: "100%", maxWidth: "50em", padding: "10px"}}>
   
           <Grid 
             item
             container direction="column"
             justifyContent="center"
-            spacing={2}
+            rowSpacing={2}
             alignItems="center">
             <Typography 
               variant="h3"
@@ -81,7 +81,7 @@ const SignIn = ({setUser}) => {
             container 
             direction="column"
             justifyContent="center"
-            spacing={2}
+            rowSpacing={2}
             alignItems="center">
             <TextField
                 margin="normal"

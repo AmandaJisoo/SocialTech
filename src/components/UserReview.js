@@ -6,7 +6,7 @@ import { Grid } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import appTheme from '../theme/appTheme.json';
 import Rating from '@mui/material/Rating';
-import ReadOnlyTags from './ReadOnlyTags/ReadOnlyTags';
+import TagContainer from './SelectableTags/TagContainer';
 
 const UserReview = ({ reviewData }) => {
 
@@ -59,7 +59,7 @@ const UserReview = ({ reviewData }) => {
                         direction="row" 
                         justifyContent="flex-start" 
                         alignItems="center">
-                        <ReadOnlyTags tagData={reviewData.tags}/>
+                        <TagContainer tagData={reviewData.tags} isSelectable={false}/>
                     </Grid>
                 </Grid>
 

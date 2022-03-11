@@ -8,7 +8,7 @@ export function truncateReview(review) {
         review;
 }
 
-export const FILTER_OPTIONS = ["Current Location", "Star Rating", "Likes"];
+export const FILTER_OPTIONS = ["Current Location", "Star Rating"];
 
 export const DEFAULT_UNIT = "km"
 

@@ -9,7 +9,6 @@ const Auth = props => {
             container 
             direction="column"
             justifyContent="center"
-        
             alignItems="center"
             style={{height: "100vh"}}>
             <Outlet/>

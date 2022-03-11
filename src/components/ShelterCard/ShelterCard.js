@@ -11,8 +11,8 @@ import { Grid } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
-import ReadOnlyTags from '../ReadOnlyTags/ReadOnlyTags';
 import text from "../../text/text.json"
+import TagContainer from '../SelectableTags/TagContainer';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -76,7 +76,7 @@ const ShelterCard = ({ shelterData }) => {
                     <Typography>{shelterData.distanceToUserLocation + " " + unit}</Typography>
                 </Grid>
                 <Rating value={shelterData.starRating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                <ReadOnlyTags tagData={shelterData.tags}/>
+                <TagContainer tagData={shelterData.tags} isSelectable={false}/>
                 <Typography>{truncateReview(shelterData.highlightedReview)}</Typography>
                 <Grid
                     container

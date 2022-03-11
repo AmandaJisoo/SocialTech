@@ -9,10 +9,12 @@ import Typography from '@mui/material/Typography';
 import SearchBar from '../components/SearchBar'
 import { Button } from '@mui/material';
 import { AUTH_TOKEN_KEYNAME, getWithExpiry } from '../utils/utilityFunctions.js';
+import CircularProgress from '@mui/material/CircularProgress'
 
 import mockUser from '../mockData/mockUser.json';
-import Tag from '../components/SelectableTags/Tag.js';
-const ShelterList = ({user, setUser, setShelterData}) => {
+
+const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
+    
     
     useEffect(() => {
         if (getWithExpiry(AUTH_TOKEN_KEYNAME) || sessionStorage.getItem(AUTH_TOKEN_KEYNAME)) {
@@ -21,7 +23,9 @@ const ShelterList = ({user, setUser, setShelterData}) => {
 
         // data-fetching placeholder 
         setShelterData(shelterInfo.shelters)
-    })
+        console.log("data reset")
+    }, [])
+    
 
     const navigate = useNavigate();
 
@@ -31,7 +35,18 @@ const ShelterList = ({user, setUser, setShelterData}) => {
         sessionStorage.removeItem(AUTH_TOKEN_KEYNAME)
     }
 
-    const shelterCards = shelterInfo.shelters.map(cardInfo => {
+
+
+    const shelterCards = shelterData === null ? 
+        <Grid   
+        container
+        direction="column"
+        justifyContent="center" 
+        alignItems="center"
+        style={{height: "80vh"}}>
+            <CircularProgress/>
+        </Grid> : 
+    shelterData.map(cardInfo => {
         return <ShelterCard shelterData={cardInfo} key={cardInfo.id}/>
     })
 
@@ -66,8 +81,8 @@ const ShelterList = ({user, setUser, setShelterData}) => {
                 direction="column" 
                 justifyContent="flex-start" 
                 alignItems="center"
-                spacing={5}
                 wrap="nowrap"
+                rowSpacing={3}
                 style={{height: "100vh", width: "100vw", maxWidth: "50em"}}>
 
                 <Grid item>
@@ -76,10 +91,8 @@ const ShelterList = ({user, setUser, setShelterData}) => {
 
                 {welcomeMsg}
 
-                <Tag data={"test"}/>
-
                 <Grid item container style={{width: "90%"}}>
-                    <SearchBar />
+                    <SearchBar shelterData={shelterData} setShelterData={setShelterData} />
                 </Grid>
 
                 <Grid item>{shelterCards}</Grid>

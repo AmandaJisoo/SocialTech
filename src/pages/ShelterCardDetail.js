@@ -7,7 +7,6 @@ import Divider from '@mui/material/Divider';
 import ImageGallery from '../components/ImageGallery'
 import Rating from '@mui/material/Rating';
 import appTheme from '../theme/appTheme.json';
-import ReadOnlyTags from '../components/ReadOnlyTags/ReadOnlyTags';
 import Button from '@mui/material/Button';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import IosShareIcon from '@mui/icons-material/IosShare';
@@ -16,6 +15,7 @@ import Modal from '@mui/material/Modal';
 import text from "../text/text.json";
 import { useNavigate, useParams } from 'react-router-dom'
 import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
+import TagContainer from '../components/SelectableTags/TagContainer';
 
 const ShelterDetail = (props) => {
 
@@ -60,7 +60,7 @@ const ShelterDetail = (props) => {
                 justifyContent="center"
                 alignItems="center"
                 wrap="nowrap"
-                spacing={1}
+                rowSpacing={2}
                 style={{maxWidth: "50em", padding: "20px"}}>
 
                 <Grid
@@ -75,7 +75,7 @@ const ShelterDetail = (props) => {
                     }}>
                         {text.shelterDetail.backButton
                     }</Button>
-                    <Typography variant="h4">{text.shelterDetail.pageHeader}</Typography>
+                    <Typography variant="h4" style={{marginLeft: "-40px"}}>{text.shelterDetail.pageHeader}</Typography>
                     <Grid>
                         <BookmarkBorderIcon/>
                         <IosShareIcon/>
@@ -99,7 +99,8 @@ const ShelterDetail = (props) => {
                     direction="column"
                     alignItems="flex-start">
                     <Rating value={shelterData.starRating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                    <ReadOnlyTags tagData={shelterData.tags}/>
+
+                    <TagContainer tagData={shelterData.tags} isSelectable={false}/>
                 </Grid>
                 <Grid
                     item

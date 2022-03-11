@@ -30,10 +30,10 @@ const PostReviewForm = ({ formData, handleClose }) => {
     })
 
     const onTextChange = () => {
-
     }
 
     const handleUploadReview = () => {
+        handleClose()
 
     }
 

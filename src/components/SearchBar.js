@@ -10,7 +10,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = props => {
+const SearchBar = ({setShelterData, shelterData}) => {
     const [filterOption, setFilterOption] = useState(FILTER_OPTIONS[0]);
     const [query, setQuery] = useState("");
 
@@ -20,6 +20,29 @@ const SearchBar = props => {
 
     const handleFilterChange = (event) => {
         setFilterOption(event.target.value);
+        handleSort(event.target.value)
+    }
+
+    const handleSort = (sortIndicator) => {
+
+        console.log(sortIndicator)
+        switch (sortIndicator) {
+            case "Current Location":
+                const result = shelterData.sort((a, b) => {
+                    return a.distanceToUserLocation - b.distanceToUserLocation
+                })
+                console.log("location sortedres:", result)
+                setShelterData(result)
+            break;
+            case "Star Rating":
+                const result2 = shelterData.sort((a, b) => {
+                    return a.starRating - b.starRating
+                })
+                console.log("starrating sortedres:", result2)
+                setShelterData(result2)
+            break;
+            default:
+        }
     }
 
     const handleQueryChange = (event) => {

@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
+
 import text from "../text/text.json"
 import { TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -12,8 +13,11 @@ import Select from '@mui/material/Select';
 import SelectableTags from '../components/SelectableTags/ReadOnlyTags';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HouseIcon from '@mui/icons-material/House';
+import TagContainer from '../components/SelectableTags/TagContainer';
+import shelterData from '../mockData/shelterInfo';
 
 const firstName = "yichi"
+const public_url = process.env.PUBLIC_URL;
 
 const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
     return <MenuItem>{val}</MenuItem>
@@ -44,7 +48,7 @@ const Onboard = props => {
                 direction="column" 
                 justifyContent="center" 
                 alignItems="center"
-                spacing={8}
+                rowSpacing={8}
                 style={{height: "100vh", padding: "2.5em"}}
             >
                 <Grid
@@ -224,12 +228,10 @@ const Onboard = props => {
                         justifyContent="center"
                         alignItems="center"
                         style={{margin: "20px 0 40px 0"}}>
-                        <SelectableTags tagData={text.onboard.tags.slice(0, 4)}/>
-                        <SelectableTags tagData={text.onboard.tags.slice(4, 8)}/>
-                        <SelectableTags tagData={text.onboard.tags.slice(8, 12)}/>
+                        <TagContainer tagData={text.onboard.tags} isSelectable={true}/>
                     </Grid>
                     <Button variant='contained' onClick={() => {
-                        setOnboardState(5)
+                        setOnboardState(6)
                     }}>
                         Continue
                     </Button>
@@ -254,7 +256,7 @@ const Onboard = props => {
                     justifyContent="center" 
                     style={{maxWidth: "50em"}}
                     wrap="nowrap"
-                    spacing={3}>
+                    rowSpacing={2}>
                     <Grid item>
                         <Typography variant="h4">{text.onboard.org.prompt}</Typography>
                     </Grid>
@@ -360,7 +362,7 @@ const Onboard = props => {
                     justifyContent="center" 
                     style={{maxWidth: "50em"}}
                     wrap="nowrap"
-                    spacing={3}>
+                    rowSpacing={2}>
                     <Grid item>
                         <Typography variant="h4">{text.onboard.org.prompt}</Typography>
                     </Grid>
@@ -394,16 +396,8 @@ const Onboard = props => {
                         justifyContent="center" 
                         alignItems="flex-start">    
                         <Typography>{text.onboard.org.tagSelectionPrompt}</Typography>
-                        
-                         {/* place holder tags. Need  */}
-                        <Grid
-                            container
-                            justifyContent="center"
-                            alignItems="center"
-                            style={{margin: "20px 0 40px 0"}}>
-                            <SelectableTags tagData={text.onboard.tags.slice(0, 4)}/>
-                            <SelectableTags tagData={text.onboard.tags.slice(4, 8)}/>
-                            <SelectableTags tagData={text.onboard.tags.slice(8, 12)}/>
+                        <Grid style={{padding: "20px"}}>
+                            <TagContainer tagData={text.onboard.tags} isSelectable={false}/>
                         </Grid>
                     </Grid>
 
@@ -426,13 +420,14 @@ const Onboard = props => {
     }
     
     const onBoardCompleted = () => {
+
         return(
             <Grid 
                 container 
                 direction="column" 
                 justifyContent="center" 
                 alignItems="center"
-                spacing={4}
+                rowSpacing={2}
                 style={{height: "100vh"}}
             >
                 <Grid item>
@@ -443,6 +438,12 @@ const Onboard = props => {
                 <Grid item>
                     <Typography>{text.onboard.completion.message2}</Typography>
                 </Grid>
+                
+                <img
+                    src={public_url + text.onboard.completion.regularUserCompletionImgAddr}
+                    alt="onboard complete img"
+                    style={{width: "200px", height: "200px", margin: "30px"}}
+                />
     
                 <Grid item>
                     <Button variant='contained' onClick={() => {
@@ -462,7 +463,6 @@ const Onboard = props => {
     else if (onboardState === 4) return orgOnBoard();   
     else if (onboardState === 5) return orgOnBoardPageTwo();     
     else if (onboardState === 6) return onBoardCompleted();
-    
     
 };
 
