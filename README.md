@@ -17,12 +17,12 @@ rWe aim to create platform that provides information on shelter to help individu
 ### User Stories
 | Priority | User | Description |
 | ----------- | ----------- | ----------- |
-P0 | As a user |I want to be able to register and edit the settings in my profile |
-P0 | As a user |I want to post free meal/shelter event specifying the time, location, and purpose of the event |
-P0 | As a user |upvote or downvote based on the personal experience I had on the event that is posited |
-P0 | As a user |upvote or downvote to alert other users if the details of the post is accurate such as date, time, location |
-P0 | As a user |I can write comment to discuss about details of the event with others |
-P0 | As a user |I can filter the posted events by past, current and future event |
+P0 | As a user |I want to share my experince on shelter by making post to share with others|
+P0 | As a user |I want to do CRUD with information about a shelter on a post I made|
+P0 | As a user |I want to be able to share images of shelters|
+P0 | As a user |I want to be able to save a post about a shelter for future reference|
+P0 | As a user |I want to be able to endorse a comment if I feel the information is important|
+P0 | As a user |I want to do CRUD on a comment I made on the post|
 
 
 ### Endpoints
