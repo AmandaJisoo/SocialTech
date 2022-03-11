@@ -30,3 +30,4 @@ P0 | As a user |As a user |upvote or downvote to alert other users if the detail
 P0 | As a user |As a user |I can write comment to discuss about details of the event with others|
 
 P0 | As a user |As a user |I can filter the posted events by past, current and future event|
+| ----------- | ----------- | ----------- |
