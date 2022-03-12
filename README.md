@@ -32,7 +32,7 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
 | Request| zipcode (type: str) |
 | Response |  
     {
-    ids: [0, 7, 4]} represents id of each existing post|'
+    ids: [0, 7, 4]} represents id of each existing post'
     }
 
 | load_summary | |
