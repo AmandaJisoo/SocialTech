@@ -8,13 +8,13 @@ How might Individuals in need of shelter gain better access to shelter informati
 
 
 ### Propsed solution
-rWe aim to create platform that provides information on shelter to help individuals to find shelters that meets their need and concern. From our research, we learned that one bad experience or rumors on shelters make people hesitant to visit shelter for both new and experienced homeless. Therefore, creating an environment where everyone is welcomed to freely talk about their experience on shelters could reduce one’s concern/ fear on making visits on shelters
+We aim to create platform that provides information on shelter to help individuals to find shelters that meets their need and concern. From our research, we learned that one bad experience or rumors on shelters make people hesitant to visit shelter for both new and experienced homeless. Therefore, creating an environment where everyone is welcomed to freely talk about their experience on shelters could reduce one’s concern/ fear on making visits on shelters
 
 ### Technical Description
 #### Potential Architecture (might change in the future)
 <img src="backend_design/homeless_shelter_design_proposal.png" width="800" height="600">
 
-### User Stories
+#### User Stories
 | Priority | User | Description |
 | ----------- | ----------- | ----------- |
 P0 | As a user |I want to share my experince on shelter by making post to share with others|
@@ -25,7 +25,7 @@ P0 | As a user |I want to be able to endorse a comment if I feel the information
 P0 | As a user |I want to do CRUD on a comment I made on the post|
 
 
-### Endpoints
+#### Endpoints
 | load_overview | |
 | --- | --- |
 | load_overview | load overview of each shelter files |
@@ -115,11 +115,11 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
 | Request |title(type: str), zipcode(type: str),street:(type: str), city(type:str), state(type:str), 
 | Response |  N/A
 
-### Data Models
+#### Data Models
 Coming soon...
 **new design due to recently introduced new feature**
 
-### Team Collaboation Rules
+#### Team Collaboation Rules
 - create code review before pushing the code 
 - work on local/seperate branch and later merge to main once code review is approved
 - write clear comments on each commit to track workflow easier
