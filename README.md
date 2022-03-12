@@ -124,7 +124,7 @@ Coming soon...
 - work on local/seperate branch and later merge to main once code review is approved
 - write clear comments on each commit to track workflow easier
 
-# Getting Started with Create React App
+# Front end Guide left for Yichi
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
