@@ -117,6 +117,7 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
 
 ### Data Models
 Coming soon...
+**new design due to recently introduced new feature**
 
 ### Team Collaboation Rules
 - create code review before pushing the code 
