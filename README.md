@@ -48,7 +48,7 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
 | --- | --- |
 | load_comments | load existing comments on selected post |
 | Request| post_id (type: num)|
-| Response | 
+| Response 
     {user_id:  str ex) “ed200,
     rate: num ex) 3.5, 
     Comment_body:str ex) “omg so good”, 
