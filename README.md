@@ -30,10 +30,9 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
 | --- | --- |
 | load_overview | load overview of each shelter files |
 | Request| zipcode (type: str) |
-| Response 
-    {
+| Response {
     ids: [0, 7, 4]} represents id of each existing post|'
-    }
+}
 
 | load_summary | |
 | --- | --- |
