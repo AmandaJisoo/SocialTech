@@ -14,6 +14,11 @@ We aim to create platform that provides information on shelter to help individua
 #### Potential Architecture (might change in the future)
 <img src="backend_design/homeless_shelter_design_proposal.png" width="800" height="600">
 
+### Current progress
+At this point we have finished several pages and the basic workflow for both regular and shelter staff user. User is able to walk thourouth the authentication process, seeing the list of shelters, checking shelter details and post shelter review. However most of the feature aren't working yet just so we can spend more time focus on making our MVP looks complete. We have create mock data for shelter information and reivew, so it looks more realistic. 
+
+Our next stage of development will primary focus on backend integration, refinding stylistic features, and adding new features to address usability and ethical issues. 
+
 #### User Stories
 | Priority | User | Description |
 | ----------- | ----------- | ----------- |
