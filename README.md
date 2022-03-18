@@ -73,7 +73,7 @@ P0 | As a user |I want to do CRUD on a comment I made on the post|
             comment: str ex)“Omgk”, 
             tags: str[] ex) [“clean”, “food”, “warm”], 
             img: str key to s3 locatoin ex)KEY_TO_S3_Object
-    }
+    } 
 
 | update_comment | |
 | --- | --- |
