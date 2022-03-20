@@ -6,7 +6,7 @@ import appThemeMui from "./theme/appThemeMui";
 import Onboard from "./pages/Onboard";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterCardDetail";
-import Authenticator from "./pages/Auth/Authenticator";
+import AuthenticatorGrid from "./pages/Auth/AuthenticatorGrid";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 import { Amplify, Auth } from 'aws-amplify';
@@ -81,7 +81,7 @@ const App = () => {
             <ShelterList user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
           } />
 
-          <Route path="/app/auth" element={<Authenticator/>}>
+          <Route path="/app/auth" element={<AuthenticatorGrid/>}>
             <Route path="sign-up" element={
               <SignUp setUser={setUser}/>
             } />

@@ -9,5 +9,6 @@ const SignIn = () => {
 export default withAuthenticator(SignIn, {
   signUpConfig: {
     hiddenDefaults: ['phone_number']
-  }
+  },
+  signUpAttributes: ['email']
 });

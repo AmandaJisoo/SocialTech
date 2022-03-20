@@ -70,7 +70,6 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
                     <Button onClick={handleSignOut }>Log out</Button>
                 </> :
                  <>
-
                  <Button onClick={() => {
                      navigate("/app/auth/sign-in")
                  }}>Sign in</Button>
