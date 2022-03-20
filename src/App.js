@@ -10,7 +10,6 @@ import Authenticator from "./pages/Auth/Authenticator";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 import { Amplify, Auth } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
 window.LOG_LEVEL = 'DEBUG';
 
 Amplify.configure({
@@ -64,7 +63,7 @@ const App = () => {
   const [shelterData, setShelterData] = useState(null);
 
   Auth.currentAuthenticatedUser()
-      .then(userData => console.log(userData))
+      .then(userData => setUser(userData.username))
       .catch(() => console.log('Not signed in'));
   console.log(shelterData)
   const navigate = useNavigate();

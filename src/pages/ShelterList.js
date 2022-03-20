@@ -32,10 +32,15 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
 
     const navigate = useNavigate();
 
-    const handleSignOut = () => {
-        setUser(null)
-        localStorage.removeItem(AUTH_TOKEN_KEYNAME)
-        sessionStorage.removeItem(AUTH_TOKEN_KEYNAME)
+    const handleSignOut = async () => {
+        try {
+            await Auth.signOut();
+            setUser(null)
+            localStorage.removeItem(AUTH_TOKEN_KEYNAME)
+            sessionStorage.removeItem(AUTH_TOKEN_KEYNAME)
+        } catch (error) {
+            console.log('error signing out: ', error);
+        }
     }
 
 
@@ -61,11 +66,11 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
             style={{height: "100vh"}}>
             {user ?
                 <>
-                    <Typography>Welcome, {user.userName}</Typography>
+                    <Typography>Welcome, {user}</Typography>
                     <Button onClick={handleSignOut }>Log out</Button>
                 </> :
                  <>
-                 
+
                  <Button onClick={() => {
                      navigate("/app/auth/sign-in")
                  }}>Sign in</Button>
