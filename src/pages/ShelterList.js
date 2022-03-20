@@ -3,18 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shelterInfo from "../mockData/shelterInfo.js"
 import text from "../text/text.json"
-import { Grid } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
-import SearchBar from '../components/SearchBar'
-import { Button } from '@mui/material';
+import SearchBar from '../components/SearchBar';
 import { AUTH_TOKEN_KEYNAME, getWithExpiry } from '../utils/utilityFunctions.js';
 import CircularProgress from '@mui/material/CircularProgress'
+import { Auth } from 'aws-amplify';
 
 import mockUser from '../mockData/mockUser.json';
 
 const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
     
+  Auth.currentAuthenticatedUser()
+  .then(userData => console.log(userData))
+  .catch(() => console.log('Not signed in'));
     
     useEffect(() => {
         if (getWithExpiry(AUTH_TOKEN_KEYNAME) || sessionStorage.getItem(AUTH_TOKEN_KEYNAME)) {
@@ -62,6 +65,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
                     <Button onClick={handleSignOut }>Log out</Button>
                 </> :
                  <>
+                 
                  <Button onClick={() => {
                      navigate("/app/auth/sign-in")
                  }}>Sign in</Button>
