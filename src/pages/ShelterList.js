@@ -67,7 +67,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
             {user ?
                 <>
                     <Typography>Welcome, {user}</Typography>
-                    <Button onClick={handleSignOut }>Log out</Button>
+                    <Button onClick={ handleSignOut }>Log out</Button>
                 </> :
                  <>
                  <Button onClick={() => {
