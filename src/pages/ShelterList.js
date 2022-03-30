@@ -11,7 +11,7 @@ import { AUTH_TOKEN_KEYNAME, getWithExpiry } from '../utils/utilityFunctions.js'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
-
+import mockUser from '../mockData/mockUser.json';
 
 
 const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
@@ -35,7 +35,10 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
 
 
         if (getWithExpiry(AUTH_TOKEN_KEYNAME) || sessionStorage.getItem(AUTH_TOKEN_KEYNAME)) {
+            // setUser(mockUser.userData) maybe update to this?
             setUser(user.userData)
+            console.log("userData", user.userData);
+
         }
 
         // data-fetching placeholder 
