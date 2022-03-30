@@ -13,7 +13,7 @@ import { Amplify, Auth } from 'aws-amplify';
 import { useStore } from './pages/Hook';
 window.LOG_LEVEL = 'DEBUG';
 
-//TODO: update the endpoint stage
+//TODO: (Amanda) update the endpoint stage
 Amplify.configure({
   Storage: {
     AWSS3: {
@@ -94,7 +94,9 @@ const App = () => {
   const handleSubmission = async () => {
     await apiStore.uploadImageToS3(selectedFile);
   }
-  //TODO: let react select mutiple files and then call the api one by one
+  //TODO: (Yichi) 
+  //the following line 101 - 109 is a code to upload individual img to s3 bucket
+  //you will need to modify react code to take the input to take mutiple images and call api on each image
   return (
     <>
        <div>
