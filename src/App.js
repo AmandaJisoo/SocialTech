@@ -67,7 +67,7 @@ Amplify.configure({
       oauth: {
         domain: 'socialtech.auth.us-east-1.amazoncognito.com',
         scope: ['openid', 'aws.cognito.signin.user.admin'],
-        redirectSignIn: 'http://localhost:3000',
+        redirectSignIn: 'http://localhost:3000',//TODO: update later when deploying 
         redirectSignOut: 'http://localhost:3000',
         responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
