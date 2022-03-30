@@ -1,4 +1,4 @@
-import {React, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom"
 import './App.css';
 import { ThemeProvider } from "@mui/material";
@@ -10,10 +10,17 @@ import AuthenticatorGrid from "./pages/Auth/AuthenticatorGrid";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 import { Amplify, Auth } from 'aws-amplify';
+import { useStore } from './pages/Hook';
 window.LOG_LEVEL = 'DEBUG';
 
 //TODO: update the endpoint stage
 Amplify.configure({
+  Storage: {
+    AWSS3: {
+        bucket: 'socialtechcapstone', //REQUIRED -  Amazon S3 bucket name 
+        region: 'us-east-1'   
+    }
+  },
   API : {
     endpoints: [
       {
@@ -70,6 +77,7 @@ Amplify.configure({
 const App = () => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState(null);
+  const fileRef = React.createRef();
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
@@ -80,9 +88,25 @@ const App = () => {
   // useEffect(() => {
   //  navigate('/app/dashboard')
   // }, [])
+  const [selectedFile, setSelectedFile] = useState(null);
+  const apiStore = useStore();  
 
+  const handleSubmission = async () => {
+    await apiStore.uploadImageToS3(selectedFile);
+  }
+  //TODO: let react select mutiple files and then call the api one by one
   return (
     <>
+       <div>
+          <input type="file" name="file" onChange={ () => {
+            setSelectedFile(fileRef.current.files[0])
+          }} 
+          accept="image/*" ref={fileRef} />
+          <div>
+            <button onClick={handleSubmission}>Submit</button>
+          </div>
+		  </div>
+      {console.log("selectedFile", selectedFile)}
       <ThemeProvider theme={appThemeMui}>
         <Routes>
 
