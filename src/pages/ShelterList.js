@@ -9,10 +9,7 @@ import Typography from '@mui/material/Typography';
 import SearchBar from '../components/SearchBar';
 import { AUTH_TOKEN_KEYNAME, getWithExpiry } from '../utils/utilityFunctions.js';
 import CircularProgress from '@mui/material/CircularProgress'
-import { API, Auth } from 'aws-amplify';
-import APIStorage from './APIStorage';
-import mockUser from '../mockData/mockUser.json';
-import { signUpWithPhoneNumberFields } from 'aws-amplify-react/lib-esm/Auth/common/default-sign-up-fields';
+import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
 
 
@@ -38,7 +35,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
 
 
         if (getWithExpiry(AUTH_TOKEN_KEYNAME) || sessionStorage.getItem(AUTH_TOKEN_KEYNAME)) {
-            setUser(mockUser.userData)
+            setUser(user.userData)
         }
 
         // data-fetching placeholder 
@@ -93,7 +90,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
                 </> 
             }    
         </Grid>
-        
+
     console.log("userStatus is ", userStatus);
     //TODO: do redirect front end 
     if (userStatus == 'does_not_exist') {
