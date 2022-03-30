@@ -14,16 +14,16 @@ window.LOG_LEVEL = 'DEBUG';
 
 //TODO: update the endpoint stage
 Amplify.configure({
+  API : {
+    endpoints: [
+      {
+        name: "SocialTechService",
+        endpoint: "https://wf5o6g6zs3.execute-api.us-east-1.amazonaws.com/test",
+        region: "us-east-1"
+      }
+    ]
+  },
   Auth: {
-      API : {
-        endpoints: [
-          {
-            name: "SocialTechService",
-            endpoint: "https://wf5o6g6zs3.execute-api.us-east-1.amazonaws.com/test",
-            region: "us-east-1"
-          }
-        ]
-      },
       // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
       identityPoolId: 'us-east-1:59aad359-d8f3-4941-93dd-3b6b6606c66c',
       
