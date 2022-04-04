@@ -30,22 +30,44 @@ export default class APIStorage {
         }
     }
 
-    //TODO YICHI: I assumed you will pass in object as there will be 
-    //too many parameters but if you want, you can and modify the code
     //TODO Lynos: you can set up google map and call this end point to save shelters to our db
-    //PostInformation should follow the format below format:
-    // {
-    //     "title": "ed shelter",
-    //     "zipcode": "98004",
-    //     "street": "Main str 4th Ave NE",
-    //     "city": "Bellvue",
-    //     "state": "WA",
-    //     "phone_number": "0000000000"
-    //   }
+    //check backend documentation for object form 
     async createPost(postInformation) {
         try {
             return await API.post('SocialTechService', "/CreatePost", {
                 body: postInformation
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async createComment(comment) {
+        try {
+            return await API.post('SocialTechService', "/CreateComment", {
+                body: comment
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async updateComment(updatedCommentInformation) {
+        try {
+            return await API.post('SocialTechService', "/DeleteComment", {
+                body: updatedCommentInformation
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async deleteComment(comment_id) {
+        try {
+            return await API.post('SocialTechService', "/DeleteComment", {
+                body: {
+                    comment_id: comment_id
+                }
             })
         } catch (err) {
             console.log(err);

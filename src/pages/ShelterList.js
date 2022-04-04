@@ -16,12 +16,14 @@ import mockUser from '../mockData/mockUser.json';
 
 const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
     const [userStatus, setUserStatus] = useState(undefined)
+    //Yichi: to call api do this 
     const apiStore = useStore();  
     useEffect(() => {
         const getUserStatus = async () => {
             try {
                 const userData = await Auth.currentAuthenticatedUser();
                 console.log(userData);
+                //Yichi: to call api do this 2
                 const userStatusResponse = await apiStore.getUserStatus(userData.username);
                 console.log("userStatusResponse", userStatusResponse)
                 setUserStatus(userStatusResponse.UserStatus)
@@ -35,7 +37,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
 
 
         if (getWithExpiry(AUTH_TOKEN_KEYNAME) || sessionStorage.getItem(AUTH_TOKEN_KEYNAME)) {
-            // setUser(mockUser.userData) maybe update to this?
+            // TODO: Yichi setUser(mockUser.userData) maybe update to this?
             setUser(user.userData)
             console.log("userData", user.userData);
 
@@ -95,7 +97,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
         </Grid>
 
     console.log("userStatus is ", userStatus);
-    //TODO: do redirect front end 
+    //TODO: Yichi do redirect front end 
     if (userStatus == 'does_not_exist') {
         return <div>Redirect page to collect info</div>
     } else {
