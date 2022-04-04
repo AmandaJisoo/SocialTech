@@ -32,9 +32,9 @@ export default class APIStorage {
 
     //TODO Lynos: you can set up google map and call this end point to save shelters to our db
     //check backend documentation for object form 
-    async createPost(postInformation) {
+    async upsertPost(postInformation) {
         try {
-            return await API.post('SocialTechService', "/CreatePost", {
+            return await API.post('SocialTechService', "/UpsertPost", {
                 body: postInformation
             })
         } catch (err) {
@@ -54,7 +54,7 @@ export default class APIStorage {
 
     async updateComment(updatedCommentInformation) {
         try {
-            return await API.post('SocialTechService', "/DeleteComment", {
+            return await API.post('SocialTechService', "/UpdateComment", {
                 body: updatedCommentInformation
             })
         } catch (err) {
@@ -73,4 +73,32 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async loadComment(post_id) {
+        try {
+            return await API.get('SocialTechService', "/LoadComment", {
+                queryStringParameters: {
+                    post_id: post_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async handleLike(comment_id, post_id, usernmae) {
+        try {
+            return await API.post('SocialTechService', "/HandleLike", {
+                body: {
+                    comment_id: comment_id,
+                    post_id: post_id,
+                    usernmae: usernmae
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
 }
+
