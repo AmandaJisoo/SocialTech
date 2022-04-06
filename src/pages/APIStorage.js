@@ -100,5 +100,18 @@ export default class APIStorage {
         }
 
     }
+
+    async loadOverview(start_zipcode, end_zipcode) {
+        try {
+            return await API.get('SocialTechService', "/LoadOverview", {
+                queryStringParameters: {
+                    start_zipcode: start_zipcode,
+                    end_zipcode: end_zipcode
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
