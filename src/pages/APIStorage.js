@@ -113,5 +113,15 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async createUser(userInformation) {
+        try {
+            return await API.post('SocialTechService', "/CreateUser", {
+                body: userInformation
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
