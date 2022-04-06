@@ -123,5 +123,18 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async handleBookmark(post_id, username) {
+        try {
+            return await API.post('SocialTechService', "/HandleBookmark", {
+                body: {
+                    post_id: post_id, 
+                    username: username
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
