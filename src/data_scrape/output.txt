@@ -1,0 +1,504 @@
+Shelter #1
+Shelter name: Roots Young Adult Shelter
+Shelter address: 4541 19th Ave NE, Seattle, WA 98105, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBBqLH8uPwvOv_up2-tgBAKWKEc1rD74dukmIZT5j0deancMoo1I6o7OCRN4e8Iun3eg7E9Kb8Tlb_0BBuRHUQDNyzPVu-uAwVSr0v62QA_icKfiAPVRRAD4huqDQxh39eNh2SX20l1teCoHWK8qNNJisdUcqfHRJYLwgMjxD0UAU-_&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 3.6
+total number of ratings: 67
+
+
+Shelter #2
+Shelter name: Sacred Heart Shelter
+Shelter address: 232 Warren Ave N, Seattle, WA 98109, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEDZbhm7iaCTfWddf32GyAWD5dr_lJFeIQxP7x4AXKFdeSjPdp7SEt4DA-oTXgensktcfsZqy4tMaBwUEJuSu-1pXZ2zJai-FPwzU7QXPzekQzrxmQpeQ1ytBGocBeKL58NMcy43mJm5nj6v9zfBAGFFNpna2xjVDHKUyPPC4kS09GVF&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 3.6
+total number of ratings: 11
+
+
+Shelter #3
+Shelter name: Seattle's Union Gospel Mission: Men's Shelter
+Shelter address: 318 2nd Ave Ext S, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEALAuI277t_l97PBTICL0ilUkTc3RuweOLW4PHnVQtSl08B9gHgCOVnZ_2ZFQKX-Fu532-LnnXbGVysYjIE6JUzV7vEiAUd5fBX7S4oPDR7PTNVt7t7hO-NBN9gTWZkJfza7-QrlI48toq_O66p04X_2RZ4Wy-Tcoob10It0ktA0QLx&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 3.8
+total number of ratings: 276
+
+
+Shelter #4
+Shelter name: Noel House
+Shelter address: 118 Bell St, Seattle, WA 98121, United States
+ratings: 4
+total number of ratings: 11
+
+
+Shelter #5
+Shelter name: St Martin De Porres Shelter
+Shelter address: 1561 Alaskan Way S, Seattle, WA 98134, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECsWeviqflkiNpopSdczBJYWlPs-_J8fq-1GLovL3iEd-EZzOqS3K5bKGDy9aFrxfHRhNL19XJorTvyG-Ac5ZemcKvJy7KPKcYw9RtHcajzqZS1xcd7K7VIusrHZnMKuikgiTUO2awjkGf5hCQOMJ9RVY3TtvHKxNK8AL8_aAI4Y1vr&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 4.1
+total number of ratings: 44
+
+
+Shelter #6
+Shelter name: Mary's Place
+Shelter address: 1830 9th Ave, Seattle, WA 98101, United States
+ratings: 5
+total number of ratings: 1
+
+
+Shelter #7
+Shelter name: Compass Blaine Center Emergency Shelter
+Shelter address: 150 Denny Way, Seattle, WA 98109, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECMQvrJ5K8MnV-qTaDiPmnau-6LzPPXVYYtwlvgXdNZHzaRsh8dF7VhKycnnyfYo991A-cC5ljcDu8tL3P0kZdSpHIXWRl8NB1GuACIbsvtjJCnDXcrvK1Dlba3RAhSJRLEIGVPX7QcYVttj6tDHktjNqrf5yowCXCkfi3i3bkYtY4c&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.9
+total number of ratings: 16
+
+
+Shelter #8
+Shelter name: The Inn Enhanced Shelter - CCSWW Program
+Shelter address: 1911 Aurora Ave N, Seattle, WA 98109, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECyZcK4u-gH2BtYcu_HzoQTYuRk6BG4bBngP1h4XIhjjYAZCa1bmpl7JmxQxpfzGjfAWNJvqxuEIOC2PgaelvAurfqVOAQFilMLV-fmA9LTDMczKgH_3snEU0vtfOux6N9lP3IEAGAQVSbomNkZyqbJKQjB3evld94OPf6uYapLypcw&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 4.1
+total number of ratings: 99
+
+
+Shelter #9
+Shelter name: Marys Place De
+Shelter address: 712 Aurora Ave N, Seattle, WA 98109, United States
+ratings: 5
+total number of ratings: 1
+
+
+Shelter #10
+Shelter name: The bridge shelter
+Shelter address: 1923 3rd Ave, Seattle, WA 98101, United States
+open hour: {'open_now': True}
+ratings: 3.3
+total number of ratings: 4
+
+
+Shelter #11
+Shelter name: Compass Housing Alliance
+Shelter address: 77 S Washington St, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECa50DLuDC3TSbgw4pP2P_XrBkOCyHlLXCu_5N5kX4OMQiHcH0e9Fq6f47D9ZX79NvYuIQ3BR0Tw46S8XzgWZhRUFZYa7cSU25mVpHTkwF7y3pDNbKSTw_pX1fDH2E-mWwhsZfB58FmvVOMbDKUI9U3voH2_wUnI80vh6FbGXSPbEmc&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.9
+total number of ratings: 245
+
+
+Shelter #12
+Shelter name: Seattle's Union Gospel Mission: Hope Place, Women and Children's Shelter
+Shelter address: 3802 S Othello St, Seattle, WA 98118, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEC8nW-yhEGJS5jzn0Sfo9mhuIkXySbAbQ4Q93TQlpEeeZeTDchiXqRds4W8HuCQ1eCrKJ-JupLoYBuVKDMxoIjh-BhMWuuHfagyeatztiAK_mpf_2Iy6CMxCc8hpjNk-1rK_dImiK99aTJNfcgF9R8HcAYTbgHlsMzmgvQlBZuo-Rnm&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.5
+total number of ratings: 44
+
+
+Shelter #13
+Shelter name: Mary's Place Women's Day Center
+Shelter address: 1830 9th Ave, Seattle, WA 98101, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAf0tAxP-AdVhrWShGFIN63SxLGuNUPuP5kDj3I5GjBE86x69vPlfTnv5ERrPZ9AtdDKpuHy8LpTjCMfmUfi6mw78x74aPyBIh17wy6jGvgniPrQp75jfBJIIdx5kG0v-p_vV8aPlYEQmRmfVdc7kqQc3vV1foT0nub5-3fo0GxlZLY&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.3
+total number of ratings: 45
+
+
+Shelter #14
+Shelter name: Salvation Army William Booth Center
+Shelter address: 811 Maynard Ave S, Seattle, WA 98134, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECczo8xgCOlXDxEBGzOrko0tWWmVmzFBz5BmErSNp6TDET-QQmcuXv8yPN1IYDxcIN8_B2zTwx-taQ2ecRfhgcE3ePEugyxQaUT6HvUgc9XciczFslo9RQC2o0t9do20pu6IKFvJ0Won83ka9tei3a5HwQSix9QhUR8HT6kJ-brBvrX&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 4
+total number of ratings: 145
+
+
+Shelter #15
+Shelter name: Salvation Army - Food Bank
+Shelter address: 1101 Pike St, Seattle, WA 98101, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEB540eUQrsUuEd8lCMwTZeyRKaaDZ9BpLqQZYNs89W2x4vRZi9yJfrCScI9EQhoVL_I9uSGqmN44QcqrajJQZigVOy3Vg6NE9Mh1EcpXo3ilGl2R_wCoAdkF5kS8BaegpnZBsMNzQjU-JrH_ujipo4-sIHmEnQsfzhLs-5yyXTShNWy&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.2
+total number of ratings: 89
+
+
+Shelter #16
+Shelter name: Jubilee Women's Center
+Shelter address: 620 18th Ave E, Seattle, WA 98112, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECE_xSjNSVkijr0X-kNcAde8gJ3hjChJPrFOGOtry0hr9zYUGCA0DzDrJsj9Nbq8ioyt5XgZXGhg5FaVrha5q22hI7jbScXJReyPvQI0gAkDyqKOrgl6HKOdKFzgYXkfyhRVVJAotabRBCRAhhz9SHTkOYBRAPQICJ8xwgx4bLU_yiE&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.7
+total number of ratings: 43
+
+
+Shelter #17
+Shelter name: Bread of Life Mission
+Shelter address: 97 South Main St, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECJYU5H3xGPisd0ssLNOCt7YCg211MSctvJ-moDaaLSTIvxHI3ZrXuyqFRFWNcvHwfyt7DUp0iwNTNwoltjMRlCY9VuNPUGFA4hZF50xDgDA-ySnUw82Q9CKwEMrmgz3Z-uNzAoLtNs1ep7bIlV7oa3V8-1kt4yTeJSIn71N_C6fYIH&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.7
+total number of ratings: 106
+
+
+Shelter #18
+Shelter name: Junction Point
+Shelter address: 551 Elliott Ave W, Seattle, WA 98119, United States
+ratings: 5
+total number of ratings: 5
+
+
+Shelter #19
+Shelter name: DESC's Auxiliary Shelter
+Shelter address: 505 3rd Ave, Seattle, WA 98104, United States
+ratings: 3.6
+total number of ratings: 5
+
+
+Shelter #20
+Shelter name: Harborview Hall
+Shelter address: 326 9th Ave, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBMgthrYVqgl79RbHUR9GupYxiH77h_vuQINzjPLa24wQ0YbIZ9gHrhADonw1kYLoItEsDsjCM4HYt1zG9tBnXUvUSuYt46uk_nlznTjdk9R1Zre9vgv_fuZpwN4jH-ZplypyIMMYknnHiLA6DqCo5cf4Kq0p8qfvjMd1A8TlOJwNm-&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 4.6
+total number of ratings: 17
+
+
+Shelter #21
+Shelter name: LIHI Whittier Heights Tiny House Village
+Shelter address: 8030 15th Ave W, Seattle, WA 98117, United States
+ratings: 5
+total number of ratings: 5
+
+
+Shelter #22
+Shelter name: Jungle 3.0
+Shelter address: Mountains to Sound Greenway Trail, Seattle, WA 98144, United States
+ratings: 0
+total number of ratings: 0
+
+
+Shelter #23
+Shelter name: True Hope Village
+Shelter address: 1714 E Yesler Way, Seattle, WA 98122, United States
+ratings: 4.4
+total number of ratings: 7
+
+
+Shelter #24
+Shelter name: Lazarus Center
+Shelter address: 2329 Rainier Ave S, Seattle, WA 98144, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEDIPWYC2E4AUnmOudblJkXr8dvrygA4dp0gPPCGAYuR4_mgMnyY7FmeT5O7MoR7DgIuE1o1sufN5obpiWVRbDvGfYzaJYew2Il9g5iXu5MqbnsltSlvifHqIBhtG4WtTRHALoU7Ki3A4u7ZOgt4UmpuVNxrOdEnb1HoST0RlARkOpvc&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.8
+total number of ratings: 40
+
+
+Shelter #25
+Shelter name: Operation Nightwatch
+Shelter address: 302 14th Ave S, Seattle, WA 98144, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAfpzKgLW3vWtkTnos0yXzMHk18R6IbjMY6qBg1vQm2OukK0Sd96gzg0qAhU721f6MX5STpxMRKYmrA23plcbbjZV8b_m7bwWolHTz7TV0_cFPMViKC_J-yL8taGSkB7wV_SN3vradKw_UkrHxMjHoMDLjgxlTB0ksQzhEzAWhF2SJ0&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+ratings: 4.2
+total number of ratings: 68
+
+
+Shelter #26
+Shelter name: Solid Ground
+Shelter address: 1501 N 45th St, Seattle, WA 98103, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEDNQxM5WcysJDXHvsDFmV4Vl11iKcu5ULB0ZuSnlxs7GjOSynMcWGQI8qqQUrgspzN7ERdtPclpThh3dkDM_Q6ZpjEgZZCxkqETTsG6SsBaqQUwSuUS3Imuju-2OB1C9ceSnK7iON7kDxMI3b6EBILLlDAqBe4P-sho_QYhBr08tQje&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.5
+total number of ratings: 72
+
+
+Shelter #27
+Shelter name: Bread of Life Mission - Men’s Shelter
+Shelter address: 97 South Main St, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEA9UN_NNdc-vE-jw_TjY-hRQTwu7z9ry37qJ_mF7helCelV_FNGNXSim14cmT5PLr7gV8F0rSUxxskvlk7KQpMPYKoCc-vpfVgXcFdQ7cytQ2TQZArFattBnaxERyIVTH8HayMlUjsMZLTsV1kSjAUYnjRJ3QmXwaTHQf3TlrAmF9xv&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 0
+total number of ratings: 0
+
+
+Shelter #28
+Shelter name: Peter's Place
+Shelter address: 901 Rainier Ave S, Seattle, WA 98144, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEB7SJsOvHtN2IJOpTocGrIhh9VBF6EXHDy2fsW9n-7nnVTSRRuZR5CG7X58g1w-nMkbgueZk2793KPdSORt-CtOcdYUXaM5dkSpbC0Agk9i98Ixy6G5tK-kMJl77syKqXqHQM40s14UXA7wjtLCP43bREpM1ocaO1GutB7iAieIb3MS&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.4
+total number of ratings: 56
+
+
+Shelter #29
+Shelter name: Rose of Lima House
+Shelter address: 118 Bell St, Seattle, WA 98121, United States
+open hour: {'open_now': True}
+ratings: 4.3
+total number of ratings: 3
+
+
+Shelter #30
+Shelter name: Elizabeth Gregory Home
+Shelter address: 1604 NE 50th St b6, Seattle, WA 98105, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEB8e__oQXrtE7RUIP5KE1XKnrRUXtrIscEpXKkUU2dV-Ioe_Wy9XRu_iPAgObguxCw9GfIG0f0Pnxg0XcKeGc4A7V4xWXEIQuzicRf_lvJotDBELTTwJxOQpr-9-AKJtIkttR8BLFWytIp4ePYWlh7IQsohC9ZtxXR9ps_-3KdYATj3&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.6
+total number of ratings: 53
+
+
+Shelter #31
+Shelter name: DESC's Queen Anne Shelter
+Shelter address: 157 Roy St, Seattle, WA 98109, United States
+ratings: 0
+total number of ratings: 0
+
+
+Shelter #32
+Shelter name: YouthCare
+Shelter address: 2500 NE 54th St, Seattle, WA 98105, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEDYIa-qBAxfOFTPR9A01FpZ_MAdXTcH06LGcSQ7WLhGCzoNhBj_Tsj7T19fPJKaNkX-KAx8imXcLzyddkbRCpRgKiPEk-BdIObaIB1oECwuAbdn1Z3Cm0B1-wop8kt93t3Nl3EOHaJbiJjFdpQohs8cgELhKf0nDWIU6c44MZeqFWvK&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.3
+total number of ratings: 27
+
+
+Shelter #33
+Shelter name: Tent City 3
+Shelter address: 12914 Martin Luther King Jr Way S, Seattle, WA 98178, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBH3ymn2oVj4DztX2Y5_Ug4mvLXU9btpZNSWF-uyNdPhoTIl7hllZincxv7Z_LS-iQpXv17oMulS6bOjZNmc4aBemqduVM11npgaShX7xyKgTBfN5O1PuU8sWBXpxNg2cfzWmvK2n2kKiqmmeWFEP4tr5xGYFrPv0bo0TTC06ujhS9V&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 3.4
+total number of ratings: 34
+
+
+Shelter #34
+Shelter name: Mary's Place Administrative Offices
+Shelter address: 113 Dexter Ave N, Seattle, WA 98109, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAa99WbCrDqO6JheQ8odg0QCphyHyHYSxIo51LCCrXzSp4t81PpqytSNlc6-3_JTI56OayGWSx83ZQSnXYKUUzw8Or8PCUxjV03tfJJBfLN8Kvrm_crzkvhs4z4ScFSogq8RFfIqpJkerP61RbuRBiIfhfvDlaa3ilswN_uOAl0wOT0&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4
+total number of ratings: 94
+
+
+Shelter #35
+Shelter name: 2 CHEEZEE HOMELESS OUTREACH
+Shelter address: 1501 33rd Ave, Seattle, WA 98122, United States
+ratings: 0
+total number of ratings: 0
+
+
+Shelter #36
+Shelter name: YouthCare's Orion Center
+Shelter address: 1828 Yale Ave, Seattle, WA 98101, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECTIO9b5zPON7yJbdp7ZiGID-jvPfkMec66c6juYcT9JZ4AmGYM_Hnxtge9E6ZgBpyKYy9dmHXDqQIu1Hqqa0fwMu4LOzEnQTm2uDPVAvvxYR94bfOY8SMXJAD26kn7dtwPrWd8qQa6bal7qKNGNnZZ_KcwwwsAmvJwSt3BbXyroPUs&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.5
+total number of ratings: 25
+
+
+Shelter #37
+Shelter name: YWCA Seattle | King | Snohomish
+Shelter address: 1118 5th Ave, Seattle, WA 98101, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBPEhXylaQiUwz1EfXEBT4MSiRHfvNs9BhMk_AmQDNRc7VpJUa_s1HqR3dQuXF9ia8A4qRHyK_SY5J65FPP1MNRasDk76lhklcHpi-RO4Uw8I7W2nZzYwLImO7bSs2MhflBrtOiyJ1ungL_YbAUYt093IDl-WY8qUl-YFSduuWJIsi7&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.1
+total number of ratings: 32
+
+
+Shelter #38
+Shelter name: The Inn Enhanced Shelter - Referral only through CEA
+Shelter address: 1911 Aurora Ave N, Seattle, WA 98109, United States
+ratings: 0
+total number of ratings: 0
+
+
+Shelter #39
+Shelter name: Facing Homelessness
+Shelter address: 4001 9th Ave NE, Seattle, WA 98105, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECbauwEcZXkCuSzKaQqFG2lIhLOhHA1tb8fLvCzqHnXx-Te4NQesp9CKSh5LVNiL5o78XBFpXMgfG0PG1vzm7wVQX0Q-FlxZ222YozG_A0S6oOqlb4ifuiu0xggpHYh2KugACu2pyb6wZB8j2NJWw8zvjaH5Y9HCSAHwFawxTKon4wY&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.5
+total number of ratings: 24
+
+
+Shelter #40
+Shelter name: LIHI Othello Village
+Shelter address: 7544 Martin Luther King Jr Way S, Seattle, WA 98118, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBt792r8bkkARikzupWMprkqw1CUKSbnmHIR4AvywIePjG1RG71l3ZYJ2e-qKDQ4OgSgkm84ZRQpFo1xkHdT38ba7lH4VeEnUUOznJOVZqDKClryvjLaR5yisJ39gY1lAuwFb3iN7eD1ZUISEIgUDSWsdUrEaEdHWTt3VeIX4PSyUM&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+ratings: 3.8
+total number of ratings: 33
+
+
+Shelter #41
+Shelter name: Seattle Animal Shelter
+Shelter address: 2061 15th Ave W, Seattle, WA 98119, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uED7c4RkFXMrBmS8ZO8gwLSHd8vJKxNGOkeek1ifJpK9NxsPKJ6ZSZTPYyVM3xCQpldOR6fQWC2-ZYS6dW3KGLZl1ZzU7W34tzYy0eh3XgOSir2pavHFUS4o8pzH3Jxpcjz3aBJdw4pZgQvIzIzpUh1LqiwGSyd6rhM6hhuh_5HTKjI_&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.3
+total number of ratings: 513
+
+
+Shelter #42
+Shelter name: Nickelsville Northlake Tiny House Village
+Shelter address: 3814 4th Ave NE, Seattle, WA 98105, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAcCrsggVeiLwkrQKQNrNbHZCBs5Fjlz39g_QuZH-f1_F4L24GLH0b2DTwcBkJCqAjvB-l7BlY6eHigm66XnLJT9faZ90bsavR9WveyAGT-A54D1tEVO2K93DuTkRPYEhltEtLEX3mE2_Hd8yQxL68I2QpY4ZmOofIzUOgj2eBnqaqh&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.6
+total number of ratings: 16
+
+
+Shelter #43
+Shelter name: Angeline's Day Center
+Shelter address: 2030 3rd Ave, Seattle, WA 98121, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAYVdHnpX5BBjLsoVeCpKTQH8H7OUen_ju6kzRHbcgFVr3Msn3ENSMkuXuNwlOHv0iJtJ3JFkiH1XcW6UjdGUFyfF544xla6YkIZRUkI7c0EXp0uTCoJTbzlOyIO7ZO-kMxH8wggrl_uX3fBwbZvdqu2YznXremg0TDK1pNkrrlOmwK&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 2.8
+total number of ratings: 16
+
+
+Shelter #44
+Shelter name: New Horizons Ministries
+Shelter address: 2709 3rd Ave, Seattle, WA 98121, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECHTZKHNHLg1vkcGizEsYLb7sS9O4JIPr4bzPdEikR6grfvHa2tfpZiWgCkl0h6PuOskMqjXdqE4zWAXT4q6ggOQ6_aOf8aiEO-i13akPnz26vzfZgBSd9qzjWfFvwARodseJOX2-mSmpUmCMUCFrb3dixUnwEsVbEXZ3QXFSuM-for&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4
+total number of ratings: 91
+
+
+Shelter #45
+Shelter name: DESC's Main Administrative Offices
+Shelter address: 515 3rd Ave, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEB9k_UiH4qLXumG6xQxJv39TG2t8ln3ax3SKnKgp8unNdzeyMpfB306IQCr6ntqv9XIQjd9ZfwmoW_PF2tYhMf9Yw9OEiL8a-T79B0yvuvs70QBmJgTEOn6q-p3Z9cjNeLACf3vEo2E911No1_UpRchLD07QQ2vu6few-KZb6aMrRw2&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3.6
+total number of ratings: 80
+
+
+Shelter #46
+Shelter name: DESC's Navigation Center
+Shelter address: 606 12th Ave S, Seattle, WA 98144, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECgPlgpEp6ruiM5etuz0OjLlUF8AyiGEajV3IfvL5R42j63MNO7Drc3cXUb3F9Rc6Wn-3zPJLFGF48iS-dKV1IT0-8tbU_DU7k3qgnNh5VM2yJnr29PmMLpe7AmbZ_oCXIP7XfxMmjY9u6OR9LoAxFz4AA0ok4U9j4CTPQCXaUT1I9x&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': True}
+ratings: 3.9
+total number of ratings: 36
+
+
+Shelter #47
+Shelter name: DESC's Aurora House
+Shelter address: 10507 Aurora Ave N, Seattle, WA 98133, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEDF2pkfPSVRnSAb-BtQlq2i4xJ06gdafnKq9jhZoLLhP0OQxNrVIMEZvL0Ved29OrK1R4rXJ3eG30yrmuqzITUVbjQoMgzpddOAJclol_pQZXQIapjk3erPgJ5F8EF7OZSK6FrKkHVgE5O3EF4ekHvfv4fCOHk-XfVh1Ha_Tozx_z0Z&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+ratings: 4.1
+total number of ratings: 10
+
+
+Shelter #48
+Shelter name: DESC's Rainier House
+Shelter address: 5270 Rainier Ave S, Seattle, WA 98118, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBPdgR2_xKPx1hglEQ8qBviGCIxw23N34GynJvdSXUmpHsoyoH422GT1P9AtLAAcCqJYyQP23TsJ_Ijm_O5TONhTvw9RP3YsOGDUwdh8cupFyWpJ73sL1s_SpocbXuryA4RfNN8Fzv-GWnkqDw_x3pMc_QYNXc9pdTZCNwQRx2ZaY_W&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+ratings: 3.7
+total number of ratings: 9
+
+
+Shelter #49
+Shelter name: Solid Ground
+Shelter address: 6940 62nd Ave NE, Seattle, WA 98115, United States
+ratings: 2
+total number of ratings: 1
+
+
+Shelter #50
+Shelter name: Seattle/King County Coalition on Homelessness
+Shelter address: 85 S Washington St Suite 310, Seattle, WA 98104, United States
+ratings: 3.7
+total number of ratings: 3
+
+
+Shelter #51
+Shelter name: Salvation Army Jefferson Day Center
+Shelter address: 420 4th Ave, Seattle, WA 98104, United States
+open hour: {'open_now': False}
+ratings: 4.7
+total number of ratings: 10
+
+
+Shelter #52
+Shelter name: St Francis House
+Shelter address: 1108 E. Spruce St *No mail is accepted at this address, Seattle, WA 98122, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEDciYwyYs_AkLImYBC-Q8tcar67xaqZ-Fll0XG5OuQ0B9nHkeR0qtQv-K4K0m2mOtgU7zU9j05UaxCf5q1aMZyQLNYoYnXSquiW52aY5e6wHd4kiWB8IVTfNkzSeMvk2bJ9IzUz-6HvNlM2PWG3rsFAHjPWoTBdfCm36D2wOyw115oZ&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.6
+total number of ratings: 100
+
+
+Shelter #53
+Shelter name: YWCA Phillis Wheatley Branch
+Shelter address: 2820 E Cherry St, Seattle, WA 98122, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAYPFlMspYch6jUMBtbpwHdvIk0qNq8F4VSGGiPGj7nLO1wZEE_n4WDye-rT9YjNficyk4N-S_FwImlUuMegNb9ePyn6SMjcqsy3z738uEAPqxKtlCVH9pjRHK5n9DonQirGaqMHCuEr5dZI8qhZMeR0Fmt5L_2djvZxAaX3VgEWP0G&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.5
+total number of ratings: 42
+
+
+Shelter #54
+Shelter name: Teen Feed
+Shelter address: 4740 University Way NE Suite B, Seattle, WA 98105, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEC7sPZjxdS8bg-Q7jGpS1Iwq0rqC7zSD5HkNRTDJLY5w5tadlPPzc_CRovf29G0ZkCGIwnhCWWdhqlZuwoHqOjKWaBHAPY3f8CmBiHw1DHvML4NEyw9Stb9pKB9DwKIUUfH-oqG4Izyzi9r4hSBPaoY2L4mlmNPkHhkfnNZAe-qmaI&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.5
+total number of ratings: 17
+
+
+Shelter #55
+Shelter name: YWCA Opportunity Place
+Shelter address: 2024 3rd Ave, Seattle, WA 98121, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEAyJb9S36ixLuzorfk9f_oxcFZnIgrGLxrBDbphCt_KScmS2WWlRngsMBleu5IENkR4-Hqwu8OIxw-N6P9jC8i30wctXGszfXp7almHsdVwvpto8Uhym8lRu6JV1R0Doa_6C_Otf63tJ4sVb_7alHzf4z0ggTyiJlbZrS6-Ar4YYxAM&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 3
+total number of ratings: 8
+
+
+Shelter #56
+Shelter name: Chief Seattle Club Inc
+Shelter address: 410 2nd Ave Ext S, Seattle, WA 98104, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEApZ2OF8slBmfLsm0i4EFLCWPC0BE0-nnDMG8Q574BQx4STi7-xwbZH7Kbt2Xq2AY0Yf295PcvwLgfvCAZygkGizjnwa0nb2iPdCrYioKnHR41X9BRO8qfRgUvEEshl7WV56ud8-dd3BTALxzo_xOPLZCwTBEUefqabdjLfJGe_V6L0&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.6
+total number of ratings: 121
+
+
+Shelter #57
+Shelter name: Urban Hands
+Shelter address: 8420 Greenwood Ave N, Seattle, WA 98103, United States
+open hour: {'open_now': False}
+ratings: 0
+total number of ratings: 0
+
+
+Shelter #58
+Shelter name: Womens Wellness Center
+Shelter address: 1900 2nd Ave, Seattle, WA 98101, United States
+ratings: 4.5
+total number of ratings: 13
+
+
+Shelter #59
+Shelter name: Shelter Lounge
+Shelter address: 7110 East Green Lake Dr N, Seattle, WA 98115, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEBsWDYThu3kT2voGIqvSJPwJOaULW7OrvBx7KTxGutGgNLM6qnWGx5-wCGB0iIM3kucisT7P5lE1PM7kZ4JbiJhebVu8_xsd9yFL4mUnlWx4yrC3fakfYp2l71NklbZsxmk8Qvhb30UTjf9R8gkgZ-V8WUtfraU86qlGm9F2SAIxqFW&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.1
+total number of ratings: 952
+
+
+Shelter #60
+Shelter name: Seattle Indian Center
+Shelter address: 1265 South Main St #105, Seattle, WA 98144, United States
+photo url: https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uECyPjrNCms6bsalWDIIluWGrKB4yvpaB2y8uYKD9_xZxp50IMXu68VnhkgTvGyXcH1M2zIn2RzTisiIaGRdeJl4CAkcA7g8cUxpsbosh4cO4jj_WGfQK1Le4sg2El_yBqRvl5A1yb6IyPLq9bEF44Dx8QT8F5c4PCD5PSHpSnrQoPMm&key=AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw
+open hour: {'open_now': False}
+ratings: 4.2
+total number of ratings: 60
+
+
