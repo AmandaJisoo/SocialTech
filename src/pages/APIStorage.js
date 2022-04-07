@@ -148,5 +148,15 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async createClaim(claimInformation) {
+        try {
+            return await API.post('SocialTechService', "/CreateClaim", {
+                body: claimInformation
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
