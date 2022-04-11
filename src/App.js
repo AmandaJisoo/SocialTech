@@ -10,7 +10,7 @@ import AuthenticatorGrid from "./pages/Auth/AuthenticatorGrid";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 import { Amplify, Auth } from 'aws-amplify';
-import { useStore } from './pages/Hook';
+import { useStores } from './pages/Hook';
 window.LOG_LEVEL = 'DEBUG';
 
 //TODO: (Amanda) update the endpoint stage
@@ -89,7 +89,7 @@ const App = () => {
   //  navigate('/app/dashboard')
   // }, [])
   const [selectedFile, setSelectedFile] = useState(null);
-  const apiStore = useStore();  
+  const { apiStore } = useStores();  
 
   const handleSubmission = async () => {
     await apiStore.uploadImageToS3(selectedFile);

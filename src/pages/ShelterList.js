@@ -10,14 +10,14 @@ import SearchBar from '../components/SearchBar';
 import { AUTH_TOKEN_KEYNAME, getWithExpiry } from '../utils/utilityFunctions.js';
 import CircularProgress from '@mui/material/CircularProgress'
 import { Auth } from 'aws-amplify';
-import { useStore } from './Hook.js';
+import { useStores } from './Hook.js';
 import mockUser from '../mockData/mockUser.json';
 
 
 const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
     const [userStatus, setUserStatus] = useState(undefined)
     //Yichi: to call api do this 
-    const apiStore = useStore();  
+    const { apiStore } = useStores();  
     useEffect(() => {
         const getUserStatus = async () => {
             try {
