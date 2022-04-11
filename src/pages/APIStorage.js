@@ -171,5 +171,17 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async getShelterByCity(city) {
+        try {
+            return await API.get('SocialTechService', "/GetShelterByCity", {
+                queryStringParameters: {
+                    city: city,              
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
