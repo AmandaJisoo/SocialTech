@@ -135,7 +135,6 @@ const Onboard = props => {
 
     const onboardPageOne = () => {
 
-
         return(
             <Grid 
                 container 

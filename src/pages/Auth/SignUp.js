@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import { Button, Checkbox, Typography } from '@mui/material';
+import { Button, Checkbox, Typography, Alert } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
 import text from "../../text/text.json"
@@ -8,27 +8,58 @@ import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import mockUser from '../../mockData/mockUser.json';
+import { Auth } from 'aws-amplify';
 import { AUTH_TOKEN_KEYNAME, LENGTH_OF_AUTO_SIGN_IN, setWithExpiry } from '../../utils/utilityFunctions';
+import ConfirmSignUp from './ConfirmSignUp';
 
 const SignUp = ({setUser}) => {
-
+  const [signUpPage, setSignUpPage] = useState(0);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
+  const [username, setUsername] = useState(undefined)
+  const [password, setPassword] = useState(undefined)
+  const [email, setEmail] = useState(undefined)
+  const [errorMsg, setErrorMsg] = useState(undefined)
 
   const navigate = useNavigate()
 
-  const handleSignUp = () => {
-    //TODO: handle sign Up
-    setUser(mockUser.userData)
-    if (isRememberMeChecked) {
-      setWithExpiry(AUTH_TOKEN_KEYNAME, mockUser.userData.authToken, LENGTH_OF_AUTO_SIGN_IN);
-    }
-    sessionStorage.setItem(AUTH_TOKEN_KEYNAME, mockUser.authToken)
-    navigate("/app/onboard")
-  }
+   const handleSignUp = async () => {
+    setErrorMsg(undefined)
 
-  const handleCheckBoxChange = (event) => {
-    setIsRememberMeChecked(event.target.checked)
+    try {
+      console.log("username: ", username)
+      console.log("password: ", password)
+      // const { user } = await Auth.signUp({
+      //   username, password,
+      //   attributes: {
+      //     email
+      //   }
+      // }) 
+
+      setSignUpPage(1)
+
+    } catch (error) {
+      setErrorMsg(error.message)
+    }
+  }
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
   };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value)
+  };
+  
+  const handleCheckBoxChange = (event) => {
+    setIsRememberMeChecked(event.target.value)
+  };
+
+  const errorEle = errorMsg ?
+      <Alert severity="error">{errorMsg}</Alert> :
+      null 
 
   return (
       <Grid 
@@ -39,146 +70,138 @@ const SignUp = ({setUser}) => {
           rowSpacing={2}
           style={{width: "100%", maxWidth: "50em", padding: "10px"}}>
 
-          <Grid 
-            item
-            container direction="column"
-            justifyContent="center"
-            rowSpacing={2}
-            alignItems="center">
-            <Typography 
-              variant="h3"
-              style={{marginBottom: "1em"}}>
-                {text.signUp.welocmeHeader}
-            </Typography>
-
-            <Typography
-              style={{marginBottom: "3em"}}>
-                {text.signUp.welcomeIntro}<span style={{color: appTheme.palette.primary.main}}>shelters!</span>
-            </Typography>
-            <Button 
-              fullWidth
-              variant="contained" 
-              color="google_white"
-              style={{marginBottom: "8px"}}>Continue with Google</Button>
-            <Button
-              fullWidth
-              variant="contained" 
-              color="fb_blue"
-              style={{marginBottom: "8px"}}>Continue with Facebook</Button>
-            <Button 
-              fullWidth 
-              variant="contained" 
-              color="twitter_blue"
-              style={{marginBottom: "8px"}}>Continue with Twitter</Button>
-          </Grid>
-
-          <Grid container item>
-            <Divider style={{width: "100%"}}>OR</Divider>
-          </Grid>
-
-          <Grid
+          {signUpPage === 0 ?  
+          <>
+            <Grid 
               item
-              container
-              spacing={2}
-              wrap="nowrap"
-              justifyContent="space-between"
+              container direction="column"
+              justifyContent="center"
+              rowSpacing={2}
               alignItems="center">
-      
-              <Grid item>
-                <TextField
-                    margin="normal"
-                    required
-                    name="first-name"
-                    label="first-name"
-                    type="first-name"
-                    id="first-name"
+              <Typography 
+                variant="h3"
+                style={{marginBottom: "1em"}}>
+                  {text.signUp.welocmeHeader}
+              </Typography>
+
+              <Typography
+                style={{marginBottom: "3em"}}>
+                  {text.signUp.welcomeIntro}<span style={{color: appTheme.palette.primary.main}}>shelters!</span>
+              </Typography>
+              <Button 
+                fullWidth
+                variant="contained" 
+                color="google_white"
+                style={{marginBottom: "8px"}}>Continue with Google</Button>
+              <Button
+                fullWidth
+                variant="contained" 
+                color="fb_blue"
+                style={{marginBottom: "8px"}}>Continue with Facebook</Button>
+              <Button 
+                fullWidth 
+                variant="contained" 
+                color="twitter_blue"
+                style={{marginBottom: "8px"}}>Continue with Twitter</Button>
+            </Grid>
+
+            <Grid container item>
+              <Divider style={{width: "100%"}}>OR</Divider>
+            </Grid>
+
+            <Grid
+                item
+                container
+                spacing={2}
+                wrap="nowrap"
+                justifyContent="space-between"
+                alignItems="center">
+        
+                <Grid item>
+                  <TextField
+                      margin="normal"
+                      required
+                      name="username"
+                      label="username"
+                      type="username"
+                      id="username"
+                      onChange={handleUsernameChange}
+                  />
+                </Grid >
+            </Grid>
+        
+            <Grid
+              item
+              container 
+              direction="column"
+              justifyContent="center"
+              rowSpacing={2}
+              alignItems="center">
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="email"
+                  label="email"
+                  type="email"
+                  id="email"
+                  autoComplete="current-email"
+                  onChange={handleEmailChange}
                 />
-              </Grid >
-              <Grid item>
-                <TextField
-                    margin="normal"
-                    name="middle-name"
-                    label="middle-name"
-                    type="middle-name"
-                    id="middle-name"
-                  />
-              </Grid>
-              <Grid item>
-                <TextField
-                    margin="normal"
-                    required
-                    name="last-name"
-                    label="last-name"
-                    type="last-name"
-                    id="last-name"
-                  />
-              </Grid>
-          </Grid>
-      
-          <Grid
-            item
-            container 
-            direction="column"
-            justifyContent="center"
-            rowSpacing={2}
-            alignItems="center">
-            <TextField
+              <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="email"
-                label="email"
-                type="email"
-                id="email"
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
                 autoComplete="current-password"
+                onChange={handlePasswordChange}
               />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
 
-            <Grid
-              items
-              container 
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center">
-              <FormControlLabel control={
-                <Checkbox  
-                  checked={isRememberMeChecked}
-                  onChange={handleCheckBoxChange}/>} 
-                label="Remember me" />
+              <Grid
+                items
+                container 
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center">
+                <FormControlLabel control={
+                  <Checkbox  
+                    checked={isRememberMeChecked}
+                    onChange={handleCheckBoxChange}/>} 
+                  label="Remember me" />
+              </Grid>
+
+              {errorEle}
+
+              <Button 
+                fullWidth 
+                variant="contained"
+                onClick={() => {
+                  handleSignUp()
+                }}>
+                Sign Up
+              </Button>
+
+              <Grid 
+                items
+                container 
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                style={{marginTop: "2em"}}>
+
+                <Typography>{text.signUp.registeredUserPrompt}</Typography>
+
+                <Link to="/app/auth/sign-in" 
+                  style={{marginLeft: "5px", textDecoration: "none", color: "black"}}>
+                    <Typography style={{fontWeight: "bold"}}>Log in here</Typography>
+                </Link>
+              </Grid>
             </Grid>
-
-            <Button 
-              fullWidth 
-              variant="contained"
-              onClick={handleSignUp}>
-              Sign Up
-            </Button>
-
-            <Grid 
-              items
-              container 
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              style={{marginTop: "2em"}}>
-
-              <Typography>{text.signUp.registeredUserPrompt}</Typography>
-
-              <Link to="/app/auth/sign-in" 
-                style={{marginLeft: "5px", textDecoration: "none", color: "black"}}>
-                  <Typography style={{fontWeight: "bold"}}>Log in here</Typography>
-              </Link>
-            </Grid>
-          </Grid>
+          </> : 
+          <ConfirmSignUp username={username} setSignUpPage={setSignUpPage} />}
       </Grid>
   )
 }

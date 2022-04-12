@@ -3,76 +3,23 @@ import { Route, Routes, useNavigate, Navigate } from "react-router-dom"
 import './App.css';
 import { ThemeProvider } from "@mui/material";
 import appThemeMui from "./theme/appThemeMui";
-import Onboard from "./pages/Onboard";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterCardDetail";
 import AuthenticatorGrid from "./pages/Auth/AuthenticatorGrid";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
-import { Amplify, Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { useStore } from './pages/Hook';
+import Onboard from "./pages/onboard/Onboard";
+import IntroPage from './pages/onboard/IntroPage';
+import SelectAccountPage from './pages/onboard/SelectAccountPage';
+import RegularUserPage from './pages/onboard/RegularUserPage';
+import OrgPage from './pages/onboard/OrgUser';
+import CompletedPage from './pages/onboard/CompletedPage';
+import { Button, Typography } from '@mui/material';
 window.LOG_LEVEL = 'DEBUG';
 
 //TODO: (Amanda) update the endpoint stage
-Amplify.configure({
-  Storage: {
-    AWSS3: {
-        bucket: 'socialtechcapstone', //REQUIRED -  Amazon S3 bucket name 
-        region: 'us-east-1'   
-    }
-  },
-  API : {
-    endpoints: [
-      {
-        name: "SocialTechService",
-        endpoint: "https://wf5o6g6zs3.execute-api.us-east-1.amazonaws.com/test",
-        region: "us-east-1"
-      }
-    ]
-  },
-  Auth: {
-      // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-      identityPoolId: 'us-east-1:59aad359-d8f3-4941-93dd-3b6b6606c66c',
-      
-      // REQUIRED - Amazon Cognito Region
-      region: 'us-east-1',
-
-      // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
-      // Required only if it's different from Amazon Cognito Region
-      identityPoolRegion: 'us-east-1',
-
-      // OPTIONAL - Amazon Cognito User Pool ID
-      userPoolId: 'us-east-1_cpkAakPIu',
-
-      // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-      userPoolWebClientId: '59k6mv91ts53u5ld578kvllink',
-
-      // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-      mandatorySignIn: false,
-
-      // OPTIONAL - Configuration for cookie storage
-      // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
-      cookieStorage: {
-      // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-          domain: 'localhost',
-      // OPTIONAL - Cookie path
-          path: '/',
-      // OPTIONAL - Cookie expiration in days
-          expires: 365,
-      // OPTIONAL - Cookie secure flag
-      // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-          secure: false
-      },
-      authenticationFlowType: 'USER_PASSWORD_AUTH',
-      oauth: {
-        domain: 'socialtech.auth.us-east-1.amazoncognito.com',
-        scope: ['openid', 'aws.cognito.signin.user.admin'],
-        redirectSignIn: 'http://localhost:3000',//TODO: update later when deploying 
-        redirectSignOut: 'http://localhost:3000',
-        responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
-    }
-  }
-});
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -85,21 +32,36 @@ const App = () => {
   console.log(shelterData)
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //  navigate('/app/dashboard')
-  // }, [])
   const [selectedFile, setSelectedFile] = useState(null);
   const apiStore = useStore();  
 
   const handleSubmission = async () => {
     await apiStore.uploadImageToS3(selectedFile);
   }
+
+  const TEST_handleCreateAccount = async () => {
+    console.log("username: ", user)
+    try {
+    const createAccountResult = await apiStore.createUser({
+      username: "wd1204",
+      profile_pic_path: "PATH_RETURNED FROM S3",
+      user_role: "accountType",
+      gender: "gender",
+      city: "city",
+      state: "state",
+      country: "USA"
+    })
+    } catch (err) {
+      console.log("error*: ", err.message)
+    }
+  }
+  
   //TODO: (Yichi) 
   //the following line 101 - 109 is a code to upload individual img to s3 bucket
   //you will need to modify react code to take the input to take mutiple images and call api on each image
   return (
     <>
-       <div>
+       {/* <div>
           <input type="file" name="file" onChange={ () => {
             setSelectedFile(fileRef.current.files[0])
           }} 
@@ -108,7 +70,10 @@ const App = () => {
             <button onClick={handleSubmission}>Submit</button>
           </div>
 		  </div>
-      {console.log("selectedFile", selectedFile)}
+      {console.log("selectedFile", selectedFile)} */}
+      <Button onClick={TEST_handleCreateAccount}>
+        Test
+      </Button>
       <ThemeProvider theme={appThemeMui}>
         <Routes>
 
@@ -125,9 +90,23 @@ const App = () => {
             } />    
           </Route>
 
-          <Route exact path="/app/onboard" element={
-            <Onboard/>
-          } />
+          <Route exact path="/app/onboard" element={<Onboard/>}>
+            <Route path="intro" element={
+              <IntroPage/>
+            } />
+            <Route path="select-account-type" element={
+              <SelectAccountPage/>
+            } />
+            <Route path="reg-user" element={
+              <RegularUserPage/>
+            } />
+            <Route path="org-user" element={
+              <OrgPage/>
+            } />
+            <Route path="completed" element={
+              <CompletedPage/>
+            } />
+          </Route>
 
           <Route path="app/shelter-detail/:id" element={
             <ShelterDetail data={shelterData}/>

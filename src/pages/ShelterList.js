@@ -35,14 +35,6 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
         }
         getUserStatus()
 
-
-        if (getWithExpiry(AUTH_TOKEN_KEYNAME) || sessionStorage.getItem(AUTH_TOKEN_KEYNAME)) {
-            // TODO: Yichi setUser(mockUser.userData) maybe update to this?
-            setUser(user.userData)
-            console.log("userData", user.userData);
-
-        }
-
         // data-fetching placeholder 
         setShelterData(shelterInfo.shelters)
         console.log("data reset")
@@ -61,8 +53,6 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
             console.log('error signing out: ', error);
         }
     }
-
-
 
     const shelterCards = shelterData === null ? 
         <Grid   
@@ -98,9 +88,9 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
 
     console.log("userStatus is ", userStatus);
     //TODO: Yichi do redirect front end 
-    if (userStatus == 'does_not_exist') {
-        return <div>Redirect page to collect info</div>
-    } else {
+    // if (userStatus == 'does_not_exist') {
+    //     return <div>Redirect page to collect info</div>
+    // } else {
         return (
             <Grid
                 container
@@ -131,7 +121,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
             </Grid>
         </Grid>
         );
-    }
+    // }
 
 };
 

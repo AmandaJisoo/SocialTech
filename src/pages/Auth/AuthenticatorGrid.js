@@ -11,7 +11,7 @@ const AuthenticatorGrid = props => {
             justifyContent="center"
             alignItems="center"
             style={{height: "100vh"}}>
-            <Outlet/>
+                <Outlet/>
         </Grid>
     );
 };

@@ -100,5 +100,41 @@ export default class APIStorage {
         }
 
     }
+
+    async loadOverview(start_zipcode, end_zipcode) {
+        try {
+            return await API.get('SocialTechService', "/LoadOverview", {
+                queryStringParameters: {
+                    start_zipcode: start_zipcode,
+                    end_zipcode: end_zipcode
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async createUser(userInformation) {
+        try {
+            return await API.post('SocialTechService', "/CreateUser", {
+                body: userInformation
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async handleBookmark(post_id, username) {
+        try {
+            return await API.post('SocialTechService', "/HandleBookmark", {
+                body: {
+                    post_id: post_id, 
+                    username: username
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
