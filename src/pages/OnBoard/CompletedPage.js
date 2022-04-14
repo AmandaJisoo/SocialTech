@@ -19,7 +19,7 @@ const CompletedPage = () => {
         <>
             <Grid item>
                 <Typography variant="h4">{text.onboard.completion.message1}</Typography>
-            </Grid>
+            </Grid> 
 
 
             <Grid item>
@@ -36,7 +36,7 @@ const CompletedPage = () => {
                 <Button variant='contained' onClick={() => {
                     navigate("/app/dashboard")
                 }}>
-                    Get Start
+                    Get Started
                 </Button>
             </Grid>
 

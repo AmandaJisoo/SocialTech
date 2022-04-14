@@ -9,11 +9,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import mockUser from '../../mockData/mockUser.json';
 import { Auth } from 'aws-amplify';
-import { AUTH_TOKEN_KEYNAME, LENGTH_OF_AUTO_SIGN_IN, setWithExpiry } from '../../utils/utilityFunctions';
+import Snackbar from '@mui/material/Snackbar';
 
 const ConfirmSignUp = ({username, setSignUpPage}) => {
   const [verificationCode, setVerificationCode] = useState(undefined)
   const [errorMsg, setErrorMsg] = useState(undefined)
+  const [resendCodeStatusMsg, setResendCodeStatusMsg] = useState("")
+  const [resendCodeSnackBarOpen, setResendCodeSnackBarOpen] = useState(false);
 
   const navigate = useNavigate()
 
@@ -30,15 +32,22 @@ const ConfirmSignUp = ({username, setSignUpPage}) => {
 
   const handleResendCode = async () => {
     setErrorMsg(undefined)
+    setResendCodeStatusMsg("")
 
     try {
       await Auth.resendSignUp(username, verificationCode) 
-      console.log('code resent successfully')
-      // using a tost message? 
+      setResendCodeStatusMsg('code resent successfully')
+      setResendCodeSnackBarOpen(true)
     } catch (error) {
       setErrorMsg(error.message)
+      setResendCodeStatusMsg("Error in resending code, please try again")
     }
   }
+
+  const handleClose = () => {
+    resendCodeSnackBarOpen(false);
+  };
+
   
   const handleVerificationCodeChange = (event) => {
     setVerificationCode(event.target.value)
@@ -88,18 +97,33 @@ const ConfirmSignUp = ({username, setSignUpPage}) => {
                 style={{margin: "20px 0 40px 0"}}>
 
                 <Button variant='contained' onClick={() => {
+                    setSignUpPage(prev => prev - 1)
+                }}>
+                    Back
+                </Button>
+
+                <Button variant='contained' onClick={() => {
                     handleConfirmSignUp()
                 }}>
                     Submit
                 </Button>
                 <Button variant='contained' onClick={() => {
-
+                    handleResendCode()
                 }}>
                     Resend code
                 </Button>
             </Grid>
       
          {errorEle}
+
+         <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            autoHideDuration={3000} 
+            open={resendCodeSnackBarOpen}
+            onClose={handleClose}
+            message={resendCodeStatusMsg}
+            key={"resend-code-message"}
+          />
 
       </Grid>
   )

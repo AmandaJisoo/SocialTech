@@ -24,6 +24,7 @@ const Onboard = props => {
     const [city, setCity] = useState(undefined)
     const [state, setState] = useState("")
     const [email, setEmail] = useState(undefined)
+    
     const handleOnboardAPICall =  async () => {
         const createAccountResult = await apiStore.createUser({
             username: "wd1204",

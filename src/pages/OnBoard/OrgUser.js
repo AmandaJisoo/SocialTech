@@ -24,13 +24,13 @@ const OrgPage = () => {
     const ctx = useContext(OnBoardContext);
     
     if (page === OrgOnBoardPages.shelterInfoFormPage) {
-        return <ShelterInfoForm setPage={setPage}  />
+        return <ShelterInfoForm setPage={setPage} navigate={navigate} ctx={ctx}/>
     } else {
         return <ShelterAdminInfoForm navigate={navigate} setPage={setPage}/>
     }
 }
 
-const ShelterInfoForm = ({ setPage }) => {
+const ShelterInfoForm = ({ setPage, navigate, ctx }) => {
 
     const [availableShelterData, setAvailableShelterData] = useState(undefined);
     const [loadingAvailableShleter, setLoadingAvailableShleter] = useState(false);
@@ -128,6 +128,13 @@ const ShelterInfoForm = ({ setPage }) => {
                         justifyContent="flex-end"
                         alignItems="center"
                         >
+
+                        <Button variant='contained' onClick={() => {
+                            ctx.handleBack()
+                            navigate("/app/onboard/select-account-type")
+                        }}>
+                            Back
+                        </Button>
                         <Button variant='contained' onClick={() => {
                             setPage(OrgOnBoardPages.shelterAdminInfoFormPage)
                         }}>
@@ -197,6 +204,11 @@ const ShelterAdminInfoForm = ({navigate, setPage}) => {
                     justifyContent="flex-end" 
                     alignItems="center"
                     >
+                    <Button variant='contained' onClick={() => {
+                        setPage(OrgOnBoardPages.shelterInfoFormPage);
+                    }}>
+                        Back
+                    </Button>
                     <Button variant='contained' onClick={() => {
                         navigate("/app/onboard/completed")
                         ctx.handleNext()

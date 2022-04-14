@@ -94,6 +94,13 @@ const RegularUserPage = () => {
                     style={{margin: "20px 0 40px 0"}}>
                     <TagContainer tagData={text.onboard.tags} isSelectable={true}/>
                 </Grid>
+
+                <Button variant='contained' onClick={() => {
+                    navigate("/app/onboard/select-account-type")
+                    ctx.handleBack()
+                }}>
+                    Back
+                </Button>
                 <Button variant='contained' onClick={() => {
                     ctx.handleNext()
                     navigate("/app/onboard/completed")

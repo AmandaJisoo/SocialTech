@@ -5,9 +5,9 @@ import { ThemeProvider } from "@mui/material";
 import appThemeMui from "./theme/appThemeMui";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterCardDetail";
-import AuthenticatorGrid from "./pages/Auth/AuthenticatorGrid";
-import SignUp from "./pages/Auth/SignUp";
-import SignIn from "./pages/Auth/SignIn";
+import AuthenticatorGrid from "./pages/auth/AuthenticatorGrid";
+import SignUp from "./pages/auth/SignUp";
+import SignIn from "./pages/auth/SignIn";
 import { Auth } from 'aws-amplify';
 import { useStore } from './pages/Hook';
 import Onboard from "./pages/onboard/Onboard";
@@ -24,35 +24,24 @@ window.LOG_LEVEL = 'DEBUG';
 const App = () => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const fileRef = React.createRef();
+  const navigate = useNavigate();
+  const apiStore = useStore();  
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
       .catch(() => console.log('Not signed in'));
-  console.log(shelterData)
-  const navigate = useNavigate();
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const apiStore = useStore();  
 
   const handleSubmission = async () => {
     await apiStore.uploadImageToS3(selectedFile);
   }
 
-  const TEST_handleCreateAccount = async () => {
-    console.log("username: ", user)
-    try {
-    const createAccountResult = await apiStore.createUser({
-      username: "wd1204",
-      profile_pic_path: "PATH_RETURNED FROM S3",
-      user_role: "accountType",
-      gender: "gender",
-      city: "city",
-      state: "state",
-      country: "USA"
-    })
-    } catch (err) {
-      console.log("error*: ", err.message)
+  const handleUploadData = async () => {
+    const DATA_PLACEHOLDER = [];
+    for (let i = 0; i < DATA_PLACEHOLDER.length; i++) {
+      const result = await apiStore.upsertPost(DATA_PLACEHOLDER[i]);
     }
   }
   
@@ -71,9 +60,9 @@ const App = () => {
           </div>
 		  </div>
       {console.log("selectedFile", selectedFile)} */}
-      <Button onClick={TEST_handleCreateAccount}>
-        Test
-      </Button>
+      <Button onClick={() => {
+        handleUploadData()
+      }}>Upload</Button>
       <ThemeProvider theme={appThemeMui}>
         <Routes>
 

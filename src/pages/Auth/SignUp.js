@@ -28,14 +28,14 @@ const SignUp = ({setUser}) => {
     try {
       console.log("username: ", username)
       console.log("password: ", password)
-      // const { user } = await Auth.signUp({
-      //   username, password,
-      //   attributes: {
-      //     email
-      //   }
-      // }) 
+      const { user } = await Auth.signUp({
+        username, password,
+        attributes: {
+          email
+        }
+      }) 
 
-      setSignUpPage(1)
+      setSignUpPage(prev => prev + 1)
 
     } catch (error) {
       setErrorMsg(error.message)

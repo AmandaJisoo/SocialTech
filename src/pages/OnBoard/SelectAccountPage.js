@@ -80,9 +80,16 @@ const SelectAccountPage = () => {
             <Grid
                 item
                 container 
-                justifyContent="flex-end" 
+                justifyContent="space-around" 
                 alignItems="center"
                 style={{maxWidth: "50em"}}>
+
+                <Button variant='contained' onClick={() => {
+                    navigate("/app/onboard/intro")
+                    ctx.handleBack()
+                }}>
+                    Back
+                </Button>
                 <Button 
                     variant='contained' 
                     disabled={

@@ -2,7 +2,6 @@ import { React, useContext } from 'react';
 import { Button, Typography } from '@mui/material';
 import text from "../../text/text.json"
 import { useNavigate } from 'react-router-dom';
-import { useOutletContext } from 'react-router-dom';
 import OnBoardContext from './OnBoardContext';
 
 const IntroPage = () => {
