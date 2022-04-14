@@ -47,10 +47,6 @@ def store_results_in_json(json_data):
             f.write("Shelter #"+ str(idx + 1) + "\n")
             f.write("Shelter name: " + name + "\n")
             f.write("Shelter address: " + address + "\n")
-            if 'photos' in result: 
-                photo_reference = result['photos'][0]['photo_reference']
-                url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + photo_reference + "&key=" + API_KEY
-                f.write("photo url: " + url + "\n")
             if 'opening_hours' in result: 
                 open_hour = result['opening_hours']
                 f.write("open hour: " + str(open_hour) + "\n")
@@ -69,8 +65,14 @@ def store_results_in_json(json_data):
             post['street'] = address_split_by_comma[0]
             post['city'] = address_split_by_comma[1]
             post['state'] = state
+            post['profile_pic_path'] = ""
+            if 'photos' in result: 
+                photo_reference = result['photos'][0]['photo_reference']
+                url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + photo_reference + "&key=" + API_KEY
+                f.write("photo url: " + url + "\n")
+                post['profile_pic_path'] = photo_reference
             # convert it to json object
-            post_list.append(json.dumps(post))
+            post_list.append(post)
     print(post_list)
     print(len(post_list))
     return post_list
