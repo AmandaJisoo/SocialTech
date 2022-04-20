@@ -13,6 +13,7 @@ export default class APIStorage {
         }
     }
 
+    //still for local file upload
     async uploadImageToS3(file) {
         try {
             const res = await Storage.put(file.name, file, {
@@ -30,11 +31,19 @@ export default class APIStorage {
         }
     }
 
-    //TODO Lynos: you can set up google map and call this end point to save shelters to our db
-    //check backend documentation for object form 
     async upsertPost(postInformation) {
         try {
             return await API.post('SocialTechService', "/UpsertPost", {
+                body: postInformation
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async upsertPostWithURL(postInformation) {
+        try {
+            return await API.post('SocialTechService', "/UpsertPostWithURL", {
                 body: postInformation
             })
         } catch (err) {
