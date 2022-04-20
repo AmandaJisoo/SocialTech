@@ -95,6 +95,18 @@ export default class APIStorage {
         }
     }
 
+    async loadSummary(post_id) {
+        try {
+            return await API.get('SocialTechService', "/LoadSummary", {
+                queryStringParameters: {
+                    post_id: post_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async handleLike(comment_id, post_id, usernmae) {
         try {
             return await API.post('SocialTechService', "/HandleLike", {

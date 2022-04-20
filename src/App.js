@@ -17,8 +17,7 @@ import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
 import { Button, Typography } from '@mui/material';
-import AppContext from './AppContext';
-//window.LOG_LEVEL = 'DEBUG';
+// window.LOG_LEVEL = 'DEBUG';
 
 //TODO: (Amanda) update the endpoint stage
 
@@ -29,7 +28,7 @@ const App = () => {
   const [shelterData, setShelterData] = useState(undefined);
   const [userStatus, setUserStatus] = useState(null)
   const navigate = useNavigate();
-  const apiStore = useStore();  
+  const apiStore = useStore(); 
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
