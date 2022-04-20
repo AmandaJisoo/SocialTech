@@ -135,19 +135,6 @@ export default class APIStorage {
         }
     }
 
-    // TODO: Amanda: fill in parameters
-    async loadSummary(post_id) {
-        try {
-            return await API.get('SocialTechService', "/LoadSummary", {
-                body: {
-                    post_id: post_id
-                }
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
     async createUser(userInformation) {
         try {
             return await API.post('SocialTechService', "/CreateUser", {
