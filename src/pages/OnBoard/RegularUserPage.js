@@ -25,7 +25,7 @@ const RegularUserPage = () => {
         return <MenuItem value={val}>{val}</MenuItem>
     })
 
-    return( 
+    return ( 
         <>
             <Grid style={{maxWidth: "50em"}}>
                 <Typography variant="h4">{text.onboard.regular.prompt}</Typography>

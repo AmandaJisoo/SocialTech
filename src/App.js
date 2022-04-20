@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom"
 import './App.css';
 import { ThemeProvider } from "@mui/material";
@@ -17,15 +17,17 @@ import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
 import { Button, Typography } from '@mui/material';
-window.LOG_LEVEL = 'DEBUG';
+import AppContext from './AppContext';
+//window.LOG_LEVEL = 'DEBUG';
 
 //TODO: (Amanda) update the endpoint stage
 
+const ZIPCODE_PLACEHOLDER = 98105
+
 const App = () => {
   const [user, setUser] = useState(null);
-  const [shelterData, setShelterData] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const fileRef = React.createRef();
+  const [shelterData, setShelterData] = useState(undefined);
+  const [userStatus, setUserStatus] = useState(null)
   const navigate = useNavigate();
   const apiStore = useStore();  
 
@@ -33,36 +35,44 @@ const App = () => {
       .then(userData => setUser(userData.username))
       .catch(() => console.log('Not signed in'));
 
-
-  const handleSubmission = async () => {
-    await apiStore.uploadImageToS3(selectedFile);
-  }
-
-  const handleUploadData = async () => {
-    const DATA_PLACEHOLDER = [];
-    for (let i = 0; i < DATA_PLACEHOLDER.length; i++) {
-      const result = await apiStore.upsertPost(DATA_PLACEHOLDER[i]);
+  useEffect(() => {
+    const getShelterData = async () => {
+      try {
+        const shelterDataResponse = await apiStore.loadOverview(ZIPCODE_PLACEHOLDER, ZIPCODE_PLACEHOLDER)
+        console.log("Shelter data: ", shelterDataResponse)
+        setShelterData(shelterDataResponse)
+      } catch (err) {
+        console.log(err.message)
+      }
     }
-  }
+
+    const getUserStatus = async () => {
+      try {
+          // const userData = await Auth.currentAuthenticatedUser();
+          // console.log(userData);
+          //Yichi: to call api do this 2
+          const userStatusResponse = await apiStore.getUserStatus(user);
+          setUserStatus(userStatusResponse.UserStatus)
+      } catch (err) {
+          console.log(err);
+          console.log("Error in fetching user status: Not authenticated");
+      }
+    }
+
+    getShelterData();
+    getUserStatus();
+  }, [user, userStatus, apiStore])
   
   //TODO: (Yichi) 
   //the following line 101 - 109 is a code to upload individual img to s3 bucket
   //you will need to modify react code to take the input to take mutiple images and call api on each image
   return (
-    <>
-       {/* <div>
-          <input type="file" name="file" onChange={ () => {
-            setSelectedFile(fileRef.current.files[0])
-          }} 
-          accept="image/*" ref={fileRef} />
-          <div>
-            <button onClick={handleSubmission}>Submit</button>
-          </div>
-		  </div>
-      {console.log("selectedFile", selectedFile)} */}
-      <Button onClick={() => {
-        handleUploadData()
-      }}>Upload</Button>
+    <AppContext.Provider value={{
+        user: user,
+        setUser: setUser,
+        userStatus: userStatus,
+        setUserStatus: setUserStatus
+    }}>
       <ThemeProvider theme={appThemeMui}>
         <Routes>
 
@@ -98,7 +108,7 @@ const App = () => {
           </Route>
 
           <Route path="app/shelter-detail/:id" element={
-            <ShelterDetail data={shelterData}/>
+            <ShelterDetail shelterData={shelterData}/>
           } />
 
           <Route path="*" element={
@@ -106,7 +116,7 @@ const App = () => {
           } />
         </Routes>
       </ThemeProvider>
-    </>
+    </AppContext.Provider>
   );
 }
 

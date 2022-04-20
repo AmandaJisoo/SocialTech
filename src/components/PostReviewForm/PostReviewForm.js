@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useContext, useRef} from 'react';
 import PropTypes from 'prop-types';
 import text from "../../text/text.json"
 import { Grid } from '@mui/material';
@@ -15,11 +15,19 @@ import Divider from '@mui/material/Divider';
 import style from './style.js'
 import Box from '@mui/material/Box';
 import Tag from '../SelectableTags/Tag';
+import { useParams } from 'react-router-dom'
+import { useStore } from '../../pages/Hook';
+import AppContext from '../../AppContext';
 
 const PostReviewForm = ({ formData, handleClose }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const params = useParams();
+    const fileRef = useRef(null);
+    const apiStore = useStore();
+    const appCtx = useContext(AppContext);
 
     const tags = text.onboard.tags.map((data) => {
         return <Tag key={data.id} 
@@ -29,12 +37,27 @@ const PostReviewForm = ({ formData, handleClose }) => {
                     setSelectedTag={setSelectedTags}/>
     })
 
-    const onTextChange = () => {
+    const handleTextChange = (event) => {
+        setReviewText(event.target.value)
     }
 
-    const handleUploadReview = () => {
-        handleClose()
-
+    const handleUploadReview = async () => {
+        try {
+            console.log("tags: ", selectedTags)
+            const imageUploadResponse = await apiStore.uploadImageToS3(selectedFile);
+            const reviewUploadResponse = await apiStore.createComment({
+                post_id: params.id,
+                comment_body: reviewText,
+                username: appCtx.user,
+                rating: starRating,
+                tags: selectedTags,
+                pics: [imageUploadResponse]
+            })
+            console.log(reviewUploadResponse)
+            handleClose()
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     return (
@@ -74,8 +97,11 @@ const PostReviewForm = ({ formData, handleClose }) => {
                         
                         maxRows={6}
                         placeholder={text.postReviewForm.textFieldPlaceHolder}
-                        style={{width: "98%", height: "120px"}}/>
+                        style={{width: "98%", height: "120px"}}
+                        onChange={handleTextChange}/>
                 </Grid>  
+                
+            
 
                 <Divider style={{width: "100%"}}/> 
 
@@ -91,6 +117,19 @@ const PostReviewForm = ({ formData, handleClose }) => {
                     <MoreHorizIcon/>
                 </Grid>  
             </Box>
+
+            <div>
+                <input 
+                    type="file" 
+                    name="file" 
+                    onChange={ () => {
+                        console.log(fileRef.current.files)
+                        setSelectedFile(fileRef.current.files[0])
+                    }} 
+                    accept="image/*" 
+                    ref={fileRef}/>
+            </div>
+
 
             <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
 

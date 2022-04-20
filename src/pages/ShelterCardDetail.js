@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import UserReview from '../components/UserReview';
 import { Grid } from '@mui/material';
@@ -11,29 +11,104 @@ import Button from '@mui/material/Button';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import CircularProgress from '@mui/material/CircularProgress'
 import Modal from '@mui/material/Modal';
 import text from "../text/text.json";
 import { useNavigate, useParams } from 'react-router-dom'
 import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
 import TagContainer from '../components/SelectableTags/TagContainer';
+import AppContext from '../AppContext';
+import { useStore } from './Hook';
+import { getHighLightedReivew } from '../utils/utilityFunctions';
 
-const ShelterDetail = (props) => {
+const WEBSITE_PLACEHOLDER = "https://www.google.com/"
+const DISTANCE_PLACEHOLDER = 1.5 + "km"
 
+const ShelterDetail = ({ shelterData }) => {
+    
+    const [reviews, setReviews] = useState(undefined);
+    const [shelterPostData, setShelterPostData] = useState(undefined);
+    const apiStore = useStore();
     const navigate = useNavigate();
     const params = useParams();
+    const appCtx = useContext(AppContext);
 
-    const shelterData = props.data.filter(obj => {
-        return obj.id === params.id
-    })[0];
+    useEffect(() => {
+        const getShelterPostData = async () => {
+            try {
+                const shelterPostDataResponse = await apiStore.loadSummary(params.id);
+                console.log("shelter data response: ", shelterPostDataResponse)
+                //setShelterPostData(shelterPostDataResponse)
+            } catch (err) {
+                console.log(err.message)
+            }
+        }
 
-    const highlightedReview = <UserReview item reviewData={shelterData.reviews[0]}/>
+        const getReviewsData = async () => {
+            try {
+                const reviewsDataResponse = await apiStore.loadComment(params.id);
+                console.log("review response: ", reviewsDataResponse)
+                setReviews(reviewsDataResponse)
+            } catch (err) {
+                console.log(err.message)
+            }
+        }
+
+        getShelterPostData()
+        getReviewsData()
+
+    }, [shelterPostData, apiStore, params.id])
     
-    const reviews = shelterData.reviews.slice(1, shelterData.reviews.length).map((reviewData, idx) => {
-        return <UserReview item reviewData={reviewData} key={idx}/>
-    })
-
-    const ADDRESS_PLACEHOLDER = "1234 NE ST Sweet Home Shelter"
-    const WEBSITE_PLACEHOLDER = "https://www.google.com/"
+    const highlightedReview = () => {
+        if (reviews === undefined) {
+            return (
+                <Grid   
+                container
+                direction="column"
+                justifyContent="center" 
+                alignItems="center"
+                style={{height: "40vh"}}>
+                    <CircularProgress/>
+                    <Typography>Loading reviews</Typography>
+                </Grid>
+            )
+        } else if (reviews.length === 0) {
+            return null
+        } else {
+            return <UserReview reviewData={getHighLightedReivew(reviews)} isHighLighted={true}/>
+        }
+    }
+    
+    const reviewEles = () => {
+        if (reviews === undefined) {
+            return (
+                <Grid   
+                container
+                direction="column"
+                justifyContent="center" 
+                alignItems="center"
+                style={{height: "40vh"}}>
+                    <CircularProgress/>
+                    <Typography>Loading reviews</Typography>
+                </Grid>
+            )
+        } else if (reviews.length === 0) {
+            return (
+                <Grid   
+                container
+                direction="column"
+                justifyContent="center" 
+                alignItems="center"
+                style={{height: "40vh"}}>
+                    <Typography>No reviews for this shelter yet</Typography>
+                </Grid>
+            )
+        } else {
+            return reviews.slice(1, reviews.length).map((reviewData, idx) => {
+                return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
+            })
+        }
+    }
 
     const [openPostReviewForm, setOpenPostReviewForm] = useState(false);
 
@@ -83,37 +158,58 @@ const ShelterDetail = (props) => {
                     </Grid>
                 </Grid>
 
-                <ImageGallery item imgAddr={shelterData.imgAddr}/>
-                <Grid
-                    item
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center">
-                        <Typography>{shelterData.name}</Typography>
-                        <Typography>{shelterData.distanceToUserLocation + " km"}</Typography>
-                </Grid>
-                <Grid
-                    item
+                {shelterPostData === undefined ? 
+                <Grid   
                     container
                     direction="column"
-                    alignItems="flex-start">
-                    <Rating value={shelterData.starRating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                    justifyContent="center" 
+                    alignItems="center"
+                    style={{height: "10vh"}}>
+                    <CircularProgress/>
+                    <Typography>Loading Shelter Data</Typography>
+                </Grid> :
+                <>
+                    <ImageGallery imgAddr={shelterData.imgAddr}/>
+                    <Grid
+                        item
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center">
+                            <Typography>{shelterData.title}</Typography>
+                            <Typography>{DISTANCE_PLACEHOLDER}</Typography>
+                    </Grid>
+                    <Grid
+                        item
+                        container
+                        direction="column"
+                        alignItems="flex-start">
+                        <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
 
-                    <TagContainer tagData={shelterData.tags} isSelectable={false}/>
-                </Grid>
-                <Grid
-                    item
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center">
-                        <Typography>{ADDRESS_PLACEHOLDER}</Typography>
-                        <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
-                </Grid>
-                <Divider item style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                        <TagContainer tagData={shelterData.tags} isSelectable={false}/>
+                    </Grid>
+                    <Grid
+                        item
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center">
+                            <Grid
+                                container
+                                direction="column"
+                                justifyContent="space-between"
+                                alignItems="center">
+                                <Typography>{shelterData.street}</Typography>
+                                <Typography>{shelterData.city + ", " + shelterData.zipcode + " , " + shelterData.state}</Typography>
+                            </Grid>
+                            <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
+                    </Grid>
+                </>}
+                
+
+                <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
             
-                {highlightedReview}
+                {highlightedReview()}
                 <Grid
                     item
                     container
@@ -139,14 +235,14 @@ const ShelterDetail = (props) => {
                     >
                         <PostReviewForm
                             formData={{
-                                shelterName: shelterData.name,
-                                userName: "Yichi-temp"}}
+                                shelterName: shelterData.title,
+                                userName: appCtx.user}}
                             handleClose={handleClose}
                         />
                     </Modal>
             
                 </Grid>
-                <Divider item style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 <Grid
                     item
                     container
@@ -155,7 +251,7 @@ const ShelterDetail = (props) => {
                     alignItems="center">
                     <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
-                {reviews}
+                {reviewEles()}
             </Grid>
         </Grid>
     );

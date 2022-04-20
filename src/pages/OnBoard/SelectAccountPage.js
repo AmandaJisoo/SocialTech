@@ -94,7 +94,6 @@ const SelectAccountPage = () => {
                     variant='contained' 
                     disabled={
                         ctx.accountType === null || (!ctx.regularUserButtonSelected && !ctx.orgUserButtonSelected
-
                 )}
                     onClick={() => {
                         if (ctx.regularUserButtonSelected) {

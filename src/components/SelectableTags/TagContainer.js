@@ -3,8 +3,10 @@ import Tag from './Tag';
 import { Grid } from '@mui/material';
 
 const TagContainer = ({tagData, isSelectable, selectedTags, setSelectedTags}) => {
-    const tags = tagData.map((obj) => {
-        return <Tag isSelectable={isSelectable} text={obj.text} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+    console.log("tag data: " + tagData)
+    const tags = tagData.map((tagContent) => {
+        return <Tag key={tagContent} 
+        isSelectable={isSelectable} text={tagContent} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
     })
 
     return (

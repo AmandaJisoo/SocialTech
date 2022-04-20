@@ -130,7 +130,7 @@ const SignIn = ({setUser}) => {
             />
   
             <Grid
-              items
+              item
               container 
               direction="row"
               justifyContent="space-between"
@@ -162,7 +162,7 @@ const SignIn = ({setUser}) => {
             </Button>
   
             <Grid 
-              items
+              item
               container 
               direction="row"
               justifyContent="center"

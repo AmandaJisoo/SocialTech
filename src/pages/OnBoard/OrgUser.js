@@ -37,8 +37,9 @@ const ShelterInfoForm = ({ setPage, navigate, ctx }) => {
 
     const fetchAvailableShelterData = () => {
         setLoadingAvailableShleter(true);
-        //fetch
-        //onsuccess:
+
+        //TODO: call api and get available shelter. 
+
         setAvailableShelterData([{
             "text": "shleter a"
             },
@@ -54,7 +55,6 @@ const ShelterInfoForm = ({ setPage, navigate, ctx }) => {
     const stateMenuItems = text.usStates.map(val => {
         return <MenuItem value={val}>{val}</MenuItem>
     })
-
 
     // I'm using tags temporaily to display shelters that are available for claim
     const availableShelterTags = availableShelterData ? 

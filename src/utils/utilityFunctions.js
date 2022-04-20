@@ -8,6 +8,29 @@ export function truncateReview(review) {
         review;
 }
 
+export function handleReviewDateFormatting(date) {
+	// TODO: handle date formatting
+    return date;
+}
+
+export function getHighLightedReivew(reviews) {
+	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
+    return reviews[0];
+}
+ 
+/* 
+inputs: 
+	zipcode1: number
+	zipcode2: number
+outputs:
+	distance: number
+*/
+
+export function getDistanceBetweenTwoZipcode(zipcode1, zipcode2) {
+	// TODO: handle calcuate distance
+    return null
+}
+
 export const FILTER_OPTIONS = ["Current Location", "Star Rating"];
 
 export const DEFAULT_UNIT = "km"

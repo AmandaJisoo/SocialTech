@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
@@ -7,10 +7,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import appTheme from '../theme/appTheme.json';
 import Rating from '@mui/material/Rating';
 import TagContainer from './SelectableTags/TagContainer';
+import AppContext from '../AppContext';
+import { handleReviewDateFormatting } from '../utils/utilityFunctions';
 
-const UserReview = ({ reviewData }) => {
+const LIKES_PLACEHOLDER = 2;
 
-    const highlightedText = reviewData.isHighLighted ? 
+const UserReview = ({ reviewData, isHighLighted }) => {
+
+    const appCtx = useContext(AppContext);
+
+    const highlightedText = isHighLighted ? 
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Review</Typography> :
         <span/>;
 
@@ -41,7 +47,7 @@ const UserReview = ({ reviewData }) => {
                         direction="row" 
                         justifyContent="space-between" 
                         alignItems="center">
-                            <Typography>{reviewData.userName}</Typography>
+                            <Typography>{appCtx.user}</Typography>
                             {highlightedText}
                     </Grid>
                     <Grid
@@ -50,8 +56,8 @@ const UserReview = ({ reviewData }) => {
                         direction="row" 
                         justifyContent="space-between" 
                         alignItems="center">
-                        <Rating value={reviewData.starRating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                        <Typography>{reviewData.date}</Typography>
+                        <Rating value={reviewData.rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                        <Typography>{handleReviewDateFormatting(reviewData.post_time)}</Typography>
                     </Grid>
                     <Grid
                         item
@@ -78,12 +84,12 @@ const UserReview = ({ reviewData }) => {
                             alignItems="center"
                             style={{width: "32px", margin: "0 15px 0 5px"}}>
                             <FavoriteIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
-                            <span>{reviewData.likes}</span>
+                            <span>{LIKES_PLACEHOLDER}</span>
                         </Grid>
                         <Grid item>
                             <Typography
                                 style={{}}>
-                                    {reviewData.content}
+                                    {reviewData.body}
                             </Typography>
                         </Grid>
                     

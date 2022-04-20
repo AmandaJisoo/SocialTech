@@ -9,7 +9,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import mockUser from '../../mockData/mockUser.json';
 import { Auth } from 'aws-amplify';
-import { AUTH_TOKEN_KEYNAME, LENGTH_OF_AUTO_SIGN_IN, setWithExpiry } from '../../utils/utilityFunctions';
 import ConfirmSignUp from './ConfirmSignUp';
 
 const SignUp = ({setUser}) => {
@@ -26,14 +25,14 @@ const SignUp = ({setUser}) => {
     setErrorMsg(undefined)
 
     try {
-      console.log("username: ", username)
-      console.log("password: ", password)
       const { user } = await Auth.signUp({
         username, password,
         attributes: {
           email
         }
       }) 
+
+      setUser(user.getUsername());
 
       setSignUpPage(prev => prev + 1)
 

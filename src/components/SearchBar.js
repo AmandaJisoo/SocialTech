@@ -80,7 +80,7 @@ const SearchBar = ({setShelterData, shelterData}) => {
                 </Grid>
 
                 <Grid item xs={6} md={8}>
-                    <TextField item id="outlined-basic" label="Search" variant="outlined" fullWidth/>
+                    <TextField id="outlined-basic" label="Search" variant="outlined" fullWidth/>
                 </Grid>
                 
                 <SearchIcon 

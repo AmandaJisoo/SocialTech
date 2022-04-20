@@ -6,24 +6,21 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTag }) => {
     const [selected, setSelected] = useState(false);
 
     const handleClick = (event) => {
-        if (isSelectable) {
-            setSelected(!selected)
-            updateSelectedTag(text)
-        }
-    }
+        if (isSelectable) { 
 
-    const updateSelectedTag = () => {
-        //toggle value
-        if (selectedTags != null) {
-            if (selectedTags.includes(text)) {
+            // if tag is currently selected, remove it
+            if (selected) {
                 setSelectedTag(selectedTags.filter(text_ => {
                     return text_ !== text
                 }))
             } else {
-                setSelectedTag([...selectedTags].push(text))
+                const newSelectedTags = [...selectedTags, text]
+                setSelectedTag(newSelectedTags)
             }
+
+            setSelected(!selected)
+            console.log("selected tag: ", selectedTags)
         }
-        console.log(selectedTags)
     }
 
     return (

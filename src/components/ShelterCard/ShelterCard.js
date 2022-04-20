@@ -17,12 +17,17 @@ import TagContainer from '../SelectableTags/TagContainer';
 const public_url = process.env.PUBLIC_URL;
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
+const DISTANCE_PLACEHOLDER = 1.5 + "km"
+const START_RATING_PLACEHOLDER = 3.5
+const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
+const IS_FAVORITE_PLACEHOLDER = true
 
 const ShelterCard = ({ shelterData }) => {
 
     const navigate = useNavigate();
 
-    const favoriteIcon = () => shelterData.isFavorite ? 
+    const favoriteIcon = () => IS_FAVORITE_PLACEHOLDER ? 
     <BookmarkIcon style={{color: appTheme.palette.primary.main }}/> :
     <BookmarkBorderOutlinedIcon/>
 
@@ -31,7 +36,8 @@ const ShelterCard = ({ shelterData }) => {
     return (
     <Card 
         onClick={() => {
-            navigate("/app/shelter-detail/" + shelterData.id)
+            // TODO: change "shelterData.title" to ".id" once we have the id field.
+            navigate("/app/shelter-detail/" + shelterData.title)
         }}
         style={{
             padding: "20px",
@@ -51,10 +57,12 @@ const ShelterCard = ({ shelterData }) => {
                 direction="row" 
                 justifyContent="center" 
                 alignItems="center"
-                xs={5}>
+                item
+                xs={5}
+                >
                 <CardMedia
                     component="img"
-                    image={public_url + shelterData.imgAddr}
+                    image={public_url + shelterData.profile_pic_path}
                     alt="shelter_preview"
                     style={{ 
                         maxWidth: "25em"
@@ -65,24 +73,26 @@ const ShelterCard = ({ shelterData }) => {
                 direction="column" 
                 justifyContent="center" 
                 alignItems="flex-start"
+                item
                 xs={6}>
                 <Grid
                     container
                     direction="row" 
                     justifyContent="space-between" 
                     alignItems="center">
-                    <Typography>{shelterData.name}</Typography>
+                    <Typography>{shelterData.title}</Typography>
 
-                    <Typography>{shelterData.distanceToUserLocation + " " + unit}</Typography>
+                    <Typography>{DISTANCE_PLACEHOLDER}</Typography>
                 </Grid>
-                <Rating value={shelterData.starRating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                <TagContainer tagData={shelterData.tags} isSelectable={false}/>
-                <Typography>{truncateReview(shelterData.highlightedReview)}</Typography>
+                <Rating value={START_RATING_PLACEHOLDER} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
+                <Typography>{truncateReview(HIGHLIGHTED_REVIEW_PLACEHOLDER)}</Typography>
                 <Grid
                     container
                     direction="row" 
                     justifyContent="space-between" 
                     alignItems="center">
+
                     {favoriteIcon()}    
 
                     <Button>

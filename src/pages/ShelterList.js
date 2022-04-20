@@ -1,71 +1,49 @@
-import {React, useEffect, useState } from 'react';
+import {React, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import shelterInfo from "../mockData/shelterInfo.js"
 import text from "../text/text.json"
 import { Grid, Button } from '@mui/material';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
 import SearchBar from '../components/SearchBar';
-import { AUTH_TOKEN_KEYNAME, getWithExpiry } from '../utils/utilityFunctions.js';
 import CircularProgress from '@mui/material/CircularProgress'
 import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
-import mockUser from '../mockData/mockUser.json';
+import AppContext from '../AppContext.js';
 
 
-const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
-    const [userStatus, setUserStatus] = useState(undefined)
+const ShelterList = ({setUser, shelterData, setShelterData}) => {
+    const appCtx = useContext(AppContext);
     //Yichi: to call api do this 
-    const apiStore = useStore();  
-    useEffect(() => {
-        const getUserStatus = async () => {
-            try {
-                const userData = await Auth.currentAuthenticatedUser();
-                console.log(userData);
-                //Yichi: to call api do this 2
-                const userStatusResponse = await apiStore.getUserStatus(userData.username);
-                console.log("userStatusResponse", userStatusResponse)
-                setUserStatus(userStatusResponse.UserStatus)
-                console.log("userStatus", userStatus);
-            } catch (err) {
-                console.log(err);
-                console.log("not authenticated");
-            }
-        }
-        getUserStatus()
-
-        // data-fetching placeholder 
-        setShelterData(shelterInfo.shelters)
-        console.log("data reset")
-    }, [])
+    const apiStore = useStore(); 
     
-
     const navigate = useNavigate();
 
     const handleSignOut = async () => {
         try {
             await Auth.signOut();
             setUser(null)
-            localStorage.removeItem(AUTH_TOKEN_KEYNAME)
-            sessionStorage.removeItem(AUTH_TOKEN_KEYNAME)
         } catch (error) {
             console.log('error signing out: ', error);
         }
     }
 
-    const shelterCards = shelterData === null ? 
-        <Grid   
-        container
-        direction="column"
-        justifyContent="center" 
-        alignItems="center"
-        style={{height: "80vh"}}>
-            <CircularProgress/>
-        </Grid> : 
-    shelterData.map(cardInfo => {
-        return <ShelterCard shelterData={cardInfo} key={cardInfo.id}/>
-    })
+    const shelterCards = () => {
+        return (
+            shelterData === undefined ? 
+                <Grid   
+                container
+                direction="column"
+                justifyContent="center" 
+                alignItems="center"
+                style={{height: "80vh"}}>
+                    <CircularProgress/>
+                </Grid> : 
+            shelterData.map(cardInfo => {
+                return <ShelterCard shelterData={cardInfo} key={cardInfo.id}/>
+            })
+        )
+    }
 
     const welcomeMsg = 
         <Grid
@@ -73,9 +51,9 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
             justifyContent="center" 
             alignItems="center"
             style={{height: "100vh"}}>
-            {user ?
+            {appCtx.user ?
                 <>
-                    <Typography>Welcome, {user}</Typography>
+                    <Typography>Welcome, {appCtx.user}</Typography>
                     <Button onClick={ handleSignOut }>Log out</Button>
                 </> :
                  <>
@@ -86,11 +64,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
             }    
         </Grid>
 
-    console.log("userStatus is ", userStatus);
-    //TODO: Yichi do redirect front end 
-    // if (userStatus == 'does_not_exist') {
-    //     return <div>Redirect page to collect info</div>
-    // } else {
+    console.log("userStatus is ", appCtx.userStatus);
         return (
             <Grid
                 container
@@ -117,7 +91,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
                         <SearchBar shelterData={shelterData} setShelterData={setShelterData} />
                     </Grid>
     
-                    <Grid item>{shelterCards}</Grid>
+                    <Grid item>{shelterCards()}</Grid>
             </Grid>
         </Grid>
         );
@@ -126,7 +100,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData}) => {
 };
 
 ShelterList.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.string
 };
 
 export default ShelterList;

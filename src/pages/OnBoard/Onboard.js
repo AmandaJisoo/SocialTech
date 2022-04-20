@@ -26,6 +26,7 @@ const Onboard = props => {
     const [email, setEmail] = useState(undefined)
     
     const handleOnboardAPICall =  async () => {
+        console.log("account type: ", accountType)
         const createAccountResult = await apiStore.createUser({
             username: "wd1204",
             profile_pic_path: "PATH_RETURNED FROM S3",

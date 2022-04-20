@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useContext, useState} from 'react';
 import { Button, Checkbox, Typography, Alert } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
@@ -10,12 +10,14 @@ import appTheme from '../../theme/appTheme.json'
 import mockUser from '../../mockData/mockUser.json';
 import { Auth } from 'aws-amplify';
 import Snackbar from '@mui/material/Snackbar';
+import AppContext from '../../AppContext';
 
 const ConfirmSignUp = ({username, setSignUpPage}) => {
   const [verificationCode, setVerificationCode] = useState(undefined)
   const [errorMsg, setErrorMsg] = useState(undefined)
   const [resendCodeStatusMsg, setResendCodeStatusMsg] = useState("")
   const [resendCodeSnackBarOpen, setResendCodeSnackBarOpen] = useState(false);
+  const AppCtx = useContext(AppContext);
 
   const navigate = useNavigate()
 
@@ -23,7 +25,7 @@ const ConfirmSignUp = ({username, setSignUpPage}) => {
     setErrorMsg(undefined)
 
     try {
-      await Auth.confirmSignUp(username, verificationCode) 
+      await Auth.confirmSignUp(username, verificationCode)
       navigate("/app/onboard/intro")
     } catch (error) {
       setErrorMsg(error.message)
