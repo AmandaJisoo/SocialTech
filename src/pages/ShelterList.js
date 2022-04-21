@@ -14,7 +14,6 @@ import AppContext from '../AppContext.js';
 
 const ShelterList = ({setUser, shelterData, setShelterData}) => {
     const appCtx = useContext(AppContext);
-    //Yichi: to call api do this 
     const apiStore = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
     
