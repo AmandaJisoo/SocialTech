@@ -158,11 +158,23 @@ export default class APIStorage {
         }
     }
 
-    async GetSavedBookmarks(username) {
+    async getSavedBookmarks(username) {
         try {
             return await API.get('SocialTechService', "/GetSavedBookmarks", {
                 queryStringParameters: {
                     username: username
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getShelterByCity(city) {
+        try {
+            return await API.get('SocialTechService', "/GetShelterByCity", {
+                queryStringParameters: {
+                    city: city
                 }
             })
         } catch (err) {
