@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -13,6 +12,9 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
+import { Auth } from 'aws-amplify';
+import {React, useState, useEffect } from 'react';
+import { useStore } from '../../pages/Hook';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -23,11 +25,32 @@ const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur 
 const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
 const IS_FAVORITE_PLACEHOLDER = true
 
+
 const ShelterCard = ({ shelterData }) => {
+    console.log("shelterData for amanda", shelterData.post_id);
+    const apiStore = useStore(); 
+    const [bookmarks, setBookmarks] = useState([]);
+    const getShelterPostData = async () => {
+        try {
+            let authRes = await Auth.currentAuthenticatedUser();
+            let username = authRes.username;
+            console.log("username for amanda", username);
+            let bookmarksResponse = await apiStore.getSavedBookmarks(username)
+            console.log("bookmarksResponse", bookmarksResponse);
+            setBookmarks(bookmarksResponse);
+          } catch {
+            // TODO: Amanda show pop up 
+            //do pop up 
+        }
+    }
 
     const navigate = useNavigate();
-
-    const favoriteIcon = () => IS_FAVORITE_PLACEHOLDER ? 
+    useEffect(() => {
+        //TODO: Yichi fix the rendering issue. it keeps running 
+        // getShelterPostData();
+    })
+    console.log("savedBookmarksByUser.includes", bookmarks.includes(shelterData.post_id));
+    const favoriteIcon = () => bookmarks.includes(shelterData.post_id)? 
     <BookmarkIcon style={{color: appTheme.palette.primary.main }}/> :
     <BookmarkBorderOutlinedIcon/>
 

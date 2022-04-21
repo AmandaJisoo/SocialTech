@@ -98,6 +98,7 @@ const App = () => {
   useEffect(() => {
     const getShelterData = async () => {
       try {
+        //TODO: Amanda check
         const shelterDataResponse = await apiStore.loadOverview(ZIPCODE_PLACEHOLDER, ZIPCODE_PLACEHOLDER)
         console.log("Shelter data: ", shelterDataResponse)
         setShelterData(shelterDataResponse)
@@ -126,6 +127,7 @@ const App = () => {
   //TODO: (Yichi) 
   //the following line 101 - 109 is a code to upload individual img to s3 bucket
   //you will need to modify react code to take the input to take mutiple images and call api on each image
+  //TODO: Amanda: add the post_id
   return (
     <AppContext.Provider value={{
         user: user,
