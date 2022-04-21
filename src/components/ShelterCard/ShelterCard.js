@@ -12,9 +12,7 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
-import { Auth } from 'aws-amplify';
-import {React, useState, useEffect } from 'react';
-import { useStore } from '../../pages/Hook';
+import { React } from 'react';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -23,34 +21,11 @@ const DISTANCE_PLACEHOLDER = 1.5 + "km"
 const START_RATING_PLACEHOLDER = 3.5
 const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
-const IS_FAVORITE_PLACEHOLDER = true
 
 
-const ShelterCard = ({ shelterData }) => {
-    console.log("shelterData for amanda", shelterData.post_id);
-    const apiStore = useStore(); 
-    const [bookmarks, setBookmarks] = useState([]);
-    const getShelterPostData = async () => {
-        try {
-            let authRes = await Auth.currentAuthenticatedUser();
-            let username = authRes.username;
-            console.log("username for amanda", username);
-            let bookmarksResponse = await apiStore.getSavedBookmarks(username)
-            console.log("bookmarksResponse", bookmarksResponse);
-            setBookmarks(bookmarksResponse);
-          } catch {
-            // TODO: Amanda show pop up 
-            //do pop up 
-        }
-    }
-
+const ShelterCard = ({ shelterData, isBookmarked }) => {
     const navigate = useNavigate();
-    useEffect(() => {
-        //TODO: Yichi fix the rendering issue. it keeps running 
-        // getShelterPostData();
-    })
-    console.log("savedBookmarksByUser.includes", bookmarks.includes(shelterData.post_id));
-    const favoriteIcon = () => bookmarks.includes(shelterData.post_id)? 
+    const favoriteIcon = () => isBookmarked? 
     <BookmarkIcon style={{color: appTheme.palette.primary.main }}/> :
     <BookmarkBorderOutlinedIcon/>
 

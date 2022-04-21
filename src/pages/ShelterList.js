@@ -16,8 +16,27 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
     const appCtx = useContext(AppContext);
     //Yichi: to call api do this 
     const apiStore = useStore(); 
+    const [bookmarks, setBookmarks] = useState([]);
     
     const navigate = useNavigate();
+
+    const getShelterPostData = async () => {
+        try {
+            let authRes = await Auth.currentAuthenticatedUser();
+            let username = authRes.username;
+            console.log("username for amanda", username);
+            let bookmarksResponse = await apiStore.getSavedBookmarks(username)
+            console.log("bookmarksResponse", bookmarksResponse);
+            setBookmarks(bookmarksResponse);
+          } catch {
+            // TODO: Amanda show pop up 
+            //do pop up 
+        }
+    }
+
+    useEffect(() => {
+        getShelterPostData();
+    }, [])
 
     const handleSignOut = async () => {
         try {
@@ -27,6 +46,7 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
             console.log('error signing out: ', error);
         }
     }
+
 
     const shelterCards = () => {
         return (
@@ -40,7 +60,8 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
                     <CircularProgress/>
                 </Grid> : 
             shelterData.map(cardInfo => {
-                return <ShelterCard shelterData={cardInfo} key={cardInfo.id}/>
+                console.log("cardInfo", cardInfo);
+                return <ShelterCard shelterData={cardInfo} key={cardInfo.id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })
         )
     }
