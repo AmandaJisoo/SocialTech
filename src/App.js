@@ -18,7 +18,6 @@ import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
-import { Button, Typography } from '@mui/material';
 // window.LOG_LEVEL = 'DEBUG';
 
 //TODO: (Amanda) update the endpoint stage
