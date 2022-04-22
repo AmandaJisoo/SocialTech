@@ -12,7 +12,7 @@ import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
 
 
-const ShelterList = ({setUser, shelterData, setShelterData}) => {
+const ShelterList = ({setUser, shelterData, setShelterData, loaderActive}) => {
     const appCtx = useContext(AppContext);
     const apiStore = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
@@ -50,7 +50,7 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
 
     const shelterCards = () => {
         return (
-            shelterData === undefined ? 
+            shelterData === undefined || loaderActive ? 
                 <Grid   
                 container
                 direction="column"

@@ -140,7 +140,7 @@ const App = () => {
         <Routes>
 
           <Route index path="/app/dashboard" element={
-            <ShelterList user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
+            <ShelterList loaderActive={false} user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
           } />
 
           <Route path="/app/auth" element={<AuthenticatorGrid/>}>
