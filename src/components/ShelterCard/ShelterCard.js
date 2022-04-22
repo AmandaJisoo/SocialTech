@@ -40,25 +40,16 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
     const handleBookmark = async () => {
         try {
-            console.log("user amanda", user)
-            console.log("user shelterData", shelterData)
-            //user loggedin
             if (user) {
-                await apiStore.handleBookmark(shelterData.post_id ,user)
-                setBookmarkState(!bookmarkState)
-                // setIconStatus(true)
-                //somehow update the icon too
+                let bookmarkStatus = await apiStore.handleBookmark(shelterData.post_id ,user)
+                setBookmarkState(bookmarkStatus.message)
+
             } else {
                 setOpen(true)
             }
-
           } catch {
         }
     }
-
-    useEffect(() => {
-        // handleBookmark();
-    }, [])
 
     const navigate = useNavigate();
     const favoriteIcon = () => bookmarkState? 
@@ -94,11 +85,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             borderRadius: "8px"
         }}
     >
-        {alert? (
-            <Alert variant="outlined" severity="info">
-            This is an info alert — check it out!
-        </Alert>):
-        (<Grid
+        <Grid
             container
             direction="row" 
             justifyContent="space-between" 
@@ -155,7 +142,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                 </Grid>
 
             </Grid>
-        </Grid>)}
+        </Grid>
     </Card>);
 };
 
