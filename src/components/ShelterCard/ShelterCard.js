@@ -12,7 +12,13 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
-import { React } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
+import IconButton from '@mui/material/IconButton';
+import { Auth } from 'aws-amplify';
+import Popover from '@mui/material/Popover';
+
+import { useStore } from '../../pages/Hook';
+import Alert from '@mui/material/Alert';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -23,20 +29,64 @@ const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur 
 const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
 
 
-const ShelterCard = ({ shelterData, isBookmarked }) => {
+const ShelterCard = ({ user, shelterData, isBookmarked }) => {
+    const [alert, setAlert] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [bookmarkState, setBookmarkState] = useState(isBookmarked);
+    // const [anchorEl, setAnchorEl] = useState(null);
+    const buttonRef = useRef(null);
+    // const [isIconStatusUpdated, setIconStatus] = useState(false)
+    const apiStore = useStore(); 
+
+    const handleBookmark = async () => {
+        try {
+            console.log("user amanda", user)
+            console.log("user shelterData", shelterData)
+            //user loggedin
+            if (user) {
+                await apiStore.handleBookmark(shelterData.post_id ,user)
+                setBookmarkState(!bookmarkState)
+                // setIconStatus(true)
+                //somehow update the icon too
+            } else {
+                setOpen(true)
+            }
+
+          } catch {
+        }
+    }
+
+    useEffect(() => {
+        // handleBookmark();
+    }, [])
+
     const navigate = useNavigate();
-    const favoriteIcon = () => isBookmarked? 
-    <BookmarkIcon style={{color: appTheme.palette.primary.main }}/> :
-    <BookmarkBorderOutlinedIcon/>
+    const favoriteIcon = () => bookmarkState? 
+    <IconButton onClick={handleBookmark}>
+    <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
+    </IconButton> :
+    (<>
+    <IconButton onClick={handleBookmark} ref={buttonRef}>
+        <BookmarkBorderOutlinedIcon/>
+    </IconButton>
+    {/* <button onClick={handleBookmark} ref={buttonRef}>
+        does this shit work
+    </button> */}
+    <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
+        You are not logged in. Click here to log in.
+    </Popover>
+    </>)
+    
 
     const unit = DEFAULT_UNIT;
 
     return (
     <Card 
-        onClick={() => {
-            // TODO: change "shelterData.title" to ".id" once we have the id field.
-            navigate("/app/shelter-detail/" + shelterData.title)
-        }}
+        //TODO: fix it 
+        // onClick={() => {
+        //     // TODO: change "shelterData.title" to ".id" once we have the id field.
+        //     navigate("/app/shelter-detail/" + shelterData.title)
+        // }}
         style={{
             padding: "20px",
             margin: "20px",
@@ -44,7 +94,11 @@ const ShelterCard = ({ shelterData, isBookmarked }) => {
             borderRadius: "8px"
         }}
     >
-        <Grid
+        {alert? (
+            <Alert variant="outlined" severity="info">
+            This is an info alert — check it out!
+        </Alert>):
+        (<Grid
             container
             direction="row" 
             justifyContent="space-between" 
@@ -101,7 +155,7 @@ const ShelterCard = ({ shelterData, isBookmarked }) => {
                 </Grid>
 
             </Grid>
-        </Grid>
+        </Grid>)}
     </Card>);
 };
 
