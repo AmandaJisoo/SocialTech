@@ -28,7 +28,6 @@ const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
 
 
 const ShelterCard = ({ user, shelterData, isBookmarked }) => {
-    const [alert, setAlert] = useState(false)
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
