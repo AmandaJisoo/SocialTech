@@ -20,6 +20,7 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
     const navigate = useNavigate();
 
     const getShelterPostData = async () => {
+        //TODO: Amanda maybe?
         try {
             let authRes = await Auth.currentAuthenticatedUser();
             let username = authRes.username;

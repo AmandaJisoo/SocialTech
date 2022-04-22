@@ -16,6 +16,7 @@ import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
+import Bookmarks from './components/Bookmarks';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 import { Button, Typography } from '@mui/material';
@@ -171,6 +172,10 @@ const App = () => {
 
           <Route path="app/shelter-detail/:id" element={
             <ShelterDetail shelterData={shelterData}/>
+          } />
+
+          <Route path="app/bookmarks" element={
+            <Bookmarks user={user} setUser={setUser} />
           } />
 
           <Route path="*" element={
