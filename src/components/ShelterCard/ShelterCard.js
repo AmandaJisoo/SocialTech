@@ -65,11 +65,11 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
     return (
     <Card 
-        //TODO: fix it 
-        // onClick={() => {
-        //     // TODO: change "shelterData.title" to ".id" once we have the id field.
-        //     navigate("/app/shelter-detail/" + shelterData.title)
-        // }}
+        //TODO: YICHI fix it 
+        onClick={() => {
+            // TODO: change "shelterData.title" to ".id" once we have the id field.
+            navigate("/app/shelter-detail/" + shelterData.title)
+        }}
         style={{
             padding: "20px",
             margin: "20px",
