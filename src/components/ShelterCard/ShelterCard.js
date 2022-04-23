@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -13,6 +12,11 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
+import { React, useState, useRef } from 'react';
+import IconButton from '@mui/material/IconButton';
+import Popover from '@mui/material/Popover';
+
+import { useStore } from '../../pages/Hook';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -21,24 +25,51 @@ const DISTANCE_PLACEHOLDER = 1.5 + "km"
 const START_RATING_PLACEHOLDER = 3.5
 const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
-const IS_FAVORITE_PLACEHOLDER = true
 
-const ShelterCard = ({ shelterData }) => {
+
+const ShelterCard = ({ user, shelterData, isBookmarked }) => {
+    const [open, setOpen] = useState(false)
+    const [bookmarkState, setBookmarkState] = useState(isBookmarked);
+    const buttonRef = useRef(null);
+    const apiStore = useStore(); 
+
+    const handleBookmark = async () => {
+        try {
+            if (user) {
+                let bookmarkStatus = await apiStore.handleBookmark(shelterData.post_id ,user)
+                setBookmarkState(bookmarkStatus.message)
+
+            } else {
+                setOpen(true)
+            }
+          } catch {
+        }
+    }
 
     const navigate = useNavigate();
-
-    const favoriteIcon = () => IS_FAVORITE_PLACEHOLDER ? 
-    <BookmarkIcon style={{color: appTheme.palette.primary.main }}/> :
-    <BookmarkBorderOutlinedIcon/>
+    const favoriteIcon = () => bookmarkState? 
+    <IconButton onClick={handleBookmark}>
+    <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
+    </IconButton> :
+    (<>
+    <IconButton onClick={handleBookmark} ref={buttonRef}>
+        <BookmarkBorderOutlinedIcon/>
+    </IconButton>
+    <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
+        You are not logged in. Click here to log in.
+    </Popover>
+    </>)
+    
 
     const unit = DEFAULT_UNIT;
 
     return (
     <Card 
-        onClick={() => {
-            // TODO: change "shelterData.title" to ".id" once we have the id field.
-            navigate("/app/shelter-detail/" + shelterData.title)
-        }}
+        //TODO: fix it 
+        // onClick={() => {
+        //     // TODO: change "shelterData.title" to ".id" once we have the id field.
+        //     navigate("/app/shelter-detail/" + shelterData.title)
+        // }}
         style={{
             padding: "20px",
             margin: "20px",

@@ -12,12 +12,31 @@ import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
 
 
-const ShelterList = ({setUser, shelterData, setShelterData}) => {
+const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive}) => {
     const appCtx = useContext(AppContext);
-    //Yichi: to call api do this 
     const apiStore = useStore(); 
+    const [bookmarks, setBookmarks] = useState([]);
     
     const navigate = useNavigate();
+
+    const getShelterPostData = async () => {
+        //TODO: Amanda maybe?
+        try {
+            let authRes = await Auth.currentAuthenticatedUser();
+            let username = authRes.username;
+            console.log("username for amanda", username);
+            let bookmarksResponse = await apiStore.getSavedBookmarks(username)
+            console.log("bookmarksResponse", bookmarksResponse);
+            setBookmarks(bookmarksResponse);
+          } catch {
+            // TODO: Amanda show pop up 
+            //do pop up 
+        }
+    }
+
+    useEffect(() => {
+        getShelterPostData();
+    }, [])
 
     const handleSignOut = async () => {
         try {
@@ -28,9 +47,10 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
         }
     }
 
+
     const shelterCards = () => {
         return (
-            shelterData === undefined ? 
+            shelterData === undefined || loaderActive ? 
                 <Grid   
                 container
                 direction="column"
@@ -40,7 +60,8 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
                     <CircularProgress/>
                 </Grid> : 
             shelterData.map(cardInfo => {
-                return <ShelterCard shelterData={cardInfo} key={cardInfo.id}/>
+                console.log("cardInfo", cardInfo);
+                return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })
         )
     }

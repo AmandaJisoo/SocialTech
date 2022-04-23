@@ -16,6 +16,7 @@ import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
+import Bookmarks from './components/Bookmarks';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 // window.LOG_LEVEL = 'DEBUG';
@@ -97,6 +98,7 @@ const App = () => {
   useEffect(() => {
     const getShelterData = async () => {
       try {
+        //TODO: Amanda check
         const shelterDataResponse = await apiStore.loadOverview(ZIPCODE_PLACEHOLDER, ZIPCODE_PLACEHOLDER)
         console.log("Shelter data: ", shelterDataResponse)
         setShelterData(shelterDataResponse)
@@ -125,6 +127,7 @@ const App = () => {
   //TODO: (Yichi) 
   //the following line 101 - 109 is a code to upload individual img to s3 bucket
   //you will need to modify react code to take the input to take mutiple images and call api on each image
+  //TODO: Amanda: add the post_id
   return (
     <AppContext.Provider value={{
         user: user,
@@ -136,7 +139,7 @@ const App = () => {
         <Routes>
 
           <Route index path="/app/dashboard" element={
-            <ShelterList user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
+            <ShelterList loaderActive={false} user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
           } />
 
           <Route path="/app/auth" element={<AuthenticatorGrid/>}>
@@ -168,6 +171,10 @@ const App = () => {
 
           <Route path="app/shelter-detail/:id" element={
             <ShelterDetail shelterData={shelterData}/>
+          } />
+
+          <Route path="app/bookmarks" element={
+            <Bookmarks user={user} setUser={setUser} />
           } />
 
           <Route path="*" element={
