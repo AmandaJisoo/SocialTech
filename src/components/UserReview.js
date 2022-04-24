@@ -22,7 +22,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     const buttonRef = useRef(null);
     const appCtx = useContext(AppContext);
     const [likeState, setLikeState] = useState(undefined);
-    // const [numOfLikes, numOfLikes] = useState(undefined);
+    const [numOfLikes, setNumOfLikes] = useState(undefined);
     console.log("likeState", likeState)
     const highlightedText = likeState? 
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Review</Typography> :
@@ -32,8 +32,8 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     const loadLike = async() => {
         try {
             let likeStatus = await apiStore.getLikeStatus(reviewData.username, reviewData.comment_id, reviewData.post_id)
-            console.log("likeStatus", likeStatus)
             setLikeState(likeStatus.like_status)
+            setNumOfLikes(likeStatus.num_of_likes)
         } catch {
 
         }
@@ -43,9 +43,9 @@ const UserReview = ({ reviewData, isHighLighted }) => {
         try {
             if (appCtx.user) {
                 let likeResponse = await apiStore.handleLike(reviewData.comment_id, reviewData.post_id, reviewData.username)
-                setLikeState(likeResponse.message)
+                setLikeState(likeResponse.like)
+                setNumOfLikes(likeResponse.num_of_likes)
                 console.log("likeState after clicking", likeState)
-
             } else {
                 setOpen(true)
             }
@@ -58,13 +58,13 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     const likeIcon = () => likeState? 
         (<IconButton onClick={handleLike}>
             <FavoriteIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
-        <span>{LIKES_PLACEHOLDER}</span>
+        <span>{numOfLikes}</span>
         </IconButton>
         ):
         (<>
             <IconButton onClick={handleLike} ref={buttonRef}>
                 <FavoriteBorderOutlinedIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
-            <span>{LIKES_PLACEHOLDER}</span>
+            <span>{numOfLikes}</span>
             </IconButton>
             <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
                 You are not logged in. Click here to log in.
