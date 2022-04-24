@@ -15,6 +15,8 @@ import TagContainer from '../SelectableTags/TagContainer';
 import { React, useState, useRef } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 
 import { useStore } from '../../pages/Hook';
 
@@ -25,7 +27,7 @@ const DISTANCE_PLACEHOLDER = 1.5 + "km"
 const START_RATING_PLACEHOLDER = 3.5
 const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
-
+const VERIFIYED_STATE_PLACEHOLDER = true;
 
 const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [open, setOpen] = useState(false)
@@ -48,19 +50,22 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
     const navigate = useNavigate();
     const favoriteIcon = () => bookmarkState? 
-    <IconButton onClick={handleBookmark}>
-    <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
-    </IconButton> :
-    (<>
-    <IconButton onClick={handleBookmark} ref={buttonRef}>
-        <BookmarkBorderOutlinedIcon/>
-    </IconButton>
-    <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
-        You are not logged in. Click here to log in.
-    </Popover>
-    </>)
-    
+        <IconButton onClick={handleBookmark}>
+            <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
+        </IconButton> :
+        (<>
+        <IconButton onClick={handleBookmark} ref={buttonRef}>
+            <BookmarkBorderOutlinedIcon/>
+        </IconButton>
+        <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
+            You are not logged in. Click here to log in.
+        </Popover>
+        </>)
 
+    const verifiedIcon = () => VERIFIYED_STATE_PLACEHOLDER ? 
+        <VerifiedUserIcon style={{color: appTheme.palette.primary.main}}/> :
+        <VerifiedUserOutlinedIcon/>
+       
     const unit = DEFAULT_UNIT;
 
     return (
@@ -69,8 +74,6 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         onClick={() => {
             console.log("shelterData for card", shelterData);
             appStore.setShelterData(shelterData);
-            // TODO: change "shelterData.title" to ".id" once we have the id field.
-            navigate("/app/shelter-detail/" + shelterData.post_id)
         }}
         style={{
             padding: "20px",
@@ -92,6 +95,9 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                 alignItems="center"
                 item
                 xs={5}
+                onClick={() => {
+                    navigate("/app/shelter-detail/" + shelterData.post_id)
+                }}
                 >
                 <CardMedia
                     component="img"
@@ -107,26 +113,40 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                 justifyContent="center" 
                 alignItems="flex-start"
                 item
-                xs={6}>
+                xs={6}
+                >
                 <Grid
-                    container
-                    direction="row" 
-                    justifyContent="space-between" 
-                    alignItems="center">
-                    <Typography>{shelterData.title}</Typography>
-
-                    <Typography>{DISTANCE_PLACEHOLDER}</Typography>
+                    onClick={() => {
+                        navigate("/app/shelter-detail/" + shelterData.post_id)
+                    }}>
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center">
+                        <Typography>{shelterData.title}</Typography>
+                        <Typography>{DISTANCE_PLACEHOLDER}</Typography>
+                    </Grid>
+                    <Rating value={START_RATING_PLACEHOLDER} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                    <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
+                    <Typography>{truncateReview(HIGHLIGHTED_REVIEW_PLACEHOLDER)}</Typography>
                 </Grid>
-                <Rating value={START_RATING_PLACEHOLDER} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
-                <Typography>{truncateReview(HIGHLIGHTED_REVIEW_PLACEHOLDER)}</Typography>
                 <Grid
                     container
                     direction="row" 
                     justifyContent="space-between" 
                     alignItems="center">
 
-                    {favoriteIcon()}    
+                    <Grid
+                        item
+                        container
+                        direction="row" 
+                        justifyContent="center" 
+                        alignItems="center"
+                        style={{width: "80px", marginLeft: "-20px"}}>
+                        {favoriteIcon()}  
+                        {verifiedIcon()}  
+                    </Grid> 
 
                     <Button>
                         <a href={WEBSITE_PLACEHOLDER} style={{textDecoration: "none", color: appTheme.palette.primary.main}}>
