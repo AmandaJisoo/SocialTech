@@ -14,7 +14,7 @@ import AppContext from '../AppContext.js';
 
 const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive}) => {
     const appCtx = useContext(AppContext);
-    const apiStore = useStore(); 
+    const { apiStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
     
     const navigate = useNavigate();
