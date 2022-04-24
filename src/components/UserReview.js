@@ -113,7 +113,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                         justifyContent="space-between" 
                         alignItems="center">
                         <Rating value={reviewData.rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                        <Typography>{handleReviewDateFormatting(reviewData.post_time)}</Typography>
+                        <Typography>{handleReviewDateFormatting(reviewData.post_time.split("T")[0])}</Typography>
                     </Grid>
                     <Grid
                         item
