@@ -25,21 +25,26 @@ const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
 
 const ShelterDetail = ({ shelterData }) => {
+
     console.log("shelterdetail sheter data", shelterData);
     const params = useParams();
+    const { hash } = useLocation();
+    const post_id = `${params.id}${hash}`;
+
+    const currentShelterData = shelterData.filter(data => data.post_id === post_id)[0];
+    console.log("currentShelterData", currentShelterData)
     const [reviews, setReviews] = useState(undefined);
-    const [shelterPostData, setShelterPostData] = useState({...shelterData[params.index], utilities: []});
+    const [shelterPostData, setShelterPostData] = useState({...currentShelterData, utilities: []});
     const apiStore = useStore();
     const navigate = useNavigate();
     const appCtx = useContext(AppContext);
-    const { hash } = useLocation();
 
     useEffect(() => {
         const getShelterPostData = async () => {
             try {
                 console.log('params.id', params.id)
                 
-                const shelterPostDataResponse = await apiStore.loadSummary(`${params.id}${hash}`);
+                const shelterPostDataResponse = await apiStore.loadSummary(post_id);
                 console.log("shelter data response: ", shelterPostDataResponse)
                 setShelterPostData(shelterPostDataResponse)
             } catch (err) {
@@ -49,7 +54,7 @@ const ShelterDetail = ({ shelterData }) => {
 
         const getReviewsData = async () => {
             try {
-                const reviewsDataResponse = await apiStore.loadComment(`${params.id}${hash}`);
+                const reviewsDataResponse = await apiStore.loadComment(post_id);
                 console.log("review response: ", reviewsDataResponse)
                 setReviews(reviewsDataResponse)
             } catch (err) {
