@@ -13,6 +13,7 @@ import { useStore } from '../pages/Hook';
 import IconButton from '@mui/material/IconButton';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import Popover from '@mui/material/Popover';
+import { useNavigate } from 'react-router-dom';
 
 const UserReview = ({ reviewData, isHighLighted }) => {
     const { apiStore } = useStore(); 
@@ -21,6 +22,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     const appCtx = useContext(AppContext);
     const [likeState, setLikeState] = useState(undefined);
     const [numOfLikes, setNumOfLikes] = useState(undefined);
+    const navigate = useNavigate();
     console.log("likeState", likeState)
     const highlightedText = likeState? 
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Review</Typography> :
@@ -65,7 +67,17 @@ const UserReview = ({ reviewData, isHighLighted }) => {
             <span>{numOfLikes}</span>
             </IconButton>
             <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
-                You are not logged in. Click here to log in.
+                <Grid style={{padding: "20px"}}>
+                    <Typography >
+                        You are not logged in. Click
+                         <span 
+                            style={{color: appTheme.palette.primary.main, cursor: "pointer"}}
+                            onClick={() => {
+                                navigate("/app/auth/sign-in")
+                            }}> here </span> 
+                         to log in
+                    </Typography>
+                </Grid>
             </Popover>
         </>)
 
@@ -78,6 +90,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
       <Card 
         style={{
             padding: "20px",
+            margin: "20px 0px",
             boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
             borderRadius: "8px"
         }}>
@@ -100,7 +113,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                         direction="row" 
                         justifyContent="space-between" 
                         alignItems="center">
-                            <Typography>{appCtx.user}</Typography>
+                            <Typography>{reviewData.username}</Typography>
                             {highlightedText}
                     </Grid>
                     <Grid

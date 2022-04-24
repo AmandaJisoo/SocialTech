@@ -127,7 +127,11 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [openPostReviewForm, setOpenPostReviewForm] = useState(false);
 
     const handleOpen = () => {
-        setOpenPostReviewForm(true);
+        if (appCtx.user != null) {
+            setOpenPostReviewForm(true);
+        } else {
+            navigate("/app/auth/sign-in")
+        }
     }
     const handleClose = () => {
         setOpenPostReviewForm(false);
