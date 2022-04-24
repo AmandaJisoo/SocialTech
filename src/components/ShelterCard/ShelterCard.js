@@ -31,7 +31,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
-    const apiStore = useStore(); 
+    const { apiStore, appStore } = useStore(); 
 
     const handleBookmark = async () => {
         try {
@@ -67,8 +67,10 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     <Card 
         //TODO: YICHI fix it 
         onClick={() => {
+            console.log("shelterData for card", shelterData);
+            appStore.setShelterData(shelterData);
             // TODO: change "shelterData.title" to ".id" once we have the id field.
-            navigate("/app/shelter-detail/" + shelterData.title)
+            navigate("/app/shelter-detail/" + shelterData.post_id)
         }}
         style={{
             padding: "20px",

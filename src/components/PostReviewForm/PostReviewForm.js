@@ -26,7 +26,7 @@ const PostReviewForm = ({ formData, handleClose }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const params = useParams();
     const fileRef = useRef(null);
-    const apiStore = useStore();
+    const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
 
     const tags = text.onboard.tags.map((data) => {

@@ -14,7 +14,7 @@ import AppContext from '../../AppContext';
 const steps = ['Welcome', 'Select account type', 'Detail', "Complete"];
 
 const Onboard = props => {
-    const apiStore = useStore();
+    const { apiStore } = useStore();
 
     const [activeStep, setActiveStep] = useState(0);
     const [accountType, setAccountType] = useState(null);

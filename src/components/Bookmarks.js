@@ -5,7 +5,7 @@ import { useStore } from '../pages/Hook';
 
 //TODO: Yichi only show this when user is logged in as a part of menu
 const Bookmarks = props => {
-    const apiStore = useStore();
+    const { apiStore } = useStore();
     const [loaderActive, setLoaderActive] = useState(true);
     const [shelterData, setShelterData] = useState([])
 

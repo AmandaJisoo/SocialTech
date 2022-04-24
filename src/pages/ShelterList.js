@@ -14,7 +14,7 @@ import AppContext from '../AppContext.js';
 
 const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive}) => {
     const appCtx = useContext(AppContext);
-    const apiStore = useStore(); 
+    const { apiStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
     
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
                 style={{height: "80vh"}}>
                     <CircularProgress/>
                 </Grid> : 
-            shelterData.map(cardInfo => {
+            shelterData.map((cardInfo) => {
                 console.log("cardInfo", cardInfo);
                 return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })
