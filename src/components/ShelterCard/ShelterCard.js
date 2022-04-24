@@ -27,7 +27,7 @@ const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur 
 const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
 
 
-const ShelterCard = ({ user, shelterData, isBookmarked }) => {
+const ShelterCard = ({ user, shelterData, index, isBookmarked }) => {
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
@@ -67,8 +67,9 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     <Card 
         //TODO: YICHI fix it 
         onClick={() => {
+            console.log("shelterData for card", shelterData);
             // TODO: change "shelterData.title" to ".id" once we have the id field.
-            navigate("/app/shelter-detail/" + shelterData.title)
+            navigate("/app/shelter-detail/" + index + "/" + shelterData.post_id)
         }}
         style={{
             padding: "20px",

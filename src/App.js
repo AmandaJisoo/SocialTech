@@ -170,7 +170,7 @@ const App = () => {
             } />
           </Route>
 
-          <Route path="app/shelter-detail/:id" element={
+          <Route path="app/shelter-detail/:index/:id" element={
             <ShelterDetail shelterData={shelterData}/>
           } />
 
