@@ -1,6 +1,14 @@
 export const MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD = 145
 export const DEFAULT_COUNTRY = "USA"
-export const DEFAULT_PROFILE_PATH = "NO_PROFILE"
+export const DEFAULT_PROFILE_PATH = "NO_PROFILE" 
+export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD = {
+	width: "20em",
+	height: "15em"
+}
+export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL = {
+	width: "100%",
+	height: "20em"
+}
 
 
 export function truncateReview(review) {
@@ -19,7 +27,7 @@ export function getHighLightedReivew(reviews) {
     return reviews[0];
 }
 
-export function processShelterDataForOrgOnboard(data) {
+export function formatShelterAddress(data) {
 	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
     return data.title + ", " + data.street + ", " + data.state + ", " + data.zipcode
 }

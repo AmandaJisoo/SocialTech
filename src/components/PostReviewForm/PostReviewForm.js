@@ -19,7 +19,7 @@ import { useParams } from 'react-router-dom'
 import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
 
-const PostReviewForm = ({ formData, handleClose }) => {
+const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
@@ -29,12 +29,12 @@ const PostReviewForm = ({ formData, handleClose }) => {
     const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
 
-    const tags = text.onboard.tags.map((data) => {
+    const tags = text.onboard.review_tags.map((data) => {
         return <Tag key={data.id} 
                     isSelectable={true} 
-                    text={data.text} 
+                    text={data} 
                     selectedTags={selectedTags}
-                    setSelectedTag={setSelectedTags}/>
+                    setSelectedTags={setSelectedTags}/>
     })
 
     const handleTextChange = (event) => {
@@ -46,7 +46,7 @@ const PostReviewForm = ({ formData, handleClose }) => {
             console.log("tags: ", selectedTags)
             const imageUploadResponse = await apiStore.uploadImageToS3(selectedFile);
             const reviewUploadResponse = await apiStore.createComment({
-                post_id: params.id,
+                post_id: post_id,
                 comment_body: reviewText,
                 username: appCtx.user,
                 rating: starRating,

@@ -37,7 +37,9 @@
             "regularUserCompletionImgAddr": "/assets/imgs/regular_finish.png",
             "orgUserCompletionImgAddr": "/assets/imgs/Shelter_finish.png"
         },
-        "claimed_amenities_tags": ["Parking", "Shower", "Locker", "Wifi", "Food", "Housing application help", "Spacius beds", "Washing machine", "Daily Sanitation", "Government sponsored"]
+        "claimed_amenities_tags": ["Parking", "Shower", "Locker", "Wifi", "Food", "Housing application help", "Spacius beds", "Washing machine", "Daily Sanitation", "Government sponsored"],
+
+        "review_tags": ["placeholder 1", "placeholder 2", "placeholder 3"]
     },
     "shelterList": {
         "header": "Shelter Review"

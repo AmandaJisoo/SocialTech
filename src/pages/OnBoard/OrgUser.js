@@ -13,7 +13,7 @@ import OnBoardContext from './OnBoardContext';
 import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert';
 import { useStore } from '../Hook.js';
-import { processShelterDataForOrgOnboard } from '../../utils/utilityFunctions';
+import { formatShelterAddress } from '../../utils/utilityFunctions';
 import { Auth } from 'aws-amplify';
 import AppContext from '../../AppContext'
 import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
@@ -54,7 +54,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
             try {
               //TODO: Amanda check
               const shelterDataResponse = await apiStore.getShelterByCity(onboardCtx.city)
-              setSelectedShelter(processShelterDataForOrgOnboard(shelterDataResponse[0]))
+              setSelectedShelter(formatShelterAddress(shelterDataResponse[0]))
               setAvailableShelterData(shelterDataResponse);
               setLoadingAvailableShleter(false);
             } catch (err) {
@@ -93,7 +93,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                 onChange={handleSelectedShelterChange}
             >
                 {availableShelterData.map((data) => {
-                    let menuItemText = processShelterDataForOrgOnboard(data)
+                    let menuItemText = formatShelterAddress(data)
                     return <MenuItem value={data.post_id}>{menuItemText}</MenuItem>
                 })}
             </Select>

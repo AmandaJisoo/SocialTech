@@ -14,8 +14,6 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import Popover from '@mui/material/Popover';
 
-const LIKES_PLACEHOLDER = 2;
-
 const UserReview = ({ reviewData, isHighLighted }) => {
     const { apiStore } = useStore(); 
     const [open, setOpen] = useState(undefined)
@@ -80,7 +78,6 @@ const UserReview = ({ reviewData, isHighLighted }) => {
       <Card 
         style={{
             padding: "20px",
-            margin: "20px",
             boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
             borderRadius: "8px"
         }}>
@@ -142,10 +139,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                             {likeIcon()}  
                         </Grid>
                         <Grid item>
-                            <Typography
-                                style={{}}>
-                                    {reviewData.body}
-                            </Typography>
+                            <Typography>{reviewData.comment_body}</Typography>
                         </Grid>
                     
                 </Grid>

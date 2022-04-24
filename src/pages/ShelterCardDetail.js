@@ -21,9 +21,12 @@ import TagContainer from '../components/SelectableTags/TagContainer';
 import AppContext from '../AppContext';
 import { useStore } from './Hook';
 import { getHighLightedReivew } from '../utils/utilityFunctions';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
+const VERIFIYED_STATE_PLACEHOLDER = true;
 
 const ShelterDetail = observer(({ shelterData }) => {
 
@@ -43,8 +46,6 @@ const ShelterDetail = observer(({ shelterData }) => {
     useEffect(() => {
         const getShelterPostData = async () => {
             try {
-                console.log('params.id', params.id)
-                
                 const shelterPostDataResponse = await apiStore.loadSummary(post_id);
                 console.log("shelter data response: ", shelterPostDataResponse)
                 appStore.setShelterData(shelterPostDataResponse)
@@ -67,6 +68,10 @@ const ShelterDetail = observer(({ shelterData }) => {
         getReviewsData()
 
     }, [])
+
+    const verifiedIcon = () => VERIFIYED_STATE_PLACEHOLDER ? 
+        <VerifiedUserIcon style={{color: appTheme.palette.primary.main}}/> :
+        <VerifiedUserOutlinedIcon/>
     
     const highlightedReview = () => {
         if (reviews === undefined) {
@@ -76,7 +81,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 direction="column"
                 justifyContent="center" 
                 alignItems="center"
-                style={{height: "40vh"}}>
+                style={{height: "15vh"}}>
                     <CircularProgress/>
                     <Typography>Loading reviews</Typography>
                 </Grid>
@@ -96,7 +101,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 direction="column"
                 justifyContent="center" 
                 alignItems="center"
-                style={{height: "40vh"}}>
+                style={{height: "15vh"}}>
                     <CircularProgress/>
                     <Typography>Loading reviews</Typography>
                 </Grid>
@@ -108,12 +113,12 @@ const ShelterDetail = observer(({ shelterData }) => {
                 direction="column"
                 justifyContent="center" 
                 alignItems="center"
-                style={{height: "40vh"}}>
+                style={{height: "15vh"}}>
                     <Typography>No reviews for this shelter yet</Typography>
                 </Grid>
             )
         } else {
-            return reviews.slice(1, reviews.length).map((reviewData, idx) => {
+            return reviews.slice(0, reviews.length).map((reviewData, idx) => {
                 return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
             })
         }
@@ -174,7 +179,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     direction="column"
                     justifyContent="center" 
                     alignItems="center"
-                    style={{height: "10vh"}}>
+                    style={{height: "25vh"}}>
                     <CircularProgress/>
                     <Typography>Loading Shelter Data</Typography>
                 </Grid> :
@@ -186,7 +191,13 @@ const ShelterDetail = observer(({ shelterData }) => {
                         direction="row"
                         justifyContent="space-between"
                         alignItems="center">
-                            <Typography>{shelterPostData.title}</Typography>
+                            <Grid 
+                                item
+                                container
+                                direction="row">
+                                <Typography>{shelterPostData.title}</Typography>
+                                {verifiedIcon()}
+                            </Grid>
                             <Typography>{DISTANCE_PLACEHOLDER}</Typography>
                     </Grid>
                     <Grid
@@ -203,33 +214,30 @@ const ShelterDetail = observer(({ shelterData }) => {
                         container
                         direction="row"
                         justifyContent="space-between"
-                        alignItems="center">
+                        alignItems="center"
+                        rowSpacing={2}>
                             <Grid
+                                item
                                 container
                                 direction="column"
                                 justifyContent="space-between"
-                                alignItems="center">
+                                alignItems="flex-start">
                                 <Typography>{shelterPostData.street}</Typography>
                                 <Typography>{shelterPostData.city + ", " + shelterPostData.zipcode + " , " + shelterPostData.state}</Typography>
                             </Grid>
-                            <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
+
+
+                            <Grid item>
+                                <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
+                            </Grid>
                     </Grid>
                 </>}
-                
 
                 <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
             
-                {highlightedReview()}
-                {shelterPostData === undefined ? 
-                <Grid   
-                    container
-                    direction="column"
-                    justifyContent="center" 
-                    alignItems="center"
-                    style={{height: "10vh"}}>
-                    <CircularProgress/>
-                    <Typography>Loading Shelter Data</Typography>
-                </Grid> :
+                <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
+                
+                {shelterPostData !== undefined && 
                 <Grid
                     item
                     container
@@ -257,10 +265,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                             formData={{
                                 shelterName: shelterPostData.title,
                                 userName: appCtx.user}}
+                            post_id={post_id}
                             handleClose={handleClose}
                         />
                     </Modal>
-            
                 </Grid>}
                 <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 <Grid
@@ -271,7 +279,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                     alignItems="center">
                     <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
-                {reviewEles()}
+                
+                <Grid style={{width: "100%"}}>{reviewEles()}</Grid>
             </Grid>
         </Grid>
     );

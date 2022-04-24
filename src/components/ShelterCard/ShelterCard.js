@@ -9,7 +9,7 @@ import Rating from '@mui/material/Rating';
 import { Grid } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { truncateReview, DEFAULT_UNIT } from '../../utils/utilityFunctions'
+import { truncateReview, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
 import { React, useState, useRef } from 'react';
@@ -104,7 +104,8 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                     image={public_url + shelterData.profile_pic_path}
                     alt="shelter_preview"
                     style={{ 
-                        maxWidth: "25em"
+                        maxWidth: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.width,
+                        maxHeight: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.height
                     }}/>
             </Grid>
             <Grid
