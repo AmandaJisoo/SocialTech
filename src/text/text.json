@@ -37,55 +37,7 @@
             "regularUserCompletionImgAddr": "/assets/imgs/regular_finish.png",
             "orgUserCompletionImgAddr": "/assets/imgs/Shelter_finish.png"
         },
-        "tags": [
-            {
-                "id": "Clean",
-                "text": "Clean"
-            },
-            {
-                "id": "Food",
-                "text": "Food"
-            },
-            {
-                "id": "Quiet",
-                "text": "Quiet"
-            },
-            {
-                "id": "Warm",
-                "text": "Warm"
-            },
-            {
-                "id": "Safe",
-                "text": "Safe"
-            },
-            {
-                "id": "Bath",
-                "text": "Bath"
-            },
-            {
-                "id": "Water",
-                "text": "Water"
-            },
-            {
-                "id": "Charger",
-                "text": "Charger"
-            },
-            {
-                "id": "Wifi",
-                "text": "Wifi"
-            },
-            {
-                "id": "Park",
-                "text": "Park"
-            },
-            {
-                "id": "Locker",
-                "text": "Locker"
-            },
-            {
-                "id": "Friendly",
-                "text": "Friendly"
-            }]
+        "claimed_amenities_tags": ["Parking", "Shower", "Locker", "Wifi", "Food", "Housing application help", "Spacius beds", "Washing machine", "Daily Sanitation", "Government sponsored"]
     },
     "shelterList": {
         "header": "Shelter Review"

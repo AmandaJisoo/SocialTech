@@ -19,22 +19,23 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
     
     const navigate = useNavigate();
 
-    const getShelterPostData = async () => {
-        //TODO: Amanda maybe?
-        try {
-            let authRes = await Auth.currentAuthenticatedUser();
-            let username = authRes.username;
-            console.log("username for amanda", username);
-            let bookmarksResponse = await apiStore.getSavedBookmarks(username)
-            console.log("bookmarksResponse", bookmarksResponse);
-            setBookmarks(bookmarksResponse);
-          } catch {
-            // TODO: Amanda show pop up 
-            //do pop up 
-        }
-    }
-
+  
     useEffect(() => {
+        const getShelterPostData = async () => {
+            //TODO: Amanda maybe?
+            try {
+                let authRes = await Auth.currentAuthenticatedUser();
+                let username = authRes.username;
+                console.log("username for amanda", username);
+                let bookmarksResponse = await apiStore.getSavedBookmarks(username)
+                console.log("bookmarksResponse", bookmarksResponse);
+                //setBookmarks(bookmarksResponse);
+              } catch (err) {
+                // TODO: Amanda show pop up 
+                //do pop up 
+            }
+        }
+    
         getShelterPostData();
     }, [])
 

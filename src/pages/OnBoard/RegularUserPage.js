@@ -1,4 +1,4 @@
-import { React, useContext } from 'react';
+import { React, useContext, useEffect, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 
@@ -11,11 +11,60 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TagContainer from '../../components/SelectableTags/TagContainer';
 import OnBoardContext from './OnBoardContext';
+import Alert from '@mui/material/Alert';
+import { useStore } from '../Hook.js';
+import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
+import AppContext from '../../AppContext';
 
 const RegularUserPage = () => {
     const navigate = useNavigate();
 
-    const ctx = useContext(OnBoardContext);
+    const onboardCtx = useContext(OnBoardContext);
+    const appCtx = useContext(AppContext);
+    const [errorMsg, setErrorMsg] = useState(null);
+    const apiStore = useStore(); 
+
+    useEffect(() => {
+        onboardCtx.setActiveStep(2)
+    }, [onboardCtx, onboardCtx.activeStep])
+
+    const handleOnboardAPICall = async () => {
+        setErrorMsg(null)
+        try {
+            const createAccountResult = await apiStore.createUser({
+                username: appCtx,
+                profile_pic_path: DEFAULT_PROFILE_PATH,
+                user_role: onboardCtx.accountType,
+                gender: onboardCtx.gender,
+                city: onboardCtx.city,
+                state: onboardCtx.state,
+                country: DEFAULT_COUNTRY
+            })
+            console.log("create account result: ", createAccountResult)
+            navigate("/app/onboard/completed")
+        } catch(err) {
+            setErrorMsg(err.message)
+        }
+    }
+
+    const handleNext = async () => {
+       
+        setErrorMsg(null)
+        try {
+            const createAccountResult = await apiStore.createUser({
+                username: appCtx.user,
+                profile_pic_path: DEFAULT_PROFILE_PATH,
+                user_role: onboardCtx.accountType,
+                gender: onboardCtx.gender,
+                city: onboardCtx.city,
+                state: onboardCtx.state,
+                country: DEFAULT_COUNTRY
+            })       
+            navigate("/app/onboard/completed")
+        } catch(err) {
+            setErrorMsg(err.message)
+        }
+    }
 
     const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
         return <MenuItem value={val}>{val}</MenuItem>
@@ -24,6 +73,8 @@ const RegularUserPage = () => {
     const stateMenuItems = text.usStates.map(val => {
         return <MenuItem value={val}>{val}</MenuItem>
     })
+
+    const errorMsgEle = errorMsg ? <Alert severity="error">{errorMsg}</Alert> : null;
 
     return ( 
         <>
@@ -35,9 +86,9 @@ const RegularUserPage = () => {
                       <Select 
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
-                        value={ctx.gender}
+                        value={onboardCtx.gender}
                         label="Gender"
-                        onChange={ctx.handleGenderChange}
+                        onChange={onboardCtx.handleGenderChange}
                       >
                           {genderMenuItems}
                       </Select>
@@ -54,7 +105,7 @@ const RegularUserPage = () => {
                         label="City"
                         type="City"
                         id="City"
-                        onChange={ctx.handleCityChange}
+                        onChange={onboardCtx.handleCityChange}
                     />
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                       <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
@@ -62,8 +113,8 @@ const RegularUserPage = () => {
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         label="State"
-                        value={ctx.state}
-                        onChange={ctx.handleStateChange}
+                        value={onboardCtx.state}
+                        onChange={onboardCtx.handleStateChange}
                       >
                           {stateMenuItems}
                       </Select>
@@ -77,7 +128,7 @@ const RegularUserPage = () => {
                     label="email"
                     type="email"
                     id="email"
-                    onChange={ctx.handleEmailChange}
+                    onChange={onboardCtx.handleEmailChange}
                   />
                 <Grid
                     container
@@ -86,27 +137,31 @@ const RegularUserPage = () => {
                     <Typography>{text.onboard.regular.tagPrompt}</Typography>
                 </Grid>
                 
-                {/* place holder tags. Need  */}
                 <Grid
                     container
                     justifyContent="center"
                     alignItems="center"
                     style={{margin: "20px 0 40px 0"}}>
-                    <TagContainer tagData={text.onboard.tags} isSelectable={true}/>
+                    <TagContainer tagData={["place-holder"]} isSelectable={true}/>
                 </Grid>
 
-                <Button variant='contained' onClick={() => {
-                    navigate("/app/onboard/select-account-type")
-                    ctx.handleBack()
-                }}>
-                    Back
-                </Button>
-                <Button variant='contained' onClick={() => {
-                    ctx.handleNext()
-                    navigate("/app/onboard/completed")
-                }}>
-                    Continue
-                </Button>
+                <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center">
+                    <Button variant='contained' onClick={() => {
+                        navigate("/app/onboard/select-account-type")
+                    }}>
+                        Back
+                    </Button>
+                    <Button variant='contained' onClick={() => {
+                        handleNext()
+                    }}>
+                        Continue
+                    </Button>
+                </Grid>
+
+                {errorMsgEle}
             </Grid>
         </>
     )

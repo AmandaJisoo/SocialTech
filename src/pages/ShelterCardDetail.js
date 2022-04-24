@@ -46,6 +46,7 @@ const ShelterDetail = ({ shelterData }) => {
 
         const getReviewsData = async () => {
             try {
+                console.log("shleter id: ", params.id)
                 const reviewsDataResponse = await apiStore.loadComment(params.id);
                 console.log("review response: ", reviewsDataResponse)
                 setReviews(reviewsDataResponse)

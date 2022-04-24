@@ -194,5 +194,21 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    // TODO: fill in API function body 
+    async createClaim(username, post_id, status, claimed_utilies) {
+        try {
+            return await API.post('SocialTechService', "/CreateClaim", {
+                body: {
+                    username: username,
+                    post_id: post_id,
+                    status: status,
+                    claimed_utilies: claimed_utilies
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 

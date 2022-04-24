@@ -31,7 +31,7 @@ const SignUp = ({setUser}) => {
           email
         }
       }) 
-
+      
       setUser(user.getUsername());
 
       setSignUpPage(prev => prev + 1)
@@ -200,7 +200,7 @@ const SignUp = ({setUser}) => {
               </Grid>
             </Grid>
           </> : 
-          <ConfirmSignUp username={username} setSignUpPage={setSignUpPage} />}
+          <ConfirmSignUp username={username} password={password} setSignUpPage={setSignUpPage} />}
       </Grid>
   )
 }

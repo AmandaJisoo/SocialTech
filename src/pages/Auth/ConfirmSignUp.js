@@ -12,7 +12,7 @@ import { Auth } from 'aws-amplify';
 import Snackbar from '@mui/material/Snackbar';
 import AppContext from '../../AppContext';
 
-const ConfirmSignUp = ({username, setSignUpPage}) => {
+const ConfirmSignUp = ({username, password, setSignUpPage}) => {
   const [verificationCode, setVerificationCode] = useState(undefined)
   const [errorMsg, setErrorMsg] = useState(undefined)
   const [resendCodeStatusMsg, setResendCodeStatusMsg] = useState("")
@@ -26,6 +26,7 @@ const ConfirmSignUp = ({username, setSignUpPage}) => {
 
     try {
       await Auth.confirmSignUp(username, verificationCode)
+      await Auth.signIn(username, password);
       navigate("/app/onboard/intro")
     } catch (error) {
       setErrorMsg(error.message)
@@ -120,7 +121,7 @@ const ConfirmSignUp = ({username, setSignUpPage}) => {
 
          <Snackbar
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            autoHideDuration={3000} 
+            //autoHideDuration={3000} 
             open={resendCodeSnackBarOpen}
             onClose={handleClose}
             message={resendCodeStatusMsg}

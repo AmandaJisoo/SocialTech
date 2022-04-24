@@ -1,6 +1,7 @@
 export const MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD = 145
-export const LENGTH_OF_AUTO_SIGN_IN = 259200000 // 3 days in ms
-export const AUTH_TOKEN_KEYNAME = "auth_token"
+export const DEFAULT_COUNTRY = "USA"
+export const DEFAULT_PROFILE_PATH = "NO_PROFILE"
+
 
 export function truncateReview(review) {
     return review.length > MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD ? 
@@ -17,6 +18,12 @@ export function getHighLightedReivew(reviews) {
 	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
     return reviews[0];
 }
+
+export function processShelterDataForOrgOnboard(data) {
+	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
+    return data.title + ", " + data.street + ", " + data.state + ", " + data.zipcode
+}
+ 
  
 /* 
 inputs: 
