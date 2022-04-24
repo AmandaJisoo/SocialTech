@@ -107,13 +107,13 @@ export default class APIStorage {
         }
     }
 
-    async handleLike(comment_id, post_id, usernmae) {
+    async handleLike(comment_id, post_id, username) {
         try {
             return await API.post('SocialTechService', "/HandleLike", {
                 body: {
                     comment_id: comment_id,
                     post_id: post_id,
-                    usernmae: usernmae
+                    username: username
                 }
             })
         } catch (err) {
@@ -204,6 +204,20 @@ export default class APIStorage {
                     post_id: post_id,
                     status: status,
                     claimed_utilies: claimed_utilies
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getLikeStatus(username, comment_id, post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetLikeStatus", {
+                queryStringParameters: {
+                    username: username,
+                    post_id: post_id, 
+                    comment_id: comment_id
                 }
             })
         } catch (err) {

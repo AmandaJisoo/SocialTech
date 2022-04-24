@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import { React, useContext, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
@@ -9,17 +9,73 @@ import Rating from '@mui/material/Rating';
 import TagContainer from './SelectableTags/TagContainer';
 import AppContext from '../AppContext';
 import { handleReviewDateFormatting } from '../utils/utilityFunctions';
+import { useStore } from '../pages/Hook';
+import IconButton from '@mui/material/IconButton';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import Popover from '@mui/material/Popover';
 
 const LIKES_PLACEHOLDER = 2;
 
 const UserReview = ({ reviewData, isHighLighted }) => {
-
+    const { apiStore } = useStore(); 
+    const [open, setOpen] = useState(undefined)
+    const buttonRef = useRef(null);
     const appCtx = useContext(AppContext);
-
-    const highlightedText = isHighLighted ? 
+    const [likeState, setLikeState] = useState(undefined);
+    // const [numOfLikes, numOfLikes] = useState(undefined);
+    console.log("likeState", likeState)
+    const highlightedText = likeState? 
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Review</Typography> :
         <span/>;
+    console.log("reviewData", reviewData)
 
+    const loadLike = async() => {
+        try {
+            let likeStatus = await apiStore.getLikeStatus(reviewData.username, reviewData.comment_id, reviewData.post_id)
+            console.log("likeStatus", likeStatus)
+            setLikeState(likeStatus.like_status)
+        } catch {
+
+        }
+    }
+
+    const handleLike = async () => {
+        try {
+            if (appCtx.user) {
+                let likeResponse = await apiStore.handleLike(reviewData.comment_id, reviewData.post_id, reviewData.username)
+                setLikeState(likeResponse.message)
+                console.log("likeState after clicking", likeState)
+
+            } else {
+                setOpen(true)
+            }
+            } catch {
+        }
+    }
+
+    console.log("likeState", likeState);
+
+    const likeIcon = () => likeState? 
+        (<IconButton onClick={handleLike}>
+            <FavoriteIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
+        <span>{LIKES_PLACEHOLDER}</span>
+        </IconButton>
+        ):
+        (<>
+            <IconButton onClick={handleLike} ref={buttonRef}>
+                <FavoriteBorderOutlinedIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
+            <span>{LIKES_PLACEHOLDER}</span>
+            </IconButton>
+            <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
+                You are not logged in. Click here to log in.
+            </Popover>
+        </>)
+
+    useEffect(() => {
+        loadLike();
+    }, [])
+
+    console.log("reviewData", reviewData)
     return (
       <Card 
         style={{
@@ -83,8 +139,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                             justifyContent="center"
                             alignItems="center"
                             style={{width: "32px", margin: "0 15px 0 5px"}}>
-                            <FavoriteIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
-                            <span>{LIKES_PLACEHOLDER}</span>
+                            {likeIcon()}  
                         </Grid>
                         <Grid item>
                             <Typography
