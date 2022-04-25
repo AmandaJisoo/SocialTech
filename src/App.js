@@ -120,6 +120,7 @@ const App = () => {
       }
     }
 
+
     getShelterData();
     getUserStatus();
   }, [user, userStatus, apiStore])

@@ -43,6 +43,8 @@ const ShelterDetail = observer(({ shelterData }) => {
     const navigate = useNavigate();
     const appCtx = useContext(AppContext);
     console.log('highlightedComment', highlightedComment)
+    const [isClaimed, setIsClaimed] = useState(undefined);
+
     useEffect(() => {
         const getShelterPostData = async () => {
             try {
@@ -54,6 +56,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                 if (topComment.length > 0) {
                     setHighlightedComment(topComment[0]);
                 }
+
+                
             } catch (err) {
                 console.log(err.message)
             }
@@ -69,14 +73,29 @@ const ShelterDetail = observer(({ shelterData }) => {
             }
         }
 
+        const getClaimStatus = async() => {
+            try {
+                const claimStatus = await apiStore.getIsClaimed(post_id);
+                setIsClaimed(claimStatus)
+            } catch (err) {
+                console.log(err.message)
+            }
+        }
+
         getShelterPostData()
         getReviewsData()
-
+        getClaimStatus()
     }, [])
 
-    const verifiedIcon = () => VERIFIYED_STATE_PLACEHOLDER ? 
-        <VerifiedUserIcon style={{color: appTheme.palette.primary.main}}/> :
-        <VerifiedUserOutlinedIcon/>
+    const verifiedIcon = () => {
+        if (isClaimed === "no_claim") {
+            return <div>unclaimed shelter</div>
+        } else if (isClaimed === "pending") {
+            return <div>shelter in process of claiming</div>
+        } else {
+            return <div>claimed shelter</div>
+        }
+    }
     
     const highlightedReview = () => {
         if (reviews === undefined) {

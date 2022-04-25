@@ -12,7 +12,7 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { truncateReview, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
-import { React, useState, useRef } from 'react';
+import { React, useState, useRef, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
@@ -33,6 +33,8 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
+    const [isClaimed, setIsClaimed] = useState(undefined);
+
     const { apiStore, appStore } = useStore(); 
 
     const handleBookmark = async () => {
@@ -48,6 +50,22 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         }
     }
 
+    const getClaimStatus = async() => {
+        try {
+            const claimStatus = await apiStore.getIsClaimed(shelterData.post_id);
+            console.log("claimStatus response: ", claimStatus)
+            setIsClaimed(claimStatus)
+            appStore.setClaimStatus(shelterData.post_id, claimStatus)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+
+    useEffect(() => {
+        getClaimStatus()
+    }, [])
+
     const navigate = useNavigate();
     const favoriteIcon = () => bookmarkState? 
         <IconButton onClick={handleBookmark}>
@@ -62,15 +80,21 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         </Popover>
         </>)
 
-    const verifiedIcon = () => VERIFIYED_STATE_PLACEHOLDER ? 
-        <VerifiedUserIcon style={{color: appTheme.palette.primary.main}}/> :
-        <VerifiedUserOutlinedIcon/>
+            
+    const verifiedIcon = () => {
+        if (isClaimed === "no_claim") {
+            return <div>unclaimed shelter</div>
+        } else if (isClaimed === "pending") {
+            return <div>shelter in process of claiming</div>
+        } else {
+            return <div>claimed shelter</div>
+        }
+    }
        
     const unit = DEFAULT_UNIT;
 
     return (
     <Card 
-        //TODO: YICHI fix it 
         onClick={() => {
             console.log("shelterData for card", shelterData);
             appStore.setShelterData(shelterData);
