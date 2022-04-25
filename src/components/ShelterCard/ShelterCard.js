@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import { Auth } from 'aws-amplify';
 
 import { useStore } from '../../pages/Hook';
 
@@ -37,7 +38,20 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [highlightedComment, setHighlightedComment] = useState(undefined);
 
     const { apiStore, appStore } = useStore(); 
-    console.log("highlightedComment for amanda", highlightedComment)
+    
+    const loadBookmarks = async () => {
+        try {
+            let authRes = await Auth.currentAuthenticatedUser();
+            let username = authRes.username;
+            let bookmarksResponse = await apiStore.getSavedBookmarks(username);
+            let res = bookmarksResponse.includes(shelterData.post_id)
+            console.log("res", res)
+            setBookmarkState(bookmarksResponse.includes(shelterData.post_id));
+          } catch {
+            //do pop up?
+        }
+    }
+    
     const handleBookmark = async () => {
         try {
             if (user) {
@@ -76,7 +90,8 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
     useEffect(() => {
         getClaimStatus()
-        getHighLightedComment()        
+        getHighLightedComment()
+        loadBookmarks()      
     }, [])
 
     const navigate = useNavigate();

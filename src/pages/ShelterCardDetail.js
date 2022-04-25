@@ -1,4 +1,4 @@
-import {React, useContext, useState, useEffect} from 'react';
+import {React, useContext, useState, useEffect, useRef} from 'react';
 import { observer } from "mobx-react";
 import PropTypes from 'prop-types';
 import UserReview from '../components/UserReview';
@@ -9,13 +9,15 @@ import ImageGallery from '../components/ImageGallery'
 import Rating from '@mui/material/Rating';
 import appTheme from '../theme/appTheme.json';
 import Button from '@mui/material/Button';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CircularProgress from '@mui/material/CircularProgress'
 import Modal from '@mui/material/Modal';
 import text from "../text/text.json";
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { Auth } from 'aws-amplify';
 import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
 import TagContainer from '../components/SelectableTags/TagContainer';
 import AppContext from '../AppContext';
@@ -23,6 +25,9 @@ import { useStore } from './Hook';
 import { getHighLightedReivew } from '../utils/utilityFunctions';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import IconButton from '@mui/material/IconButton';
+import Popover from '@mui/material/Popover';
+
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
@@ -44,6 +49,13 @@ const ShelterDetail = observer(({ shelterData }) => {
     const appCtx = useContext(AppContext);
     console.log('highlightedComment', highlightedComment)
     const [isClaimed, setIsClaimed] = useState(undefined);
+    const [loaderActive, setLoaderActive] = useState(true);
+
+    const [bookmarkState, setBookmarkState] = useState(undefined);
+    const [open, setOpen] = useState(false)
+    const buttonRef = useRef(null);
+    console.log("bookmarkState", bookmarkState)
+
     useEffect(() => {
         if (appStore.highlightedComment) {
             console.log("appStore.highlightedComment", appStore.highlightedComment.comment_id)
@@ -81,6 +93,22 @@ const ShelterDetail = observer(({ shelterData }) => {
             }
         }
 
+        const loadBookmarks = async () => {
+            try {
+                let authRes = await Auth.currentAuthenticatedUser();
+                let username = authRes.username;
+                console.log("username for bookmarks", username);
+                let bookmarksResponse = await apiStore.getSavedBookmarks(username);
+                console.log("bookmarksResponse amanda", bookmarksResponse)
+                let res = bookmarksResponse.includes(post_id)
+                console.log("res", res)
+                setBookmarkState(bookmarksResponse.includes(post_id));
+                setLoaderActive(false);
+              } catch {
+                //do pop up?
+            }
+        }
+
         const getClaimStatus = async() => {
             try {
                 const claimStatus = await apiStore.getIsClaimed(post_id);
@@ -93,7 +121,21 @@ const ShelterDetail = observer(({ shelterData }) => {
         getShelterPostData();
         getReviewsData();
         getClaimStatus();
+        loadBookmarks();
     }, [])
+
+    const handleBookmark = async () => {
+        try {
+            if (appCtx.user) {
+                let bookmarkStatus = await apiStore.handleBookmark(post_id ,appCtx.user)
+                setBookmarkState(bookmarkStatus.message)
+
+            } else {
+                setOpen(true)
+            }
+          } catch {
+        }
+    }
 
     const verifiedIcon = () => {
         if (isClaimed === "no_claim") {
@@ -177,6 +219,19 @@ const ShelterDetail = observer(({ shelterData }) => {
         // prompt to Google map, passing current location andtarget location
     }
 
+    const favoriteIcon = () => bookmarkState? 
+        <IconButton onClick={handleBookmark}>
+            <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
+        </IconButton> :
+        (<>
+        <IconButton onClick={handleBookmark} ref={buttonRef}>
+            <BookmarkBorderOutlinedIcon/>
+        </IconButton>
+        <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
+            You are not logged in. Click here to log in.
+        </Popover>
+        </>)
+
     return (
         <Grid container
             direction="column"
@@ -206,7 +261,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     }</Button>
                     <Typography variant="h4" style={{marginLeft: "-40px"}}>{text.shelterDetail.pageHeader}</Typography>
                     <Grid>
-                        <BookmarkBorderIcon/>
+                        {bookmarkState != undefined && favoriteIcon()}  
                         <IosShareIcon/>
                         <MoreHorizIcon/>
                     </Grid>
