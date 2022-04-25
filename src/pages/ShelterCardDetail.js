@@ -130,7 +130,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
                 }
             })
-        }xs
+        }
     }
 
     const [openPostReviewForm, setOpenPostReviewForm] = useState(false);
