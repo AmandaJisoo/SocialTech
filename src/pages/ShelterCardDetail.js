@@ -38,17 +38,22 @@ const ShelterDetail = observer(({ shelterData }) => {
     const currentShelterData = appStore.shelterData;
     console.log("currentShelterData", currentShelterData)
     const [reviews, setReviews] = useState(undefined);
-    // const [shelterPostData, setShelterPostData] = useState({...currentShelterData, utilities: []});
+    const [highlightedComment, setHighlightedComment] = useState(undefined);
     const shelterPostData = appStore.shelterData;
     const navigate = useNavigate();
     const appCtx = useContext(AppContext);
-
+    console.log('highlightedComment', highlightedComment)
     useEffect(() => {
         const getShelterPostData = async () => {
             try {
                 const shelterPostDataResponse = await apiStore.loadSummary(post_id);
                 console.log("shelter data response: ", shelterPostDataResponse)
-                appStore.setShelterData(shelterPostDataResponse)
+                const topComment = await apiStore.getMostLikedComment(post_id);
+                appStore.setShelterData(shelterPostDataResponse);
+                console.log('topComment', topComment)
+                if (topComment.length > 0) {
+                    setHighlightedComment(topComment[0]);
+                }
             } catch (err) {
                 console.log(err.message)
             }
@@ -89,7 +94,9 @@ const ShelterDetail = observer(({ shelterData }) => {
         } else if (reviews.length === 0) {
             return null
         } else {
-            return <UserReview reviewData={getHighLightedReivew(reviews)} isHighLighted={true}/>
+            if (highlightedComment) {
+                return <UserReview reviewData={highlightedComment} isHighLighted={true}/>
+            }
         }
     }
     
@@ -118,8 +125,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                 </Grid>
             )
         } else {
-            return reviews.slice(0, reviews.length).map((reviewData, idx) => {
-                return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
+            return reviews.slice(1, reviews.length).map((reviewData, idx) => {
+                if (highlightedComment && (reviewData.comment_id != highlightedComment.comment_id)) {
+                    return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
+                }
             })
         }
     }

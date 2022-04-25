@@ -224,5 +224,16 @@ export default class APIStorage {
             console.log(err);
         }
     }
-}
+
+    async getMostLikedComment(post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetMostLikedComment", {
+                queryStringParameters: {
+                    post_id: post_id,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }}
 
