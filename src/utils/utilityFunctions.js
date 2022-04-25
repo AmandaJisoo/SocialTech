@@ -1,6 +1,15 @@
 export const MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD = 145
-export const LENGTH_OF_AUTO_SIGN_IN = 259200000 // 3 days in ms
-export const AUTH_TOKEN_KEYNAME = "auth_token"
+export const DEFAULT_COUNTRY = "USA"
+export const DEFAULT_PROFILE_PATH = "NO_PROFILE" 
+export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD = {
+	width: "20em",
+	height: "15em"
+}
+export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL = {
+	width: "100%",
+	height: "20em"
+}
+
 
 export function truncateReview(review) {
     return review.length > MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD ? 
@@ -17,6 +26,12 @@ export function getHighLightedReivew(reviews) {
 	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
     return reviews[0];
 }
+
+export function formatShelterAddress(data) {
+	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
+    return data.title + ", " + data.street + ", " + data.state + ", " + data.zipcode
+}
+ 
  
 /* 
 inputs: 

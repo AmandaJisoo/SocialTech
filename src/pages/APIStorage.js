@@ -107,13 +107,13 @@ export default class APIStorage {
         }
     }
 
-    async handleLike(comment_id, post_id, usernmae) {
+    async handleLike(comment_id, post_id, username) {
         try {
             return await API.post('SocialTechService', "/HandleLike", {
                 body: {
                     comment_id: comment_id,
                     post_id: post_id,
-                    usernmae: usernmae
+                    username: username
                 }
             })
         } catch (err) {
@@ -157,5 +157,95 @@ export default class APIStorage {
             console.log(err);
         }
     }
-}
+
+    async getSavedBookmarks(username) {
+        try {
+            return await API.get('SocialTechService', "/GetSavedBookmarks", {
+                queryStringParameters: {
+                    username: username
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getShelterByCity(city) {
+        try {
+            return await API.get('SocialTechService', "/GetShelterByCity", {
+                queryStringParameters: {
+                    city: city
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getClaim(username, post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetClaim", {
+                queryStringParameters: {
+                    username: username,
+                    post_id: post_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getIsClaimed(post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetIsClaimed", {
+                queryStringParameters: {
+                    post_id: post_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // TODO: fill in API function body 
+    async createClaim(username, post_id, status, claimed_utilies) {
+        try {
+            return await API.post('SocialTechService', "/CreateClaim", {
+                body: {
+                    username: username,
+                    post_id: post_id,
+                    status: status,
+                    claimed_utilies: claimed_utilies
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getLikeStatus(username, comment_id, post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetLikeStatus", {
+                queryStringParameters: {
+                    username: username,
+                    post_id: post_id, 
+                    comment_id: comment_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getMostLikedComment(post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetMostLikedComment", {
+                queryStringParameters: {
+                    post_id: post_id,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }}
 

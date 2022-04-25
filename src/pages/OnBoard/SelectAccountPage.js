@@ -1,4 +1,4 @@
-import { React, useContext } from 'react';
+import { React, useContext, useEffect } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 
@@ -9,12 +9,21 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HouseIcon from '@mui/icons-material/House';
 import OnBoardContext from './OnBoardContext';
 
+const USER_STATUS = {
+    regularUser: "user",
+    orgUser: "shelter_owner",
+    admin: "admin"
+}
+
 const SelectAccountPage = () => {
     const navigate = useNavigate();
     
     const ctx = useContext(OnBoardContext);
     
-    
+    useEffect(() => {
+        ctx.setActiveStep(1)
+    }, [ctx, ctx.activeStep])
+
     return( 
         <>
             <Grid
@@ -33,12 +42,12 @@ const SelectAccountPage = () => {
                 container 
                 justifyContent="space-between" 
                 alignItems="center"
-                style={{maxWidth: "30em"}}>
+                style={{maxWidth: "30em", marginTop: "2em"}}>
                 <ToggleButton
-                    value="regular"
+                    value={USER_STATUS.regularUser}
                     selected={ctx.regularUserButtonSelected}
                     onChange={() => {
-                        ctx.setAccountType("regular")
+                        ctx.setAccountType(USER_STATUS.regularUser)
                         ctx.setRegularUserButtonSelected(!ctx.regularUserButtonSelected)
                         ctx.setOrgUserButtonSelected(false)
                     }}>
@@ -55,10 +64,10 @@ const SelectAccountPage = () => {
                 </ToggleButton>
 
                 <ToggleButton
-                    value="shelter Staff"
+                    value={USER_STATUS.orgUser}
                     selected={ctx.orgUserButtonSelected}
                     onChange={() => {
-                        ctx.setAccountType("shelter Staff" )
+                        ctx.setAccountType(USER_STATUS.orgUser)
                         ctx.setOrgUserButtonSelected(!ctx.orgUserButtonSelected)
                         ctx.setRegularUserButtonSelected(false)
                         
@@ -82,11 +91,10 @@ const SelectAccountPage = () => {
                 container 
                 justifyContent="space-around" 
                 alignItems="center"
-                style={{maxWidth: "50em"}}>
+                style={{maxWidth: "50em", margin: "2em 0"}}>
 
                 <Button variant='contained' onClick={() => {
                     navigate("/app/onboard/intro")
-                    ctx.handleBack()
                 }}>
                     Back
                 </Button>
@@ -101,7 +109,6 @@ const SelectAccountPage = () => {
                         } else {
                             navigate("/app/onboard/org-user")
                         }
-                        ctx.handleNext()
                     }}>
                     Continue
                 </Button>

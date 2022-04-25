@@ -2,24 +2,22 @@ import {React, useState} from 'react';
 import PropTypes from 'prop-types';
 import appTheme from '../../theme/appTheme.json';
 
-const Tag = ({isSelectable, text, selectedTags, setSelectedTag }) => {
+const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
     const [selected, setSelected] = useState(false);
 
     const handleClick = (event) => {
         if (isSelectable) { 
-
-            // if tag is currently selected, remove it
-            if (selected) {
-                setSelectedTag(selectedTags.filter(text_ => {
-                    return text_ !== text
-                }))
+            if (!selected) {
+                selectedTags.push(text)
+                setSelectedTags(selectedTags)
             } else {
-                const newSelectedTags = [...selectedTags, text]
-                setSelectedTag(newSelectedTags)
+                selectedTags = selectedTags.filter(text_ => {
+                    return text_ !== text
+                })
+                setSelectedTags(selectedTags)
             }
-
-            setSelected(!selected)
             console.log("selected tag: ", selectedTags)
+            setSelected(!selected)
         }
     }
 
@@ -27,12 +25,14 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTag }) => {
         <span 
             className="tag" 
             value={text}
-            onClick={handleClick}
+            onClick={() => {
+                handleClick()
+            }}
             style={{
                 background: selected ? appTheme.palette.primary.main : appTheme.palette.primaryLight.light,
                 color: selected ? appTheme.palette.primaryLight.main : appTheme.palette.dark.darker,
                 padding: "5px",
-                margin: "0 5px",
+                margin: "8px 8px",
                 fontSize: "12px",
                 display: "inline-block",
                 borderRadius: "5px"

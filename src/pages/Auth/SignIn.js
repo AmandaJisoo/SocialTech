@@ -9,7 +9,6 @@ import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import mockUser from '../../mockData/mockUser.json';
-import {LENGTH_OF_AUTO_SIGN_IN, setWithExpiry, AUTH_TOKEN_KEYNAME} from '../../utils/utilityFunctions';
 import { Auth } from 'aws-amplify';
 
 const SignIn = ({setUser}) => {
@@ -38,14 +37,10 @@ const SignIn = ({setUser}) => {
         try {
           const user = await Auth.signIn(username, password);
           console.log(user)
-          if (isRememberMeChecked) {
-            setWithExpiry(AUTH_TOKEN_KEYNAME, mockUser.userData.authToken, LENGTH_OF_AUTO_SIGN_IN);
-          }
-          sessionStorage.setItem(AUTH_TOKEN_KEYNAME, mockUser.authToken)
           navigate("/app/dashboard")
         } catch (error) {
-            setErrorMsg(error.message)
-            console.log('error signing in', error);
+          setErrorMsg(error.message)
+          console.log('error signing in', error);
         }
     }
 

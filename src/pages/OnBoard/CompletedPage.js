@@ -1,9 +1,9 @@
-import { React, useContext } from 'react';
+import { React, useContext, useEffect } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 
 import text from "../../text/text.json"
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import OnBoardContext from './OnBoardContext';
 
 const CompletedPage = () => {
@@ -11,9 +11,9 @@ const CompletedPage = () => {
     const public_url = process.env.PUBLIC_URL;
     const ctx = useContext(OnBoardContext);
 
-    // Note: Calling this function here for TESTing only. \
-    //console.log("test: ", handleOnboardAPICall)
-    ctx.handleOnboardAPICall()
+    useEffect(() => {
+        ctx.setActiveStep(3)
+    }, [ctx, ctx.activeStep])
 
     return(
         <>

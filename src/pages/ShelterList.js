@@ -12,12 +12,32 @@ import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
 
 
-const ShelterList = ({setUser, shelterData, setShelterData}) => {
+const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive}) => {
     const appCtx = useContext(AppContext);
-    //Yichi: to call api do this 
-    const apiStore = useStore(); 
+    const { apiStore } = useStore(); 
+    const [bookmarks, setBookmarks] = useState([]);
     
     const navigate = useNavigate();
+
+  
+    useEffect(() => {
+        const getShelterPostData = async () => {
+            //TODO: Amanda maybe?
+            try {
+                let authRes = await Auth.currentAuthenticatedUser();
+                let username = authRes.username;
+                console.log("username for amanda", username);
+                let bookmarksResponse = await apiStore.getSavedBookmarks(username)
+                console.log("bookmarksResponse", bookmarksResponse);
+                //setBookmarks(bookmarksResponse);
+              } catch (err) {
+                // TODO: Amanda show pop up 
+                //do pop up 
+            }
+        }
+    
+        getShelterPostData();
+    }, [])
 
     const handleSignOut = async () => {
         try {
@@ -28,9 +48,10 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
         }
     }
 
+
     const shelterCards = () => {
         return (
-            shelterData === undefined ? 
+            shelterData === undefined || loaderActive ? 
                 <Grid   
                 container
                 direction="column"
@@ -39,8 +60,9 @@ const ShelterList = ({setUser, shelterData, setShelterData}) => {
                 style={{height: "80vh"}}>
                     <CircularProgress/>
                 </Grid> : 
-            shelterData.map(cardInfo => {
-                return <ShelterCard shelterData={cardInfo} key={cardInfo.id}/>
+            shelterData.map((cardInfo) => {
+                console.log("cardInfo", cardInfo);
+                return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })
         )
     }

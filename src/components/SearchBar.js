@@ -28,18 +28,16 @@ const SearchBar = ({setShelterData, shelterData}) => {
         console.log(sortIndicator)
         switch (sortIndicator) {
             case "Current Location":
-                const result = shelterData.sort((a, b) => {
+                 shelterData = shelterData.sort((a, b) => {
                     return a.distanceToUserLocation - b.distanceToUserLocation
                 })
-                console.log("location sortedres:", result)
-                setShelterData(result)
+                setShelterData(shelterData)
             break;
             case "Star Rating":
-                const result2 = shelterData.sort((a, b) => {
+                 shelterData = shelterData.sort((a, b) => {
                     return a.starRating - b.starRating
                 })
-                console.log("starrating sortedres:", result2)
-                setShelterData(result2)
+                setShelterData(shelterData)
             break;
             default:
         }

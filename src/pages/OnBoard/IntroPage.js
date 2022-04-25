@@ -1,4 +1,4 @@
-import { React, useContext } from 'react';
+import { React, useContext, useEffect } from 'react';
 import { Button, Typography } from '@mui/material';
 import text from "../../text/text.json"
 import { useNavigate } from 'react-router-dom';
@@ -8,12 +8,14 @@ import AppContext from '../../AppContext';
 const IntroPage = () => {
     const navigate = useNavigate();
 
-    const onBoardCtx= useContext(OnBoardContext);
+    const ctx = useContext(OnBoardContext);
     const appCtx= useContext(AppContext);
 
     const username = appCtx.user;
-    console.log("current user: ", appCtx.activeStep)
-    console.log(onBoardCtx.activeStep)
+
+    useEffect(() => {
+        ctx.setActiveStep(0)
+    }, [ctx, ctx.activeStep])
 
     return(
         <>
@@ -24,7 +26,6 @@ const IntroPage = () => {
                 {text.onboard.subIntro}
             </Typography>
             <Button variant='contained' onClick={() => {
-                onBoardCtx.handleNext()
                 navigate("/app/onboard/select-account-type")
                 
             }}>Continue</Button>

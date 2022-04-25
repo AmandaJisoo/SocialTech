@@ -1,4 +1,4 @@
-import {React, useState, createContext} from 'react';
+import {React, useState, useContext} from 'react';
 import { Grid, Box } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -6,15 +6,15 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import OnBoardContext from './OnBoardContext';
-
 import text from "../../text/text.json"
 import { useNavigate, Outlet,  } from 'react-router-dom';
 import { useStore } from '../Hook';
+import AppContext from '../../AppContext';
 
 const steps = ['Welcome', 'Select account type', 'Detail', "Complete"];
 
 const Onboard = props => {
-    const apiStore = useStore();
+    const { apiStore } = useStore();
 
     const [activeStep, setActiveStep] = useState(0);
     const [accountType, setAccountType] = useState(null);
@@ -24,6 +24,9 @@ const Onboard = props => {
     const [city, setCity] = useState(undefined)
     const [state, setState] = useState("")
     const [email, setEmail] = useState(undefined)
+    const appCtx = useContext(AppContext);
+    
+    console.log("current user name: " + appCtx.user)
     
     const handleOnboardAPICall =  async () => {
         console.log("account type: ", accountType)
@@ -37,18 +40,6 @@ const Onboard = props => {
             country: "USA"
         })
     }
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };  
 
     const handleGenderChange = (event) => {
         setGender(event.target.value)
@@ -68,6 +59,8 @@ const Onboard = props => {
   
     return(
         <OnBoardContext.Provider value={{
+            activeStep: activeStep,
+            setActiveStep: setActiveStep,
             accountType: accountType, 
             setAccountType: setAccountType,
             regularUserButtonSelected: regularUserButtonSelected,
@@ -82,9 +75,6 @@ const Onboard = props => {
             handleCityChange: handleCityChange,
             handleStateChange: handleStateChange,
             handleEmailChange: handleEmailChange,
-            handleNext: handleNext,
-            handleBack: handleBack,
-            handleReset: handleReset,
             handleOnboardAPICall: handleOnboardAPICall
         }}>
             <Grid
