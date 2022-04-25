@@ -45,18 +45,27 @@ const ShelterDetail = observer(({ shelterData }) => {
     console.log('highlightedComment', highlightedComment)
     const [isClaimed, setIsClaimed] = useState(undefined);
     useEffect(() => {
+        if (appStore.highlightedComment) {
+            console.log("appStore.highlightedComment", appStore.highlightedComment.comment_id)
+
+        }
         const getShelterPostData = async () => {
             try {
                 const shelterPostDataResponse = await apiStore.loadSummary(post_id);
-                console.log("shelter data response: ", shelterPostDataResponse)
-                const topComment = await apiStore.getMostLikedComment(post_id);
                 appStore.setShelterData(shelterPostDataResponse);
-                console.log('topComment', topComment)
-                if (topComment.length > 0) {
-                    setHighlightedComment(topComment[0]);
-                }
 
-                
+                console.log("shelter data response: ", shelterPostDataResponse)
+
+                if (appStore.highlightedComment) {
+                    setHighlightedComment(appStore.highlightedComment);
+                    console.log("using saved comment data");
+                } else {
+                    const topComment = await apiStore.getMostLikedComment(post_id);
+                    if (topComment.length > 0) {
+                        setHighlightedComment(topComment[0]);
+                        console.log("loading new comment data");
+                    }
+                }
             } catch (err) {
                 console.log(err.message)
             }
