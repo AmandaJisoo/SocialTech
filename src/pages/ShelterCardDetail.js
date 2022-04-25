@@ -126,7 +126,7 @@ const ShelterDetail = observer(({ shelterData }) => {
             )
         } else {
             return reviews.slice(0, reviews.length).map((reviewData, idx) => {
-                if (highlightedComment && (reviewData.comment_id != highlightedComment.comment_id)) {
+                if (highlightedComment && reviewData && (reviewData.comment_id != highlightedComment.comment_id)) {
                     return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
                 }
             })
