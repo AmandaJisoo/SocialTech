@@ -44,7 +44,6 @@ const ShelterDetail = observer(({ shelterData }) => {
     const appCtx = useContext(AppContext);
     console.log('highlightedComment', highlightedComment)
     const [isClaimed, setIsClaimed] = useState(undefined);
-
     useEffect(() => {
         const getShelterPostData = async () => {
             try {
@@ -76,15 +75,15 @@ const ShelterDetail = observer(({ shelterData }) => {
         const getClaimStatus = async() => {
             try {
                 const claimStatus = await apiStore.getIsClaimed(post_id);
+                console.log("claimStatus response: ", claimStatus)
                 setIsClaimed(claimStatus)
             } catch (err) {
                 console.log(err.message)
             }
         }
-
-        getShelterPostData()
-        getReviewsData()
-        getClaimStatus()
+        getShelterPostData();
+        getReviewsData();
+        getClaimStatus();
     }, [])
 
     const verifiedIcon = () => {
@@ -170,7 +169,6 @@ const ShelterDetail = observer(({ shelterData }) => {
     }
 
     return (
-        
         <Grid container
             direction="column"
             justifyContent="flex-start"

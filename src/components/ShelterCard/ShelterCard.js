@@ -34,9 +34,10 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
     const [isClaimed, setIsClaimed] = useState(undefined);
+    const [highlightedComment, setHighlightedComment] = useState(undefined);
 
     const { apiStore, appStore } = useStore(); 
-
+    console.log("highlightedComment for amanda", highlightedComment)
     const handleBookmark = async () => {
         try {
             if (user) {
@@ -60,9 +61,22 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         }
     }
 
+    const getHighLightedComment = async() => {
+        try {
+            const topComment = await apiStore.getMostLikedComment(shelterData.post_id);
+            if (topComment.length > 0) {
+                setHighlightedComment(topComment[0]);
+                appStore.setHighlightedComment(topComment[0])
+            }
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
 
     useEffect(() => {
         getClaimStatus()
+        getHighLightedComment()        
     }, [])
 
     const navigate = useNavigate();
@@ -93,18 +107,18 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const unit = DEFAULT_UNIT;
 
     return (
-    <Card 
-        onClick={() => {
-            console.log("shelterData for card", shelterData);
-            appStore.setShelterData(shelterData);
-        }}
-        style={{
-            padding: "20px",
-            margin: "20px",
-            boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
-            borderRadius: "8px"
-        }}
-    >
+        <Card 
+            onClick={() => {
+                console.log("shelterData for card", shelterData);
+                appStore.setShelterData(shelterData);
+            }}
+            style={{
+                padding: "20px",
+                margin: "20px",
+                boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
+                borderRadius: "8px"
+            }}
+        >
         <Grid
             container
             direction="row" 
@@ -153,7 +167,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                     </Grid>
                     <Rating value={START_RATING_PLACEHOLDER} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
-                    <Typography>{truncateReview(HIGHLIGHTED_REVIEW_PLACEHOLDER)}</Typography>
+                    {highlightedComment? <Typography>{truncateReview(highlightedComment.comment_body)}</Typography> : null}
                 </Grid>
                 <Grid
                     container
@@ -181,7 +195,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
             </Grid>
         </Grid>
-    </Card>);
+    </Card>)
 };
 
 ShelterCard.propTypes = {
