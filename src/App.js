@@ -6,6 +6,7 @@ import appThemeMui from "./theme/appThemeMui";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterCardDetail";
 import AuthenticatorGrid from "./pages/auth/AuthenticatorGrid";
+import { Button, Typography } from '@mui/material';
 import SignUp from "./pages/auth/SignUp";
 import SignIn from "./pages/auth/SignIn";
 import { Auth } from 'aws-amplify';
@@ -16,7 +17,7 @@ import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
-import Bookmarks from './components/Bookmarks';
+import RegularUserProfile from './components/RegularUserProfile';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 // window.LOG_LEVEL = 'DEBUG';
@@ -136,6 +137,39 @@ const App = () => {
         setUserStatus: setUserStatus
     }}>
       <ThemeProvider theme={appThemeMui}>
+        <Button onClick={() => {
+          if (user != null) {
+            navigate("app/bookmarks/" + user)
+          } else {
+
+          }
+        }
+        }>To profile </Button>
+
+        <Button onClick={() => {
+          try {
+            //TODO: Amanda check
+            //const shelterDataResponse = await fetch()
+            //console.log("Shelter data: ", shelterDataResponse)
+          } catch (err) {
+            console.log(err.message)
+          }
+        }
+        }>Test getDistance between shelter api</Button>
+
+        <Button onClick={async () => {
+          try {
+            // file claim
+            const createClaimResponse = await apiStore.createClaim(user, "The BLOCK Project#98105", "pending", ["test1", "test2"])
+            console.log("create claim result: ", createClaimResponse)
+
+            //navigate("/app/onboard/completed")
+        } catch(err) {
+            console.loug("create claim error: " + err.message)
+          }
+        }
+        }>Test file a claim </Button>
+
         <Routes>
 
           <Route index path="/app/dashboard" element={
@@ -173,8 +207,12 @@ const App = () => {
             <ShelterDetail shelterData={shelterData}/>
           } />
 
-          <Route path="app/bookmarks" element={
-            <Bookmarks user={user} setUser={setUser} />
+          <Route path="app/shelter-detail/:id" element={
+            <ShelterDetail shelterData={shelterData}/>
+          } />
+
+          <Route path="app/RegularUserProfile/:id" element={
+            <RegularUserProfile user={user} setUser={setUser} />
           } />
 
           <Route path="*" element={

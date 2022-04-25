@@ -8,7 +8,6 @@ import { TextField } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
-import mockUser from '../../mockData/mockUser.json';
 import { Auth } from 'aws-amplify';
 
 const SignIn = ({setUser}) => {

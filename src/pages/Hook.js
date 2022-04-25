@@ -6,4 +6,5 @@ const context  = React.createContext({
     apiStore: new APIStorage(),
     appStore: new AppStore()
 });
+
 export const useStore = () => React.useContext(context);

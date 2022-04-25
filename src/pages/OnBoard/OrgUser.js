@@ -47,7 +47,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
     const [loadingAvailableShleter, setLoadingAvailableShleter] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
     const onboardCtx = useContext(OnBoardContext);
-    const apiStore = useStore(); 
+    const { apiStore, appStore } = useStore();
 
     const fetchAvailableShelterData = () => {
         const getShelterDataByCity = async () => {
@@ -217,7 +217,7 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
     const appCtx = useContext(AppContext);
     const [selectedTags, setSelectedTags] = useState([]);
     const [errorMsg, setErrorMsg] = useState(null);
-    const apiStore = useStore(); 
+    const { apiStore, appStore } = useStore();
     
     const handleNext = async () => {
         setErrorMsg(null)

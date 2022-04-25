@@ -22,7 +22,7 @@ const RegularUserPage = () => {
     const onboardCtx = useContext(OnBoardContext);
     const appCtx = useContext(AppContext);
     const [errorMsg, setErrorMsg] = useState(null);
-    const apiStore = useStore(); 
+    const apiStore = useStore().apiStore;; 
 
     useEffect(() => {
         onboardCtx.setActiveStep(2)
