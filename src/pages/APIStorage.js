@@ -195,6 +195,18 @@ export default class APIStorage {
         }
     }
 
+    async getIsClaimed(post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetIsClaimed", {
+                queryStringParameters: {
+                    post_id: post_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     // TODO: fill in API function body 
     async createClaim(username, post_id, status, claimed_utilities) {
         try {
@@ -224,5 +236,16 @@ export default class APIStorage {
             console.log(err);
         }
     }
-}
+
+    async getMostLikedComment(post_id) {
+        try {
+            return await API.get('SocialTechService', "/GetMostLikedComment", {
+                queryStringParameters: {
+                    post_id: post_id,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }}
 

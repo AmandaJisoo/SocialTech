@@ -24,10 +24,11 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     const [numOfLikes, setNumOfLikes] = useState(undefined);
     const navigate = useNavigate();
     console.log("likeState", likeState)
-    const highlightedText = likeState? 
+
+    const highlightedText = 
+    (isHighLighted && reviewData && reviewData.likes > 0)?
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Review</Typography> :
         <span/>;
-    console.log("reviewData", reviewData)
 
     const loadLike = async() => {
         try {

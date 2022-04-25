@@ -12,11 +12,12 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import { truncateReview, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
 import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
-import { React, useState, useRef } from 'react';
+import { React, useState, useRef, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import { Auth } from 'aws-amplify';
 
 import { useStore } from '../../pages/Hook';
 
@@ -33,8 +34,25 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
-    const { apiStore, appStore } = useStore(); 
+    const [isClaimed, setIsClaimed] = useState(undefined);
+    const [highlightedComment, setHighlightedComment] = useState(undefined);
 
+    const { apiStore, appStore } = useStore(); 
+    
+    const loadBookmarks = async () => {
+        try {
+            let authRes = await Auth.currentAuthenticatedUser();
+            let username = authRes.username;
+            let bookmarksResponse = await apiStore.getSavedBookmarks(username);
+            let res = bookmarksResponse.includes(shelterData.post_id)
+            console.log("res", res)
+            setBookmarkState(bookmarksResponse.includes(shelterData.post_id));
+          } catch {
+            //do pop up?
+            setBookmarkState(false)
+        }
+    }
+    
     const handleBookmark = async () => {
         try {
             if (user) {
@@ -48,7 +66,37 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         }
     }
 
+    const getClaimStatus = async() => {
+        try {
+            const claimStatus = await apiStore.getIsClaimed(shelterData.post_id);
+            console.log("claimStatus response: ", claimStatus)
+            setIsClaimed(claimStatus)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const getHighLightedComment = async() => {
+        try {
+            const topComment = await apiStore.getMostLikedComment(shelterData.post_id);
+            if (topComment.length > 0) {
+                setHighlightedComment(topComment[0]);
+                appStore.setHighlightedComment(topComment[0])
+            }
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+
+    useEffect(() => {
+        getClaimStatus()
+        getHighLightedComment()
+        loadBookmarks()      
+    }, [])
+
     const navigate = useNavigate();
+
     const favoriteIcon = () => bookmarkState? 
         <IconButton onClick={handleBookmark}>
             <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
@@ -62,26 +110,32 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         </Popover>
         </>)
 
-    const verifiedIcon = () => VERIFIYED_STATE_PLACEHOLDER ? 
-        <VerifiedUserIcon style={{color: appTheme.palette.primary.main}}/> :
-        <VerifiedUserOutlinedIcon/>
+            
+    const verifiedIcon = () => {
+        if (isClaimed === "no_claim") {
+            return <div>unclaimed shelter</div>
+        } else if (isClaimed === "pending") {
+            return <div>shelter in process of claiming</div>
+        } else {
+            return <div>claimed shelter</div>
+        }
+    }
        
     const unit = DEFAULT_UNIT;
 
     return (
-    <Card 
-        //TODO: YICHI fix it 
-        onClick={() => {
-            console.log("shelterData for card", shelterData);
-            appStore.setShelterData(shelterData);
-        }}
-        style={{
-            padding: "20px",
-            margin: "20px",
-            boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
-            borderRadius: "8px"
-        }}
-    >
+        <Card 
+            onClick={() => {
+                console.log("shelterData for card", shelterData);
+                appStore.setShelterData(shelterData);
+            }}
+            style={{
+                padding: "20px",
+                margin: "20px",
+                boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
+                borderRadius: "8px"
+            }}
+        >
         <Grid
             container
             direction="row" 
@@ -128,9 +182,9 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                         <Typography>{shelterData.title}</Typography>
                         <Typography>{DISTANCE_PLACEHOLDER}</Typography>
                     </Grid>
-                    <Rating value={START_RATING_PLACEHOLDER} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                    <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
-                    <Typography>{truncateReview(HIGHLIGHTED_REVIEW_PLACEHOLDER)}</Typography>
+                    {highlightedComment? <Typography>{truncateReview(highlightedComment.comment_body)}</Typography> : null}
                 </Grid>
                 <Grid
                     container
@@ -158,7 +212,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
             </Grid>
         </Grid>
-    </Card>);
+    </Card>)
 };
 
 ShelterCard.propTypes = {
