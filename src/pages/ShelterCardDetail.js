@@ -105,7 +105,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 setBookmarkState(bookmarksResponse.includes(post_id));
                 setLoaderActive(false);
               } catch {
-                //do pop up?
+                setBookmarkState(false)
             }
         }
 

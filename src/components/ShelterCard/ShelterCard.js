@@ -49,6 +49,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             setBookmarkState(bookmarksResponse.includes(shelterData.post_id));
           } catch {
             //do pop up?
+            setBookmarkState(false)
         }
     }
     
@@ -95,6 +96,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     }, [])
 
     const navigate = useNavigate();
+
     const favoriteIcon = () => bookmarkState? 
         <IconButton onClick={handleBookmark}>
             <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
