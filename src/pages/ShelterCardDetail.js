@@ -125,12 +125,12 @@ const ShelterDetail = observer(({ shelterData }) => {
                 </Grid>
             )
         } else {
-            return reviews.slice(1, reviews.length).map((reviewData, idx) => {
+            return reviews.slice(0, reviews.length).map((reviewData, idx) => {
                 if (highlightedComment && (reviewData.comment_id != highlightedComment.comment_id)) {
                     return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
                 }
             })
-        }
+        }xs
     }
 
     const [openPostReviewForm, setOpenPostReviewForm] = useState(false);
