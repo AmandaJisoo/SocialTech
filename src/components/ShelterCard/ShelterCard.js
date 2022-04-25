@@ -182,7 +182,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                         <Typography>{shelterData.title}</Typography>
                         <Typography>{DISTANCE_PLACEHOLDER}</Typography>
                     </Grid>
-                    <Rating value={START_RATING_PLACEHOLDER} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                    <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
                     {highlightedComment? <Typography>{truncateReview(highlightedComment.comment_body)}</Typography> : null}
                 </Grid>
