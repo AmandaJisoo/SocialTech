@@ -55,7 +55,6 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             const claimStatus = await apiStore.getIsClaimed(shelterData.post_id);
             console.log("claimStatus response: ", claimStatus)
             setIsClaimed(claimStatus)
-            appStore.setClaimStatus(shelterData.post_id, claimStatus)
         } catch (err) {
             console.log(err.message)
         }
