@@ -1,6 +1,16 @@
 import { API, Storage, Auth } from 'aws-amplify';
 
 export default class APIStorage {
+    async calculateDistanceBetweenZipcodes(start_zipcode, end_zipcode) {
+        try {
+            let url = "/calculate?start_zipcode=" + start_zipcode + "&end_zipcode="+ end_zipcode
+            let response = await fetch(url).then(res => res.json())
+            return response;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async getUserStatus(username) {
         try {
             return await API.get('SocialTechService', "/GetUserStatus", {
