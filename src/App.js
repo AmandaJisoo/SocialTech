@@ -83,7 +83,7 @@ Amplify.configure({
   }
 });
 
-const ZIPCODE_PLACEHOLDER = 98105
+const CURRENT_USER_ZIPCODE_PLACEHOLDER = 98105
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -97,11 +97,22 @@ const App = () => {
       .catch(() => console.log('Not signed in'));
 
   useEffect(() => {
+    // get user zipcode 
+
     const getShelterData = async () => {
       try {
         //TODO: Amanda check
-        const shelterDataResponse = await apiStore.loadOverview(ZIPCODE_PLACEHOLDER, ZIPCODE_PLACEHOLDER)
+        const shelterDataResponse = await apiStore.loadOverview(CURRENT_USER_ZIPCODE_PLACEHOLDER, CURRENT_USER_ZIPCODE_PLACEHOLDER)
         console.log("Shelter data: ", shelterDataResponse)
+
+        // get distance between user and shetler for each shelter in shelterDataResponse
+        //
+        // for (let i = 0; i < shelterDataResponse.length; i++) {
+        //   let distance = await apiStore.getDistanceBetweenZipcodes(CURRENT_USER_ZIPCODE_PLACEHOLDER, shelterDataResponse[i].zipcode)
+        //   console.log("distance: " + distance)
+        //   shelterDataResponse[i]['distanceToUserLocation'] = distance
+        // }
+
         setShelterData(shelterDataResponse)
       } catch (err) {
         console.log(err.message)

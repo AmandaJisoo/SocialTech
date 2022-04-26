@@ -14,10 +14,10 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Divider from '@mui/material/Divider';
 import style from './style.js'
 import Box from '@mui/material/Box';
-import Tag from '../SelectableTags/Tag';
 import { useParams } from 'react-router-dom'
 import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
+import TagSelectionTab from './TagSelectionTab';
 
 const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [reviewText, setReviewText] = useState("");
@@ -29,14 +29,6 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const fileRef = useRef(null);
     const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
-
-    const tags = text.onboard.review_tags.map((data) => {
-        return <Tag key={data.id} 
-                    isSelectable={true} 
-                    text={data} 
-                    selectedTags={selectedTags}
-                    setSelectedTags={setSelectedTags}/>
-    })
 
     const handleTextChange = (event) => {
         setReviewText(event.target.value)
@@ -138,9 +130,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
 
             <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
 
-            <Grid>
-                {tags}
-            </Grid>
+            <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
 
             <Divider style={{width: "100%", margin: "5px 0 5px 0"}}/> 
 

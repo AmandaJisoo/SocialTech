@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AmenityFilterTab from './AmenityFilterTab';
 import SortOption from './SortOption';
 
-const SearchBar = ({setShelterData, shelterData}) => {
+const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
     const [query, setQuery] = useState("");
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
@@ -38,29 +38,33 @@ const SearchBar = ({setShelterData, shelterData}) => {
                 })
                 setShelterData(shelterData.slice())
             break;
-            case SORT_OPTIONS[1]: // Rating
+            case SORT_OPTIONS[1]: // Rating (ascending)
                 shelterData.sort((a, b) => {
                     return a.avg_rating - b.avg_rating
                 })
                 setShelterData(shelterData.slice())
             break;
-            case SORT_OPTIONS[2]: // Rating (reversed)
+            case SORT_OPTIONS[2]: // Rating (descending)
                 shelterData.sort((a, b) => {
                     return b.avg_rating - a.avg_rating
                 })
                 
                 setShelterData(shelterData.slice())
             break;
-            case SORT_OPTIONS[3]: // Favorite
+            case SORT_OPTIONS[3]: // Bookmark (descending)
                     shelterData = shelterData.sort((a, b) => {
-                    return a.starRating - b.starRating
+                    return b.num_of_bookmarks - a.num_of_bookmarks
                 })
                 setShelterData(shelterData.slice())
             break;
-            case SORT_OPTIONS[4]: // Reviewed
+            case SORT_OPTIONS[4]: // Reviews / comments (descending)
                     shelterData = shelterData.sort((a, b) => {
-                    return a.starRating - b.starRating
+                    return b.num_of_comments - a.num_of_comments
                 })
+                setShelterData(shelterData.slice())
+            break;
+            case SORT_OPTIONS[5]: // name (alphabetically)
+                shelterData = shelterData.sort((a, b) => a.title > b.title ? 1 : b.title > a.title ? -1 : 0)
                 setShelterData(shelterData.slice())
             break;
             default:
@@ -103,7 +107,7 @@ const SearchBar = ({setShelterData, shelterData}) => {
     };
 
     const sortOptionEles = SORT_OPTIONS.map(optionName => {
-        return <SortOption optionName={optionName} sortOption={sortOption} setSortOption={setSortOption}/>
+        return <SortOption key={optionName} optionName={optionName} sortOption={sortOption} setSortOption={setSortOption}/>
     })
     
 
@@ -193,6 +197,6 @@ const SearchBar = ({setShelterData, shelterData}) => {
     );
 };
 
-SearchBar.propTypes = {};
+ShelterDisplayControlWidget.propTypes = {};
 
-export default SearchBar;
+export default ShelterDisplayControlWidget;

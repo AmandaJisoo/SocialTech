@@ -8,7 +8,6 @@ import text from "../text/text.json"
 import { Grid, Button } from '@mui/material';
 import ShelterCard from './ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
-import SearchBar from './SearchBar';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';

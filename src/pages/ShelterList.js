@@ -5,7 +5,7 @@ import text from "../text/text.json"
 import { Grid, Button } from '@mui/material';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
-import SearchBar from '../components/SearchBar';
+import ShelterDisplayControlWidget from '../components/ShelterDisplayControlWidget';
 import CircularProgress from '@mui/material/CircularProgress'
 import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
@@ -63,7 +63,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
                     <CircularProgress/>
                 </Grid> : 
             shelterData.map((cardInfo) => {
-                return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
+                return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.post_id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })
         )
     }
@@ -114,7 +114,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
                     {welcomeMsg}
     
                     <Grid item container style={{width: "90%"}}>
-                        <SearchBar shelterData={shelterData} setShelterData={setShelterData} />
+                        <ShelterDisplayControlWidget shelterData={shelterData} setShelterData={setShelterData} />
                     </Grid>
     
                     <Grid item>{shelterCards()}</Grid>
