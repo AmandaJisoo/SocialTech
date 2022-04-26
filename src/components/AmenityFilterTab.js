@@ -28,7 +28,7 @@ const TAGS_FOR_SPECIFIC_AMENITY = new Map([
     ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
 ])
 
-const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton }) => {
+const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter }) => {
     const [selectedTab, setSelectedTab] = useState(CATEGORY_PLACE_HOLDER[0]);
 
     const tabs = CATEGORY_PLACE_HOLDER.map((name) => {
@@ -119,7 +119,7 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
 
             {displayShowResultButton && 
             <Button variant='contained' onClick={() => {
-                // close drawer, filter and show result
+                handleFilter()
             }}>
                 Show Result
             </Button>}

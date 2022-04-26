@@ -46,7 +46,7 @@ export function getDistanceBetweenTwoZipcode(zipcode1, zipcode2) {
     return null
 }
 
-export const FILTER_OPTIONS = ["Current Location", "Star Rating"];
+export const SORT_OPTIONS = ["Distance", "Rating", "Favorite", "Most Reviewed"];
 
 export const DEFAULT_UNIT = "km"
 

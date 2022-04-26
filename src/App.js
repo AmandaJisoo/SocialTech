@@ -137,16 +137,16 @@ const App = () => {
         setUserStatus: setUserStatus
     }}>
       <ThemeProvider theme={appThemeMui}>
-        <Button onClick={() => {
+        {/* <Button onClick={() => {
           if (user != null) {
             navigate("app/bookmarks/" + user)
           } else {
 
           }
         }
-        }>To profile </Button>
+        }>To profile </Button> */}
 
-        <Button onClick={() => {
+        {/* <Button onClick={() => {
           try {
             //TODO: Amanda check
             //const shelterDataResponse = await fetch()
@@ -155,9 +155,9 @@ const App = () => {
             console.log(err.message)
           }
         }
-        }>Test getDistance between shelter api</Button>
+        }>Test getDistance between shelter api</Button> */}
 
-        <Button onClick={async () => {
+        {/* <Button onClick={async () => {
           try {
             // file claim
             const createClaimResponse = await apiStore.createClaim(user, "The BLOCK Project#98105", "pending", ["test1", "test2"])
@@ -168,7 +168,7 @@ const App = () => {
             console.loug("create claim error: " + err.message)
           }
         }
-        }>Test file a claim </Button>
+        }>Test file a claim </Button> */}
 
         <Routes>
 

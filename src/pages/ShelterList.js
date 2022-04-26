@@ -74,11 +74,14 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
             container
             justifyContent="center" 
             alignItems="center"
-            style={{height: "100vh"}}>
+            style={{height: "10vh"}}>
             {appCtx.user ?
                 <>
                     <Typography>Welcome, {appCtx.user}</Typography>
                     <Button onClick={ handleSignOut }>Log out</Button>
+                    <Button onClick={ () => {
+                        navigate("app/bookmarks/" + appCtx.user)
+                    } }>Profile</Button>
                 </> :
                  <>
                  <Button onClick={() => {

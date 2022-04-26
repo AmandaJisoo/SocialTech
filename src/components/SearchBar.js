@@ -1,7 +1,8 @@
 import {React, useState} from 'react';
-import { FILTER_OPTIONS } from '../utils/utilityFunctions';
-import { Grid } from '@mui/material';
+import { SORT_OPTIONS } from '../utils/utilityFunctions';
+import { Grid, Button, Typography } from '@mui/material';
 
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,18 +10,22 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
+import AmenityFilterTab from './AmenityFilterTab';
+import SortOption from './SortOption';
 
 const SearchBar = ({setShelterData, shelterData}) => {
-    const [filterOption, setFilterOption] = useState(FILTER_OPTIONS[0]);
+    const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
     const [query, setQuery] = useState("");
+    const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
+    const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
+    const [selectedAmenityTags, setSlectedAmenityTags] = useState([]);
 
-    const filterMenuItems = FILTER_OPTIONS.map((option, key) => {
+    const filterMenuItems = SORT_OPTIONS.map((option, key) => {
         return <MenuItem key={key} value={option}>{option}</MenuItem>
     });
 
-    const handleFilterChange = (event) => {
-        setFilterOption(event.target.value);
-        handleSort(event.target.value)
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
     }
 
     const handleSort = (sortIndicator) => {
@@ -48,8 +53,38 @@ const SearchBar = ({setShelterData, shelterData}) => {
     }
 
     const handleSearch = () => {
-        
+        // TODO : add functionality to revert search result and show all shelters before search. 
+        console.log("filter shelter: " + shelterData)
+        shelterData = shelterData.filter(data => {
+            console.log("title and query: ", data.title, query)
+                return data.title === query
+        })
+        console.log("filter shelter: " + shelterData)
+        setShelterData(shelterData)
     }
+
+    const handleFilterByAmenityTags = () => {
+        // TODO
+    }
+
+    const toggleFilterByAmenityDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+          return;
+        }
+        setFilterByAmenityDrawerOpen(open);
+    };
+
+    const toggleSortDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+          return;
+        }
+        setSortDrawerOpen(open);
+    };
+
+    const sortOptionEles = SORT_OPTIONS.map(optionName => {
+        return <SortOption optionName={optionName} sortOption={sortOption} setSortOption={setSortOption}/>
+    })
+    
 
     return (
         
@@ -68,8 +103,8 @@ const SearchBar = ({setShelterData, shelterData}) => {
                       <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
-                        value={filterOption}
-                        onChange={handleFilterChange}
+                        value={sortOption}
+                        onChange={handleSortOptionChange}
                         label="Filter by"
                       >
                           {filterMenuItems}
@@ -78,13 +113,68 @@ const SearchBar = ({setShelterData, shelterData}) => {
                 </Grid>
 
                 <Grid item xs={6} md={8}>
-                    <TextField id="outlined-basic" label="Search" variant="outlined" fullWidth/>
+                    <TextField id="outlined-basic" label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
                 </Grid>
                 
                 <SearchIcon 
                     onClick={handleSearch}
                     style={{width: "30px", height: "30px", cursor: "pointer", position: "absolute", right: "0", marginRight: "1em"}}
                 />
+            </Grid>
+
+            <Grid
+                item
+                container 
+                justifyContent="space-around" 
+                alignItems="center"
+                style={{width:  "100%"}}
+                >
+
+                <>
+                    <Button variant='outlined' 
+                        onClick={toggleSortDrawer(true)}>
+                        General Sort
+                    </Button>
+                    <SwipeableDrawer
+                        anchor={"bottom"}
+                        open={sortDrawerOpen}
+                        onOpen={toggleSortDrawer(true)}
+                        onClose={toggleSortDrawer(false)}
+                    >
+                        <Grid
+                            style={{padding: "20px", marginBottom: "100px"}}
+                        >
+                            {sortOptionEles}
+                        </Grid>
+                    </SwipeableDrawer>
+                </>
+
+
+
+                <>
+                    <Button variant='outlined' 
+                        onClick={toggleFilterByAmenityDrawer(true)}>
+                        Filter
+                    </Button>
+                    <SwipeableDrawer
+                        anchor={"bottom"}
+                        open={filterByAmenityDrawerOpen}
+                        onOpen={toggleFilterByAmenityDrawer(true)}
+                        onClose={toggleFilterByAmenityDrawer(false)}
+                    >
+                        <Grid
+                            style={{padding: "20px", marginBottom: "100px"}}
+                        >
+                            <AmenityFilterTab 
+                                selectedAmenityTags={selectedAmenityTags} 
+                                setSelectedAmenityTags={setSlectedAmenityTags}
+                                displayShowResultButton={true}
+                                handleFilter={handleFilterByAmenityTags}/>
+                        </Grid>
+                    </SwipeableDrawer>
+                </>
+
+
             </Grid>
         </Box>
     );
