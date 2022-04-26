@@ -16,7 +16,7 @@ import Popover from '@mui/material/Popover';
 import { useNavigate } from 'react-router-dom';
 
 const UserReview = ({ reviewData, isHighLighted }) => {
-    const { apiStore } = useStore(); 
+    const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(undefined)
     const buttonRef = useRef(null);
     const appCtx = useContext(AppContext);
@@ -58,13 +58,15 @@ const UserReview = ({ reviewData, isHighLighted }) => {
 
     const getUserPofile = async () => {
         try {
-            if (appCtx.user) {
+            if (appCtx.user in appStore.userProfilePic) {
+                setUserProfile(appStore.userProfilePic[appCtx.user])
+            } else {
                 console.log('here')
                 let profile = await apiStore.getUserProfile(appCtx.user)
                 console.log('profile', profile)
                 setUserProfile(profile)
                 console.log("likeState after clicking", likeState)
-            } 
+            }
             } catch {
         }
     }

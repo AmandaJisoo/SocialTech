@@ -18,6 +18,7 @@ import Popover from '@mui/material/Popover';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import { Auth } from 'aws-amplify';
+import CircularProgress from '@mui/material/CircularProgress'
 
 import { useStore } from '../../pages/Hook';
 
@@ -36,6 +37,10 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const buttonRef = useRef(null);
     const [isClaimed, setIsClaimed] = useState(undefined);
     const [highlightedComment, setHighlightedComment] = useState(undefined);
+    const [userProfile, setUserProfile] = useState(undefined);
+
+
+    console.log("userProfile", userProfile)
 
     const { apiStore, appStore } = useStore(); 
     
@@ -82,7 +87,11 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             if (topComment.length > 0) {
                 setHighlightedComment(topComment[0]);
                 appStore.setHighlightedComment(topComment[0])
-            }
+                let profile = await apiStore.getUserProfile(topComment[0].username)
+                console.log('profile card', profile)
+                setUserProfile(profile)
+                appStore.setUserProfilePic(topComment[0].username, profile.profile_pic_path)
+            } 
         } catch (err) {
             console.log(err.message)
         }
@@ -90,9 +99,9 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
 
     useEffect(() => {
-        getClaimStatus()
-        getHighLightedComment()
-        loadBookmarks()      
+        getClaimStatus();
+        getHighLightedComment();
+        loadBookmarks();   
     }, [])
 
     const navigate = useNavigate();
@@ -122,6 +131,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     }
        
     const unit = DEFAULT_UNIT;
+    //TODO: yichi fix the profile pic line 206 
 
     return (
         <Card 
@@ -184,6 +194,21 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                     </Grid>
                     <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
+                    {userProfile&& (<Grid
+                            item
+                            container
+                            direction="row" 
+                            justifyContent="space-between" 
+                            spacing={1}
+                            alignItems="left">
+                            <img 
+                            style={{width: 60, height: 60, borderRadius: 60/ 2}} 
+                            src={userProfile.profile_pic_path}
+                            />
+                            <Typography>{userProfile.username}</Typography>
+                        </Grid>)  
+                        }
+
                     {highlightedComment? <Typography>{truncateReview(highlightedComment.comment_body)}</Typography> : null}
                 </Grid>
                 <Grid
