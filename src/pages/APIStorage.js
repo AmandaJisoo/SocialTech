@@ -106,6 +106,7 @@ export default class APIStorage {
     }
 
     async loadSummary(post_id) {
+        console.log("post_id in api function: " + post_id)
         try {
             return await API.get('SocialTechService', "/LoadSummary", {
                 queryStringParameters: {

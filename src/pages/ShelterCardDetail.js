@@ -27,6 +27,7 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
+import TagSelectionTab from '../components/PostReviewForm/TagSelectionTab';
 
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
@@ -56,6 +57,9 @@ const ShelterDetail = observer(({ shelterData }) => {
     const buttonRef = useRef(null);
     console.log("bookmarkState", bookmarkState)
 
+    // temporary selected tag state for implementation purpose 
+    const [selectedTags, setSelectedTags] = useState([]);
+
     useEffect(() => {
         if (appStore.highlightedComment) {
             console.log("appStore.highlightedComment", appStore.highlightedComment.comment_id)
@@ -63,6 +67,7 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
         const getShelterPostData = async () => {
             try {
+                console.log("post_id before load summary: " + post_id)
                 const shelterPostDataResponse = await apiStore.loadSummary(post_id);
                 appStore.setShelterData(shelterPostDataResponse);
 
@@ -205,7 +210,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [openPostReviewForm, setOpenPostReviewForm] = useState(false);
 
     const handleOpen = () => {
-        if (appCtx.user != null) {
+        if (appCtx.user !==null) {
             setOpenPostReviewForm(true);
         } else {
             navigate("/app/auth/sign-in")
@@ -247,6 +252,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                 rowSpacing={2}
                 style={{maxWidth: "50em", padding: "20px"}}>
 
+                <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+
                 <Grid
                     item
                     container
@@ -261,7 +268,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     }</Button>
                     <Typography variant="h4" style={{marginLeft: "-40px"}}>{text.shelterDetail.pageHeader}</Typography>
                     <Grid>
-                        {bookmarkState != undefined && favoriteIcon()}  
+                        {bookmarkState !== undefined && favoriteIcon()}  
                         <IosShareIcon/>
                         <MoreHorizIcon/>
                     </Grid>

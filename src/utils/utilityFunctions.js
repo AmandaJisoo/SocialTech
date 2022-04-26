@@ -10,6 +10,15 @@ export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL = {
 	height: "20em"
 }
 
+export const TAG_CATEGORY_PLACE_HOLDER = ["Cleaness", "Safety", "Warmth", "Utilities", "Others"]
+export const TAGS_FOR_SPECIFIC_CATEGORY = new Map([
+    ["Cleaness", ["Very clean", "Clean", "So-so", "Not clean", "Messy", "Dirty"]],
+    ["Safety", ["Very safe", "safe", "unsafe", "Dangerous"]],
+    ["Warmth", ["Warm", "Not worm"]],
+    ["Utilities", ["Fully-equipipped", "Just okay", "Lack utilities "]],
+    ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
+])
+
 
 export function truncateReview(review) {
     return review.length > MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD ? 

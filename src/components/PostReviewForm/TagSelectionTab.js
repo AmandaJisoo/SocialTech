@@ -5,20 +5,13 @@ import Divider from '@mui/material/Divider';
 import appTheme from '../../theme/appTheme.json';
 import Button from '@mui/material/Button';
 import Tag from '../SelectableTags/Tag'
-
-const CATEGORY_PLACE_HOLDER = ["Cleaness", "Safety", "Warmth", "Utilities", "Others"]
-const TAGS_FOR_SPECIFIC_AMENITY = new Map([
-    ["Cleaness", ["Very clean", "Clean", "So-so", "Not clean", "Messy", "Dirty"]],
-    ["Safety", ["Very safe", "safe", "unsafe", "Dangerous"]],
-    ["Warmth", ["Warm", "Not worm"]],
-    ["Utilities", ["Fully-equipipped", "Just okay", "Lack utilities "]],
-    ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
-])
+import Box from '@mui/material/Box';
+import { TAG_CATEGORY_PLACE_HOLDER, TAGS_FOR_SPECIFIC_CATEGORY } from '../../utils/utilityFunctions';
 
 const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
-    const [selectedTab, setSelectedTab] = useState(CATEGORY_PLACE_HOLDER[0]);
+    const [selectedTab, setSelectedTab] = useState(TAG_CATEGORY_PLACE_HOLDER[0]);
 
-    const tabs = CATEGORY_PLACE_HOLDER.map((name) => {
+    const categoryTabs = TAG_CATEGORY_PLACE_HOLDER.map((name) => {
         return (
         <Grid key={name}>
             <Grid
@@ -26,8 +19,7 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                 justifyContent="center"
                 alignItems="center"
                 style={{
-                    width: "100px",
-                    height: "50px",
+                    height: "30px",
                     backgroundColor: selectedTab === name ? appTheme.palette.primaryLight.light : appTheme.palette.primaryLight.main
                 }}
             >
@@ -52,8 +44,15 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
     const tagsFilteredByCategory = () => {
         
         //console.log("selectedTags in tab component: " + selectedAmenityTags)
-        return TAGS_FOR_SPECIFIC_AMENITY.get(selectedTab).map((text) => {
-            return <Tag key={text} isSelectable={true} text={text} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+        return TAGS_FOR_SPECIFIC_CATEGORY.get(selectedTab).map((text, index) => {
+            return <Tag 
+                    key={text + index} 
+                    isSelectable={true} 
+                    text={text} 
+                    selectedTags={selectedTags} 
+                    setSelectedTags={setSelectedTags} 
+                    selectedCategory={selectedTab}
+                    isTagSelectionMutualExclusiveWithinCategory={true}/>
         })
     }
 
@@ -63,47 +62,48 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
     }, [selectedTags])
 
     return (
-      <Grid
-        container
-        direction="column"
-        style={{minWidth: "400px"}}>
-
-        <Grid
-            item
+          <Grid
             container
-            direction="row"
-            style={{width: "100px"}}>
-            <Typography>More Tags</Typography>
-        </Grid> 
+            direction="column"
+            alignItems='center'
+            style={{width: "350px"}}>
 
-        <Grid
-        item
-        container
-        direction="row"
-        style={{width: "100px"}}
-        >
-            {tabs}
+            <Box sx={{width: "100%", borderRadius: "10px", border: "1px solid rgba(228, 228, 228, 0.6)"}}>
+                <Grid
+                    item
+                    container
+                    direction="row"
+                    justifyContent='center'
+                    style={{width: "100%"}}>
+                    <Typography>More Tags</Typography>
+                </Grid>
+                <Grid
+                    item
+                    container
+                    direction="row"
+                    alignItems='center'
+                    justifyContent='center'
+                    style={{width: "100%"}}
+                >
+                    {categoryTabs}
+                </Grid>
+                <Divider style={{width: "100%", marginTop: "10px", marginBottom: "10px"}}/>
+                <Grid
+                item
+                style={{marginLeft: "20px", width: "300px"}}>
+                    {tagsFilteredByCategory()}
+                </Grid>
+            
+                <Divider style={{width: "100%", marginTop: "10px", marginBottom: "0px"}}/>
+                <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{padding: "20px"}}>
+                    <Typography>Choose only one tag in each category</Typography>
+                </Grid>
+            </Box>
         </Grid>
-
-
-        <Divider style={{width: "100%", marginTop: "0px", marginBottom: "20px"}}/>
-
-        <Grid 
-        item
-        style={{marginLeft: "20px", width: "300px"}}>
-            {tagsFilteredByCategory()}
-        </Grid>
-        
-        <Divider style={{width: "100%", marginTop: "0px", marginBottom: "20px"}}/>
-
-        <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            style={{padding: "0px 20px"}}>
-            <Typography>Choose only one tag in each category</Typography>    
-        </Grid>
-      </Grid>
     );
 };
 

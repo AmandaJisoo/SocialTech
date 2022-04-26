@@ -1,8 +1,16 @@
 import {React, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import appTheme from '../../theme/appTheme.json';
+import { TAGS_FOR_SPECIFIC_CATEGORY } from '../../utils/utilityFunctions';
 
-const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {            
+const Tag = ({
+    isSelectable, 
+    text, 
+    selectedTags, 
+    setSelectedTags, 
+    selectedCategory,
+    isTagSelectionMutualExclusiveWithinCategory }) => {   
+
     console.log("selected tag: ", selectedTags)
 
     const [selected, setSelected] = useState(!isSelectable ? false : selectedTags.includes(text));
@@ -10,7 +18,16 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
     const handleClick = (event) => {
         if (isSelectable) { 
             if (!selected) {
+
+                if (isTagSelectionMutualExclusiveWithinCategory) {
+                    let tagsInCurrentCategory = TAGS_FOR_SPECIFIC_CATEGORY.get(selectedCategory);
+                    selectedTags = selectedTags.filter(text_ => {
+                        return !tagsInCurrentCategory.includes(text_)
+                    })
+                }
+
                 selectedTags.push(text)
+
                 setSelectedTags(selectedTags.slice())
             } else {
                 selectedTags = selectedTags.filter(text_ => {
