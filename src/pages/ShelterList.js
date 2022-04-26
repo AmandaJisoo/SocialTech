@@ -31,7 +31,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
                 console.log("username for amanda", username);
                 let bookmarksResponse = await apiStore.getSavedBookmarks(username)
                 console.log("bookmarksResponse", bookmarksResponse);
-                //setBookmarks(bookmarksResponse);
+                setBookmarks(bookmarksResponse);
               } catch (err) {
                 // TODO: Amanda show pop up 
                 //do pop up 

@@ -259,7 +259,7 @@ export default class APIStorage {
         }
     }
 
-        async getUserProfile(username) {
+    async getUserProfile(username) {
         try {
             return await API.get('SocialTechService', "/GetUserProfile", {
                 queryStringParameters: {
@@ -271,6 +271,16 @@ export default class APIStorage {
         }
     }
 
-
+    async loadAllComments(username) {
+        try {
+            return await API.get('SocialTechService', "/LoadAllComments", {
+                queryStringParameters: {
+                    username: username,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
