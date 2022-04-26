@@ -257,5 +257,20 @@ export default class APIStorage {
         } catch (err) {
             console.log(err);
         }
-    }}
+    }
+
+        async getUserProfile(username) {
+        try {
+            return await API.get('SocialTechService', "/GetUserProfile", {
+                queryStringParameters: {
+                    username: username,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+}
 

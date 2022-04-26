@@ -1,4 +1,4 @@
-import { React, useContext, useState, useRef, useEffect } from 'react';
+import { React, useContext, useState, useRef, useEffect, Image } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
@@ -22,8 +22,10 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     const appCtx = useContext(AppContext);
     const [likeState, setLikeState] = useState(undefined);
     const [numOfLikes, setNumOfLikes] = useState(undefined);
+    const [userProfile, setUserProfile] = useState(undefined);
     const navigate = useNavigate();
-    console.log("likeState", likeState)
+    console.log("reviewData here", reviewData)
+    console.log('userProfile', userProfile) 
 
     const highlightedText = 
     (isHighLighted && reviewData && reviewData.likes > 0)?
@@ -50,6 +52,19 @@ const UserReview = ({ reviewData, isHighLighted }) => {
             } else {
                 setOpen(true)
             }
+            } catch {
+        }
+    }
+
+    const getUserPofile = async () => {
+        try {
+            if (appCtx.user) {
+                console.log('here')
+                let profile = await apiStore.getUserProfile(appCtx.user)
+                console.log('profile', profile)
+                setUserProfile(profile)
+                console.log("likeState after clicking", likeState)
+            } 
             } catch {
         }
     }
@@ -84,6 +99,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
 
     useEffect(() => {
         loadLike();
+        getUserPofile();
     }, [])
 
     console.log("reviewData", reviewData)
@@ -105,9 +121,21 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                     item
                     container
                     direction="column" 
-                    justifyContent="center" 
-                    alignItems="center"
+                    // justifyContent="center" 
+                    // alignItems="center"
                     spacing={1}>
+                    {userProfile&&
+                        <Grid
+                            item
+                            container
+                            direction="row" 
+                            justifyContent="space-between" 
+                            alignItems="left">
+                            <img 
+                            style={{width: 60, height: 60, borderRadius: 60/ 2}} 
+                            src={userProfile.profile_pic_path}
+                            />
+                        </Grid>}
                     <Grid
                         item
                         container
