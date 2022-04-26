@@ -33,7 +33,7 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
 
     const tabs = CATEGORY_PLACE_HOLDER.map((name) => {
         return (
-        <Grid>
+        <Grid key={name}>
             <Grid
                 container
                 justifyContent="center"
@@ -64,16 +64,16 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
 
     const tagsFilteredByCategory = () => {
         
-        console.log("selectedTags in tab component: " + selectedAmenityTags)
+        //console.log("selectedTags in tab component: " + selectedAmenityTags)
         return TAGS_FOR_SPECIFIC_AMENITY.get(selectedTab).map((text) => {
-            return <Tag isSelectable={true} text={text} selectedTags={selectedAmenityTags} setSelectedTags={setSelectedAmenityTags}/>
+            return <Tag key={text} isSelectable={true} text={text} selectedTags={selectedAmenityTags} setSelectedTags={setSelectedAmenityTags}/>
         })
     }
 
 
     useEffect(() => {
 
-    }, [])
+    }, [selectedAmenityTags])
 
     return (
       <Grid
@@ -112,7 +112,8 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
                 variant='contained'
                 onClick={() => {
                     selectedAmenityTags.length = 0
-                    setSelectedAmenityTags(selectedAmenityTags)
+                    console.log("array after clear: " + selectedAmenityTags.length)
+                    setSelectedAmenityTags([])
                 }}>
                 Clear All 
             </Button>

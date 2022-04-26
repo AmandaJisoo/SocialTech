@@ -24,6 +24,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
     const params = useParams();
     const fileRef = useRef(null);
     const { apiStore } = useStore();
@@ -123,7 +124,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     type="file" 
                     name="file" 
                     onChange={ () => {
-                        console.log(fileRef.current.files)
+                        console.log("selected files: ", fileRef.current.files)
                         setSelectedFile(fileRef.current.files[0])
                     }} 
                     accept="image/*" 

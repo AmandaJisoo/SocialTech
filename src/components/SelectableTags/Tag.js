@@ -2,19 +2,21 @@ import {React, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import appTheme from '../../theme/appTheme.json';
 
-const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
+const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {            
+    console.log("selected tag: ", selectedTags)
+
     const [selected, setSelected] = useState(!isSelectable ? false : selectedTags.includes(text));
 
     const handleClick = (event) => {
         if (isSelectable) { 
             if (!selected) {
                 selectedTags.push(text)
-                setSelectedTags(selectedTags)
+                setSelectedTags(selectedTags.slice())
             } else {
                 selectedTags = selectedTags.filter(text_ => {
                     return text_ !== text
                 })
-                setSelectedTags(selectedTags)
+                setSelectedTags(selectedTags.slice())
             }
             console.log("selected tag: ", selectedTags)
             setSelected(!selected)
@@ -23,9 +25,9 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
 
     //console.log("selectedTags in tag component " + text + ": " + selectedTags, "is selected: " + selected)
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [selectedTags])
+    // }, [selectedTags])
 
     return (
         <span 
