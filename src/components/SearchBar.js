@@ -119,18 +119,12 @@ const SearchBar = ({setShelterData, shelterData}) => {
                 style={{position: "relative"}}>
 
                 <Grid item xs={3}>
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel id="demo-simple-select-standard-label">Filter by</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={sortOption}
-                        onChange={handleSortOptionChange}
-                        label="Filter by"
-                      >
-                          {sortMenuItems}
-                      </Select>
-                    </FormControl>
+                    <Grid 
+                        container
+                        direction="column">
+                        <Typography >Currenly sorted by: </Typography>
+                        <Typography>{sortOption}</Typography>
+                    </Grid>
                 </Grid>
 
                 <Grid item xs={6} md={8}>

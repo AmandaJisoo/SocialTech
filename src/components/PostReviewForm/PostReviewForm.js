@@ -44,20 +44,23 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
 
     const handleUploadReview = async () => {
         try {
-            console.log("tags: ", selectedTags)
-            const imageUploadResponse = await apiStore.uploadImageToS3(selectedFile);
+            let imageUploadResponse = []
+            for (let i = 0; i < selectedFile.length; i++) {
+                imageUploadResponse.push(await apiStore.uploadImageToS3(selectedFile[i]));
+            }
+            console.log(imageUploadResponse)
             const reviewUploadResponse = await apiStore.createComment({
                 post_id: post_id,
                 comment_body: reviewText,
                 username: appCtx.user,
                 rating: starRating,
                 tags: selectedTags,
-                pics: [imageUploadResponse]
+                pics: imageUploadResponse
             })
             console.log(reviewUploadResponse)
             handleClose()
         } catch (err) {
-            console.log(err.message)
+            console.log("img upload error: " + err.message)
         }
     }
 
@@ -125,7 +128,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     name="file" 
                     onChange={ () => {
                         console.log("selected files: ", fileRef.current.files)
-                        setSelectedFile(fileRef.current.files[0])
+                        setSelectedFile(Array.from(fileRef.current.files))
                     }} 
                     accept="image/*" 
                     multiple
@@ -155,7 +158,9 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 <Button 
                     
                     variant="contained"
-                    onClick={handleUploadReview}>
+                    onClick={() => {
+                        handleUploadReview()
+                    }}>
                     {text.postReviewForm.PostReviewBtn}
                 </Button>
             </Grid>  
