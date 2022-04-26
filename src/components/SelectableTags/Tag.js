@@ -21,7 +21,7 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
         }
     }
 
-    console.log("selectedTags in tag component " + text + ": " + selectedTags, "is selected: " + selected)
+    //console.log("selectedTags in tag component " + text + ": " + selectedTags, "is selected: " + selected)
 
     useEffect(() => {
 

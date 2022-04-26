@@ -18,7 +18,6 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
     const { apiStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
 
-    const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
     
     const navigate = useNavigate();
 

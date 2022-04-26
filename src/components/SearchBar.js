@@ -20,7 +20,7 @@ const SearchBar = ({setShelterData, shelterData}) => {
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
     const [selectedAmenityTags, setSlectedAmenityTags] = useState([]);
 
-    const filterMenuItems = SORT_OPTIONS.map((option, key) => {
+    const sortMenuItems = SORT_OPTIONS.map((option, key) => {
         return <MenuItem key={key} value={option}>{option}</MenuItem>
     });
 
@@ -28,21 +28,40 @@ const SearchBar = ({setShelterData, shelterData}) => {
         setSortOption(event.target.value);
     }
 
-    const handleSort = (sortIndicator) => {
+    const handleSort = () => {
 
-        console.log(sortIndicator)
-        switch (sortIndicator) {
-            case "Current Location":
+        console.log(sortOption)
+        switch (sortOption) {
+            case SORT_OPTIONS[0]: // Distance
                  shelterData = shelterData.sort((a, b) => {
                     return a.distanceToUserLocation - b.distanceToUserLocation
                 })
-                setShelterData(shelterData)
+                setShelterData(shelterData.slice())
             break;
-            case "Star Rating":
-                 shelterData = shelterData.sort((a, b) => {
+            case SORT_OPTIONS[1]: // Rating
+                shelterData.sort((a, b) => {
+                    return a.avg_rating - b.avg_rating
+                })
+                setShelterData(shelterData.slice())
+            break;
+            case SORT_OPTIONS[2]: // Rating (reversed)
+                shelterData.sort((a, b) => {
+                    return b.avg_rating - a.avg_rating
+                })
+                
+                setShelterData(shelterData.slice())
+            break;
+            case SORT_OPTIONS[3]: // Favorite
+                    shelterData = shelterData.sort((a, b) => {
                     return a.starRating - b.starRating
                 })
-                setShelterData(shelterData)
+                setShelterData(shelterData.slice())
+            break;
+            case SORT_OPTIONS[4]: // Reviewed
+                    shelterData = shelterData.sort((a, b) => {
+                    return a.starRating - b.starRating
+                })
+                setShelterData(shelterData.slice())
             break;
             default:
         }
@@ -78,6 +97,8 @@ const SearchBar = ({setShelterData, shelterData}) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
           return;
         }
+
+        if (!open) handleSort()
         setSortDrawerOpen(open);
     };
 
@@ -107,7 +128,7 @@ const SearchBar = ({setShelterData, shelterData}) => {
                         onChange={handleSortOptionChange}
                         label="Filter by"
                       >
-                          {filterMenuItems}
+                          {sortMenuItems}
                       </Select>
                     </FormControl>
                 </Grid>
@@ -148,8 +169,6 @@ const SearchBar = ({setShelterData, shelterData}) => {
                         </Grid>
                     </SwipeableDrawer>
                 </>
-
-
 
                 <>
                     <Button variant='outlined' 
