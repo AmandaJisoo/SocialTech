@@ -121,8 +121,8 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                     item
                     container
                     direction="column" 
-                    // justifyContent="center" 
-                    // alignItems="center"
+                    justifyContent="center" 
+                    alignItems="center"
                     spacing={1}>
                     {userProfile&&
                         <Grid
