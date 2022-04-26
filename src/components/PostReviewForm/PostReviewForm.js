@@ -127,6 +127,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                         setSelectedFile(fileRef.current.files[0])
                     }} 
                     accept="image/*" 
+                    multiple
                     ref={fileRef}/>
             </div>
 
@@ -151,6 +152,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     {text.postReviewForm.cancelBtn}
                 </Button>
                 <Button 
+                    
                     variant="contained"
                     onClick={handleUploadReview}>
                     {text.postReviewForm.PostReviewBtn}

@@ -17,6 +17,7 @@ import { formatShelterAddress } from '../../utils/utilityFunctions';
 import { Auth } from 'aws-amplify';
 import AppContext from '../../AppContext'
 import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
+import AmenityFilterTab from '../../components/AmenityFilterTab';
 
 const OrgOnBoardPages = {
     shelterInfoFormPage: "SHELTER_INFO_FORM_PAGE",
@@ -215,7 +216,7 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
 
     const onboardCtx = useContext(OnBoardContext);
     const appCtx = useContext(AppContext);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
     const [errorMsg, setErrorMsg] = useState(null);
     const { apiStore, appStore } = useStore();
     
@@ -235,8 +236,8 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
             console.log("create account result: ", createAccountResult)
 
             // file claim
-            console.log(appCtx.user, selectedShelter, selectedTags)
-            const createClaimResponse = await apiStore.createClaim(appCtx.user, selectedShelter, "pending", selectedTags)
+            console.log(appCtx.user, selectedShelter, selectedAmenityTags)
+            const createClaimResponse = await apiStore.createClaim(appCtx.user, selectedShelter, "pending", selectedAmenityTags)
             console.log("create claim result: ", createClaimResponse)
 
             navigate("/app/onboard/completed")
@@ -266,10 +267,18 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
                     container 
                     direction="column" 
                     justifyContent="center" 
-                    alignItems="flex-start">    
-                    <Typography>{text.onboard.org.tagSelectionPrompt}</Typography>
-                    <Grid style={{padding: "20px"}}>
-                        <TagContainer tagData={text.onboard.claimed_amenities_tags} isSelectable={true} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+                    alignItems="center"
+                    rowSpacing={2}>    
+                    <Grid item>
+                        
+                        <Typography>{text.onboard.org.tagSelectionPrompt}</Typography>
+                    </Grid>
+                    <Grid item >
+                        
+                        <AmenityFilterTab 
+                            selectedAmenityTags={selectedAmenityTags} 
+                            setSelectedAmenityTags={setSelectedAmenityTags}
+                            displayShowResultButton={false} />
                     </Grid>
                 </Grid>
 

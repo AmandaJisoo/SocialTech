@@ -10,12 +10,15 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
+import AmenityFilterTab from '../components/AmenityFilterTab';
 
 
 const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive}) => {
     const appCtx = useContext(AppContext);
     const { apiStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
+
+    const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
     
     const navigate = useNavigate();
 
@@ -61,7 +64,6 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
                     <CircularProgress/>
                 </Grid> : 
             shelterData.map((cardInfo) => {
-                console.log("cardInfo", cardInfo);
                 return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })
         )
@@ -102,7 +104,7 @@ const ShelterList = ({user, setUser, shelterData, setShelterData, loaderActive})
                     wrap="nowrap"
                     rowSpacing={3}
                     style={{height: "100vh", width: "100vw", maxWidth: "50em"}}>
-    
+                        
                     <Grid item>
                         <Typography variant="h4" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
                     </Grid>

@@ -1,9 +1,9 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import appTheme from '../../theme/appTheme.json';
 
 const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState(!isSelectable ? false : selectedTags.includes(text));
 
     const handleClick = (event) => {
         if (isSelectable) { 
@@ -21,6 +21,12 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
         }
     }
 
+    console.log("selectedTags in tag component " + text + ": " + selectedTags, "is selected: " + selected)
+
+    useEffect(() => {
+
+    }, [selectedTags])
+
     return (
         <span 
             className="tag" 
@@ -31,7 +37,7 @@ const Tag = ({isSelectable, text, selectedTags, setSelectedTags }) => {
             style={{
                 background: selected ? appTheme.palette.primary.main : appTheme.palette.primaryLight.light,
                 color: selected ? appTheme.palette.primaryLight.main : appTheme.palette.dark.darker,
-                padding: "5px",
+                padding: "8px",
                 margin: "8px 8px",
                 fontSize: "12px",
                 display: "inline-block",
