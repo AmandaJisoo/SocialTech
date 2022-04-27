@@ -7,42 +7,83 @@ import Button from '@mui/material/Button';
 import Tag from '../SelectableTags/Tag'
 import Box from '@mui/material/Box';
 import { TAG_CATEGORY_PLACE_HOLDER, TAGS_FOR_SPECIFIC_CATEGORY } from '../../utils/utilityFunctions';
+import AmenityFilterTab from '../AmenityFilterTab';
 
 const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
     const [selectedTab, setSelectedTab] = useState(TAG_CATEGORY_PLACE_HOLDER[0]);
-
-    const categoryTabs = TAG_CATEGORY_PLACE_HOLDER.map((name) => {
-        return (
-        <Grid key={name}>
-            <Grid
-                container
-                justifyContent="center"
-                alignItems="center"
-                style={{
-                    height: "30px",
-                    backgroundColor: selectedTab === name ? appTheme.palette.primaryLight.light : appTheme.palette.primaryLight.main
-                }}
-            >
-                <Button
-                    
-                    disableRipple={true}
-                    onClick={() => {
-                        setSelectedTab(name)
+    console.log("selectedTab1", selectedTab)
+    const shelterUtilityTab = "ShelterUtilities";
+    const categoryTabs = <>
+        {TAG_CATEGORY_PLACE_HOLDER.map((name) => {
+            return (
+            <Grid key={name}>
+                <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{
+                        height: "30px",
+                        backgroundColor: selectedTab === name ? appTheme.palette.primaryLight.light : appTheme.palette.primaryLight.main
                     }}
-                    style={{color: "black", textTransform: "none"}}
-                    >
-                    <Typography 
-                        style={{fontSize: "1em"}}>{name}
-                    </Typography>
-                </Button>
+                >
+                    <Button
+                        
+                        disableRipple={true}
+                        onClick={() => {
+                            setSelectedTab(name)
+                        }}
+                        style={{color: "black", textTransform: "none"}}
+                        >
+                        <Typography 
+                            style={{fontSize: "1em"}}>{name}
+                        </Typography>
+                    </Button>
+                </Grid>
+                
             </Grid>
-            
-        </Grid>
-        )
-    })
+            )
+        })}
+        <Grid key={shelterUtilityTab}>
+                <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{
+                        height: "30px",
+                        backgroundColor: selectedTab === shelterUtilityTab ? appTheme.palette.primaryLight.light : appTheme.palette.primaryLight.main
+                    }}
+                >
+                    <Button
+                        
+                        disableRipple={true}
+                        onClick={() => {
+                            setSelectedTab(shelterUtilityTab)
+                        }}
+                        style={{color: "black", textTransform: "none"}}
+                        >
+                        <Typography 
+                            style={{fontSize: "1em"}}>{shelterUtilityTab}
+                        </Typography>
+                    </Button>
+                </Grid>
+            </Grid>
+    </>
 
     const tagsFilteredByCategory = () => {
+        console.log("selectedTab", selectedTab)
+        if (selectedTab == shelterUtilityTab) {
+            console.log("amenity filter tab")
+            return <AmenityFilterTab 
+            selectedAmenityTags={selectedTags}
+            setSelectedAmenityTags={setSelectedTags}
+            displayShowResultButton={false}
+            handleFilter={() => {}}
+            displayClearAllButton={false}
+            maxHeight="50px"
+            />
+        } else {
         
+            console.log("not amenity filter tab")
         //console.log("selectedTags in tab component: " + selectedAmenityTags)
         return TAGS_FOR_SPECIFIC_CATEGORY.get(selectedTab).map((text, index) => {
             return <Tag 
@@ -52,14 +93,10 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                     selectedTags={selectedTags} 
                     setSelectedTags={setSelectedTags} 
                     selectedCategory={selectedTab}
-                    isTagSelectionMutualExclusiveWithinCategory={true}/>
+                    isTagSelectionMutualExclusiveWithinCategory={selectedTab != "Others"}/>
         })
     }
-
-
-    useEffect(() => {
-
-    }, [selectedTags])
+    }
 
     return (
           <Grid
@@ -68,8 +105,8 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
             direction="column"
             alignItems='center'
             style={{width: "90%"}}>
+                <Box sx={{width: "100%", height: "100%", overflow: "scroll", borderRadius: "10px", border: "1px solid rgba(228, 228, 228, 0.6)"}}>
 
-            <Box sx={{width: "100%", borderRadius: "10px", border: "1px solid rgba(228, 228, 228, 0.6)"}}>
                 <Grid
                     item
                     container
@@ -90,21 +127,19 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                     {categoryTabs}
                 </Grid>
 
-                <Divider style={{width: "100%", marginTop: "10px", marginBottom: "10px"}}/>
 
                 <Grid
                     item
-                    style={{marginLeft: "20px", width: "100%"}}>
+                    style={{marginLeft: "20px", width: "100%", height:"100%"}}>
                     {tagsFilteredByCategory()}
                 </Grid>
             
-                <Divider style={{width: "100%", marginTop: "10px", marginBottom: "0px"}}/>
                 <Grid
                     container
                     justifyContent="center"
                     alignItems="center"
                     style={{padding: "20px"}}>
-                    <Typography>Choose only one tag in each category</Typography>
+                    <Typography> </Typography>
                 </Grid>
             </Box>
         </Grid>

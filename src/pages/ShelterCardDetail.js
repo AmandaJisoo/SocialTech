@@ -215,17 +215,14 @@ const ShelterDetail = observer(({ shelterData }) => {
     }
 
     const handleGetDirection = (e) => {
-        e.preventDefault();
-        let url = "https://www.google.com/maps/dir/";
-        let startAddress = "699 Renmin Road, Suzhou, Jiangsu 215007 China";
-        startAddress = startAddress.replace(/\s/g, "+")
-        let endAddress = formatShelterAddress(shelterPostData)
-        endAddress = endAddress.replace(/\s/g, "+")
-        console.log(startAddress);
-        console.log(endAddress);
-        url = url + startAddress + '/' + endAddress;
-        console.log(url);
-        window.location.href=url;
+          e.preventDefault();
+          let url = "http://maps.google.com/?q=";
+          let endAddress = "77 Massachusetts Ave, Cambridge, MA 02139";
+          endAddress = endAddress.replace(/\s/g, "+")
+          console.log(endAddress);
+          url = url + endAddress
+          console.log(url);
+          window.location.href=url;
     }
 
     const favoriteIcon = () => bookmarkState? 
@@ -362,6 +359,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                         {text.shelterDetail.writeReviewButton}
                     </Button>
                     <Modal
+                        style={{overflow: 'hidden', overflowY: 'scroll'}}
                         open={openPostReviewForm}
                         onClose={handleClose}
                         aria-labelledby="post-review-form"

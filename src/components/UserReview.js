@@ -58,11 +58,12 @@ const UserReview = ({ reviewData, isHighLighted }) => {
 
     const getUserPofile = async () => {
         try {
-            if (appCtx.user in appStore.userProfilePic) {
-                setUserProfile(appStore.userProfilePic[appCtx.user])
+            if (reviewData.username in appStore.userProfilePic) {
+                setUserProfile(appStore.userProfilePic[reviewData.username])
             } else {
-                let profile = await apiStore.getUserProfile(appCtx.user)
-                appStore.setUserProfilePic(appCtx.user, profile.profile_pic_path)
+                let profile = await apiStore.getUserProfile(reviewData.username)
+                console.log("profile", profile)
+                appStore.setUserProfilePic(reviewData.username, profile.profile_pic_path)
                 console.log('profile', profile)
                 setUserProfile(profile)
             }

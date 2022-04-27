@@ -145,8 +145,6 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
 
             <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
 
-            <Divider style={{width: "100%", margin: "5px 0 5px 0"}}/> 
-
             <Grid
                 container
                 direction="row" 
