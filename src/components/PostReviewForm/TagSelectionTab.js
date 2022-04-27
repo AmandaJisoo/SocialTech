@@ -52,7 +52,7 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                     selectedTags={selectedTags} 
                     setSelectedTags={setSelectedTags} 
                     selectedCategory={selectedTab}
-                    isTagSelectionMutualExclusiveWithinCategory={true}/>
+                    isTagSelectionMutualExclusiveWithinCategory={selectedTab != "Others"}/>
         })
     }
 
