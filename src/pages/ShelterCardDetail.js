@@ -242,7 +242,8 @@ const ShelterDetail = observer(({ shelterData }) => {
         </>)
 
     return (
-        <Grid container
+        <Grid 
+            container
             direction="column"
             justifyContent="flex-start"
             alignItems="center"
@@ -304,6 +305,7 @@ const ShelterDetail = observer(({ shelterData }) => {
 
                         <ShelterClaimStatusText claim_status={isClaimed}/>
                     </Grid>
+
                     <Grid
                         item
                         container
@@ -313,6 +315,7 @@ const ShelterDetail = observer(({ shelterData }) => {
 
                         <TagContainer tagData={shelterPostData.utilities} isSelectable={false}/>
                     </Grid>
+                    
                     <Grid
                         item
                         container
@@ -320,21 +323,19 @@ const ShelterDetail = observer(({ shelterData }) => {
                         justifyContent="space-between"
                         alignItems="center"
                         rowSpacing={2}>
-                            <Grid
-                                item
-                                container
-                                direction="column"
-                                justifyContent="space-between"
-                                alignItems="flex-start">
-                                <Typography>{shelterPostData.street}</Typography>
-                                <Typography>{shelterPostData.city + ", " + shelterPostData.zipcode + " , " + shelterPostData.state}</Typography>
-                            </Grid>
+                        <Grid
+                            item
+                            container
+                            direction="column"
+                            justifyContent="space-between"
+                            alignItems="flex-start">
+                            <Typography>{shelterPostData.street}</Typography>
+                            <Typography>{shelterPostData.city + ", " + shelterPostData.zipcode + " , " + shelterPostData.state}</Typography>
+                        </Grid>
 
-
-                            <Grid item>
-                                
-                                <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
-                            </Grid>
+                        <Grid item>
+                            <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
+                        </Grid>
                     </Grid>
                 </>}
 
