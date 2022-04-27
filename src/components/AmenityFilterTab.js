@@ -70,11 +70,6 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
         })
     }
 
-
-    useEffect(() => {
-
-    }, [selectedAmenityTags])
-
     return (
       <Grid
         container
@@ -111,8 +106,6 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
                 style={{backgroundColor: "#c4c4c4", fontFamily: "Roboto"}}
                 variant='contained'
                 onClick={() => {
-                    selectedAmenityTags.length = 0
-                    console.log("array after clear: " + selectedAmenityTags.length)
                     setSelectedAmenityTags([])
                 }}>
                 Clear All 
