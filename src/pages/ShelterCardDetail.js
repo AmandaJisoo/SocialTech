@@ -361,6 +361,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                         {text.shelterDetail.writeReviewButton}
                     </Button>
                     <Modal
+                        style={{overflow: 'hidden', overflowY: 'scroll'}}
                         open={openPostReviewForm}
                         onClose={handleClose}
                         aria-labelledby="post-review-form"
