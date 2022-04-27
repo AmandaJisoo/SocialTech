@@ -18,7 +18,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
     const [query, setQuery] = useState("");
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
-    const [selectedAmenityTags, setSlectedAmenityTags] = useState([]);
+    const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
 
     const sortMenuItems = SORT_OPTIONS.map((option, key) => {
         return <MenuItem key={key} value={option}>{option}</MenuItem>
@@ -184,7 +184,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
                         >
                             <AmenityFilterTab 
                                 selectedAmenityTags={selectedAmenityTags} 
-                                setSelectedAmenityTags={setSlectedAmenityTags}
+                                setSelectedAmenityTags={setSelectedAmenityTags}
                                 displayShowResultButton={true}
                                 handleFilter={handleFilterByAmenityTags}/>
                         </Grid>
