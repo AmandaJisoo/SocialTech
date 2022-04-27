@@ -63,10 +63,11 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
 
     return (
           <Grid
+            item
             container
             direction="column"
             alignItems='center'
-            style={{width: "350px"}}>
+            style={{width: "90%"}}>
 
             <Box sx={{width: "100%", borderRadius: "10px", border: "1px solid rgba(228, 228, 228, 0.6)"}}>
                 <Grid
@@ -77,6 +78,7 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                     style={{width: "100%"}}>
                     <Typography>More Tags</Typography>
                 </Grid>
+
                 <Grid
                     item
                     container
@@ -87,10 +89,12 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                 >
                     {categoryTabs}
                 </Grid>
+
                 <Divider style={{width: "100%", marginTop: "10px", marginBottom: "10px"}}/>
+
                 <Grid
-                item
-                style={{marginLeft: "20px", width: "300px"}}>
+                    item
+                    style={{marginLeft: "20px", width: "100%"}}>
                     {tagsFilteredByCategory()}
                 </Grid>
             

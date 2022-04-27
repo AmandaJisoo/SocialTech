@@ -38,7 +38,7 @@ export function getHighLightedReivew(reviews) {
 
 export function formatShelterAddress(data) {
 	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
-    return data.title + ", " + data.street + ", " + data.state + ", " + data.zipcode
+    return data.title + ", " + data.street + ", " + data.city + ", " + data.state + ", " + data.zipcode
 }
  
 /* 

@@ -142,7 +142,7 @@ const RegularUserPage = () => {
                     justifyContent="center"
                     alignItems="center"
                     style={{margin: "20px 0 40px 0"}}>
-                    <TagContainer tagData={["place-holder"]} isSelectable={true}/>
+                    {/* <TagContainer tagData={["place-holder"]} isSelectable={true}/> */}
                 </Grid>
 
                 <Grid

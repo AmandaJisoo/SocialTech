@@ -23,10 +23,10 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState([]);
     const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
     const params = useParams();
-    const fileRef = useRef(null);
+    const fileInputRef = useRef(null);
     const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
 
@@ -56,13 +56,28 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
         }
     }
 
+    const selectFile = () => {
+        fileInputRef.current.click()
+    } 
+
+    const selectedFileDisplay = () => {
+        let fileArray = Array.from(selectedFile)
+        return fileArray.length === 0 ? null :
+        <Grid>
+            <Typography>Currently Selected Image :</Typography>
+            {fileArray.map(data => {
+                return <Typography>{data.name}</Typography>
+            })}
+        </Grid>
+    } 
+
     return (
         <Grid
             sx={style}
             container
             direction="column" 
             justifyContent="space-evenly" 
-            alignItems="flex-start">
+            alignItems="center">
                 
             <Grid
                 container
@@ -107,26 +122,24 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     justifyContent="flex-end" 
                     alignItems="center"
                     >
-                    <AddCircleOutlineIcon/>
-                    <ImageIcon/>
-                    <MoodIcon/>
-                    <MoreHorizIcon/>
+                    <Grid style={{padding: "5px"}}>
+                        <input
+                            type="file"
+                            name="file"
+                            onChange={ () => {
+                                console.log("selected files: ", fileInputRef.current.files)
+                                setSelectedFile(Array.from(fileInputRef.current.files))
+                            }}
+                            accept="image/*"
+                            multiple
+                            ref={fileInputRef}
+                            style={{display: "none"}}/>
+                        <ImageIcon onClick={() => selectFile()} style={{cursor: "pointer"}}/>
+                    </Grid>
                 </Grid>  
             </Box>
 
-            <div>
-                <input 
-                    type="file" 
-                    name="file" 
-                    onChange={ () => {
-                        console.log("selected files: ", fileRef.current.files)
-                        setSelectedFile(Array.from(fileRef.current.files))
-                    }} 
-                    accept="image/*" 
-                    multiple
-                    ref={fileRef}/>
-            </div>
-
+            {selectedFileDisplay()}
 
             <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
 

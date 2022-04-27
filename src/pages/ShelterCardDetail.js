@@ -22,9 +22,7 @@ import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
 import TagContainer from '../components/SelectableTags/TagContainer';
 import AppContext from '../AppContext';
 import { useStore } from './Hook';
-import { getHighLightedReivew } from '../utils/utilityFunctions';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import { getHighLightedReivew, formatShelterAddress } from '../utils/utilityFunctions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import TagSelectionTab from '../components/PostReviewForm/TagSelectionTab';
@@ -56,9 +54,6 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [open, setOpen] = useState(false)
     const buttonRef = useRef(null);
     console.log("bookmarkState", bookmarkState)
-
-    // temporary selected tag state for implementation purpose 
-    const [selectedTags, setSelectedTags] = useState([]);
 
     useEffect(() => {
         if (appStore.highlightedComment) {
@@ -220,8 +215,18 @@ const ShelterDetail = observer(({ shelterData }) => {
         setOpenPostReviewForm(false);
     }
 
-    const handleGetDirection = () => {
-        // prompt to Google map, passing current location andtarget location
+    const handleGetDirection = (e) => {
+        e.preventDefault();
+        let url = "https://www.google.com/maps/dir/";
+        let startAddress = "699 Renmin Road, Suzhou, Jiangsu 215007 China";
+        startAddress = startAddress.replace(/\s/g, "+")
+        let endAddress = formatShelterAddress(shelterPostData)
+        endAddress = endAddress.replace(/\s/g, "+")
+        console.log(startAddress);
+        console.log(endAddress);
+        url = url + startAddress + '/' + endAddress;
+        console.log(url);
+        window.location.href=url;
     }
 
     const favoriteIcon = () => bookmarkState? 
@@ -251,8 +256,6 @@ const ShelterDetail = observer(({ shelterData }) => {
                 wrap="nowrap"
                 rowSpacing={2}
                 style={{maxWidth: "50em", padding: "20px"}}>
-
-                <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
 
                 <Grid
                     item
@@ -329,6 +332,7 @@ const ShelterDetail = observer(({ shelterData }) => {
 
 
                             <Grid item>
+                                
                                 <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
                             </Grid>
                     </Grid>

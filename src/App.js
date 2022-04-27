@@ -6,20 +6,23 @@ import appThemeMui from "./theme/appThemeMui";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterCardDetail";
 import AuthenticatorGrid from "./pages/auth/AuthenticatorGrid";
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import SignUp from "./pages/auth/SignUp";
 import SignIn from "./pages/auth/SignIn";
 import { Auth } from 'aws-amplify';
 import { useStore } from './pages/Hook';
 import Onboard from "./pages/onboard/Onboard";
+import { Grid, Button } from '@mui/material';
 import IntroPage from './pages/onboard/IntroPage';
 import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
+import text from "./text/text.json"
 import RegularUserProfile from './components/RegularUserProfile';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
+import Dashboard from './pages/Dashboard'
 // window.LOG_LEVEL = 'DEBUG';
 
 //TODO: (Amanda) update the endpoint stage
@@ -135,11 +138,7 @@ const App = () => {
     getShelterData();
     getUserStatus();
   }, [user, userStatus, apiStore])
-  
-  //TODO: (Yichi) 
-  //the following line 101 - 109 is a code to upload individual img to s3 bucket
-  //you will need to modify react code to take the input to take mutiple images and call api on each image
-  //TODO: Amanda: add the post_id
+
   return (
     <AppContext.Provider value={{
         user: user,
@@ -148,19 +147,7 @@ const App = () => {
         setUserStatus: setUserStatus
     }}>
       <ThemeProvider theme={appThemeMui}>
-
-        {/* <Button onClick={() => {
-          try {
-            //TODO: Amanda check
-            //const shelterDataResponse = await fetch()
-            //gitconsole.log("Shelter data: ", shelterDataResponse)
-          } catch (err) {
-            console.log(err.message)
-          }
-        }
-        }>Test getDistance between shelter api</Button> */}
-
-        <Button
+        {/* <Button
             onClick={(e) => {
               // https://www.google.com/maps/dir/4535+12th+Ave+NE,+Seattle,+WA+98105/77+Massachusetts+Ave,+Cambridge,+MA+02139
               // https://maps.google.com?saddr=4535+12th+Ave+NE,+Seattle,+WA,+98105/q=77+Massachusetts+Ave,+Cambridge,+MA+02139
@@ -176,12 +163,16 @@ const App = () => {
               console.log(url);
               window.location.href=url;
               }}
-        > Google Map Redirect</Button>
+        > Google Map Redirect</Button> */}
 
         <Routes>
         
           <Route index path="/app/dashboard" element={
-            <ShelterList loaderActive={false} user={user} setUser={setUser} shelterData={shelterData} setShelterData={setShelterData}/>
+            <Dashboard 
+              user={user} 
+              setUser={setUser} 
+              shelterData={shelterData} 
+              setShelterData={setShelterData}/>
           } />
 
           <Route path="/app/auth" element={<AuthenticatorGrid/>}>
@@ -219,7 +210,7 @@ const App = () => {
             <ShelterDetail shelterData={shelterData}/>
           } />
 
-          <Route path="app/RegularUserProfile/:id" element={
+          <Route path="app/regular-user-profile/:id" element={
             <RegularUserProfile user={user} setUser={setUser} />
           } />
 

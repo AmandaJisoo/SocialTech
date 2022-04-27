@@ -23,11 +23,14 @@ import Alert from '@mui/material/Alert';
 //TODO: Yichi only show this when user is logged in as a part of menu
 const RegularUserProfile = props => {
     const { apiStore } = useStore();
-    const [loaderActive, setLoaderActive] = useState(true);
+    const [loaderActive, setLoaderActive] = useState(false);
+    const [shelterBookmarkData, setShelterBookmarkData] = useState([])
     const [shelterData, setShelterData] = useState([])
     const [commentData, setCommentData] = useState(null)
+    const [userProfileData, setUserProfileData] = useState(null)
     const [errorMsg, setErrorMsg] = useState([])
     const appCtx = useContext(AppContext)
+    const navigate = useNavigate()
 
     const loadBookmarks = async () => {
         try {
@@ -35,6 +38,7 @@ const RegularUserProfile = props => {
             let username = authRes.username;
             console.log("username for bookmarks", username);
             let bookmarksResponse = await apiStore.getSavedBookmarks(username);
+            setShelterBookmarkData(bookmarksResponse)
             let shelterDataResponse = await Promise.all(bookmarksResponse.map(async (post_id) => apiStore.loadSummary(post_id)));
             //we can keep this code in case we want to load one by one async
             // bookmarksResponse.forEach(async (post_id) => {
@@ -43,20 +47,29 @@ const RegularUserProfile = props => {
             //     setShelterData(shelterData)
             //     setLoaderActive(false)
             // })
-            setLoaderActive(false);
             setShelterData(shelterDataResponse)
+          } catch(err) {
+            console.log("load bookmarks error: " + err.message)
+            setErrorMsg(err.message)
+        }
+    }
+
+    const loadUserProfile = async () => {
+        try {
+            let userProfileResponse = await apiStore.getUserProfile(appCtx.user);
+            setUserProfileData(userProfileResponse)
           } catch(error) {
-            console.log(error.message)
+            console.log("load user profile err " + error.message)
             setErrorMsg(error.message)
         }
     }
 
-    const loadCommentsByUser = async () => {
+    const loadAllComments = async () => {
         try {
-            let commentDataResponse = await apiStore.loadCommentByUser(appCtx.user);
+            let commentDataResponse = await apiStore.loadAllComments(appCtx.user);
             setCommentData(commentDataResponse)
           } catch(error) {
-            console.log(error.message)
+            console.log("load all comment err" + error.message)
             setErrorMsg(error.message)
         }
     }
@@ -64,91 +77,109 @@ const RegularUserProfile = props => {
     useEffect(() => {
         setLoaderActive(true)
         loadBookmarks();
-        loadCommentsByUser()
+        loadAllComments()
+        loadUserProfile()
         setLoaderActive(false)
     }, [])
 
     const comments = () => {
-        if (commentData.length === 0) {
-            return <Typography>You haven't post any comments</Typography>
-        } else {
-            return commentData.map(data => {
-                return <UserReview reviewData={data} isHighLighted={false} />
+        if (commentData !== null) {
+            return commentData.length === 0 ? <Typography>You haven't post any comments</Typography> :
+                commentData.map(data => {
+                return <UserReview key={data.comment_id} reviewData={data} isHighLighted={false} />
             })
         }
     }
+
+    console.log(`comments by user ${appCtx.user}: ` + commentData)
+    console.log(`${appCtx.user}'s profile: ` + userProfileData)
 
     return (
         <>
             <Grid
                 container
                 direction="column" 
-                justifyContent="center" 
+                justifyContent="flex-start" 
                 alignItems="center"
-                style={{height: "100vh"}}>
-                <Grid
-                    container
-                    direction="column" 
-                    justifyContent="flex-start" 
-                    alignItems="center"
-                    wrap="nowrap"
-                    rowSpacing={3}
-                    style={{height: "100vh", width: "100vw", maxWidth: "50em"}}>
-    
-                    {loaderActive ? 
+                wrap="nowrap"
+                rowSpacing={2}
+                style={{height: "100vh", width: "100vw", maxWidth: "50em", padding: "20px"}}>
+
+                {loaderActive ? 
+                    <Grid   
+                        container
+                        direction="column"
+                        justifyContent="center" 
+                        alignItems="center"
+                        style={{height: "80vh"}}>
+                            <Typography>Loading your profile</Typography>
+                            <CircularProgress/>
+                    </Grid> : 
+                    <>
+                        <Grid   
+                            item
+                            container
+                            direction="row"
+                            justifyContent="space-between" 
+                            alignItems="center"
+                            style={{}}>
+
+
+                            <Button 
+                                onClick={() => {
+                                    navigate("/app/dashboard")
+                                }}>
+                                Back
+                            </Button>
+
+                                <Typography>{"Hi, " + appCtx.user}</Typography>
+                            <Button 
+                                onClick={() => {
+                                    
+                                }}>
+                                Edit Profile
+                            </Button>
+                        </Grid> 
+
+                        <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+
+                        {/* bookmarks */}
+
                         <Grid   
                             container
-                            direction="column"
-                            justifyContent="center" 
+                            direction="row"
+                            justifyContent="flex-start" 
                             alignItems="center"
-                            style={{height: "80vh"}}>
-                                <Typography>Loading your profile</Typography>
-                                <CircularProgress/>
-                        </Grid> : 
-                        <>
-                            <Grid   
-                                container
-                                direction="row"
-                                justifyContent="flex-end" 
-                                alignItems="center"
-                                style={{height: "80vh"}}>
-                                    <Typography>Edit Profile</Typography>
-                            </Grid> 
+                            style={{}}>
+                                <Typography variant='h5'>Bookmarked Shelters</Typography>
+                        </Grid> 
 
-                          
-                            <Typography>{appCtx.user}</Typography>
-                             
+                        <ShelterList 
+                            loaderActive={loaderActive} 
+                            user={props.user} 
+                            setUser={props.setUser} 
+                            shelterData={shelterData} 
+                            setShelterData={setShelterData}
+                            bookmarks={shelterBookmarkData}/>
 
-                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                        <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
 
-                            {/* bookmarks */}
+                        <Grid   
+                            item
+                            container
+                            direction="row"
+                            justifyContent="flex-start" 
+                            alignItems="center"
+                            style={{}}>
+                                <Typography variant='h5'>Posted Reviews</Typography>
+                        </Grid> 
 
-                            <Grid   
-                                container
-                                direction="row"
-                                justifyContent="flex-start" 
-                                alignItems="center"
-                                style={{height: "80vh"}}>
-                                    <Typography>Bookmarks</Typography>
-                            </Grid> 
-                            <ShelterList loaderActive={loaderActive} user={props.user} setUser={props.setUser} shelterData={shelterData} setShelterData={setShelterData}/>
+                        {comments()}
 
-                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                        {/* <UpdateProfileForm profileData={userProfileData}/> */}
 
-                            <Grid   
-                                container
-                                direction="row"
-                                justifyContent="flex-start" 
-                                alignItems="center"
-                                style={{height: "80vh"}}>
-                                    <Typography>Posted Reviews</Typography>
-                            </Grid> 
-
-                            {comments()}
-
-                        </>
-                    }
-                </Grid>
+                    </>
+                }
             </Grid>
         </>
     );
@@ -158,7 +189,6 @@ export default RegularUserProfile;
 
 
 const UpdateProfileForm = ({profileData}) => {
-    const [username, setUsername] = useState(profileData.username)
     const [gender, setGender] = useState(profileData.gender)
     const [city, setCity] = useState(profileData.city)
     const [state, setState] = useState(profileData.state)
@@ -184,10 +214,6 @@ const UpdateProfileForm = ({profileData}) => {
         }
     }
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value)
-    };
-
     const handleGenderChange = (event) => {
         setGender(event.target.value)
     };
@@ -211,7 +237,7 @@ const UpdateProfileForm = ({profileData}) => {
                 direction="column" 
                 justifyContent="center" 
                 alignItems="center"
-                style={{height: "100vh"}}>
+                style={{}}>
                 <Grid
                     container
                     direction="column" 
@@ -219,21 +245,8 @@ const UpdateProfileForm = ({profileData}) => {
                     alignItems="center"
                     wrap="nowrap"
                     rowSpacing={3}
-                    style={{height: "100vh", width: "100vw", maxWidth: "50em"}}>
+                    style={{ width: "100vw", maxWidth: "50em"}}>
                     
-                        
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="User name"
-                        label="User name"
-                        type="User name"
-                        id="User name"
-                        autoComplete="current-username"
-                        onChange={handleUsernameChange}
-                    />
-
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} fullWidth>
                       <InputLabel id="demo-simple-select-standard-label">Gender</InputLabel>
                       <Select 
@@ -260,6 +273,7 @@ const UpdateProfileForm = ({profileData}) => {
                             label="City"
                             type="City"
                             id="City"
+                            value={city}
                             onChange={handleCityChange}
                         />
                         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>

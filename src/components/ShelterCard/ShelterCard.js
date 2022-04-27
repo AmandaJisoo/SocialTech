@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import Divider from '@mui/material/Divider';
 import { Auth } from 'aws-amplify';
 import CircularProgress from '@mui/material/CircularProgress'
 
@@ -40,7 +41,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [userProfile, setUserProfile] = useState(undefined);
 
 
-    console.log("userProfile", userProfile)
+    //console.log("userProfile", userProfile)
 
     const { apiStore, appStore } = useStore(); 
     
@@ -74,14 +75,14 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const getClaimStatus = async() => {
         try {
             const claimStatus = await apiStore.getIsClaimed(shelterData.post_id);
-            console.log("claimStatus response: ", claimStatus)
+            //console.log("claimStatus response: ", claimStatus)
             setIsClaimed(claimStatus)
         } catch (err) {
             console.log(err.message)
         }
     }
 
-    const getHighLightedComment = async() => {
+    const getHighLightedComment = async () => {
         try {
             const topComment = await apiStore.getMostLikedComment(shelterData.post_id);
             if (topComment.length > 0) {
@@ -96,7 +97,6 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             console.log(err.message)
         }
     }
-
 
     useEffect(() => {
         getClaimStatus();
@@ -118,11 +118,32 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             You are not logged in. Click here to log in.
         </Popover>
         </>)
+    
+    const verifiedTextEle = (claim_status) => {
+        let background, color, text
+        if (claim_status === "no_claim") {
+            color = appTheme.palette.dark.darker
+            text = "unclaimed shelter"
+        } else if (claim_status === "pending") {
+            color = appTheme.palette.secondary.main
+            text = "claim processing"
+        } else {
+            color = appTheme.palette.primaryLight.main
+            text = "claimed shelter"
+
+        }
+
+        return (
+        <Typography style={{fontSize: "13px", color: color}}>
+            {text}
+        </Typography>
+        )
+    }
 
             
-    const verifiedIcon = () => {
+    const verifiedText = () => {
         if (isClaimed === "no_claim") {
-            return <div>unclaimed shelter</div>
+            return <Typography>unclaimed shelter</Typography>
         } else if (isClaimed === "pending") {
             return <div>shelter in process of claiming</div>
         } else {
@@ -140,7 +161,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                 appStore.setShelterData(shelterData);
             }}
             style={{
-                padding: "20px",
+                padding: "5px 20px 5px 20px",
                 margin: "20px",
                 boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
                 borderRadius: "8px"
@@ -172,15 +193,18 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                         maxHeight: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.height
                     }}/>
             </Grid>
+            
             <Grid
                 container
                 direction="column" 
-                justifyContent="center" 
+                justifyContent="space-around" 
                 alignItems="flex-start"
                 item
                 xs={6}
+                style={{minHeight: "300px"}}
                 >
                 <Grid
+                    style={{width: "100%"}}
                     onClick={() => {
                         navigate("/app/shelter-detail/" + shelterData.post_id)
                     }}>
@@ -188,51 +212,56 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                         container
                         direction="row"
                         justifyContent="space-between"
-                        alignItems="center">
+                        alignItems="center"
+                        style={{width: "100%"}}>
                         <Typography>{shelterData.title}</Typography>
                         <Typography>{DISTANCE_PLACEHOLDER}</Typography>
                     </Grid>
                     <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
-                    {userProfile&& (<Grid
+
+                    
+
+                </Grid>
+
+
+                    {(userProfile && highlightedComment) && (
+                    <Grid item
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="flex-start"
+                        onClick={() => {
+                            navigate("/app/shelter-detail/" + shelterData.post_id)
+                        }}>
+                        <Grid
                             item
                             container
-                            direction="row" 
-                            justifyContent="space-between" 
-                            spacing={1}
-                            alignItems="left">
-                            <img 
-                            style={{width: 60, height: 60, borderRadius: 60/ 2}} 
-                            src={userProfile.profile_pic_path}
-                            />
-                            <Typography>{userProfile.username}</Typography>
-                        </Grid>)  
-                        }
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="center">
+                            <img
+                                style={{width: 40, height: 40, borderRadius: 40/ 2}}
+                                src={public_url + "/assets/imgs/user_profile_img_placeholder.jpeg"}
+                                alt='user profile placeholder'
+                                />
+                            <Typography style={{marginLeft: "10px"}}>{userProfile.username}</Typography>
+                        </Grid>
 
-                    {highlightedComment? <Typography>{truncateReview(highlightedComment.comment_body)}</Typography> : null}
-                </Grid>
+                        <Typography style={{marginTop: "10px"}}>{truncateReview(highlightedComment.comment_body)}</Typography>
+
+                        <Divider style={{width: "100%", marginTop: "10px", marginBottom: "0px"}}/>
+                    </Grid>
+                    )}
+
                 <Grid
                     container
                     direction="row" 
                     justifyContent="space-between" 
                     alignItems="center">
 
-                    <Grid
-                        item
-                        container
-                        direction="row" 
-                        justifyContent="center" 
-                        alignItems="center"
-                        style={{width: "80px", marginLeft: "-20px"}}>
-                        {favoriteIcon()}  
-                        {verifiedIcon()}  
-                    </Grid> 
-
-                    <Button>
-                        <a href={WEBSITE_PLACEHOLDER} style={{textDecoration: "none", color: appTheme.palette.primary.main}}>
-                            {text.shelterCard.visitWebSiteButtonText}
-                        </a>
-                    </Button>
+                    {favoriteIcon()}  
+                    {verifiedTextEle(isClaimed)}  
                 </Grid>
 
             </Grid>
