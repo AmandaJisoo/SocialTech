@@ -93,7 +93,7 @@ const App = () => {
   const [shelterData, setShelterData] = useState(undefined);
   const [userStatus, setUserStatus] = useState(null)
   const navigate = useNavigate();
-  const { apiStore } = useStore(); 
+  const { apiStore, appStore } = useStore(); 
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
@@ -117,6 +117,7 @@ const App = () => {
         // }
 
         setShelterData(shelterDataResponse)
+        appStore.setShelterDataList(shelterDataResponse)
       } catch (err) {
         console.log(err.message)
       }

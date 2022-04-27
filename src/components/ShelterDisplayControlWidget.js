@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import { SORT_OPTIONS } from '../utils/utilityFunctions';
 import { Grid, Button, Typography } from '@mui/material';
+// import { useStore } from './Hook';
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TextField from '@mui/material/TextField';
@@ -12,6 +13,7 @@ import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import AmenityFilterTab from './AmenityFilterTab';
 import SortOption from './SortOption';
+import { useStore } from '../pages/Hook';
 
 const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
@@ -19,10 +21,12 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
     const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
-
+    console.log('shelterData', shelterData)
     const sortMenuItems = SORT_OPTIONS.map((option, key) => {
         return <MenuItem key={key} value={option}>{option}</MenuItem>
     });
+
+    const { apiStore, appStore } = useStore();
 
     const handleSortOptionChange = (event) => {
         setSortOption(event.target.value);
@@ -86,8 +90,44 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
         setShelterData(shelterData)
     }
 
-    const handleFilterByAmenityTags = () => {
-        // TODO
+    const handleFilterByAmenityTags = async() => {
+        const appStoreShelterList = appStore.shelterDataList
+        if (selectedAmenityTags.length == 0) {
+            setShelterData(appStoreShelterList)
+            return
+        }
+        if (!appStoreShelterList) {
+            return
+        }
+
+        const matchingRes = []
+        const promises = []
+
+        const commentFilter = async(element) => {
+            const reviewsDataResponse = await apiStore.loadComment(element.post_id);
+            const commentUtilities = reviewsDataResponse.map(comment => comment.tags).flat(1)
+            if (commentUtilities) {
+                if (commentUtilities.some(tag => selectedAmenityTags.includes(tag))) {
+                    matchingRes.push(element)
+                }
+            }
+        }
+        for (const element of appStoreShelterList) {
+            let isMatch = false
+            if (element['utilities'].length > 0) {
+                const utilitiesData = element['utilities']
+                isMatch = utilitiesData.some(tag => selectedAmenityTags.includes(tag))
+                if(isMatch) {
+                    matchingRes.push(element)
+                }
+            }
+            if (!isMatch) {
+                promises.push(commentFilter(element))
+            }
+        }
+        await Promise.all(promises)
+        console.log('matchingRes', matchingRes)
+        setShelterData(matchingRes)
     }
 
     const toggleFilterByAmenityDrawer = (open) => (event) => {

@@ -5,6 +5,7 @@ export default class AppStore {
     claimStatus = {};
     highlightedComment = undefined;
     userProfilePic = {}
+    shelterDataList = []
     constructor() {
         makeObservable(this, {
             shelterData: observable,
@@ -14,7 +15,9 @@ export default class AppStore {
             highlightedComment: observable,
             setHighlightedComment: action,
             userProfilePic: observable,
-            setUserProfilePic: action
+            setUserProfilePic: action,
+            shelterDataList: observable,
+            setShelterDataList: action,
         })
     }
 
@@ -42,4 +45,7 @@ export default class AppStore {
         // console.log("new claims", this.claimStatus)
     }
 
+    setShelterDataList(shelterDataList) {
+        this.shelterDataList = shelterDataList
+    }
 }
