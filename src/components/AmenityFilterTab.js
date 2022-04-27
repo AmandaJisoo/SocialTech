@@ -19,18 +19,18 @@ import Popover from '@mui/material/Popover';
 import Tag from './SelectableTags/Tag';
 import { useNavigate } from 'react-router-dom';
 
-const CATEGORY_PLACE_HOLDER = ["Amenties", "Disability Amenities", "Maintained", "Acceptable groups", "Others"]
+const CATEGORY_PLACE_HOLDER = ["Amenties", "Disability Amenities", "Maintained", "Groups", "Others"]
 const TAGS_FOR_SPECIFIC_AMENITY = new Map([
-    ["Amenties", ["Bathroom", "Shower", "Hot water", "heating system"]],
-    ["Disability Amenities", ["wheelchair ramp", "elevator"]],
-    ["Maintained", ["well-maintained amenities"]],
-    ["Acceptable groups", ["Female only", "male only"]],
-    ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
+    ["Amenties", ["Bathroom", "Shower", "Hot water", "Heating System"]],
+    ["Disability Amenities", ["Wheelchair Ramp", "Elevator"]],
+    ["Maintained", ["Well-Maintained Amenities"]],
+    ["Groups", ["Female Only", "Male Only", "Pet Friendly", "Kid Friendly", "LGBTQ Friendly", "Ex-Convict Friendly"]],
+    ["Others", ["Free Clothes", "Free Hygiene kits", "Employment Help enter"]]
 ])
 
-const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter }) => {
+const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter, displayClearAllButton = true, maxHeight = "100%" }) => {
     const [selectedTab, setSelectedTab] = useState(CATEGORY_PLACE_HOLDER[0]);
-
+    console.log("displayClearAllButton", displayClearAllButton)
     const tabs = CATEGORY_PLACE_HOLDER.map((name) => {
         return (
         <Grid key={name}>
@@ -74,11 +74,10 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
       <Grid
         container
         direction="column"
-        style={{minWidth: "400px"}}>
+        style={{minWidth: "400px", maxHeight: maxHeight}}>
           <Grid
             container
-            direction="row"
-            wrap='nowrap'>
+            direction="row">
               <Grid
                 item
                 container
@@ -94,14 +93,16 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
                   {tagsFilteredByCategory()}
               </Grid>
           </Grid>
-        
+          
+          {(displayClearAllButton || displayShowResultButton) &&
+        <>
         <Divider style={{width: "100%", marginTop: "0px", marginBottom: "20px"}}/>
-
         <Grid
             container
             justifyContent="space-between"
             alignItems="center"
             style={{padding: "0px 20px"}}>
+                {displayClearAllButton && 
             <Button 
                 style={{backgroundColor: "#c4c4c4", fontFamily: "Roboto"}}
                 variant='contained'
@@ -109,8 +110,8 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
                     setSelectedAmenityTags([])
                 }}>
                 Clear All 
-            </Button>
-
+            </Button>}
+            
             {displayShowResultButton && 
             <Button variant='contained' onClick={() => {
                 handleFilter()
@@ -118,6 +119,8 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
                 Show Result
             </Button>}
         </Grid>
+        </>
+        }
       </Grid>
     );
 };
