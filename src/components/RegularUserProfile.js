@@ -106,7 +106,7 @@ const RegularUserProfile = props => {
                 <Grid
                     container
                     direction="column"
-                    justifyContent="center"
+                    justifyContent="flex-start"
                     alignItems="center"
                     wrap="nowrap"
                     rowSpacing={2}
