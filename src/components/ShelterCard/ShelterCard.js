@@ -20,6 +20,7 @@ import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import Divider from '@mui/material/Divider';
 import { Auth } from 'aws-amplify';
 import CircularProgress from '@mui/material/CircularProgress'
+import ShelterClaimStatusText from '../ShelterClaimStatusText'
 
 import { useStore } from '../../pages/Hook';
 
@@ -118,29 +119,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             You are not logged in. Click here to log in.
         </Popover>
         </>)
-    
-    const verifiedTextEle = (claim_status) => {
-        let background, color, text
-        if (claim_status === "no_claim") {
-            color = appTheme.palette.dark.darker
-            text = "unclaimed shelter"
-        } else if (claim_status === "pending") {
-            color = appTheme.palette.secondary.main
-            text = "claim processing"
-        } else {
-            color = appTheme.palette.primaryLight.main
-            text = "claimed shelter"
 
-        }
-
-        return (
-        <Typography style={{fontSize: "13px", color: color}}>
-            {text}
-        </Typography>
-        )
-    }
-
-            
     const verifiedText = () => {
         if (isClaimed === "no_claim") {
             return <Typography>unclaimed shelter</Typography>
@@ -261,7 +240,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                     alignItems="center">
 
                     {favoriteIcon()}  
-                    {verifiedTextEle(isClaimed)}  
+                    <ShelterClaimStatusText claim_status={isClaimed} />
                 </Grid>
 
             </Grid>

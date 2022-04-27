@@ -22,11 +22,10 @@ import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
 import TagContainer from '../components/SelectableTags/TagContainer';
 import AppContext from '../AppContext';
 import { useStore } from './Hook';
-import { getHighLightedReivew, formatShelterAddress } from '../utils/utilityFunctions';
+import { formatShelterAddress } from '../utils/utilityFunctions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
-import TagSelectionTab from '../components/PostReviewForm/TagSelectionTab';
-
+import ShelterClaimStatusText from '../components/ShelterClaimStatusText'
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
@@ -272,8 +271,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                     <Typography variant="h4" style={{marginLeft: "-40px"}}>{text.shelterDetail.pageHeader}</Typography>
                     <Grid>
                         {bookmarkState !== undefined && favoriteIcon()}  
-                        <IosShareIcon/>
-                        <MoreHorizIcon/>
+                        {/* Disable share icon for now. May come back and implement it */}
+                        {/* <IosShareIcon/> */}
                     </Grid>
                 </Grid>
 
@@ -295,14 +294,15 @@ const ShelterDetail = observer(({ shelterData }) => {
                         direction="row"
                         justifyContent="space-between"
                         alignItems="center">
-                            <Grid 
-                                item
-                                container
-                                direction="row">
-                                <Typography>{shelterPostData.title}</Typography>
-                                {verifiedIcon()}
-                            </Grid>
-                            <Typography>{DISTANCE_PLACEHOLDER}</Typography>
+                        <Grid 
+                            item
+                            container
+                            direction="row">
+                            <Typography>{shelterPostData.title}</Typography>
+                        </Grid>
+                        <Typography>{DISTANCE_PLACEHOLDER}</Typography>
+
+                        <ShelterClaimStatusText claim_status={isClaimed}/>
                     </Grid>
                     <Grid
                         item

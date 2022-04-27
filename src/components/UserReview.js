@@ -15,6 +15,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import Popover from '@mui/material/Popover';
 import { useNavigate } from 'react-router-dom';
 
+const public_url = process.env.PUBLIC_URL;
+
 const UserReview = ({ reviewData, isHighLighted }) => {
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(undefined)
@@ -132,7 +134,8 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                             alignItems="left">
                             <img 
                             style={{width: 60, height: 60, borderRadius: 60/ 2}} 
-                            src={userProfile.profile_pic_path}
+                            src={public_url + "/assets/imgs/user_profile_img_placeholder.jpeg"}
+                            alt='user profile placeholder'
                             />
                         </Grid>}
                     <Grid

@@ -96,90 +96,91 @@ const RegularUserProfile = props => {
 
     return (
         <>
-            <Grid
+            <Grid 
                 container
-                direction="column" 
-                justifyContent="flex-start" 
+                direction="row"
+                justifyContent="center"
                 alignItems="center"
                 wrap="nowrap"
-                rowSpacing={2}
-                style={{height: "100vh", width: "100vw", maxWidth: "50em", padding: "20px"}}>
-
-                {loaderActive ? 
-                    <Grid   
-                        container
-                        direction="column"
-                        justifyContent="center" 
-                        alignItems="center"
-                        style={{height: "80vh"}}>
-                            <Typography>Loading your profile</Typography>
-                            <CircularProgress/>
-                    </Grid> : 
-                    <>
-                        <Grid   
-                            item
+                style={{height: "100vh", width: "100vw"}}>
+                <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    wrap="nowrap"
+                    rowSpacing={2}
+                    style={{height: "100vh", width: "100vw", maxWidth: "50em", padding: "20px"}}>
+                    {loaderActive ?
+                        <Grid
                             container
-                            direction="row"
-                            justifyContent="space-between" 
+                            direction="column"
+                            justifyContent="center"
                             alignItems="center"
-                            style={{}}>
+                            style={{height: "80vh"}}>
+                                <Typography>Loading your profile</Typography>
+                                <CircularProgress/>
+                        </Grid> :
+                        <>
+                            <Grid
+                                item
+                                container
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                style={{}}>
+                                <Button
+                                    onClick={() => {
+                                        navigate("/app/dashboard")
+                                    }}>
+                                    Back
+                                </Button>
+                                    <Typography>{"Hi, " + appCtx.user}</Typography>
+                                <Button
+                                    onClick={() => {
+                
+                                    }}>
+                                    Edit Profile
+                                </Button>
+                            </Grid>
+                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                            {/* bookmarks */}
+                            <Grid
+                                container
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                style={{}}>
+                                    <Typography variant='h5'>Bookmarked Shelters</Typography>
+                            </Grid>
+                            
+                            <ShelterList
+                                loaderActive={loaderActive}
+                                user={props.user}
+                                setUser={props.setUser}
+                                shelterData={shelterData}
+                                setShelterData={setShelterData}
+                                bookmarks={shelterBookmarkData}/>
 
+                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
 
-                            <Button 
-                                onClick={() => {
-                                    navigate("/app/dashboard")
-                                }}>
-                                Back
-                            </Button>
+                            <Grid
+                                item
+                                container
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                style={{}}>
+                                    <Typography variant='h5'>Posted Reviews</Typography>
+                            </Grid>
 
-                                <Typography>{"Hi, " + appCtx.user}</Typography>
-                            <Button 
-                                onClick={() => {
-                                    
-                                }}>
-                                Edit Profile
-                            </Button>
-                        </Grid> 
-
-                        <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-
-                        {/* bookmarks */}
-
-                        <Grid   
-                            container
-                            direction="row"
-                            justifyContent="flex-start" 
-                            alignItems="center"
-                            style={{}}>
-                                <Typography variant='h5'>Bookmarked Shelters</Typography>
-                        </Grid> 
-
-                        <ShelterList 
-                            loaderActive={loaderActive} 
-                            user={props.user} 
-                            setUser={props.setUser} 
-                            shelterData={shelterData} 
-                            setShelterData={setShelterData}
-                            bookmarks={shelterBookmarkData}/>
-
-                        <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-
-                        <Grid   
-                            item
-                            container
-                            direction="row"
-                            justifyContent="flex-start" 
-                            alignItems="center"
-                            style={{}}>
-                                <Typography variant='h5'>Posted Reviews</Typography>
-                        </Grid> 
-
-                        {comments()}
-
-                        {/* <UpdateProfileForm profileData={userProfileData}/> */}
-
-                    </>
-                }
+                            <Grid style={{width: "100%", margin: "20px", padding: "20px"}}>
+                                {comments()}
+                            </Grid>
+                            {/* <UpdateProfileForm profileData={userProfileData}/> */}
+                        </>
+                    }
+                </Grid>
             </Grid>
         </>
     );
@@ -306,7 +307,6 @@ const UpdateProfileForm = ({profileData}) => {
                             Save
                         </Button>
                     </Grid>
-
                     
                     {errorMsgEle}
 

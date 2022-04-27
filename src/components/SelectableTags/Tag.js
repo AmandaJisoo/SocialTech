@@ -11,13 +11,9 @@ const Tag = ({
     selectedCategory,
     isTagSelectionMutualExclusiveWithinCategory }) => {   
 
-<<<<<<< HEAD
     //console.log("selected tag: ", selectedTags)
 
     const [selected, setSelected] = useState(!isSelectable ? false : selectedTags.includes(text));
-=======
-    const selected = selectedTags && selectedTags.includes(text)
->>>>>>> a6c53c3fe53a9b565cbae6c957bbdf65de98a87a
 
     const handleClick = (event) => {
         if (isSelectable) { 
@@ -39,11 +35,8 @@ const Tag = ({
                 })
                 setSelectedTags(selectedTags.slice())
             }
-<<<<<<< HEAD
             //console.log("selected tag: ", selectedTags)
             setSelected(!selected)
-=======
->>>>>>> a6c53c3fe53a9b565cbae6c957bbdf65de98a87a
         }
     }
 
