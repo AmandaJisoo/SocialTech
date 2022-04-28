@@ -18,10 +18,11 @@ import Divider from '@mui/material/Divider';
 import UserReview from './UserReview';
 import AppContext from '../AppContext.js';
 import Alert from '@mui/material/Alert';
+import { observer } from "mobx-react";
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
-const RegularUserProfile = props => {
+const RegularUserProfile = observer(props => {
     const { apiStore } = useStore();
     const [loaderActive, setLoaderActive] = useState(false);
     const [shelterBookmarkData, setShelterBookmarkData] = useState([])
@@ -30,14 +31,16 @@ const RegularUserProfile = props => {
     const [userProfileData, setUserProfileData] = useState(null)
     const [errorMsg, setErrorMsg] = useState([])
     const appCtx = useContext(AppContext)
+    const { appStore } = useStore()
     const navigate = useNavigate()
 
     const loadBookmarks = async () => {
         try {
-            let authRes = await Auth.currentAuthenticatedUser();
-            let username = authRes.username;
-            console.log("username for bookmarks", username);
-            let bookmarksResponse = await apiStore.getSavedBookmarks(username);
+            if (!appStore.username) {
+                await appStore.getUsername()
+            }
+            // console.log("username for bookmarks", username);
+            let bookmarksResponse = await apiStore.getSavedBookmarks(appStore.username);
             setShelterBookmarkData(bookmarksResponse)
             let shelterDataResponse = await Promise.all(bookmarksResponse.map(async (post_id) => apiStore.loadSummary(post_id)));
             //we can keep this code in case we want to load one by one async
@@ -56,7 +59,10 @@ const RegularUserProfile = props => {
 
     const loadUserProfile = async () => {
         try {
-            let userProfileResponse = await apiStore.getUserProfile(appCtx.user);
+            if (!appStore.username) {
+                await appStore.getUsername()
+            }
+            let userProfileResponse = await apiStore.getUserProfile(appStore.username);
             setUserProfileData(userProfileResponse)
           } catch(error) {
             console.log("load user profile err " + error.message)
@@ -66,7 +72,10 @@ const RegularUserProfile = props => {
 
     const loadAllComments = async () => {
         try {
-            let commentDataResponse = await apiStore.loadAllComments(appCtx.user);
+            if (!appStore.username) {
+                await appStore.getUsername()
+            }
+            let commentDataResponse = await apiStore.loadAllComments(appStore.username);
             setCommentData(commentDataResponse)
           } catch(error) {
             console.log("load all comment err" + error.message)
@@ -184,7 +193,7 @@ const RegularUserProfile = props => {
             </Grid>
         </>
     );
-};
+});
 
 export default RegularUserProfile;
 

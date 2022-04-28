@@ -90,7 +90,7 @@ const CURRENT_USER_ZIPCODE_PLACEHOLDER = 98105
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [shelterData, setShelterData] = useState(undefined);
+  const [shelterData, setShelterData] = useState([]);
   const [userStatus, setUserStatus] = useState(null)
   const navigate = useNavigate();
   const { apiStore, appStore } = useStore(); 

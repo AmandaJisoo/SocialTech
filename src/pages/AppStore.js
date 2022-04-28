@@ -1,4 +1,5 @@
 import { observable, action, makeObservable } from "mobx";
+import { Auth } from 'aws-amplify';
 
 export default class AppStore {
     shelterData = undefined;
@@ -6,6 +7,7 @@ export default class AppStore {
     highlightedComment = undefined;
     userProfilePic = {}
     shelterDataList = []
+    username = undefined;
     constructor() {
         makeObservable(this, {
             shelterData: observable,
@@ -18,6 +20,8 @@ export default class AppStore {
             setUserProfilePic: action,
             shelterDataList: observable,
             setShelterDataList: action,
+            username: observable,
+            getUsername: action,
         })
     }
 
@@ -47,5 +51,10 @@ export default class AppStore {
 
     setShelterDataList(shelterDataList) {
         this.shelterDataList = shelterDataList
+    }
+
+    async getUsername() {
+        let authRes = await Auth.currentAuthenticatedUser();
+        this.username = authRes.username;
     }
 }

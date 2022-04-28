@@ -1,26 +1,27 @@
 import {React, useState} from 'react';
 import { SORT_OPTIONS } from '../utils/utilityFunctions';
 import { Grid, Button, Typography } from '@mui/material';
-// import { useStore } from './Hook';
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import AmenityFilterTab from './AmenityFilterTab';
 import SortOption from './SortOption';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useStore } from '../pages/Hook';
 
-const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
+const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
     const [query, setQuery] = useState("");
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
     const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
+    const [searchBarOption, setSearchBarOption] = useState('city');
+
     console.log('shelterData', shelterData)
     const sortMenuItems = SORT_OPTIONS.map((option, key) => {
         return <MenuItem key={key} value={option}>{option}</MenuItem>
@@ -76,18 +77,35 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
     }
 
     const handleQueryChange = (event) => {
-        setQuery(event.target.value);
+        const searchQuery = event.target.value
+        console.log("searchQuery", searchQuery)
+        setQuery(searchQuery);
+        const lowerSearchQuery = searchQuery.toLowerCase();
+        shelterData = appStore.shelterDataList.filter(data => {
+            console.log("title and query: ", data.title, searchQuery)
+            //TODO: Amanda here for query
+                return data.title.toLowerCase().includes(lowerSearchQuery) ||
+                    data.zipcode.toLowerCase().includes(lowerSearchQuery) ||
+                    data.city.toLowerCase().includes(lowerSearchQuery)
+        })
+        setShelterData(shelterData)
     }
 
-    const handleSearch = () => {
-        // TODO : add functionality to revert search result and show all shelters before search. 
-        console.log("filter shelter: " + shelterData)
-        shelterData = shelterData.filter(data => {
-            console.log("title and query: ", data.title, query)
-                return data.title === query
-        })
-        console.log("filter shelter: " + shelterData)
-        setShelterData(shelterData)
+    const handleSearch = async() => {
+        let responseOfQuery = []
+        if (searchBarOption === 'city') {
+            setIsLoaderActive(true);
+            console.log('query when searching city', query)
+            responseOfQuery = await apiStore.getShelterByCity(query)
+        } else {//it is zipcode
+            setIsLoaderActive(true);
+            responseOfQuery = await apiStore.loadOverview(query, query)
+            console.log('responseOfQuery zipcode', responseOfQuery)
+        }
+        appStore.setShelterDataList(responseOfQuery)
+        setShelterData(responseOfQuery)
+        setIsLoaderActive(false);
+
     }
 
     const handleFilterByAmenityTags = async() => {
@@ -150,10 +168,12 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
         return <SortOption key={optionName} optionName={optionName} sortOption={sortOption} setSortOption={setSortOption}/>
     })
     
+    const handleChange = (event) => {
+        setSearchBarOption(event.target.value);
+    };
 
     return (
-        
-        <Box sx={{width: "100%", borderRadius: "10px", border: "1px solid rgba(228, 228, 228, 0.6)"}}>
+        <Box sx={{width: "100%", borderRadius: "10px" }}>
             <Grid
                 container
                 direction="row"
@@ -161,34 +181,50 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
                 alignItems="center"
                 wrap="nowrap"
                 style={{position: "relative"}}>
-
-                <Grid item xs={3}>
-                    <Grid 
-                        container
-                        direction="column">
-                        <Typography >Currenly sorted by: </Typography>
-                        <Typography>{sortOption}</Typography>
-                    </Grid>
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">option</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={searchBarOption}
+                        label="option"
+                        onChange={handleChange}
+                        >
+                        <MenuItem value={'city'}>city</MenuItem>
+                        <MenuItem value={'zipcode'}>zipcode</MenuItem>
+                        </Select>
+                    </FormControl>
+                    </Box>
+                <Grid item xs={12} md={12}>
+                    <TextField onKeyDown={(e) => e.keyCode == 13 && handleSearch()} id="outlined-basic" value={query} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
                 </Grid>
-
-                <Grid item xs={6} md={8}>
-                    <TextField id="outlined-basic" label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
-                </Grid>
-                
+    
                 <SearchIcon 
                     onClick={handleSearch}
                     style={{width: "30px", height: "30px", cursor: "pointer", position: "absolute", right: "0", marginRight: "1em"}}
                 />
             </Grid>
 
-            <Grid
+            <Grid 
+                        container
+                        direction="col">
+                        <Typography >Currenly sorted by: </Typography>
+                        {/* </Grid> */}
+                        <Grid item xs={8}
+                        container
+                        direction="col"
+                        alignItems="center">
+                        <Typography>{sortOption}</Typography>
+                        </Grid>
+                    </Grid>
+                {/* <Grid
                 item
                 container 
                 justifyContent="space-around" 
                 alignItems="center"
                 style={{width:  "100%"}}
-                >
-
+                > */}
                 <>
                     <Button variant='outlined' 
                         onClick={toggleSortDrawer(true)}>
@@ -232,7 +268,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData}) => {
                 </>
 
 
-            </Grid>
+            {/* </Grid> */}
         </Box>
     );
 };

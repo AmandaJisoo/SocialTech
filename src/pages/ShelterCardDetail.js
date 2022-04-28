@@ -56,6 +56,9 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [snackBarOpen, setSnackBarOpen] = useState(false)
     const buttonRef = useRef(null);
     console.log("bookmarkState", bookmarkState)
+    const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+    const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+    const fullAddress = `${streetAddress} ${cityAddress}`
 
     const getReviewsData = async () => {
         try {
@@ -67,32 +70,34 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
 
+    const getShelterPostData = async () => {
+        try {
+            console.log("post_id before load summary: " + post_id)
+            const shelterPostDataResponse = await apiStore.loadSummary(post_id);
+            appStore.setShelterData(shelterPostDataResponse);
+
+            console.log("shelter data response: ", shelterPostDataResponse)
+
+            if (appStore.highlightedComment) {
+                setHighlightedComment(appStore.highlightedComment);
+                console.log("using saved comment data");
+            } else {
+                const topComment = await apiStore.getMostLikedComment(post_id);
+                if (topComment.length > 0) {
+                    setHighlightedComment(topComment[0]);
+                    console.log("loading new comment data");
+                }
+            }
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+
     useEffect(() => {
         if (appStore.highlightedComment) {
             console.log("appStore.highlightedComment", appStore.highlightedComment.comment_id)
 
-        }
-        const getShelterPostData = async () => {
-            try {
-                console.log("post_id before load summary: " + post_id)
-                const shelterPostDataResponse = await apiStore.loadSummary(post_id);
-                appStore.setShelterData(shelterPostDataResponse);
-
-                console.log("shelter data response: ", shelterPostDataResponse)
-
-                if (appStore.highlightedComment) {
-                    setHighlightedComment(appStore.highlightedComment);
-                    console.log("using saved comment data");
-                } else {
-                    const topComment = await apiStore.getMostLikedComment(post_id);
-                    if (topComment.length > 0) {
-                        setHighlightedComment(topComment[0]);
-                        console.log("loading new comment data");
-                    }
-                }
-            } catch (err) {
-                console.log(err.message)
-            }
         }
 
         const loadBookmarks = async () => {
@@ -209,13 +214,14 @@ const ShelterDetail = observer(({ shelterData }) => {
         setOpenPostReviewForm(false);
         setIsReviewSubmitted(true);
         getReviewsData()
+        getShelterPostData()
         setSnackBarOpen(true)
     }
 
     const handleGetDirection = (e) => {
           e.preventDefault();
           let url = "http://maps.google.com/?q=";
-          let endAddress = "77 Massachusetts Ave, Cambridge, MA 02139";
+          let endAddress = fullAddress
           endAddress = endAddress.replace(/\s/g, "+")
           console.log(endAddress);
           url = url + endAddress
@@ -324,8 +330,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                             direction="column"
                             justifyContent="space-between"
                             alignItems="flex-start">
-                            <Typography  style={{fontWeight: "bold"}}>{shelterPostData.street.toUpperCase()}</Typography>
-                            <Typography style={{fontWeight: "bold"}}>{shelterPostData.city.toUpperCase() + ", " + shelterPostData.zipcode.toUpperCase() + " , " + shelterPostData.state.toUpperCase()}</Typography>
+                            <Typography  style={{fontWeight: "bold"}}>{streetAddress}</Typography>
+                            <Typography style={{fontWeight: "bold"}}>{cityAddress}</Typography>
                         </Grid>
                         <Grid 
                             item

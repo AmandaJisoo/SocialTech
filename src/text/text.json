@@ -49,7 +49,7 @@
     },
     "shelterDetail": {
         "pageHeader": "Detail",
-        "backButton": "Shelter Review",
+        "backButton": "< Overview",
         "directToHereButtonText": "Direct to here",
         "visitWebSiteButtonText": "Visit Website",
         "writeReviewButton": "Write a Review",

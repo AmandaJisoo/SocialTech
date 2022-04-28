@@ -2,7 +2,8 @@ import {React, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import text from "../text/text.json"
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Divider } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
 import ShelterDisplayControlWidget from '../components/ShelterDisplayControlWidget';
@@ -16,6 +17,12 @@ const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
     const appCtx = useContext(AppContext);
     const { apiStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
+    const [page, setPage] = useState(1)
+    const pageSize = 10;
+    console.log(page)
+    const paginatedShelterData = shelterData.slice(pageSize * (page - 1), pageSize * page)
+    const [isLoaderActive, setIsLoaderActive] = useState(false)
+
 
     const navigate = useNavigate();
 
@@ -37,6 +44,10 @@ const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
     
         getShelterPostBookmarkData();
     }, [])
+
+    useEffect(() => {
+        setPage(1)
+    }, [shelterData])
 
     const handleSignOut = async () => {
         try {
@@ -75,7 +86,7 @@ const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
                 direction="column" 
                 justifyContent="center" 
                 alignItems="center"
-                style={{height: "100vh"}}>
+                style={{}}>
                 <Grid
                     container
                     direction="column" 
@@ -83,7 +94,7 @@ const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
                     alignItems="center"
                     wrap="nowrap"
                     rowSpacing={3}
-                    style={{height: "100vh", width: "100vw", maxWidth: "50em"}}>
+                    style={{ width: "100vw", maxWidth: "50em"}}>
                         
                     <Grid item>
                         <Typography variant="h4" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
@@ -92,20 +103,29 @@ const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
                     {welcomeMsg}
     
                     <Grid item container style={{width: "90%"}}>
-                        <ShelterDisplayControlWidget shelterData={shelterData} setShelterData={setShelterData} />
+                        <ShelterDisplayControlWidget setIsLoaderActive={setIsLoaderActive} shelterData={shelterData} setShelterData={setShelterData} />
                     </Grid>
     
                     {/* change this to <ShelterList/> element */}
                     
                     <ShelterList 
-                        loaderActive={false} 
+                        loaderActive={isLoaderActive} 
                         user={user} 
                         setUser={setUser} 
-                        shelterData={shelterData} 
+                        shelterData={paginatedShelterData} 
                         setShelterData={setShelterData}
                         bookmarks={bookmarks}/>
+
+            <Pagination count={shelterData.length / pageSize + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
+
+                    
+            <Grid item>
+                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+
+            </Grid>
             </Grid>
         </Grid>
+        
     );
 };
 
