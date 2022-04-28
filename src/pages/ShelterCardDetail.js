@@ -58,7 +58,7 @@ const ShelterDetail = observer(({ shelterData }) => {
         try {
             const reviewsDataResponse = await apiStore.loadComment(post_id);
             console.log("review response: ", reviewsDataResponse)
-            setReviews(reviewsDataResponse)
+            setReviews(reviewsDataResponse.reverse())
         } catch (err) {
             console.log(err.message)
         }
