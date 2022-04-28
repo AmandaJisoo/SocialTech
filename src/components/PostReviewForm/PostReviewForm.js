@@ -19,7 +19,7 @@ import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
 import TagSelectionTab from './TagSelectionTab';
 
-const PostReviewForm = ({ formData, handleClose, post_id }) => {
+const PostReviewForm = ({ formData, handleClose, post_id, isReviewSubmitted }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
@@ -105,6 +105,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 >
                     <TextareaAutosize
                         maxRows={6}
+                        value={reviewText}
                         placeholder={text.postReviewForm.textFieldPlaceHolder}
                         style={{width: "98%", height: "120px"}}
                         onChange={handleTextChange}/>
@@ -146,6 +147,9 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     variant="contained"
                     onClick={() => {
                         handleUploadReview()
+                        setReviewText("")
+                        setSelectedTags([])
+                        setSelectedFile([])
                     }}>
                     {text.postReviewForm.PostReviewBtn}
                 </Button>

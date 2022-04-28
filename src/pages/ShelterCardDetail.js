@@ -48,7 +48,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     console.log('highlightedComment', highlightedComment)
     const [isClaimed, setIsClaimed] = useState(undefined);
     const [loaderActive, setLoaderActive] = useState(true);
-
+    const [isReviewSubmitted, setIsReviewSubmitted] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(undefined);
     const [open, setOpen] = useState(false)
     const buttonRef = useRef(null);
@@ -201,7 +201,10 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
     const handleClose = () => {
+        //TODO: Amanda
         setOpenPostReviewForm(false);
+        setIsReviewSubmitted(true);
+
     }
 
     const handleGetDirection = (e) => {
@@ -335,7 +338,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                             <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
                         </Grid>
                     </Grid>
-                </>}                {shelterPostData !== undefined && 
+                </>}                
+                {shelterPostData !== undefined && 
                 <Grid
                     item
                     container
@@ -348,28 +352,26 @@ const ShelterDetail = observer(({ shelterData }) => {
                         </a>
                     </Button>
                 </Grid>}
-                {shelterPostData !== undefined && 
+        {shelterPostData !== undefined && 
+            <Grid
+                container
+                direction="column" 
+                justifyContent="flex-start" 
+                alignItems="center"
+                spacing={1}>
+                    <PostReviewForm
+                        formData={{
+                            shelterName: shelterPostData.title,
+                            userName: appCtx.user}}
+                        post_id={post_id}
+                        handleClose={handleClose}
+                        isReviewSubmitted={isReviewSubmitted}
+                    />
+                    </Grid>
+        }
 
-
-<Grid
-    container
-    direction="column" 
-    justifyContent="flex-start" 
-    alignItems="center"
-    spacing={1}>
-            <PostReviewForm
-                formData={{
-                    shelterName: shelterPostData.title,
-                    userName: appCtx.user}}
-                post_id={post_id}
-                handleClose={handleClose}
-            />
-            </Grid>
-            }
-
-                <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-            
-                <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
+            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+            <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
                 
 
 
