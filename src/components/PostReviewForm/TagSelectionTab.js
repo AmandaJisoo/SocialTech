@@ -79,7 +79,6 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
             displayShowResultButton={false}
             handleFilter={() => {}}
             displayClearAllButton={false}
-            maxHeight="50px"
             />
         } else {
         

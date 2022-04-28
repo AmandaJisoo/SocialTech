@@ -2,7 +2,7 @@ import {React, useContext, useState, useEffect, useRef} from 'react';
 import { observer } from "mobx-react";
 import PropTypes from 'prop-types';
 import UserReview from '../components/UserReview';
-import { Grid } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ImageGallery from '../components/ImageGallery'
@@ -334,13 +334,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
                         </Grid>
                     </Grid>
-                </>}
-
-                <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-            
-                <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
-                
-                {shelterPostData !== undefined && 
+                </>}                {shelterPostData !== undefined && 
                 <Grid
                     item
                     container
@@ -352,29 +346,33 @@ const ShelterDetail = observer(({ shelterData }) => {
                             {text.shelterDetail.visitWebSiteButtonText}
                         </a>
                     </Button>
-                    <Button
-                        variant="contained"
-                        onClick={handleOpen}
-                    >
-                        {text.shelterDetail.writeReviewButton}
-                    </Button>
-                    <Modal
-                        style={{overflow: 'hidden', overflowY: 'scroll'}}
-                        open={openPostReviewForm}
-                        onClose={handleClose}
-                        aria-labelledby="post-review-form"
-                        aria-describedby="post-review-form"
-                    >
-                        <PostReviewForm
-                            formData={{
-                                shelterName: shelterPostData.title,
-                                userName: appCtx.user}}
-                            post_id={post_id}
-                            handleClose={handleClose}
-                        />
-                    </Modal>
                 </Grid>}
+                {shelterPostData !== undefined && 
+
+
+<Grid
+    container
+    direction="column" 
+    justifyContent="flex-start" 
+    alignItems="center"
+    spacing={1}>
+            <PostReviewForm
+                formData={{
+                    shelterName: shelterPostData.title,
+                    userName: appCtx.user}}
+                post_id={post_id}
+                handleClose={handleClose}
+            />
+            </Grid>
+            }
+
                 <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+            
+                <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
+                
+
+
+<Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 <Grid
                     item
                     container
@@ -383,7 +381,6 @@ const ShelterDetail = observer(({ shelterData }) => {
                     alignItems="center">
                     <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
-                
                 <Grid style={{width: "100%"}}>{reviewEles()}</Grid>
             </Grid>
         </Grid>

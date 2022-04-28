@@ -83,7 +83,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 container
                 direction="column" 
                 justifyContent="center" 
-                alignItems="flex-start"
+                alignItems="center"
             >
                 <Typography>{formData.shelterName}</Typography>
                 <Rating 
@@ -93,11 +93,10 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                         setStarRating(newRating)
                     }}
                     style={{color: appTheme.palette.primary.main }}/>
-            </Grid>  
+            </Grid>
+            <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
+            <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>  
 
-            <Box style={{width: "100%", borderRadius: "10px", border: "2px grey", borderStyle: "groove"}}>
-                <Typography>{formData.userName}</Typography>
-                <Divider style={{width:  "100%"}}/> 
                 <Grid
                     container
                     direction="column" 
@@ -105,17 +104,12 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     alignItems="center"
                 >
                     <TextareaAutosize
-                        
                         maxRows={6}
                         placeholder={text.postReviewForm.textFieldPlaceHolder}
                         style={{width: "98%", height: "120px"}}
                         onChange={handleTextChange}/>
                 </Grid>  
-                
-            
-
                 <Divider style={{width: "100%"}}/> 
-
                 <Grid
                     container
                     direction="row" 
@@ -137,13 +131,9 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                         <ImageIcon onClick={() => selectFile()} style={{cursor: "pointer"}}/>
                     </Grid>
                 </Grid>  
-            </Box>
 
             {selectedFileDisplay()}
-
-            <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
-
-            <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+            <br />
 
             <Grid
                 container
