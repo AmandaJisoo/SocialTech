@@ -19,7 +19,7 @@ import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
 import TagSelectionTab from './TagSelectionTab';
 
-const PostReviewForm = ({ formData, handleClose, post_id, isReviewSubmitted }) => {
+const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);

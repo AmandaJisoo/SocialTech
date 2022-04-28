@@ -54,6 +54,16 @@ const ShelterDetail = observer(({ shelterData }) => {
     const buttonRef = useRef(null);
     console.log("bookmarkState", bookmarkState)
 
+    const getReviewsData = async () => {
+        try {
+            const reviewsDataResponse = await apiStore.loadComment(post_id);
+            console.log("review response: ", reviewsDataResponse)
+            setReviews(reviewsDataResponse)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     useEffect(() => {
         if (appStore.highlightedComment) {
             console.log("appStore.highlightedComment", appStore.highlightedComment.comment_id)
@@ -77,16 +87,6 @@ const ShelterDetail = observer(({ shelterData }) => {
                         console.log("loading new comment data");
                     }
                 }
-            } catch (err) {
-                console.log(err.message)
-            }
-        }
-
-        const getReviewsData = async () => {
-            try {
-                const reviewsDataResponse = await apiStore.loadComment(post_id);
-                console.log("review response: ", reviewsDataResponse)
-                setReviews(reviewsDataResponse)
             } catch (err) {
                 console.log(err.message)
             }
@@ -204,7 +204,7 @@ const ShelterDetail = observer(({ shelterData }) => {
         //TODO: Amanda
         setOpenPostReviewForm(false);
         setIsReviewSubmitted(true);
-
+        getReviewsData()
     }
 
     const handleGetDirection = (e) => {
@@ -365,7 +365,6 @@ const ShelterDetail = observer(({ shelterData }) => {
                             userName: appCtx.user}}
                         post_id={post_id}
                         handleClose={handleClose}
-                        isReviewSubmitted={isReviewSubmitted}
                     />
                     </Grid>
         }
