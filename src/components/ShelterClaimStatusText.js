@@ -5,20 +5,17 @@ import appTheme from '../theme/appTheme.json';
 const ShelterClaimStatusText = ({ claim_status }) => {
     let background, color, text
     if (claim_status === "no_claim") {
-        color = appTheme.palette.dark.darker
-        text = "unclaimed shelter"
+        text = "Unclaimed Shelter"
     } else if (claim_status === "pending") {
-        color = appTheme.palette.secondary.main
-        text = "claim processing"
+        text = "Claim In Progress"
     } else {
-        color = appTheme.palette.primaryLight.main
-        text = "claimed shelter"
+        text = "Claimed Shelter"
 
     }
 
     return (
-    <Typography style={{fontSize: "13px", color: color}}>
-        {text}
+    <Typography style={{fontSize: "18px", color: color}}>
+        Business Status: {text}
     </Typography>
     )
     

@@ -136,16 +136,6 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
 
-    const verifiedIcon = () => {
-        if (isClaimed === "no_claim") {
-            return <div>unclaimed shelter</div>
-        } else if (isClaimed === "pending") {
-            return <div>shelter in process of claiming</div>
-        } else {
-            return <div>claimed shelter</div>
-        }
-    }
-    
     const highlightedReview = () => {
         if (reviews === undefined) {
             return (
@@ -298,9 +288,18 @@ const ShelterDetail = observer(({ shelterData }) => {
                             direction="row">
                             <Typography>{shelterPostData.title}</Typography>
                         </Grid>
+                        <Grid 
+                            item
+                            container
+                            direction="row">
                         <Typography>{DISTANCE_PLACEHOLDER}</Typography>
-
+                        </Grid>
+                        <Grid 
+                            item
+                            container
+                            direction="row">
                         <ShelterClaimStatusText claim_status={isClaimed}/>
+                        </Grid>
                     </Grid>
 
                     <Grid
@@ -326,8 +325,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                             direction="column"
                             justifyContent="space-between"
                             alignItems="flex-start">
-                            <Typography>{shelterPostData.street}</Typography>
-                            <Typography>{shelterPostData.city + ", " + shelterPostData.zipcode + " , " + shelterPostData.state}</Typography>
+                            <Typography  style={{fontWeight: "bold"}}>{shelterPostData.street.toUpperCase()}</Typography>
+                            <Typography style={{fontWeight: "bold"}}>{shelterPostData.city.toUpperCase() + ", " + shelterPostData.zipcode.toUpperCase() + " , " + shelterPostData.state.toUpperCase()}</Typography>
                         </Grid>
 
                         <Grid item>

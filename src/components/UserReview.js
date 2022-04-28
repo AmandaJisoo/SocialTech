@@ -74,16 +74,26 @@ const UserReview = ({ reviewData, isHighLighted }) => {
     console.log("likeState", likeState);
 
     const likeIcon = () => likeState? 
-        (<IconButton onClick={handleLike}>
-            <FavoriteIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
-        <span>{numOfLikes}</span>
-        </IconButton>
-        ):
-        (<>
-            <IconButton onClick={handleLike} ref={buttonRef}>
-                <FavoriteBorderOutlinedIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
-            <span>{numOfLikes}</span>
-            </IconButton>
+        (<Grid container
+        direction="col" 
+        justifyContent="flex-start" 
+        alignItems="center"
+        spacing={1}>
+            <Grid item xs={12}>
+                <IconButton onClick={handleLike}>
+                    <FavoriteIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
+                    {numOfLikes}
+                </IconButton>
+            </Grid>
+        </Grid>):
+        (<><Grid container spacing={1}>
+            <Grid item xs={12}>
+                <IconButton onClick={handleLike} ref={buttonRef}>
+                    <FavoriteBorderOutlinedIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
+                        {numOfLikes}
+                </IconButton>
+            </Grid>
+            </Grid>
             <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
                 <Grid style={{padding: "20px"}}>
                     <Typography >
@@ -115,31 +125,40 @@ const UserReview = ({ reviewData, isHighLighted }) => {
         }}>
             <Grid
                 container
-                direction="column" 
+                direction="col" 
                 justifyContent="flex-start" 
                 alignItems="center"
                 spacing={1}>
                 <Grid
                     item
                     container
-                    direction="column" 
+                    direction="row" 
                     justifyContent="center" 
                     alignItems="center"
                     spacing={1}>
                     {userProfile&&
                         <Grid
-                            item
-                            container
-                            direction="row" 
-                            justifyContent="space-between" 
-                            alignItems="left">
+                        item
+                        container
+                        direction="row" 
+                        justifyContent="space-between" 
+                        wrap="nowrap"
+                        rowSpacing={1}
+                        alignItems="center">
+
+                            <Grid item
+                                container
+                                direction="col" 
+                                alignItems="flex-start"
+                                style={{width: "100%", display: "flex", justifyContent: "left"}}>
                             <img 
                             style={{width: 60, height: 60, borderRadius: 60/ 2}} 
                             src={public_url + "/assets/imgs/user_profile_img_placeholder.jpeg"}
                             alt='user profile placeholder'
                             />
+                            </Grid>
                         </Grid>}
-                    <Grid
+                        <Grid
                         item
                         container
                         direction="row" 
@@ -148,14 +167,40 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                             <Typography>{reviewData.username}</Typography>
                             {highlightedText}
                     </Grid>
+                        <Grid container
+                            direction="col" 
+                            justifyContent="flex-start" 
+                            alignItems="center"
+                            spacing={1}>
+                        <Grid item
+                            xs={12}
+                            container
+                            direction="row" 
+                            alignItems="flex-start"
+                            style={{width: "100%", display: "flex", margin: "0px"}}>
+                            {likeIcon()}  
+                            </Grid>     
+                        </Grid>
                     <Grid
                         item
                         container
                         direction="row" 
                         justifyContent="space-between" 
                         alignItems="center">
+                        <Grid item
+                            xs={12}
+                            container
+                            direction="row" >
                         <Rating value={reviewData.rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                        <Typography>{handleReviewDateFormatting(reviewData.post_time.split("T")[0])}</Typography>
+                        <div style={{marginTop: "-1px", marginLeft:"10px"}}>
+                        <Typography style={{fontSize: "large"}}>{reviewData.post_time.split("T")[0]}</Typography>
+                        </div>
+                        </Grid>
+                        <Grid item
+                            xs={12}
+                            container
+                            direction="row" >
+                        </Grid>
                     </Grid>
                     <Grid
                         item
@@ -175,14 +220,6 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                     wrap="nowrap"
                     rowSpacing={1}
                     alignItems="center">
-                        <Grid item
-                            container
-                            direction="column" 
-                            justifyContent="center"
-                            alignItems="center"
-                            style={{width: "32px", margin: "0 15px 0 5px"}}>
-                            {likeIcon()}  
-                        </Grid>
                         <Grid item>
                             <Typography>{reviewData.comment_body}</Typography>
                         </Grid>
