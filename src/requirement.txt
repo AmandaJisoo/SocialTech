@@ -1,6 +1,4 @@
-virtualenv env
-source env/bin/activate
-pip3 install Flask
-pip3 install Flask-SQLAlchemy
-pip3 install SQLAlchemy
-pip3 install requests   
+Flask==2.1.1
+Flask-SQLAlchemy==2.5.1
+SQLAlchemy==1.4.35
+requests==2.27.1
