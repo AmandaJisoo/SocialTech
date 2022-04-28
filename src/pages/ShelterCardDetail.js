@@ -217,7 +217,7 @@ const ShelterDetail = observer(({ shelterData }) => {
 
     const favoriteIcon = () => bookmarkState? 
         <IconButton onClick={handleBookmark} >
-            <BookmarkIcon sx={{ fontSize: 50 }} style={{color: appTheme.palette.primary.main, marginLeft: "-40px"}}/>
+            <BookmarkIcon sx={{ fontSize: 50 }} style={{color: appTheme.palette.primary.main, marginLeft: "0px"}}/>
         </IconButton> :
         (<>
         <IconButton onClick={handleBookmark} ref={buttonRef}>
@@ -249,17 +249,18 @@ const ShelterDetail = observer(({ shelterData }) => {
                     item
                     container
                     direction="row"
-                    // justifyContent="space-between"
+                    justifyContent="space-between"
                     alignItems="center"
                     style={{margin: "80px 0 30px 0"}}
                     spacing={1}
                     >
-                    <Button onClick={() => {
+                    <Button 
+                    onClick={() => {
                         navigate("/app/dashboard")
                     }}>
                         {text.shelterDetail.backButton
                     }</Button>
-                    <Typography variant="h4"style={{alignItems: "center"}}>{shelterPostData.title}</Typography>
+                    <Typography variant="h4"style={{marginRight: "40px" }}>{shelterPostData.title}</Typography>
                         {bookmarkState !== undefined && favoriteIcon()}  
                         {/* Disable share icon for now. May come back and implement it */}
                         {/* <IosShareIcon/> */}
@@ -372,7 +373,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 
 
 
-<Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 <Grid
                     item
                     container

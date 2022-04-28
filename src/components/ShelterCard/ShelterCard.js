@@ -10,16 +10,12 @@ import { Grid } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import { truncateReview, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
-import text from "../../text/text.json"
 import TagContainer from '../SelectableTags/TagContainer';
 import { React, useState, useRef, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import Divider from '@mui/material/Divider';
 import { Auth } from 'aws-amplify';
-import CircularProgress from '@mui/material/CircularProgress'
 import ShelterClaimStatusText from '../ShelterClaimStatusText'
 
 import { useStore } from '../../pages/Hook';
