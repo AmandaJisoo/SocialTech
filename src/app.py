@@ -4,18 +4,21 @@ import json
 
 app = Flask(__name__)
 
-API_KEY = "jzK3C6mNIhknwcC1KQchfWoM1m2Pih4i1U6SfF5DIGY752RFPWdvOeNWdsUOFOVB"
+API_KEY = "AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw"
 
 @app.route('/calculate', methods=['GET'])
 def calculate_distance_between_2_zipcodes():
-    # http://www.zipcodeapi.com/rest/DemoOnly00FRUKerspNXQ8qydUGlWRGMcRwCLH6EOULMbxd1BlPdAUvn7Y7xL8gj/distance.json/98105/94063/km
     start_zipcode = request.args.get('start_zipcode')
     end_zipcode = request.args.get('end_zipcode')
-    url = "http://www.zipcodeapi.com/rest/" + API_KEY + "/distance.json/" + str(start_zipcode) + "/" + str(end_zipcode) + "/mile"
-    response = json.loads(requests.get(url).content.decode('utf-8'))
-    print(response['distance'])
-    return str(response['distance'])
-
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + start_zipcode + "&destinations=" + end_zipcode + "&units=imperial&key=" + API_KEY
+    payload={}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    output = json.loads(response.text)
+    mile = output['rows'][0]['elements'][0]['distance']['text']
+    return app.response_class(response=json.dumps(mile),
+                              status=200,
+                              mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(debug=True)
