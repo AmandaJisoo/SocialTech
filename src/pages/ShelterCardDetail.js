@@ -2,7 +2,7 @@ import {React, useContext, useState, useEffect, useRef} from 'react';
 import { observer } from "mobx-react";
 import PropTypes from 'prop-types';
 import UserReview from '../components/UserReview';
-import { Card, Grid } from '@mui/material';
+import { Alert, Card, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ImageGallery from '../components/ImageGallery'
@@ -26,6 +26,8 @@ import { formatShelterAddress } from '../utils/utilityFunctions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import ShelterClaimStatusText from '../components/ShelterClaimStatusText'
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
@@ -51,6 +53,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [isReviewSubmitted, setIsReviewSubmitted] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(undefined);
     const [open, setOpen] = useState(false)
+    const [snackBarOpen, setSnackBarOpen] = useState(false)
     const buttonRef = useRef(null);
     console.log("bookmarkState", bookmarkState)
 
@@ -200,11 +203,13 @@ const ShelterDetail = observer(({ shelterData }) => {
             navigate("/app/auth/sign-in")
         }
     }
+
     const handleClose = () => {
         //TODO: Amanda
         setOpenPostReviewForm(false);
         setIsReviewSubmitted(true);
         getReviewsData()
+        setSnackBarOpen(true)
     }
 
     const handleGetDirection = (e) => {
@@ -368,6 +373,17 @@ const ShelterDetail = observer(({ shelterData }) => {
                     />
                     </Grid>
         }
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',}}
+                autoHideDuration={6000}
+                open={snackBarOpen}
+                onClose={() => setSnackBarOpen(false)}
+            >
+                <Alert severity="success">Review submitted!</Alert>
+            </Snackbar>
 
             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
             <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
