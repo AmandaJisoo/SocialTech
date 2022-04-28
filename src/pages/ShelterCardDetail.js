@@ -216,12 +216,12 @@ const ShelterDetail = observer(({ shelterData }) => {
     }
 
     const favoriteIcon = () => bookmarkState? 
-        <IconButton onClick={handleBookmark}>
-            <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
+        <IconButton onClick={handleBookmark} >
+            <BookmarkIcon sx={{ fontSize: 50 }} style={{color: appTheme.palette.primary.main, marginLeft: "-40px"}}/>
         </IconButton> :
         (<>
         <IconButton onClick={handleBookmark} ref={buttonRef}>
-            <BookmarkBorderOutlinedIcon/>
+            <BookmarkBorderOutlinedIcon sx={{ fontSize: 50}}/>
         </IconButton>
         <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
             You are not logged in. Click here to log in.
@@ -234,36 +234,37 @@ const ShelterDetail = observer(({ shelterData }) => {
             direction="column"
             justifyContent="flex-start"
             alignItems="center"
-            style={{height: "100vh"}}>
+            style={{height: "100vh"}}
+            >
             <Grid
                 container
                 direction="column"
-                justifyContent="center"
+                justifyContent="flex-start"
                 alignItems="center"
                 wrap="nowrap"
                 rowSpacing={2}
                 style={{maxWidth: "50em", padding: "20px"}}>
-
+            {shelterPostData && 
                 <Grid
                     item
                     container
                     direction="row"
-                    justifyContent="space-between"
+                    // justifyContent="space-between"
                     alignItems="center"
-                    style={{margin: "30px 0 30px 0"}}>
+                    style={{margin: "80px 0 30px 0"}}
+                    spacing={1}
+                    >
                     <Button onClick={() => {
                         navigate("/app/dashboard")
                     }}>
                         {text.shelterDetail.backButton
                     }</Button>
-                    <Typography variant="h4" style={{marginLeft: "-40px"}}>{text.shelterDetail.pageHeader}</Typography>
-                    <Grid>
+                    <Typography variant="h4"style={{alignItems: "center"}}>{shelterPostData.title}</Typography>
                         {bookmarkState !== undefined && favoriteIcon()}  
                         {/* Disable share icon for now. May come back and implement it */}
                         {/* <IosShareIcon/> */}
-                    </Grid>
                 </Grid>
-
+                }
                 {shelterPostData === undefined ? 
                 <Grid   
                     container
