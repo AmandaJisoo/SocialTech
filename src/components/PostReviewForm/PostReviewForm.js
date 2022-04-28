@@ -142,11 +142,6 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 alignItems="center"
             >
                 <Button 
-                    variant="contained"
-                    onClick={handleClose}>
-                    {text.postReviewForm.cancelBtn}
-                </Button>
-                <Button 
                     
                     variant="contained"
                     onClick={() => {
