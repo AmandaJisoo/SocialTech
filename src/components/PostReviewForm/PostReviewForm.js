@@ -151,6 +151,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                         setReviewText("")
                         setSelectedTags([])
                         setSelectedFile([])
+                        setStarRating(0)
                     }}>
                     {text.postReviewForm.PostReviewBtn}
                 </Button>

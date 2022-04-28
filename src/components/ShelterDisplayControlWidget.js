@@ -205,48 +205,10 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
                     style={{width: "30px", height: "30px", cursor: "pointer", position: "absolute", right: "0", marginRight: "1em"}}
                 />
             </Grid>
-
-            <Grid 
-                        container
-                        direction="col">
-                        <Typography >Currenly sorted by: </Typography>
-                        {/* </Grid> */}
-                        <Grid item xs={8}
-                        container
-                        direction="col"
-                        alignItems="center">
-                        <Typography>{sortOption}</Typography>
-                        </Grid>
-                    </Grid>
-                {/* <Grid
-                item
-                container 
-                justifyContent="space-around" 
-                alignItems="center"
-                style={{width:  "100%"}}
-                > */}
                 <>
                     <Button variant='outlined' 
-                        onClick={toggleSortDrawer(true)}>
-                        General Sort
-                    </Button>
-                    <SwipeableDrawer
-                        anchor={"bottom"}
-                        open={sortDrawerOpen}
-                        onOpen={toggleSortDrawer(true)}
-                        onClose={toggleSortDrawer(false)}
-                    >
-                        <Grid
-                            style={{padding: "20px", marginBottom: "100px"}}
-                        >
-                            {sortOptionEles}
-                        </Grid>
-                    </SwipeableDrawer>
-                </>
-
-                <>
-                    <Button variant='outlined' 
-                        onClick={toggleFilterByAmenityDrawer(true)}>
+                        onClick={toggleFilterByAmenityDrawer(true)}
+                        style ={{marginRight:"10px", marginTop:"15px"}}>
                         Filter
                     </Button>
                     <SwipeableDrawer
@@ -266,9 +228,25 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
                         </Grid>
                     </SwipeableDrawer>
                 </>
-
-
-            {/* </Grid> */}
+                <>
+                    <Button variant='outlined' 
+                        onClick={toggleSortDrawer(true)}
+                        style={{marginTop:"15px"}}>
+                        Sort: {sortOption}
+                    </Button>
+                    <SwipeableDrawer
+                        anchor={"bottom"}
+                        open={sortDrawerOpen}
+                        onOpen={toggleSortDrawer(true)}
+                        onClose={toggleSortDrawer(false)}
+                    >
+                        <Grid
+                            style={{padding: "20px", marginBottom: "100px"}}
+                        >
+                            {sortOptionEles}
+                        </Grid>
+                    </SwipeableDrawer>
+                </>
         </Box>
     );
 };
