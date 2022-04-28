@@ -57,7 +57,7 @@
     },
     "postReviewForm": {
         "textFieldPlaceHolder": "Write some useful and friendly reviews...",
-        "chooseTagPrompt": "Choose/Create tags that best describe this shelter",
+        "chooseTagPrompt": "Choose tags that best describe this shelter below",
         "cancelBtn": "Cancel",
         "PostReviewBtn": "Post Review"
     },

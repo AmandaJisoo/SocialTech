@@ -85,16 +85,17 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 justifyContent="center" 
                 alignItems="center"
             >
-                <Typography>{formData.shelterName}</Typography>
+                <Typography > {`Rate ${formData.shelterName}`}</Typography>
                 <Rating 
                     value={starRating} 
                     precision={0.5} 
                     onChange={(event, newRating) => {
                         setStarRating(newRating)
                     }}
+                    sx={{ fontSize: "1.8rem" }}
                     style={{color: appTheme.palette.primary.main }}/>
             </Grid>
-            <Typography>{text.postReviewForm.chooseTagPrompt}</Typography>
+            <Typography style={{marginTop: "12px"}}>{text.postReviewForm.chooseTagPrompt}</Typography>
             <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>  
 
                 <Grid

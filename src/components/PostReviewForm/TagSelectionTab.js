@@ -110,15 +110,6 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                     item
                     container
                     direction="row"
-                    justifyContent='center'
-                    style={{width: "100%"}}>
-                    <Typography>More Tags</Typography>
-                </Grid>
-
-                <Grid
-                    item
-                    container
-                    direction="row"
                     alignItems='center'
                     justifyContent='center'
                     style={{width: "100%"}}

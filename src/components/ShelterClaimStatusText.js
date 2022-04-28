@@ -14,7 +14,7 @@ const ShelterClaimStatusText = ({ claim_status }) => {
     }
 
     return (
-    <Typography style={{fontSize: "18px", color: color}}>
+    <Typography style={{fontSize: "17px", color: color}}>
         Business Status: {text}
     </Typography>
     )

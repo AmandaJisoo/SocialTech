@@ -296,18 +296,6 @@ const ShelterDetail = observer(({ shelterData }) => {
                             item
                             container
                             direction="row">
-                            <Typography>{shelterPostData.title}</Typography>
-                        </Grid>
-                        <Grid 
-                            item
-                            container
-                            direction="row">
-                        <Typography>{DISTANCE_PLACEHOLDER}</Typography>
-                        </Grid>
-                        <Grid 
-                            item
-                            container
-                            direction="row">
                         <ShelterClaimStatusText claim_status={isClaimed}/>
                         </Grid>
                     </Grid>
@@ -317,7 +305,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                         container
                         direction="column"
                         alignItems="flex-start">
-                        <Rating value={shelterPostData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                        Overall Rating: 
+                        <Rating name="size-large" value={shelterPostData.avg_rating}  sx={{fontSize: "2rem"}} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
 
                         <TagContainer tagData={shelterPostData.utilities} isSelectable={false}/>
                     </Grid>
@@ -338,7 +327,12 @@ const ShelterDetail = observer(({ shelterData }) => {
                             <Typography  style={{fontWeight: "bold"}}>{shelterPostData.street.toUpperCase()}</Typography>
                             <Typography style={{fontWeight: "bold"}}>{shelterPostData.city.toUpperCase() + ", " + shelterPostData.zipcode.toUpperCase() + " , " + shelterPostData.state.toUpperCase()}</Typography>
                         </Grid>
-
+                        <Grid 
+                            item
+                            container
+                            direction="row">
+                        <Typography>{`${DISTANCE_PLACEHOLDER} away`}</Typography>
+                        </Grid>
                         <Grid item>
                             <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
                         </Grid>
