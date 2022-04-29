@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import Popover from '@mui/material/Popover';
 import { useNavigate } from 'react-router-dom';
+import UserNotLoggedInPopOverContent from './UserNotLoggedInPopOverContent';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -96,15 +97,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
             </Grid>
             <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
                 <Grid style={{padding: "20px"}}>
-                    <Typography >
-                        You are not logged in. Click
-                         <span 
-                            style={{color: appTheme.palette.primary.main, cursor: "pointer"}}
-                            onClick={() => {
-                                navigate("/app/auth/sign-in")
-                            }}> here </span> 
-                         to log in
-                    </Typography>
+                    <UserNotLoggedInPopOverContent/>
                 </Grid>
             </Popover>
         </>)

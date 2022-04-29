@@ -17,8 +17,8 @@ import Popover from '@mui/material/Popover';
 import Divider from '@mui/material/Divider';
 import { Auth } from 'aws-amplify';
 import ShelterClaimStatusText from '../ShelterClaimStatusText'
-
 import { useStore } from '../../pages/Hook';
+import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -112,7 +112,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             <BookmarkBorderOutlinedIcon sx={{fontSize: 38,  marginTop:"-5px"}} />
         </IconButton>
         <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
-            You are not logged in. Click here to log in.
+            <UserNotLoggedInPopOverContent />
         </Popover>
         </>)
 
