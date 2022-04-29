@@ -81,7 +81,6 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
             let deleteCommentResponse = await apiStore.deleteComment(reviewData.comment_id, reviewData.post_id)
             console.log("detetion status", deleteCommentResponse)
             let commentDataResponse = await apiStore.loadAllComments(appStore.username);
-            console.log("retrieve comment status", commentDataResponse)
             setCommentData(commentDataResponse)
             } catch (error) {
         }

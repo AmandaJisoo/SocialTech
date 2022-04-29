@@ -97,7 +97,15 @@ const RegularUserProfile = observer(props => {
 
     const comments = () => {
         if (commentData !== null) {
-            return commentData.length === 0 ? <Typography>You haven't post any comments</Typography> :
+            return commentData.length === 0 ? 
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                style={{height: "20vh"}}>
+                <Typography>You haven't post any comments</Typography>
+                </Grid> :
                 commentData.map(data => {
                 return (
                     <div> 
@@ -182,13 +190,25 @@ const RegularUserProfile = observer(props => {
                                     <Typography variant='h5'>Bookmarked Shelters</Typography>
                             </Grid>
                             
+
+
+                            {shelterBookmarkData.length === 0 ? 
+                            <Grid
+                                container
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{height: "20vh"}}>
+                                    <Typography>You haven't bookmarked any shelters</Typography>
+                            </Grid> : 
+                            
                             <ShelterList
                                 loaderActive={loaderActive}
                                 user={props.user}
                                 setUser={props.setUser}
                                 shelterData={shelterData}
                                 setShelterData={setShelterData}
-                                bookmarks={shelterBookmarkData}/>
+                                bookmarks={shelterBookmarkData}/>}
 
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
 
@@ -205,7 +225,6 @@ const RegularUserProfile = observer(props => {
                             <Grid style={{width: "100%", margin: "20px", padding: "20px"}}>
                                 {comments()}
                             </Grid>
-                            {/* <UpdateProfileForm profileData={userProfileData}/> */}
                         </>
                     }
                 </Grid>
