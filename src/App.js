@@ -33,6 +33,9 @@ const deployConfig = {
   }
 }
 
+
+const location = window.location.origin
+
 if (location.origin in deployConfig) {
   cookieDomain = deployConfig[location.origin].cookieDomain
   redirectSignIn = deployConfig[location.origin].redirectSignIn
