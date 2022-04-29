@@ -85,11 +85,12 @@ export default class APIStorage {
         }
     }
 
-    async deleteComment(comment_id) {
+    async deleteComment(comment_id, post_id) {
         try {
             return await API.post('SocialTechService', "/DeleteComment", {
                 body: {
-                    comment_id: comment_id
+                    comment_id: comment_id,
+                    post_id: post_id
                 }
             })
         } catch (err) {

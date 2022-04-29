@@ -2,7 +2,7 @@ import { React, useContext, useState, useRef, useEffect, Image } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import appTheme from '../theme/appTheme.json';
 import Rating from '@mui/material/Rating';
@@ -19,14 +19,17 @@ import ImageThumbNailWithLightBox from './ImageThumbNailWithLightBox';
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserReview = ({ reviewData, isHighLighted }) => {
+const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(undefined)
-    const buttonRef = useRef(null);
+    const favoritebBttonRef = useRef(null);
     const appCtx = useContext(AppContext);
     const [likeState, setLikeState] = useState(undefined);
     const [numOfLikes, setNumOfLikes] = useState(undefined);
     const [userProfile, setUserProfile] = useState(undefined);
+    const [isEditAccordionOpen, setIsEditAccordionOpen] = useState(false);
+    const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
+    const deleteButtonRef = useRef(null);
     const navigate = useNavigate();
 
     const highlightedText = 
@@ -73,6 +76,17 @@ const UserReview = ({ reviewData, isHighLighted }) => {
         }
     }
 
+    const handleDeleteComment = async () => {
+        try {
+            let deleteCommentResponse = await apiStore.deleteComment(reviewData.comment_id, reviewData.post_id)
+            console.log("detetion status", deleteCommentResponse)
+            let commentDataResponse = await apiStore.loadAllComments(appStore.username);
+            console.log("retrieve comment status", commentDataResponse)
+            setCommentData(commentDataResponse)
+            } catch (error) {
+        }
+    }
+
     console.log("likeState", likeState);
 
     const likeIcon = () => likeState? 
@@ -90,13 +104,13 @@ const UserReview = ({ reviewData, isHighLighted }) => {
         </Grid>):
         (<><Grid container spacing={1}>
             <Grid item xs={12}>
-                <IconButton onClick={handleLike} ref={buttonRef}>
+                <IconButton onClick={handleLike} ref={favoritebBttonRef}>
                     <FavoriteBorderOutlinedIcon fontSize="large" style={{color: appTheme.palette.primary.main, width: "32px" }}/>
                         {numOfLikes}
                 </IconButton>
             </Grid>
             </Grid>
-            <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
+            <Popover open={open} onClose={() => setOpen(false)} anchorEl={favoritebBttonRef.current}>
                 <Grid style={{padding: "20px"}}>
                     <UserNotLoggedInPopOverContent/>
                 </Grid>
@@ -139,7 +153,7 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                         item
                         container
                         direction="row" 
-                        justifyContent="space-between" 
+                        justifyContent="flex-end" 
                         wrap="nowrap"
                         rowSpacing={1}
                         alignItems="center">
@@ -148,13 +162,63 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                                 container
                                 direction="col" 
                                 alignItems="flex-start"
-                                style={{width: "100%", display: "flex", justifyContent: "left"}}>
+                                style={{width: "100%", justifyContent: "left"}}>
                             <img 
                             style={{width: 60, height: 60, borderRadius: 60/ 2}} 
                             src={public_url + "/assets/imgs/user_profile_img_placeholder.jpeg"}
                             alt='user profile placeholder'
                             />
                             </Grid>
+
+                            {isEditAndDeleteable && <Grid item
+                                container
+                                alignItems="center"
+                                style={{justifyContent: "right"}}>
+                                <Button onClick={() => {
+                                    setIsEditAccordionOpen(true);
+                                }}>
+                                    Edit
+                                </Button>
+                                <Button
+                                ref={deleteButtonRef}
+                                onClick={() => {
+                                    setIsDeletePopoverOpen(true)
+                                }}>
+                                    Delete
+                                </Button>
+                                <Popover 
+                                    open={isDeletePopoverOpen} 
+                                    onClose={() => setIsDeletePopoverOpen(false)} 
+                                    anchorEl={deleteButtonRef.current}>
+                                    <Grid style={{padding: "20px", width: "350px"}}
+                                        container
+                                        justifyContent="center">
+                                        <Typography>
+                                            Are you sure to delete this comment?
+                                        </Typography>
+
+                                        <Grid item
+                                            container
+                                            alignItems="center"
+                                            justifyContent="right">
+                                            <Button 
+                                                onClick={() => {
+                                                setIsDeletePopoverOpen(false);
+                                            }}>
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                            onClick={() => {
+                                                handleDeleteComment()
+                                                setIsDeletePopoverOpen(false);
+                                            }}>
+                                                Yes
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Popover>
+                            </Grid>}
+
                         </Grid>}
                         <Grid
                         item

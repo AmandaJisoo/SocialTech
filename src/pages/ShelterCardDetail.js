@@ -137,7 +137,6 @@ const ShelterDetail = observer(({ shelterData }) => {
             if (appCtx.user) {
                 let bookmarkStatus = await apiStore.handleBookmark(post_id ,appCtx.user)
                 setBookmarkState(bookmarkStatus.message)
-
             } else {
                 setOpen(true)
             }
@@ -162,7 +161,10 @@ const ShelterDetail = observer(({ shelterData }) => {
             return null
         } else {
             if (highlightedComment) {
-                return <UserReview reviewData={highlightedComment} isHighLighted={true}/>
+                return <UserReview 
+                        reviewData={highlightedComment} 
+                        isHighLighted={true}
+                        isEditAndDeleteable={false}/>
             }
         }
     }
@@ -193,8 +195,12 @@ const ShelterDetail = observer(({ shelterData }) => {
             )
         } else {
             return reviews.slice(0, reviews.length).map((reviewData, idx) => {
-                if (highlightedComment && reviewData && (reviewData.comment_id != highlightedComment.comment_id)) {
-                    return <UserReview item reviewData={reviewData} isHighLighted={false} key={idx}/>
+                if (highlightedComment && reviewData && (reviewData.comment_id !== highlightedComment.comment_id)) {
+                    return <UserReview 
+                                reviewData={reviewData} 
+                                isHighLighted={false} 
+                                key={idx}
+                                isEditAndDeleteable={false}/>
                 }
             })
         }

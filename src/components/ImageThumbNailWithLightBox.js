@@ -13,10 +13,6 @@ const ImageThumbNailWithLightBox = ({ imgs, index }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [photoIdx, setPhotoIdx] = useState(index)
     const public_url = process.env.PUBLIC_URL;
-
-    console.log('key', index)
-    console.log('img src: ', public_url + imgs[photoIdx])
-    console.log('imgs', imgs)
     const startingImgIdx = index;
 
     return (
