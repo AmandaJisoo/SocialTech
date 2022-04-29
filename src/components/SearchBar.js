@@ -137,15 +137,15 @@ const SearchBar = ({setShelterData, shelterData}) => {
                 />
             </Grid>
 
-            <Grid
+            {/* <Grid
                 item
                 container 
                 justifyContent="space-around" 
                 alignItems="center"
                 style={{width:  "100%"}}
-                >
+                > */}
 
-                <>
+                {/* <>
                     <Button variant='outlined' 
                         onClick={toggleSortDrawer(true)}>
                         General Sort
@@ -162,9 +162,9 @@ const SearchBar = ({setShelterData, shelterData}) => {
                             {sortOptionEles}
                         </Grid>
                     </SwipeableDrawer>
-                </>
+                </> */}
 
-                <>
+                {/* <>
                     <Button variant='outlined' 
                         onClick={toggleFilterByAmenityDrawer(true)}>
                         Filter
@@ -185,10 +185,10 @@ const SearchBar = ({setShelterData, shelterData}) => {
                                 handleFilter={handleFilterByAmenityTags}/>
                         </Grid>
                     </SwipeableDrawer>
-                </>
+                </> */}
 
 
-            </Grid>
+            {/* </Grid> */}
         </Box>
     );
 };

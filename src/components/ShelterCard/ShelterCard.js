@@ -105,11 +105,11 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
     const favoriteIcon = () => bookmarkState? 
         <IconButton onClick={handleBookmark}>
-            <BookmarkIcon sx={{fontSize: 38}} style={{color: appTheme.palette.primary.main, marginTop:"-10px"}}/>
+            <BookmarkIcon sx={{fontSize: 38}} style={{color: appTheme.palette.primary.main, marginTop:"-5px"}}/>
         </IconButton> :
         (<>
         <IconButton onClick={handleBookmark} ref={buttonRef}>
-            <BookmarkBorderOutlinedIcon sx={{fontSize: 38,  marginTop:"-20px"}} />
+            <BookmarkBorderOutlinedIcon sx={{fontSize: 38,  marginTop:"-5px"}} />
         </IconButton>
         <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
             You are not logged in. Click here to log in.
