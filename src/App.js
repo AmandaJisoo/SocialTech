@@ -21,6 +21,24 @@ import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
 // window.LOG_LEVEL = 'DEBUG';
 
+let cookieDomain = 'localhost';
+let redirectSignIn = 'http://localhost:3000';
+let redirectSignOut = 'http://localhost:3000';
+
+const deployConfig = {
+  'https://uw-social-tech.netlify.app': {
+    cookieDomain: 'uw-social-tech.netlify.app',
+    redirectSignIn: 'https://uw-social-tech.netlify.app',
+    redirectSignOut: 'https://uw-social-tech.netlify.app'
+  }
+}
+
+if (location.origin in deployConfig) {
+  cookieDomain = deployConfig[location.origin].cookieDomain
+  redirectSignIn = deployConfig[location.origin].redirectSignIn
+  redirectSignOut = deployConfig[location.origin].redirectSignOut
+}
+
 //TODO: (Amanda) update the endpoint stage
 Amplify.configure({
   Storage: {
@@ -62,7 +80,8 @@ Amplify.configure({
       // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
       cookieStorage: {
       // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-          domain: 'localhost',
+          // domain: 'localhost',
+          domain: cookieDomain,
       // OPTIONAL - Cookie path
           path: '/',
       // OPTIONAL - Cookie expiration in days
@@ -75,8 +94,10 @@ Amplify.configure({
       oauth: {
         domain: 'socialtech.auth.us-east-1.amazoncognito.com',
         scope: ['openid', 'aws.cognito.signin.user.admin'],
-        redirectSignIn: 'http://localhost:3000',//TODO: update later when deploying 
-        redirectSignOut: 'http://localhost:3000',
+        // redirectSignIn: 'http://localhost:3000',//TODO: update later when deploying 
+        // redirectSignOut: 'http://localhost:3000',
+        redirectSignIn: redirectSignIn,//TODO: update later when deploying 
+        redirectSignOut: redirectSignOut,
         responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
   }
