@@ -37,7 +37,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const [userProfile, setUserProfile] = useState(undefined);
 
-
+    console.log('shelterData inside of card', shelterData)
     //console.log("userProfile", userProfile)
 
     const { apiStore, appStore } = useStore(); 
@@ -105,11 +105,11 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
 
     const favoriteIcon = () => bookmarkState? 
         <IconButton onClick={handleBookmark}>
-            <BookmarkIcon style={{color: appTheme.palette.primary.main }}/>
+            <BookmarkIcon sx={{fontSize: 38}} style={{color: appTheme.palette.primary.main, marginTop:"-10px"}}/>
         </IconButton> :
         (<>
         <IconButton onClick={handleBookmark} ref={buttonRef}>
-            <BookmarkBorderOutlinedIcon/>
+            <BookmarkBorderOutlinedIcon sx={{fontSize: 38,  marginTop:"-20px"}} />
         </IconButton>
         <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
             You are not logged in. Click here to log in.
@@ -189,11 +189,15 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                         justifyContent="space-between"
                         alignItems="center"
                         style={{width: "100%"}}>
-                        <Typography>{shelterData.title}</Typography>
-                        <Typography>{DISTANCE_PLACEHOLDER}</Typography>
+                        <Typography style={{fontWeight:"bold", marginTop: "10px"}}>{shelterData.title}</Typography>
+                        <Typography>{`${DISTANCE_PLACEHOLDER} away`}</Typography>
                     </Grid>
                     <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                    <TagContainer tagData={TAG_PLACEHOLDER} isSelectable={false}/>
+                    {shelterData && shelterData.utilities.length === 0 ?
+                        <Typography>no amenties claimed</Typography>:
+                        (<>
+                        <Typography>Verfied Amenties:</Typography>
+                        <TagContainer tagData={shelterData.utilities} isSelectable={false}/></>)}
 
                     
 
@@ -234,9 +238,8 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                     direction="row" 
                     justifyContent="space-between" 
                     alignItems="center">
-
                     {favoriteIcon()}  
-                    <ShelterClaimStatusText claim_status={isClaimed} />
+                    {/* <ShelterClaimStatusText claim_status={isClaimed} /> */}
                 </Grid>
 
             </Grid>

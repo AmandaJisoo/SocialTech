@@ -19,6 +19,7 @@ import UserReview from './UserReview';
 import AppContext from '../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
+import { fontWeight } from '@mui/system';
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
@@ -95,7 +96,12 @@ const RegularUserProfile = observer(props => {
         if (commentData !== null) {
             return commentData.length === 0 ? <Typography>You haven't post any comments</Typography> :
                 commentData.map(data => {
-                return <UserReview key={data.comment_id} reviewData={data} isHighLighted={false} />
+                return (
+                    <div> 
+                    <Typography style={{color: "#F34343", fontWeight:"bold", fontSize: "1.2em"}}>Comment on {data.post_id.slice(0, -6)}</Typography>
+                    <UserReview key={data.comment_id} reviewData={data} isHighLighted={false} />
+                    </div>
+                )
             })
         }
     }
