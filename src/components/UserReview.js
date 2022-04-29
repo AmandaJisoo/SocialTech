@@ -15,6 +15,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import Popover from '@mui/material/Popover';
 import { useNavigate } from 'react-router-dom';
 import UserNotLoggedInPopOverContent from './UserNotLoggedInPopOverContent';
+import ImageThumbNailWithLightBox from './ImageThumbNailWithLightBox';
 
 const public_url = process.env.PUBLIC_URL;
 
@@ -101,6 +102,10 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                 </Grid>
             </Popover>
         </>)
+
+        const imageThumbnailAndLightBox = reviewData.pics.map((data, index) => {
+            return <ImageThumbNailWithLightBox index={index} imgs={reviewData.pics} />
+        })
 
     useEffect(() => {
         loadLike();
@@ -211,14 +216,19 @@ const UserReview = ({ reviewData, isHighLighted }) => {
                     direction="row" 
                     justifyContent="space-between" 
                     wrap="nowrap"
-                    rowSpacing={1}
                     alignItems="center">
                         <Grid item>
                             <Typography>{reviewData.comment_body}</Typography>
                         </Grid>
                     
                 </Grid>
-                
+
+                <Grid 
+                    item
+                    container 
+                    justifyContent='flex-start' >
+                    {imageThumbnailAndLightBox}
+                </Grid>
             </Grid>
       </Card>
     );

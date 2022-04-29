@@ -19,7 +19,7 @@ import RegularUserProfile from './components/RegularUserProfile';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
-window.LOG_LEVEL = 'DEBUG';
+// window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
 let redirectSignIn = 'http://localhost:3000';

@@ -27,6 +27,7 @@ import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import ShelterClaimStatusText from '../components/ShelterClaimStatusText'
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import UserNotLoggedInPopOverContent from '../components/UserNotLoggedInPopOverContent';
 
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
@@ -238,7 +239,7 @@ const ShelterDetail = observer(({ shelterData }) => {
             <BookmarkBorderOutlinedIcon sx={{ fontSize: 50}}/>
         </IconButton>
         <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
-            You are not logged in. Click here to log in.
+            <UserNotLoggedInPopOverContent />
         </Popover>
         </>)
 

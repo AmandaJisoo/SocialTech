@@ -10,7 +10,7 @@ const ShelterList = ({user, shelterData, setShelterData, loaderActive, bookmarks
 
     const shelterCards = () => {
         return (
-            shelterData === undefined || loaderActive ? 
+            (shelterData === undefined) || loaderActive ? 
                 <Grid   
                 container
                 direction="column"
