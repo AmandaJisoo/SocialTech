@@ -131,10 +131,14 @@ const App = () => {
 
         //get distance between user and shetler for each shelter in shelterDataResponse
         
-        for (const element of shelterDataResponse) {
-          let distance = await apiStore.getDistanceBetweenZipcodes(98103, element.zipcode)
+        for (const shelterPostData of shelterDataResponse) {
+          const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+          const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+          const fullAddress = `${streetAddress} ${cityAddress}`
+
+          let distance = await apiStore.getDistanceBetweenZipcodes(98103, fullAddress)
           console.log("distance: " + distance)
-          element['distanceToUserLocation'] = distance
+          shelterPostData['distanceToUserLocation'] = distance
         }
 
         setShelterData(shelterDataResponse)

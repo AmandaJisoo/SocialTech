@@ -2,12 +2,12 @@ import { API, Storage, Auth } from 'aws-amplify';
 
 export default class APIStorage {
     //
-    async getDistanceBetweenZipcodes(start_zipcode, end_zipcode) {
+    async getDistanceBetweenZipcodes(start_zipcode, final_destination_full_addr) {
         try {
             return await API.get('SocialTechService', "/GetDistanceBtwZipcode", {
                 queryStringParameters: {
                     start_zipcode: start_zipcode,
-                    end_zipcode: end_zipcode
+                    final_destination_full_addr: final_destination_full_addr
                 }
             })
         } catch (err) {
