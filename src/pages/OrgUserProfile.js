@@ -1,19 +1,14 @@
 import {React, useState, useEffect, useContext } from 'react';
-import { Auth } from 'aws-amplify';
 import ShelterList from "./ShelterList";
 import { useStore } from './Hook';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import text from "../text/text.json"
 import { Grid, Button } from '@mui/material';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
-import SearchBar from '../components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider';
 import UserReview from './UserReview';
 import AppContext from '../AppContext.js';
-import ShelterClaim from '../components/ShelterClaim';
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
