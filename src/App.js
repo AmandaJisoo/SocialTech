@@ -19,7 +19,7 @@ import RegularUserProfile from './components/RegularUserProfile';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
-// window.LOG_LEVEL = 'DEBUG';
+window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
 let redirectSignIn = 'http://localhost:3000';
@@ -93,7 +93,8 @@ Amplify.configure({
           expires: 365,
       // OPTIONAL - Cookie secure flag
       // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-          secure: secureCookie
+          secure: secureCookie,
+          sameSite: "none",
       },
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
