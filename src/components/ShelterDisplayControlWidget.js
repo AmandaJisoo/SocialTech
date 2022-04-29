@@ -1,6 +1,6 @@
 import {React, useState} from 'react';
 import { SORT_OPTIONS } from '../utils/utilityFunctions';
-import { Grid, Button, Typography } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TextField from '@mui/material/TextField';
@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import AmenityFilterTab from './AmenityFilterTab';
 import SortOption from './SortOption';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import { useStore } from '../pages/Hook';
 
 const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
@@ -23,15 +23,8 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
     const [searchBarOption, setSearchBarOption] = useState('city');
 
     console.log('shelterData', shelterData)
-    const sortMenuItems = SORT_OPTIONS.map((option, key) => {
-        return <MenuItem key={key} value={option}>{option}</MenuItem>
-    });
 
     const { apiStore, appStore } = useStore();
-
-    const handleSortOptionChange = (event) => {
-        setSortOption(event.target.value);
-    }
 
     const handleSort = () => {
 
@@ -105,12 +98,11 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
         appStore.setShelterDataList(responseOfQuery)
         setShelterData(responseOfQuery)
         setIsLoaderActive(false);
-
     }
 
     const handleFilterByAmenityTags = async() => {
         const appStoreShelterList = appStore.shelterDataList
-        if (selectedAmenityTags.length == 0) {
+        if (selectedAmenityTags.length === 0) {
             setShelterData(appStoreShelterList)
             return
         }
@@ -197,7 +189,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
                     </FormControl>
                     </Box>
                 <Grid item xs={12} md={12}>
-                    <TextField onKeyDown={(e) => e.keyCode == 13 && handleSearch()} id="outlined-basic" value={query} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
+                    <TextField onKeyDown={(e) => e.keyCode === 13 && handleSearch()} id="outlined-basic" value={query} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
                 </Grid>
     
                 <SearchIcon 

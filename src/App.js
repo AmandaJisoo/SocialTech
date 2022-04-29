@@ -1,24 +1,20 @@
-import React, { useState, createContext, useEffect } from 'react';
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { Route, Routes, Navigate } from "react-router-dom"
 import './App.css';
 import { ThemeProvider } from "@mui/material";
 import appThemeMui from "./theme/appThemeMui";
-import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterCardDetail";
 import AuthenticatorGrid from "./pages/auth/AuthenticatorGrid";
-import { Typography } from '@mui/material';
 import SignUp from "./pages/auth/SignUp";
 import SignIn from "./pages/auth/SignIn";
 import { Auth } from 'aws-amplify';
 import { useStore } from './pages/Hook';
 import Onboard from "./pages/onboard/Onboard";
-import { Grid, Button } from '@mui/material';
 import IntroPage from './pages/onboard/IntroPage';
 import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
-import text from "./text/text.json"
 import RegularUserProfile from './components/RegularUserProfile';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
@@ -92,7 +88,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState([]);
   const [userStatus, setUserStatus] = useState(null)
-  const navigate = useNavigate();
   const { apiStore, appStore } = useStore(); 
 
   Auth.currentAuthenticatedUser()
@@ -108,13 +103,13 @@ const App = () => {
         const shelterDataResponse = await apiStore.loadOverview(CURRENT_USER_ZIPCODE_PLACEHOLDER, CURRENT_USER_ZIPCODE_PLACEHOLDER)
         console.log("Shelter data: ", shelterDataResponse)
 
-        // get distance between user and shetler for each shelter in shelterDataResponse
-        //
-        // for (let i = 0; i < shelterDataResponse.length; i++) {
-        //   let distance = await apiStore.getDistanceBetweenZipcodes(CURRENT_USER_ZIPCODE_PLACEHOLDER, shelterDataResponse[i].zipcode)
-        //   console.log("distance: " + distance)
-        //   shelterDataResponse[i]['distanceToUserLocation'] = distance
-        // }
+        //get distance between user and shetler for each shelter in shelterDataResponse
+        
+        for (let i = 0; i < shelterDataResponse.length; i++) {
+          let distance = await apiStore.getDistanceBetweenZipcodes(98103, shelterDataResponse[i].zipcode)
+          console.log("distance: " + distance)
+          shelterDataResponse[i]['distanceToUserLocation'] = distance
+        }
 
         setShelterData(shelterDataResponse)
         appStore.setShelterDataList(shelterDataResponse)
@@ -138,7 +133,8 @@ const App = () => {
 
     getShelterData();
     getUserStatus();
-  }, [user, userStatus, apiStore])
+  }, [user, userStatus, apiStore, appStore])
+
 
   return (
     <AppContext.Provider value={{

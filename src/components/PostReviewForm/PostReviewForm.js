@@ -7,14 +7,9 @@ import Button from '@mui/material/Button';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Rating from '@mui/material/Rating';
 import appTheme from '../../theme/appTheme.json';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ImageIcon from '@mui/icons-material/Image';
-import MoodIcon from '@mui/icons-material/Mood';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Divider from '@mui/material/Divider';
 import style from './style.js'
-import Box from '@mui/material/Box';
-import { useParams } from 'react-router-dom'
 import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
 import TagSelectionTab from './TagSelectionTab';
@@ -24,8 +19,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
     const [selectedFile, setSelectedFile] = useState([]);
-    const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
-    const params = useParams();
+    // const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
     const fileInputRef = useRef(null);
     const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
