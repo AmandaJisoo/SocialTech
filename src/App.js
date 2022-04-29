@@ -15,7 +15,7 @@ import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
-import RegularUserProfile from './components/RegularUserProfile';
+import RegularUserProfile from './pages/profile/regular-user/RegularUserProfile';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
@@ -243,8 +243,11 @@ const App = () => {
 
           <Route path="app/regular-user-profile/:id" element={
             <RegularUserProfile user={user} setUser={setUser} />
-          } />
-
+          } >
+            <Route path="edit-profile" element={
+                <SignUp setUser={setUser}/>
+              } />
+            </Route>
           <Route path="*" element={
             <Navigate to="/app/dashboard"/>
           } />

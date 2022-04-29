@@ -1,12 +1,12 @@
 import {React, useState, useEffect, useContext } from 'react';
 import { Auth } from 'aws-amplify';
-import ShelterList from "../pages/ShelterList";
-import { useStore } from '../pages/Hook';
+import ShelterList from "../../ShelterList";
+import { useStore } from '../../Hook';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import text from "../text/text.json"
+import text from "../../../text/text.json"
 import { Grid, Button } from '@mui/material';
-import ShelterCard from './ShelterCard/ShelterCard';
+import ShelterCard from '../../../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,17 +15,19 @@ import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider';
-import UserReview from './UserReview';
-import AppContext from '../AppContext.js';
+import UserReview from '../../../components/UserReview';
+import AppContext from '../../../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
 import { fontWeight } from '@mui/system';
 import Link from '@mui/material/Link';
+import { DEFAULT_COUNTRY } from '../../../utils/utilityFunctions';
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
 const RegularUserProfile = observer(props => {
     const { apiStore } = useStore();
+    const [page, setPage] = useState(0);
     const [loaderActive, setLoaderActive] = useState(false);
     const [shelterBookmarkData, setShelterBookmarkData] = useState([])
     const [shelterData, setShelterData] = useState([])
@@ -117,7 +119,7 @@ const RegularUserProfile = observer(props => {
 
     return (
         <>
-            <Grid 
+           {page === 0 ? <Grid 
                 container
                 direction="row"
                 justifyContent="center"
@@ -159,7 +161,7 @@ const RegularUserProfile = observer(props => {
                                     <Typography>{"Hi, " + appCtx.user}</Typography>
                                 <Button
                                     onClick={() => {
-                
+                                        setPage(1)
                                     }}>
                                     Edit Profile
                                 </Button>
@@ -202,7 +204,8 @@ const RegularUserProfile = observer(props => {
                         </>
                     }
                 </Grid>
-            </Grid>
+            </Grid> :
+            <UpdateProfileForm profileData={userProfileData} setPage={setPage}/>}
         </>
     );
 });
@@ -210,12 +213,14 @@ const RegularUserProfile = observer(props => {
 export default RegularUserProfile;
 
 
-const UpdateProfileForm = ({profileData}) => {
+const UpdateProfileForm = ({profileData, setPage}) => {
     const [gender, setGender] = useState(profileData.gender)
     const [city, setCity] = useState(profileData.city)
     const [state, setState] = useState(profileData.state)
     const [email, setEmail] = useState(profileData.email)
     const [errorMsg, setErrorMsg] = useState(profileData.email)
+    const appCtx = useContext(AppContext)
+    const { apiStore } = useStore()
     const navigate = useNavigate()
 
     const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
@@ -229,9 +234,19 @@ const UpdateProfileForm = ({profileData}) => {
     const errorMsgEle = errorMsg ? <Alert severity="error">{errorMsg}</Alert> : null;
 
     const handleUpdateUserProfile = async () => {
+        console.log(appCtx.userStatus, appCtx.user)
         try {
-            // update profile api call
-        } catch (err) {
+            const createAccountResult = await apiStore.createUser({
+                username: appCtx.user,
+                profile_pic_path: "DEFAULT_PROFILE_PATH",
+                user_role: appCtx.userStatus,
+                gender: gender,
+                city: city,
+                state: state,
+                country: DEFAULT_COUNTRY
+            })
+            console.log("account info update result: ", createAccountResult)
+        } catch(err) {
             setErrorMsg(err.message)
         }
     }
@@ -263,11 +278,33 @@ const UpdateProfileForm = ({profileData}) => {
                 <Grid
                     container
                     direction="column" 
-                    justifyContent="flex-start" 
+                    justifyContent="center" 
                     alignItems="center"
                     wrap="nowrap"
                     rowSpacing={3}
                     style={{ width: "100vw", maxWidth: "50em"}}>
+
+                    <Grid
+                        item
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        style={{}}>
+                        <Button
+                            onClick={() => {
+                                setPage(0)
+                            }}>
+                            Back
+                        </Button>
+                            <Typography>{"Hi, " + appCtx.user}</Typography>
+                        <Button
+                            onClick={() => {
+                                setPage(1)
+                            }}>
+                            Edit Profile
+                        </Button>
+                    </Grid>
                     
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} fullWidth>
                       <InputLabel id="demo-simple-select-standard-label">Gender</InputLabel>

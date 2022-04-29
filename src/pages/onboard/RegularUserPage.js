@@ -32,7 +32,7 @@ const RegularUserPage = () => {
         setErrorMsg(null)
         try {
             const createAccountResult = await apiStore.createUser({
-                username: appCtx,
+                username: appCtx.user,
                 profile_pic_path: DEFAULT_PROFILE_PATH,
                 user_role: onboardCtx.accountType,
                 gender: onboardCtx.gender,
@@ -53,7 +53,7 @@ const RegularUserPage = () => {
         try {
             const createAccountResult = await apiStore.createUser({
                 username: appCtx.user,
-                profile_pic_path: DEFAULT_PROFILE_PATH,
+                profile_pic_path: "",
                 user_role: onboardCtx.accountType,
                 gender: onboardCtx.gender,
                 city: onboardCtx.city,
