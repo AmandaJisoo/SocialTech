@@ -4,7 +4,7 @@ import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress'
 
-const ShelterList = ({user, shelterData, setShelterData, loaderActive, bookmarks}) => {
+const ShelterList = ({user, shelterData, setShelterData, loaderActive, bookmarks = []}) => {
 
     console.log("bookmark in profile page: " + bookmarks)
 
