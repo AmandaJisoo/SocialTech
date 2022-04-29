@@ -8,11 +8,7 @@ import appTheme from '../theme/appTheme.json';
 import Rating from '@mui/material/Rating';
 import TagContainer from './SelectableTags/TagContainer';
 import AppContext from '../AppContext';
-import { handleReviewDateFormatting } from '../utils/utilityFunctions';
 import { useStore } from '../pages/Hook';
-import IconButton from '@mui/material/IconButton';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import Popover from '@mui/material/Popover';
 import { useNavigate } from 'react-router-dom';
 
 const ShelterClaim = ({ claimData }) => {

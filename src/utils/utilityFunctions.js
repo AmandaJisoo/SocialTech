@@ -1,4 +1,4 @@
-export const MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD = 145
+export const MAX_LENGTH_OF_COMMNET_IN_SHELTERCARD = 145
 export const DEFAULT_COUNTRY = "USA"
 export const DEFAULT_PROFILE_PATH = "" 
 export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD = {
@@ -19,44 +19,21 @@ export const TAGS_FOR_SPECIFIC_CATEGORY = new Map([
     ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
 ])
 
+export const SORT_OPTIONS = ["Distance", "Rating", "Rating (reversed)", "Favorite", "Most Reviewed", "Name"];
 
-export function truncateReview(review) {
-    return review.length > MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD ? 
-        review.substring(0, MAX_LENGTH_OF_REVIEW_IN_SHELTERCARD + 1) + "....." : 
-        review;
-}
+export const DEFAULT_UNIT = "km"
 
-export function handleReviewDateFormatting(date) {
-	// TODO: handle date formatting
-    return date;
-}
 
-export function getHighLightedReivew(reviews) {
-	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
-    return reviews[0];
+export function truncateComment(comment) {
+    return comment.length > MAX_LENGTH_OF_COMMNET_IN_SHELTERCARD ? 
+		comment.substring(0, MAX_LENGTH_OF_COMMNET_IN_SHELTERCARD + 1) + "....." : 
+		comment;
 }
 
 export function formatShelterAddress(data) {
 	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
     return data.title + ", " + data.street + ", " + data.city + ", " + data.state + ", " + data.zipcode
 }
- 
-/* 
-inputs: 
-	zipcode1: number
-	zipcode2: number
-outputs:
-	distance: number
-*/
-
-export function getDistanceBetweenTwoZipcode(zipcode1, zipcode2) {
-	// TODO: handle calcuate distance
-    return null
-}
-
-export const SORT_OPTIONS = ["Distance", "Rating", "Rating (reversed)", "Favorite", "Most Reviewed", "Name"];
-
-export const DEFAULT_UNIT = "km"
 
 export function isShelterFavorited(userFavoritedShelterSet, shelterId) {
     return userFavoritedShelterSet.has(shelterId)

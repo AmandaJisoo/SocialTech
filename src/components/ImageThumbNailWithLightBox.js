@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
-import { MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL } from '../utils/utilityFunctions';
 import Lightbox from "react-image-lightbox";
 import 'react-image-lightbox/style.css';
 

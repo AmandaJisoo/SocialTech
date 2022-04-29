@@ -1,5 +1,4 @@
-import { React, useContext, useState, useRef, useEffect, Image } from 'react';
-import PropTypes from 'prop-types';
+import { React, useContext, useState, useRef, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import { Grid, Button } from '@mui/material';
@@ -8,7 +7,6 @@ import appTheme from '../theme/appTheme.json';
 import Rating from '@mui/material/Rating';
 import TagContainer from './SelectableTags/TagContainer';
 import AppContext from '../AppContext';
-import { handleReviewDateFormatting } from '../utils/utilityFunctions';
 import { useStore } from '../pages/Hook';
 import IconButton from '@mui/material/IconButton';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -16,10 +14,16 @@ import Popover from '@mui/material/Popover';
 import { useNavigate } from 'react-router-dom';
 import UserNotLoggedInPopOverContent from './UserNotLoggedInPopOverContent';
 import ImageThumbNailWithLightBox from './ImageThumbNailWithLightBox';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PostCommentForm from './PostCommentForm/PostCommentForm';
+
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
+const UserComment = ({ commentData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(undefined)
     const favoritebBttonRef = useRef(null);
@@ -33,13 +37,13 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
     const navigate = useNavigate();
 
     const highlightedText = 
-    (isHighLighted && reviewData && reviewData.likes > 0)?
-        <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Review</Typography> :
+    (isHighLighted && commentData && commentData.likes > 0)?
+        <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Comment</Typography> :
         <span/>;
 
     const loadLike = async() => {
         try {
-            let likeStatus = await apiStore.getLikeStatus(reviewData.username, reviewData.comment_id, reviewData.post_id)
+            let likeStatus = await apiStore.getLikeStatus(commentData.username, commentData.comment_id, commentData.post_id)
             setLikeState(likeStatus.like_status)
             setNumOfLikes(likeStatus.num_of_likes)
         } catch {
@@ -50,7 +54,7 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
     const handleLike = async () => {
         try {
             if (appCtx.user) {
-                let likeResponse = await apiStore.handleLike(reviewData.comment_id, reviewData.post_id, reviewData.username)
+                let likeResponse = await apiStore.handleLike(commentData.comment_id, commentData.post_id, commentData.username)
                 setLikeState(likeResponse.like)
                 setNumOfLikes(likeResponse.num_of_likes)
                 console.log("likeState after clicking", likeState)
@@ -63,12 +67,12 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
 
     const getUserPofile = async () => {
         try {
-            if (reviewData.username in appStore.userProfilePic) {
-                setUserProfile(appStore.userProfilePic[reviewData.username])
+            if (commentData.username in appStore.userProfilePic) {
+                setUserProfile(appStore.userProfilePic[commentData.username])
             } else {
-                let profile = await apiStore.getUserProfile(reviewData.username)
+                let profile = await apiStore.getUserProfile(commentData.username)
                 console.log("profile", profile)
-                appStore.setUserProfilePic(reviewData.username, profile.profile_pic_path)
+                appStore.setUserProfilePic(commentData.username, profile.profile_pic_path)
                 console.log('profile', profile)
                 setUserProfile(profile)
             }
@@ -78,7 +82,7 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
 
     const handleDeleteComment = async () => {
         try {
-            let deleteCommentResponse = await apiStore.deleteComment(reviewData.comment_id, reviewData.post_id)
+            let deleteCommentResponse = await apiStore.deleteComment(commentData.comment_id, commentData.post_id)
             console.log("detetion status", deleteCommentResponse)
             let commentDataResponse = await apiStore.loadAllComments(appStore.username);
             setCommentData(commentDataResponse)
@@ -116,8 +120,8 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
             </Popover>
         </>)
 
-        const imageThumbnailAndLightBox = reviewData.pics.map((data, index) => {
-            return <ImageThumbNailWithLightBox index={index} imgs={reviewData.pics} />
+        const imageThumbnailAndLightBox = commentData.pics.map((data, index) => {
+            return <ImageThumbNailWithLightBox index={index} imgs={commentData.pics} />
         })
 
     useEffect(() => {
@@ -125,7 +129,7 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
         getUserPofile();
     }, [])
 
-    console.log("reviewData", reviewData)
+    console.log("comment data", commentData)
     return (
       <Card 
         style={{
@@ -225,7 +229,7 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
                         direction="row" 
                         justifyContent="space-between" 
                         alignItems="center">
-                            <Typography>{reviewData.username}</Typography>
+                            <Typography>{commentData.username}</Typography>
                             {highlightedText}
                     </Grid>
                         <Grid container
@@ -252,9 +256,9 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
                             xs={12}
                             container
                             direction="row" >
-                        <Rating value={reviewData.rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                        <Rating value={commentData.rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                         <div style={{marginTop: "-1px", marginLeft:"10px"}}>
-                        <Typography style={{fontSize: "large"}}>{reviewData.post_time.split("T")[0]}</Typography>
+                        <Typography style={{fontSize: "large"}}>{commentData.post_time.split("T")[0]}</Typography>
                         </div>
                         </Grid>
                         <Grid item
@@ -269,7 +273,7 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
                         direction="row" 
                         justifyContent="flex-start" 
                         alignItems="center">
-                        <TagContainer tagData={reviewData.tags} isSelectable={false}/>
+                        <TagContainer tagData={commentData.tags} isSelectable={false}/>
                     </Grid>
                 </Grid>
 
@@ -281,7 +285,7 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
                     wrap="nowrap"
                     alignItems="center">
                         <Grid item>
-                            <Typography>{reviewData.comment_body}</Typography>
+                            <Typography>{commentData.comment_body}</Typography>
                         </Grid>
                     
                 </Grid>
@@ -292,19 +296,27 @@ const UserReview = ({ reviewData, isHighLighted, isEditAndDeleteable, setComment
                     justifyContent='flex-start' >
                     {imageThumbnailAndLightBox}
                 </Grid>
+
+                {isEditAndDeleteable && 
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                        >
+                    <Typography>Edit comments</Typography>
+                    </AccordionSummary>
+
+                    <AccordionDetails>
+                        <PostCommentForm formData={{
+                            shelterName: "temp",
+                            userName: appCtx.user}}
+                            post_id={commentData.post_id}/>
+                    </AccordionDetails>
+                </Accordion>}
             </Grid>
       </Card>
     );
 };
 
-UserReview.propTypes = {
-    userName: PropTypes.string,
-    content: PropTypes.string,
-    starRating: PropTypes.number,
-    likes: PropTypes.number,
-    date: PropTypes.string,
-    isHighLighted: PropTypes.bool,
-    tags: PropTypes.array,
-};
-
-export default UserReview;
+export default UserComment;

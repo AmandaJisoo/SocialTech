@@ -1,10 +1,8 @@
 import {React, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import text from "../text/text.json"
 import { Grid, Button, Divider } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
-import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
 import ShelterDisplayControlWidget from '../components/ShelterDisplayControlWidget';
 import CircularProgress from '@mui/material/CircularProgress'

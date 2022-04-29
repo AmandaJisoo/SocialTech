@@ -9,11 +9,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import TagContainer from '../../components/SelectableTags/TagContainer';
 import OnBoardContext from './OnBoardContext';
 import Alert from '@mui/material/Alert';
 import { useStore } from '../Hook.js';
-import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
+import { DEFAULT_COUNTRY } from '../../utils/utilityFunctions';
 import AppContext from '../../AppContext';
 
 const RegularUserPage = () => {
@@ -27,25 +26,6 @@ const RegularUserPage = () => {
     useEffect(() => {
         onboardCtx.setActiveStep(2)
     }, [onboardCtx, onboardCtx.activeStep])
-
-    const handleOnboardAPICall = async () => {
-        setErrorMsg(null)
-        try {
-            const createAccountResult = await apiStore.createUser({
-                username: appCtx.user,
-                profile_pic_path: DEFAULT_PROFILE_PATH,
-                user_role: onboardCtx.accountType,
-                gender: onboardCtx.gender,
-                city: onboardCtx.city,
-                state: onboardCtx.state,
-                country: DEFAULT_COUNTRY
-            })
-            console.log("create account result: ", createAccountResult)
-            navigate("/app/onboard/completed")
-        } catch(err) {
-            setErrorMsg(err.message)
-        }
-    }
 
     const handleNext = async () => {
        

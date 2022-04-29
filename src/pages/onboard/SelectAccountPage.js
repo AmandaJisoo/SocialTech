@@ -3,7 +3,7 @@ import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 
 import text from "../../text/text.json"
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ToggleButton from '@mui/material/ToggleButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HouseIcon from '@mui/icons-material/House';

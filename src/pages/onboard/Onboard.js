@@ -3,10 +3,7 @@ import { Grid, Box } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import OnBoardContext from './OnBoardContext';
-import text from "../../text/text.json"
 import { useNavigate, Outlet,  } from 'react-router-dom';
 import { useStore } from '../Hook';
 import AppContext from '../../AppContext';

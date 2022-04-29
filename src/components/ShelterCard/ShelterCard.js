@@ -1,15 +1,14 @@
-import PropTypes from 'prop-types';
+
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography';
 import appTheme from '../../theme/appTheme.json';
-import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import { Grid } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { truncateReview, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
+import { truncateComment, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
 import TagContainer from '../SelectableTags/TagContainer';
 import { React, useState, useRef, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
@@ -21,13 +20,6 @@ import { useStore } from '../../pages/Hook';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
 const public_url = process.env.PUBLIC_URL;
-
-const WEBSITE_PLACEHOLDER = "https://www.google.com/"
-const DISTANCE_PLACEHOLDER = 1.5 + "km"
-const START_RATING_PLACEHOLDER = 3.5
-const HIGHLIGHTED_REVIEW_PLACEHOLDER = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-const TAG_PLACEHOLDER = ["clean", "dirty", "horrible"]
-const VERIFIYED_STATE_PLACEHOLDER = true;
 
 const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [open, setOpen] = useState(false)
@@ -224,7 +216,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                             <Typography style={{marginLeft: "10px"}}>{userProfile.username}</Typography>
                         </Grid>
 
-                        <Typography style={{marginTop: "10px"}}>{truncateReview(highlightedComment.comment_body)}</Typography>
+                        <Typography style={{marginTop: "10px"}}>{truncateComment(highlightedComment.comment_body)}</Typography>
 
                         <Divider style={{width: "100%", marginTop: "10px", marginBottom: "0px"}}/>
                     </Grid>
@@ -244,15 +236,5 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     </Card>)
 };
 
-ShelterCard.propTypes = {
-    id: PropTypes.number,
-    name: PropTypes.string,
-    starRating: PropTypes.number,
-    tags: PropTypes.array,
-    distanceToUserLocation: PropTypes.number,
-    highlightedReview: PropTypes.string,
-    imgAddr: PropTypes.string,
-    isFavorite: PropTypes.bool
-};
 
 export default ShelterCard; 

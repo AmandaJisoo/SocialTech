@@ -8,13 +8,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import TagContainer from '../../components/SelectableTags/TagContainer';
 import OnBoardContext from './OnBoardContext';
 import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert';
 import { useStore } from '../Hook.js';
 import { formatShelterAddress } from '../../utils/utilityFunctions';
-import { Auth } from 'aws-amplify';
 import AppContext from '../../AppContext'
 import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
 import AmenityFilterTab from '../../components/AmenityFilterTab';

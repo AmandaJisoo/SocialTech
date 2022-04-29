@@ -52,14 +52,15 @@
         "backButton": "< Overview",
         "directToHereButtonText": "Direct to here",
         "visitWebSiteButtonText": "Visit Website",
-        "writeReviewButton": "Write a Review",
-        "otherReviewSectionHeader": "Other reviews"
+        "writeReviewButton": "Write a comment",
+        "otherReviewSectionHeader": "Other Comments"
     },
-    "postReviewForm": {
+    "postCommentForm": {
         "textFieldPlaceHolder": "Write some useful and friendly reviews...",
         "chooseTagPrompt": "Choose tags that best describe this shelter below",
         "cancelBtn": "Cancel",
-        "PostReviewBtn": "Post Review"
+        "postCommentBtn": "Post your comment",
+        "updateCommentBtn": "Update comment"
     },
     "usStates": 
         [ "AK - Alaska", 

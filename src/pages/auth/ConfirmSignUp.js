@@ -1,13 +1,8 @@
 import {React, useContext, useState} from 'react';
-import { Button, Checkbox, Typography, Alert } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Button, Typography, Alert } from '@mui/material';
 import { Grid } from '@mui/material';
-import text from "../../text/text.json"
 import { TextField } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import { Link, useNavigate } from 'react-router-dom';
-import appTheme from '../../theme/appTheme.json'
-import mockUser from '../../mockData/mockUser.json';
+import { useNavigate } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import Snackbar from '@mui/material/Snackbar';
 import AppContext from '../../AppContext';

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL } from '../utils/utilityFunctions';
-import * as ImgGallery from 'react-image-gallery';
 
 const public_url = process.env.PUBLIC_URL;
 

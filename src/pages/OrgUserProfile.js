@@ -1,7 +1,6 @@
 import {React, useState, useEffect, useContext } from 'react';
 import ShelterList from "./ShelterList";
 import { useStore } from './Hook';
-import PropTypes from 'prop-types';
 import { Grid, Button } from '@mui/material';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';

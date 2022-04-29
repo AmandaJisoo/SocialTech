@@ -1,9 +1,7 @@
 import {React, useState, useEffect, useContext } from 'react';
-import { Auth } from 'aws-amplify';
 import ShelterList from "../../ShelterList";
 import { useStore } from '../../Hook';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import text from "../../../text/text.json"
 import { Grid, Button } from '@mui/material';
 import ShelterCard from '../../../components/ShelterCard/ShelterCard';
@@ -15,11 +13,10 @@ import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider';
-import UserReview from '../../../components/UserReview';
+import UserComment from '../../../components/UserComment';
 import AppContext from '../../../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
-import { fontWeight } from '@mui/system';
 import Link from '@mui/material/Link';
 import { DEFAULT_COUNTRY } from '../../../utils/utilityFunctions';
 
@@ -43,17 +40,9 @@ const RegularUserProfile = observer(props => {
             if (!appStore.username) {
                 await appStore.getUsername()
             }
-            // console.log("username for bookmarks", username);
             let bookmarksResponse = await apiStore.getSavedBookmarks(appStore.username);
             setShelterBookmarkData(bookmarksResponse)
             let shelterDataResponse = await Promise.all(bookmarksResponse.map(async (post_id) => apiStore.loadSummary(post_id)));
-            //we can keep this code in case we want to load one by one async
-            // bookmarksResponse.forEach(async (post_id) => {
-            //     const shelterDataResponse = await apiStore.loadSummary(post_id);
-            //     shelterData.push(shelterDataResponse)
-            //     setShelterData(shelterData)
-            //     setLoaderActive(false)
-            // })
             setShelterData(shelterDataResponse)
           } catch(err) {
             console.log("load bookmarks error: " + err.message)
@@ -115,9 +104,9 @@ const RegularUserProfile = observer(props => {
                         }} color="inherit">
                             {data.post_id.slice(0, -6)}</Link>
                         </Typography>
-                        <UserReview 
+                        <UserComment 
                             key={data.comment_id} 
-                            reviewData={data} 
+                            commentData={data} 
                             isHighLighted={false} 
                             isEditAndDeleteable={true}
                             setCommentData={setCommentData}/>
@@ -127,8 +116,8 @@ const RegularUserProfile = observer(props => {
         }
     }
 
-    console.log(`comments by user ${appCtx.user}: ` + commentData)
-    console.log(`${appCtx.user}'s profile: ` + userProfileData)
+    // console.log(`comments by user ${appCtx.user}: ` + commentData)
+    // console.log(`${appCtx.user}'s profile: ` + userProfileData)
 
     return (
         <>
@@ -219,7 +208,7 @@ const RegularUserProfile = observer(props => {
                                 justifyContent="flex-start"
                                 alignItems="center"
                                 style={{}}>
-                                    <Typography variant='h5'>Posted Reviews</Typography>
+                                    <Typography variant='h5'>Posted Comments</Typography>
                             </Grid>
 
                             <Grid style={{width: "100%", margin: "20px", padding: "20px"}}>
@@ -241,7 +230,6 @@ const UpdateProfileForm = ({profileData, setPage}) => {
     const [gender, setGender] = useState(profileData.gender)
     const [city, setCity] = useState(profileData.city)
     const [state, setState] = useState(profileData.state)
-    const [email, setEmail] = useState(profileData.email)
     const [errorMsg, setErrorMsg] = useState(profileData.email)
     const appCtx = useContext(AppContext)
     const { apiStore } = useStore()
@@ -281,10 +269,6 @@ const UpdateProfileForm = ({profileData, setPage}) => {
 
     const handleStateChange = (event) => {
         setState(event.target.value)
-    };
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value)
     };
 
     const handleCityChange = (event) => {

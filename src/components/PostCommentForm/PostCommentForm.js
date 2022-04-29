@@ -16,8 +16,8 @@ import TagSelectionTab from './TagSelectionTab';
 import Popover from '@mui/material/Popover';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
-const PostReviewForm = ({ formData, handleClose, post_id }) => {
-    const [reviewText, setReviewText] = useState("");
+const PostCommentForm = ({ formData, handleClose, post_id }) => {
+    const [commentText, setCommentText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
     const [selectedFile, setSelectedFile] = useState([]);
@@ -29,25 +29,25 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const appCtx = useContext(AppContext);
 
     const handleTextChange = (event) => {
-        setReviewText(event.target.value)
+        setCommentText(event.target.value)
     }
 
-    const handleUploadReview = async () => {
+    const handleUploadComment = async () => {
         try {
             let imageUploadResponse = []
             for (let i = 0; i < selectedFile.length; i++) {
                 imageUploadResponse.push(await apiStore.uploadImageToS3(selectedFile[i]));
             }
             console.log(imageUploadResponse)
-            const reviewUploadResponse = await apiStore.createComment({
+            const commentUploadRes = await apiStore.createComment({
                 post_id: post_id,
-                comment_body: reviewText,
+                comment_body: commentText,
                 username: appCtx.user,
                 rating: starRating,
                 tags: selectedTags,
                 pics: imageUploadResponse
             })
-            console.log(reviewUploadResponse)
+            console.log(commentUploadRes)
             handleClose()
         } catch (err) {
             console.log("img upload error: " + err.message)
@@ -93,7 +93,7 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     sx={{ fontSize: "1.8rem" }}
                     style={{color: appTheme.palette.primary.main }}/>
             </Grid>
-            <Typography style={{marginTop: "12px"}}>{text.postReviewForm.chooseTagPrompt}</Typography>
+            <Typography style={{marginTop: "12px"}}>{text.postCommentForm.chooseTagPrompt}</Typography>
             <TagSelectionTab selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>  
 
                 <Grid
@@ -104,8 +104,8 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 >
                     <TextareaAutosize
                         maxRows={6}
-                        value={reviewText}
-                        placeholder={text.postReviewForm.textFieldPlaceHolder}
+                        value={commentText}
+                        placeholder={text.postCommentForm.textFieldPlaceHolder}
                         style={{width: "98%", height: "120px"}}
                         onChange={handleTextChange}/>
                 </Grid>  
@@ -149,13 +149,13 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                             setIsPopoverOpen(true)
                             return
                         }
-                        handleUploadReview()
-                        setReviewText("")
+                        handleUploadComment()
+                        setCommentText("")
                         setSelectedTags([])
                         setSelectedFile([])
                         setStarRating(0)
                     }}>
-                    {text.postReviewForm.PostReviewBtn}
+                    {text.postCommentForm.postCommentBtn}
                 </Button>
 
                 <Popover open={isPopoverOpen} onClose={() => setIsPopoverOpen(false)} anchorEl={buttonRef.current}>
@@ -169,10 +169,10 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
     );
 };
 
-PostReviewForm.propTypes = {
+PostCommentForm.propTypes = {
     shelterName: PropTypes.string,
     userName: PropTypes.string,
     handleClose: PropTypes.func
 };
 
-export default PostReviewForm;
+export default PostCommentForm;

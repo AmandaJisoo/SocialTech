@@ -1,7 +1,7 @@
 import {React, useContext, useState, useEffect, useRef} from 'react';
 import { observer } from "mobx-react";
 import PropTypes from 'prop-types';
-import UserReview from '../components/UserReview';
+import UserComment from '../components/UserComment';
 import { Alert, Card, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -10,7 +10,7 @@ import Rating from '@mui/material/Rating';
 import appTheme from '../theme/appTheme.json';
 import Button from '@mui/material/Button';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined'
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CircularProgress from '@mui/material/CircularProgress'
@@ -18,11 +18,10 @@ import Modal from '@mui/material/Modal';
 import text from "../text/text.json";
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { Auth } from 'aws-amplify';
-import PostReviewForm from '../components/PostReviewForm/PostReviewForm';
+import PostCommentForm from '../components/PostCommentForm/PostCommentForm';
 import TagContainer from '../components/SelectableTags/TagContainer';
 import AppContext from '../AppContext';
 import { useStore } from './Hook';
-import { formatShelterAddress } from '../utils/utilityFunctions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import ShelterClaimStatusText from '../components/ShelterClaimStatusText'
@@ -43,7 +42,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const { apiStore, appStore } = useStore();
     const currentShelterData = appStore.shelterData;
     console.log("currentShelterData", currentShelterData)
-    const [reviews, setReviews] = useState(undefined);
+    const [comments, setComments] = useState(undefined);
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const shelterPostData = appStore.shelterData;
     const navigate = useNavigate();
@@ -51,7 +50,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     console.log('highlightedComment', highlightedComment)
     const [isClaimed, setIsClaimed] = useState(undefined);
     const [loaderActive, setLoaderActive] = useState(true);
-    const [isReviewSubmitted, setIsReviewSubmitted] = useState(false)
+    const [isCommentSubmitted, setIsCommentSubmitted] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(undefined);
     const [open, setOpen] = useState(false)
     const [snackBarOpen, setSnackBarOpen] = useState(false)
@@ -61,11 +60,11 @@ const ShelterDetail = observer(({ shelterData }) => {
     const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
     const fullAddress = `${streetAddress} ${cityAddress}`
 
-    const getReviewsData = async () => {
+    const getCommentData = async () => {
         try {
-            const reviewsDataResponse = await apiStore.loadComment(post_id);
-            console.log("review response: ", reviewsDataResponse)
-            setReviews(reviewsDataResponse.reverse())
+            const commentDataRes = await apiStore.loadComment(post_id);
+            console.log("comment response: ", commentDataRes)
+            setComments(commentDataRes.reverse())
         } catch (err) {
             console.log(err.message)
         }
@@ -127,7 +126,7 @@ const ShelterDetail = observer(({ shelterData }) => {
             }
         }
         getShelterPostData();
-        getReviewsData();
+        getCommentData();
         getClaimStatus();
         loadBookmarks();
     }, [])
@@ -144,8 +143,8 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
 
-    const highlightedReview = () => {
-        if (reviews === undefined) {
+    const highlightedCommentEle = () => {
+        if (comments === undefined) {
             return (
                 <Grid   
                 container
@@ -157,20 +156,20 @@ const ShelterDetail = observer(({ shelterData }) => {
                     <Typography>Loading reviews</Typography>
                 </Grid>
             )
-        } else if (reviews.length === 0) {
+        } else if (comments.length === 0) {
             return null
         } else {
             if (highlightedComment) {
-                return <UserReview 
-                        reviewData={highlightedComment} 
+                return <UserComment 
+                        commentData={highlightedComment} 
                         isHighLighted={true}
                         isEditAndDeleteable={false}/>
             }
         }
     }
     
-    const reviewEles = () => {
-        if (reviews === undefined) {
+    const commentEles = () => {
+        if (comments === undefined) {
             return (
                 <Grid   
                 container
@@ -179,10 +178,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                 alignItems="center"
                 style={{height: "15vh"}}>
                     <CircularProgress/>
-                    <Typography>Loading reviews</Typography>
+                    <Typography>Loading comments</Typography>
                 </Grid>
             )
-        } else if (reviews.length === 0) {
+        } else if (comments.length === 0) {
             return (
                 <Grid   
                 container
@@ -190,14 +189,14 @@ const ShelterDetail = observer(({ shelterData }) => {
                 justifyContent="center" 
                 alignItems="center"
                 style={{height: "15vh"}}>
-                    <Typography>No reviews for this shelter yet</Typography>
+                    <Typography>No comments for this shelter yet</Typography>
                 </Grid>
             )
         } else {
-            return reviews.slice(0, reviews.length).map((reviewData, idx) => {
-                if (highlightedComment && reviewData && (reviewData.comment_id !== highlightedComment.comment_id)) {
-                    return <UserReview 
-                                reviewData={reviewData} 
+            return comments.slice(0, comments.length).map((commentData, idx) => {
+                if (highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id)) {
+                    return <UserComment 
+                                commentData={commentData} 
                                 isHighLighted={false} 
                                 key={idx}
                                 isEditAndDeleteable={false}/>
@@ -206,11 +205,11 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
 
-    const [openPostReviewForm, setOpenPostReviewForm] = useState(false);
+    const [openPostCommentForm, setOpenPostCommentForm] = useState(false);
 
     const handleOpen = () => {
         if (appCtx.user !==null) {
-            setOpenPostReviewForm(true);
+            setOpenPostCommentForm(true);
         } else {
             navigate("/app/auth/sign-in")
         }
@@ -218,9 +217,9 @@ const ShelterDetail = observer(({ shelterData }) => {
 
     const handleClose = () => {
         //TODO: Amanda
-        setOpenPostReviewForm(false);
-        setIsReviewSubmitted(true);
-        getReviewsData()
+        setOpenPostCommentForm(false);
+        setIsCommentSubmitted(true);
+        getCommentData()
         getShelterPostData()
         setSnackBarOpen(true)
     }
@@ -371,7 +370,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 justifyContent="flex-start" 
                 alignItems="center"
                 spacing={1}>
-                    <PostReviewForm
+                    <PostCommentForm
                         formData={{
                             shelterName: shelterPostData.title,
                             userName: appCtx.user}}
@@ -389,11 +388,11 @@ const ShelterDetail = observer(({ shelterData }) => {
                 open={snackBarOpen}
                 onClose={() => setSnackBarOpen(false)}
             >
-                <Alert severity="success">Review submitted!</Alert>
+                <Alert severity="success">Comment submitted!</Alert>
             </Snackbar>
 
             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-            <Grid style={{width: "100%"}}>{highlightedReview()}</Grid>
+            <Grid style={{width: "100%"}}>{highlightedCommentEle()}</Grid>
                 
 
 
@@ -406,7 +405,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     alignItems="center">
                     <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
-                <Grid style={{width: "100%"}}>{reviewEles()}</Grid>
+                <Grid style={{width: "100%"}}>{commentEles()}</Grid>
             </Grid>
         </Grid>
     );

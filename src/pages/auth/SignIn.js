@@ -5,7 +5,6 @@ import { Grid } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import text from "../../text/text.json"
 import { TextField } from '@mui/material';
-import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import { Auth } from 'aws-amplify';

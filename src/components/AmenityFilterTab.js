@@ -1,23 +1,10 @@
-import { React, useContext, useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Card from '@mui/material/Card';
+import { React, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import Divider from '@mui/material/Divider';
 import appTheme from '../theme/appTheme.json';
-import Rating from '@mui/material/Rating';
-import TagContainer from './SelectableTags/TagContainer';
-import AppContext from '../AppContext';
-import { handleReviewDateFormatting } from '../utils/utilityFunctions';
-import { useStore } from '../pages/Hook';
-import IconButton from '@mui/material/IconButton';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Popover from '@mui/material/Popover';
 import Tag from './SelectableTags/Tag';
-import { useNavigate } from 'react-router-dom';
 
 const CATEGORY_PLACE_HOLDER = ["Amenties", "Disability Amenities", "Maintained", "Groups", "Others"]
 const TAGS_FOR_SPECIFIC_AMENITY = new Map([
