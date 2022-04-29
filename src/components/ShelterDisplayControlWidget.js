@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import { SORT_OPTIONS } from '../utils/utilityFunctions';
 import { Grid, Button, Typography } from '@mui/material';
 
@@ -16,12 +16,12 @@ import { useStore } from '../pages/Hook';
 
 const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState("98105");
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
     const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
-    const [searchBarOption, setSearchBarOption] = useState('city');
-
+    const [searchBarOption, setSearchBarOption] = useState('zipcode');
+    console.log("searchBarOption", searchBarOption)
     console.log('shelterData', shelterData)
     const sortMenuItems = SORT_OPTIONS.map((option, key) => {
         return <MenuItem key={key} value={option}>{option}</MenuItem>
@@ -75,20 +75,24 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
             default:
         }
     }
+    useEffect(() => {
+        console.log("use called")
+        handleSort()
+    }, [sortOption])
 
     const handleQueryChange = (event) => {
         const searchQuery = event.target.value
         console.log("searchQuery", searchQuery)
         setQuery(searchQuery);
-        const lowerSearchQuery = searchQuery.toLowerCase();
-        shelterData = appStore.shelterDataList.filter(data => {
-            console.log("title and query: ", data.title, searchQuery)
-            //TODO: Amanda here for query
-                return data.title.toLowerCase().includes(lowerSearchQuery) ||
-                    data.zipcode.toLowerCase().includes(lowerSearchQuery) ||
-                    data.city.toLowerCase().includes(lowerSearchQuery)
-        })
-        setShelterData(shelterData)
+        // const lowerSearchQuery = searchQuery.toLowerCase();
+        // shelterData = appStore.shelterDataList.filter(data => {
+        //     console.log("title and query: ", data.title, searchQuery)
+        //     //TODO: Amanda here for query
+        //         return data.title.toLowerCase().includes(lowerSearchQuery) ||
+        //             data.zipcode.toLowerCase().includes(lowerSearchQuery) ||
+        //             data.city.toLowerCase().includes(lowerSearchQuery)
+        // })
+        // setShelterData(shelterData)
     }
 
     const handleSearch = async() => {
@@ -97,10 +101,12 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
             setIsLoaderActive(true);
             console.log('query when searching city', query)
             responseOfQuery = await apiStore.getShelterByCity(query)
-        } else {//it is zipcode
+        } else if (searchBarOption === 'zipcode'){//it is zipcode
             setIsLoaderActive(true);
             responseOfQuery = await apiStore.loadOverview(query, query)
             console.log('responseOfQuery zipcode', responseOfQuery)
+        } else {
+            
         }
         appStore.setShelterDataList(responseOfQuery)
         setShelterData(responseOfQuery)
@@ -108,7 +114,9 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
 
     }
 
+    //TODO: AMANDA wrong results are here?
     const handleFilterByAmenityTags = async() => {
+        setFilterByAmenityDrawerOpen(false)
         const appStoreShelterList = appStore.shelterDataList
         if (selectedAmenityTags.length == 0) {
             setShelterData(appStoreShelterList)
@@ -165,7 +173,10 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
     };
 
     const sortOptionEles = SORT_OPTIONS.map(optionName => {
-        return <SortOption key={optionName} optionName={optionName} sortOption={sortOption} setSortOption={setSortOption}/>
+        return <SortOption key={optionName} optionName={optionName} sortOption={sortOption} setSortOption={(option) => {
+            setSortOption(option)
+            setSortDrawerOpen(false)
+        }}/>
     })
     
     const handleChange = (event) => {
@@ -193,6 +204,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
                         >
                         <MenuItem value={'city'}>city</MenuItem>
                         <MenuItem value={'zipcode'}>zipcode</MenuItem>
+                        <MenuItem value={'name'}>name</MenuItem>
                         </Select>
                     </FormControl>
                     </Box>
