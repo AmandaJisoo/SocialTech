@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "pip install -r ./requirement.txt && python3 ./src/app.py && react-scripts start",
-    "build": "pip install -r ./requirement.txt && python3 && react-scripts build ",
+    "build": "pip install -r ./requirement.txt && python3 && react-scripts build && ./src/app.py ",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
