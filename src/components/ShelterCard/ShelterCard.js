@@ -194,7 +194,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                     </Grid>
                     <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     {shelterData && shelterData.utilities.length === 0 ?
-                        <Typography>no amenties claimed</Typography>:
+                        <Typography>No Amenties Claimed</Typography>:
                         (<>
                         <Typography>Verfied Amenties:</Typography>
                         <TagContainer tagData={shelterData.utilities} isSelectable={false}/></>)}
