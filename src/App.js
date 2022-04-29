@@ -33,7 +33,6 @@ const deployConfig = {
   }
 }
 
-
 const location = window.location.origin
 
 if (location.origin in deployConfig) {
