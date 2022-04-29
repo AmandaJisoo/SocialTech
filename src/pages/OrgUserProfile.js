@@ -116,7 +116,7 @@ const OrgUserProfile = props => {
                                 style={{height: "80vh"}}>
                                     <Typography>My Shelters</Typography>
                             </Grid> 
-                            <ShelterList loaderActive={loaderActive} user={props.user} setUser={props.setUser} shelterData={shelterData} setShelterData={setShelterData}/>
+                            <ShelterList loaderActive={loaderActive} user={props.user} setUser={props.setUser} shelterData={shelterData} setShelterData={setShelterData} />
 
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
 

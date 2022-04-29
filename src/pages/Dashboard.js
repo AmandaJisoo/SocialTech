@@ -13,7 +13,7 @@ import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
 import ShelterList from './ShelterList';
 
-const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
+const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = false}) => {
     const appCtx = useContext(AppContext);
     const { apiStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
@@ -80,53 +80,60 @@ const Dashboard = ({user, setUser, shelterData, setShelterData}) => {
             }    
         </Grid>
 
-        return (
-            <Grid
+        return (<Grid
+        container
+        direction="column" 
+        justifyContent="center" 
+        alignItems="center"
+        style={{}}>
+        <Grid
+            container
+            direction="column" 
+            justifyContent="flex-start" 
+            alignItems="center"
+            wrap="nowrap"
+            rowSpacing={3}
+            style={{ width: "100vw", maxWidth: "50em"}}>
+                
+            <Grid item>
+                <Typography variant="h4" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
+            </Grid>
+
+            {welcomeMsg}
+
+            <Grid item container style={{width: "90%"}}>
+                <ShelterDisplayControlWidget setIsLoaderActive={setIsLoaderActive} shelterData={shelterData} setShelterData={setShelterData} />
+            </Grid>
+
+            {/* change this to <ShelterList/> element */}
+            
+            {!dataLoading? 
+            (<>
+                <ShelterList 
+                    loaderActive={isLoaderActive} 
+                    user={user} 
+                    setUser={setUser} 
+                    shelterData={paginatedShelterData} 
+                    setShelterData={setShelterData}
+                    bookmarks={bookmarks}/>
+
+                <Pagination count={shelterData.length / pageSize + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
+                <Grid item>
+                    <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                </Grid>
+            </>
+            ): (
+                <Grid   
                 container
-                direction="column" 
+                direction="column"
                 justifyContent="center" 
                 alignItems="center"
-                style={{}}>
-                <Grid
-                    container
-                    direction="column" 
-                    justifyContent="flex-start" 
-                    alignItems="center"
-                    wrap="nowrap"
-                    rowSpacing={3}
-                    style={{ width: "100vw", maxWidth: "50em"}}>
-                        
-                    <Grid item>
-                        <Typography variant="h4" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
-                    </Grid>
-    
-                    {welcomeMsg}
-    
-                    <Grid item container style={{width: "90%"}}>
-                        <ShelterDisplayControlWidget setIsLoaderActive={setIsLoaderActive} shelterData={shelterData} setShelterData={setShelterData} />
-                    </Grid>
-    
-                    {/* change this to <ShelterList/> element */}
-                    
-                    <ShelterList 
-                        loaderActive={isLoaderActive} 
-                        user={user} 
-                        setUser={setUser} 
-                        shelterData={paginatedShelterData} 
-                        setShelterData={setShelterData}
-                        bookmarks={bookmarks}/>
-
-            <Pagination count={shelterData.length / pageSize + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
-
-                    
-            <Grid item>
-                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-
-            </Grid>
-            </Grid>
-        </Grid>
-        
-    );
+                style={{height: "80vh"}}>
+                    <CircularProgress/>
+                </Grid>
+            )}
+    </Grid>
+</Grid>)   
 };
 
 export default Dashboard

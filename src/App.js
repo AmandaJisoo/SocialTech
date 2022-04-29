@@ -115,6 +115,7 @@ const App = () => {
   const [shelterData, setShelterData] = useState([]);
   const [userStatus, setUserStatus] = useState(null)
   const { apiStore, appStore } = useStore(); 
+  const [dataLoading, setDataLoading] = useState(true)
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
@@ -126,19 +127,25 @@ const App = () => {
     const getShelterData = async () => {
       try {
         //TODO: Amanda check
+
         const shelterDataResponse = await apiStore.loadOverview(CURRENT_USER_ZIPCODE_PLACEHOLDER, CURRENT_USER_ZIPCODE_PLACEHOLDER)
         console.log("Shelter data: ", shelterDataResponse)
 
         //get distance between user and shetler for each shelter in shelterDataResponse
-        
-        for (const element of shelterDataResponse) {
-          let distance = await apiStore.getDistanceBetweenZipcodes(98103, element.zipcode)
+        for (const shelterPostData of shelterDataResponse) {
+          const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+          const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+          const fullAddress = `${streetAddress} ${cityAddress}`
+
+          let distance = await apiStore.getDistanceBetweenZipcodes(98103, fullAddress)
           console.log("distance: " + distance)
-          element['distanceToUserLocation'] = distance
+          shelterPostData['distanceToUserLocation'] = distance
         }
 
         setShelterData(shelterDataResponse)
         appStore.setShelterDataList(shelterDataResponse)
+        setDataLoading(false)
+
       } catch (err) {
         console.log(err.message)
       }
@@ -195,7 +202,8 @@ const App = () => {
               user={user} 
               setUser={setUser} 
               shelterData={shelterData} 
-              setShelterData={setShelterData}/>
+              setShelterData={setShelterData} 
+              dataLoading={dataLoading}/>
           } />
 
           <Route path="/app/auth" element={<AuthenticatorGrid/>}>
