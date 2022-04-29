@@ -38,10 +38,10 @@ const deployConfig = {
 const location = window.location.origin
 
 if (location in deployConfig) {
-  cookieDomain = deployConfig[location.origin].cookieDomain
-  redirectSignIn = deployConfig[location.origin].redirectSignIn
-  redirectSignOut = deployConfig[location.origin].redirectSignOut
-  secureCookie = deployConfig[location.origin].secureCookie
+  cookieDomain = deployConfig[location].cookieDomain
+  redirectSignIn = deployConfig[location].redirectSignIn
+  redirectSignOut = deployConfig[location].redirectSignOut
+  secureCookie = deployConfig[location].secureCookie
 }
 
 //TODO: (Amanda) update the endpoint stage
