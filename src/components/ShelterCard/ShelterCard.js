@@ -37,9 +37,6 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const [userProfile, setUserProfile] = useState(undefined);
 
-    console.log('shelterData inside of card', shelterData)
-    //console.log("userProfile", userProfile)
-
     const { apiStore, appStore } = useStore(); 
     
     const loadBookmarks = async () => {
@@ -190,7 +187,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                         alignItems="center"
                         style={{width: "100%"}}>
                         <Typography style={{fontWeight:"bold", marginTop: "10px"}}>{shelterData.title}</Typography>
-                        <Typography>{`${DISTANCE_PLACEHOLDER} away`}</Typography>
+                        <Typography>{`${shelterData.distanceToUserLocation} away`}</Typography>
                     </Grid>
                     <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
                     {shelterData && shelterData.utilities.length === 0 ?
