@@ -13,12 +13,16 @@ import style from './style.js'
 import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
 import TagSelectionTab from './TagSelectionTab';
+import Popover from '@mui/material/Popover';
+import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
 const PostReviewForm = ({ formData, handleClose, post_id }) => {
     const [reviewText, setReviewText] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [starRating, setStarRating] = useState(0);
     const [selectedFile, setSelectedFile] = useState([]);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const buttonRef = useRef(null);
     // const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
     const fileInputRef = useRef(null);
     const { apiStore } = useStore();
@@ -138,9 +142,13 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                 alignItems="center"
             >
                 <Button 
-                    
+                    ref={buttonRef}
                     variant="contained"
                     onClick={() => {
+                        if (!appCtx.user) {
+                            setIsPopoverOpen(true)
+                            return
+                        }
                         handleUploadReview()
                         setReviewText("")
                         setSelectedTags([])
@@ -149,6 +157,12 @@ const PostReviewForm = ({ formData, handleClose, post_id }) => {
                     }}>
                     {text.postReviewForm.PostReviewBtn}
                 </Button>
+
+                <Popover open={isPopoverOpen} onClose={() => setIsPopoverOpen(false)} anchorEl={buttonRef.current}>
+                    <Grid style={{padding: "10px"}}>
+                        <UserNotLoggedInPopOverContent/>
+                    </Grid>
+                </Popover>
             </Grid>  
 
         </Grid>    
