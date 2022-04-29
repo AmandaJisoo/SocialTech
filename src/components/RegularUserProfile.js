@@ -20,6 +20,7 @@ import AppContext from '../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
 import { fontWeight } from '@mui/system';
+import Link from '@mui/material/Link';
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
@@ -98,7 +99,12 @@ const RegularUserProfile = observer(props => {
                 commentData.map(data => {
                 return (
                     <div> 
-                    <Typography style={{color: "#F34343", fontWeight:"bold", fontSize: "1.2em"}}>Comment on {data.post_id.slice(0, -6)}</Typography>
+                    <Typography style={{color: "#F34343", fontWeight:"bold", fontSize: "1.2em"}}>Comment on <Link
+                    onClick={() => {
+                        navigate("/app/shelter-detail/" + data.post_id)
+                    }} color="inherit">
+                        {data.post_id.slice(0, -6)}</Link>
+                    </Typography>
                     <UserReview key={data.comment_id} reviewData={data} isHighLighted={false} />
                     </div>
                 )
