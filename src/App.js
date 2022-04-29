@@ -24,12 +24,14 @@ import Dashboard from './pages/Dashboard'
 let cookieDomain = 'localhost';
 let redirectSignIn = 'http://localhost:3000';
 let redirectSignOut = 'http://localhost:3000';
+let secureCookie = false;
 
 const deployConfig = {
   'https://uw-social-tech.netlify.app': {
     cookieDomain: 'uw-social-tech.netlify.app',
     redirectSignIn: 'https://uw-social-tech.netlify.app',
-    redirectSignOut: 'https://uw-social-tech.netlify.app'
+    redirectSignOut: 'https://uw-social-tech.netlify.app',
+    secureCookie: true
   }
 }
 
@@ -39,6 +41,7 @@ if (location.origin in deployConfig) {
   cookieDomain = deployConfig[location.origin].cookieDomain
   redirectSignIn = deployConfig[location.origin].redirectSignIn
   redirectSignOut = deployConfig[location.origin].redirectSignOut
+  secureCookie = deployConfig[location.origin].secureCookie
 }
 
 //TODO: (Amanda) update the endpoint stage
@@ -90,7 +93,7 @@ Amplify.configure({
           expires: 365,
       // OPTIONAL - Cookie secure flag
       // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-          secure: false
+          secure: secureCookie
       },
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
