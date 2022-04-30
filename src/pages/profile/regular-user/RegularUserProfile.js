@@ -106,7 +106,10 @@ const RegularUserProfile = observer(props => {
                         </Typography>
                         <UserComment 
                             key={data.comment_id} 
+                            shelterName={data.post_id.slice(0, -6)}
+                            shelter_post_id={data.post_id}
                             commentData={data} 
+                            isUpdateComment={false}
                             isHighLighted={false} 
                             isEditAndDeleteable={true}
                             setCommentData={setCommentData}/>

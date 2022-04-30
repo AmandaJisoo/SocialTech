@@ -31,7 +31,6 @@ import UserNotLoggedInPopOverContent from '../components/UserNotLoggedInPopOverC
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
-const VERIFIYED_STATE_PLACEHOLDER = true;
 
 const ShelterDetail = observer(({ shelterData }) => {
 
@@ -92,7 +91,6 @@ const ShelterDetail = observer(({ shelterData }) => {
             console.log(err.message)
         }
     }
-
 
     useEffect(() => {
         if (appStore.highlightedComment) {
@@ -196,6 +194,8 @@ const ShelterDetail = observer(({ shelterData }) => {
             return comments.slice(0, comments.length).map((commentData, idx) => {
                 if (highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id)) {
                     return <UserComment 
+                                shelterName={shelterData.title}
+                                shelter_post_id={post_id}
                                 commentData={commentData} 
                                 isHighLighted={false} 
                                 key={idx}
@@ -371,11 +371,11 @@ const ShelterDetail = observer(({ shelterData }) => {
                 alignItems="center"
                 spacing={1}>
                     <PostCommentForm
-                        formData={{
-                            shelterName: shelterPostData.title,
-                            userName: appCtx.user}}
-                        post_id={post_id}
+                        shelterName={shelterPostData.title}
+                        shelter_post_id={post_id}
                         handleClose={handleClose}
+                        isUpdateComment={false}
+                        commentData={null}
                     />
                     </Grid>
         }

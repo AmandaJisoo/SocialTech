@@ -14,13 +14,14 @@ import { useStore } from '../../pages/Hook';
 import AppContext from '../../AppContext';
 import TagSelectionTab from './TagSelectionTab';
 import Popover from '@mui/material/Popover';
+import ImageThumbNailWithLightBox from '../ImageThumbNailWithLightBox';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
-const PostCommentForm = ({ formData, handleClose, post_id }) => {
-    const [commentText, setCommentText] = useState("");
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [starRating, setStarRating] = useState(0);
-    const [selectedFile, setSelectedFile] = useState([]);
+const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateComment, commentData }) => {
+    const [commentText, setCommentText] = useState(commentData ? commentData.comment_body : "");
+    const [selectedTags, setSelectedTags] = useState(commentData ? commentData.tags : []);
+    const [starRating, setStarRating] = useState(commentData ? commentData.rating : 0);
+    const [selectedFile, setSelectedFile] = useState(commentData ? commentData.pics : []);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const buttonRef = useRef(null);
     // const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
@@ -40,7 +41,7 @@ const PostCommentForm = ({ formData, handleClose, post_id }) => {
             }
             console.log(imageUploadResponse)
             const commentUploadRes = await apiStore.createComment({
-                post_id: post_id,
+                post_id: shelter_post_id,
                 comment_body: commentText,
                 username: appCtx.user,
                 rating: starRating,
@@ -54,17 +55,57 @@ const PostCommentForm = ({ formData, handleClose, post_id }) => {
         }
     }
 
+    const handleUpdateComment = async () => {
+        try {
+            // let imageUploadResponse = []
+            // for (let i = 0; i < selectedFile.length; i++) {
+            //     imageUploadResponse.push(await apiStore.uploadImageToS3(selectedFile[i]));
+            // }
+            // console.log(imageUploadResponse)
+            console.log(commentData.comment_id, shelter_post_id, starRating, commentData.pics)
+            const updateCommnetRes = await apiStore.updateComment({
+                comment_id: commentData.comment_id,
+                post_id: shelter_post_id,
+                rating: starRating,
+                username: appCtx.user,
+                comment_body: commentText,
+                tags: selectedTags,
+                pics: commentData.pics
+            })
+            console.log(updateCommnetRes)
+        } catch (err) {
+            console.log("update comment" + err.message)
+        }
+    }
+
     const selectFile = () => {
         fileInputRef.current.click()
     } 
 
-    const selectedFileDisplay = () => {
+    const selectedImagePreview = () => {
         let fileArray = Array.from(selectedFile)
+        let imgArray = []
+         for (let i = 0; i < fileArray.length; i++) {
+             if (!isUpdateComment) {
+                imgArray.push(URL.createObjectURL(fileArray[i]))
+             } else {
+                 imgArray.push(fileArray[i])
+             }
+         }
+         
         return fileArray.length === 0 ? null :
-        <Grid>
-            <Typography>Currently Selected Image :</Typography>
-            {fileArray.map(data => {
+        <Grid container justifyContent='center'>
+            {/* {fileArray.map(data => {
                 return <Typography>{data.name}</Typography>
+            })} */}
+            {imgArray.map((url, index) => {
+                return <ImageThumbNailWithLightBox 
+                        key={index}
+                        index={index}
+                        imgs={imgArray}
+                        selectedFile={selectedFile}
+                        setSelectedFile={setSelectedFile} 
+                        isDeletable={true}/>
             })}
         </Grid>
     } 
@@ -83,7 +124,7 @@ const PostCommentForm = ({ formData, handleClose, post_id }) => {
                 justifyContent="center" 
                 alignItems="center"
             >
-                <Typography > {`Rate ${formData.shelterName}`}</Typography>
+                <Typography > {`Rate ${shelterName}`}</Typography>
                 <Rating 
                     value={starRating} 
                     precision={0.5} 
@@ -132,7 +173,7 @@ const PostCommentForm = ({ formData, handleClose, post_id }) => {
                     </Grid>
                 </Grid>  
 
-            {selectedFileDisplay()}
+            {selectedImagePreview()}
             <br />
 
             <Grid
@@ -141,6 +182,14 @@ const PostCommentForm = ({ formData, handleClose, post_id }) => {
                 justifyContent="flex-end" 
                 alignItems="center"
             >
+                {isUpdateComment ?
+                 <Button 
+                    variant="contained"
+                    onClick={() => {
+                        handleUpdateComment()
+                    }}>
+                    Update Comment
+                </Button> :
                 <Button 
                     ref={buttonRef}
                     variant="contained"
@@ -156,7 +205,7 @@ const PostCommentForm = ({ formData, handleClose, post_id }) => {
                         setStarRating(0)
                     }}>
                     {text.postCommentForm.postCommentBtn}
-                </Button>
+                </Button> }
 
                 <Popover open={isPopoverOpen} onClose={() => setIsPopoverOpen(false)} anchorEl={buttonRef.current}>
                     <Grid style={{padding: "10px"}}>

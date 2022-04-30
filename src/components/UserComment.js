@@ -23,7 +23,7 @@ import PostCommentForm from './PostCommentForm/PostCommentForm';
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserComment = ({ commentData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
+const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(undefined)
     const favoritebBttonRef = useRef(null);
@@ -121,7 +121,7 @@ const UserComment = ({ commentData, isHighLighted, isEditAndDeleteable, setComme
         </>)
 
         const imageThumbnailAndLightBox = commentData.pics.map((data, index) => {
-            return <ImageThumbNailWithLightBox index={index} imgs={commentData.pics} />
+            return <ImageThumbNailWithLightBox key={index} index={index} imgs={commentData.pics} isDeletable={false}/>
         })
 
     useEffect(() => {
@@ -308,10 +308,12 @@ const UserComment = ({ commentData, isHighLighted, isEditAndDeleteable, setComme
                     </AccordionSummary>
 
                     <AccordionDetails>
-                        <PostCommentForm formData={{
-                            shelterName: "temp",
-                            userName: appCtx.user}}
-                            post_id={commentData.post_id}/>
+                        <PostCommentForm 
+                            shelterName={shelterName}
+                            shelter_post_id={shelter_post_id}
+                            commentData={commentData}
+                            setCommentData={setCommentData}
+                            isUpdateComment={true}/>
                     </AccordionDetails>
                 </Accordion>}
             </Grid>
