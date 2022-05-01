@@ -288,5 +288,17 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async getAllClaims(username) {
+        try {
+            return await API.get('SocialTechService', "/GetAllClaims", {
+                queryStringParameters: {
+                    username: username,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
