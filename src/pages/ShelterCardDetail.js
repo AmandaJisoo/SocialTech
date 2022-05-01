@@ -77,26 +77,19 @@ const ShelterDetail = observer(({ shelterData }) => {
 
             console.log("shelter data response: ", shelterPostDataResponse)
 
-            if (appStore.highlightedComment) {
-                setHighlightedComment(appStore.highlightedComment);
-                console.log("using saved comment data");
-            } else {
-                const topComment = await apiStore.getMostLikedComment(post_id);
-                if (topComment.length > 0) {
-                    setHighlightedComment(topComment[0]);
-                    console.log("loading new comment data");
-                }
+            const topComment = await apiStore.getMostLikedComment(post_id);
+            console.log("top/comment", topComment)
+            if (topComment.length > 0) {
+                appStore.setHighlightedComment(post_id, topComment[0])
+                setHighlightedComment(topComment[0]);
+                console.log("loading new comment data");
             }
         } catch (err) {
-            console.log(err.message)
+            console.error(err.message)
         }
     }
 
     useEffect(() => {
-        if (appStore.highlightedComment) {
-            console.log("appStore.highlightedComment", appStore.highlightedComment.comment_id)
-
-        }
 
         const loadBookmarks = async () => {
             try {

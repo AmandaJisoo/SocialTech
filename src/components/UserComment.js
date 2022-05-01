@@ -29,7 +29,7 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
     const favoritebBttonRef = useRef(null);
     const appCtx = useContext(AppContext);
     const [likeState, setLikeState] = useState(undefined);
-    const [numOfLikes, setNumOfLikes] = useState(undefined);
+    const [numOfLikes, setNumOfLikes] = useState(commentData.likes);
     const [userProfile, setUserProfile] = useState(undefined);
     const [isEditAccordionOpen, setIsEditAccordionOpen] = useState(false);
     const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
@@ -43,9 +43,11 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
 
     const loadLike = async() => {
         try {
-            let likeStatus = await apiStore.getLikeStatus(commentData.username, commentData.comment_id, commentData.post_id)
-            setLikeState(likeStatus.like_status)
-            setNumOfLikes(likeStatus.num_of_likes)
+            if (appCtx.user) {
+                let likeStatus = await apiStore.getLikeStatus(appCtx.user, commentData.comment_id, commentData.post_id)
+                setLikeState(likeStatus.like_status)
+                setNumOfLikes(likeStatus.num_of_likes)
+            }
         } catch {
 
         }
@@ -54,7 +56,9 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
     const handleLike = async () => {
         try {
             if (appCtx.user) {
-                let likeResponse = await apiStore.handleLike(commentData.comment_id, commentData.post_id, commentData.username)
+                console.log('appCtx.user', appCtx.user)
+                let likeResponse = await apiStore.handleLike(commentData.comment_id, commentData.post_id, appCtx.user)
+                console.log('likeResponse', likeResponse)
                 setLikeState(likeResponse.like)
                 setNumOfLikes(likeResponse.num_of_likes)
                 console.log("likeState after clicking", likeState)

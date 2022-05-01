@@ -73,7 +73,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
             const topComment = await apiStore.getMostLikedComment(shelterData.post_id);
             if (topComment.length > 0) {
                 setHighlightedComment(topComment[0]);
-                appStore.setHighlightedComment(topComment[0])
+                appStore.setHighlightedComment(shelterData.post_id, topComment[0])
                 let profile = await apiStore.getUserProfile(topComment[0].username)
                 //console.log('profile card', profile)
                 setUserProfile(profile)

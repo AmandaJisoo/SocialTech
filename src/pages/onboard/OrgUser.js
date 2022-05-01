@@ -16,6 +16,8 @@ import { formatShelterAddress } from '../../utils/utilityFunctions';
 import AppContext from '../../AppContext'
 import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
 import AmenityFilterTab from '../../components/AmenityFilterTab';
+import { Auth } from 'aws-amplify';
+
 
 const OrgOnBoardPages = {
     shelterInfoFormPage: "SHELTER_INFO_FORM_PAGE",
@@ -47,18 +49,35 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
     const [errorMsg, setErrorMsg] = useState(null);
     const onboardCtx = useContext(OnBoardContext);
     const { apiStore, appStore } = useStore();
+    const [email, setEmail] = useState(null);
 
+    useEffect(() => {
+        Auth.currentAuthenticatedUser()
+        .then(userData => setEmail(userData.attributes.email))
+        .catch(() => console.log('Not signed in'));
+
+        onboardCtx.setActiveStep(2)
+        
+    }, [onboardCtx, onboardCtx.activeStep])
     const fetchAvailableShelterData = () => {
         const getShelterDataByCity = async () => {
             try {
               //TODO: Amanda check
-              const shelterDataResponse = await apiStore.getShelterByCity(onboardCtx.city)
-              setSelectedShelter(formatShelterAddress(shelterDataResponse[0]))
-              setAvailableShelterData(shelterDataResponse);
-              setLoadingAvailableShleter(false);
+              const shelterDataResponse = await apiStore.getShelterByCity(onboardCtx.city);
+              shelterDataResponse.sort((a, b) => a.post_id.localeCompare(b.post_id))
+              if (shelterDataResponse.length == 0) {
+                setErrorMsg(`No shelters found in city: '${onboardCtx.city}'`)
+                setSelectedShelter("")
+                setAvailableShelterData(undefined)
+              } else {
+                setSelectedShelter(formatShelterAddress(shelterDataResponse[0]))
+                setAvailableShelterData(shelterDataResponse);
+              }
             } catch (err) {
               console.log(err.message)
               setErrorMsg(err.message)
+            } finally {
+              setLoadingAvailableShleter(false);
             }
         }
         if (onboardCtx.city.length === 0) {
@@ -99,9 +118,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
         </FormControl>
         : <Typography>No shelter data found, please try again with different city</Typography>;
 
-
     const errorMsgEle = errorMsg ? <Alert severity="error">{errorMsg}</Alert> : null;
-
     return(
         <>
             <Grid
@@ -115,7 +132,24 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                 <Grid item>
                     <Typography variant="h4">{text.onboard.org.prompt}</Typography>
                 </Grid>
-
+                <Grid
+                container 
+                direction="row" 
+                justifyContent="left"
+                alignItems="left" 
+                wrap="nowrap"
+                rowSpacing={5}
+                style={{marginTop: "10px"}}>
+                <TextField
+                    margin="normal"
+                    required
+                    name="email"
+                    type="email"
+                    disabled
+                    id="email"
+                    value={email}
+                  />
+                  </Grid>
                 <Grid
                     item
                     container
@@ -148,8 +182,10 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
 
                 <Grid item
                     container
-                    justifyContent="center">
-                    <Button variant='outlined' onClick={() => {
+                    justifyContent="left">
+                    <Button variant='outlined' 
+                    disabled={onboardCtx.city == ""}
+                    onClick={() => {
                         fetchAvailableShelterData();
                     }}>
                         Get Available Shelters
@@ -163,7 +199,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                     {errorMsgEle}
                 </Grid>
 
-                {(loadingAvailableShleter && availableShelterData === undefined) &&
+                {(loadingAvailableShleter) &&
                     <Grid   
                     container
                     direction="column"
@@ -217,7 +253,15 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
     const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
     const [errorMsg, setErrorMsg] = useState(null);
     const { apiStore, appStore } = useStore();
-    
+    const [email, setEmail] = useState(null);
+
+
+    useEffect(() => {
+        Auth.currentAuthenticatedUser()
+        .then(userData => setEmail(userData.attributes.email))
+        .catch(() => console.log('Not signed in'));
+    }, [onboardCtx, onboardCtx.activeStep])
+
     const handleNext = async () => {
         setErrorMsg(null)
         try {
@@ -259,7 +303,6 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
                 <Grid item>
                     <Typography variant="h4">{text.onboard.org.prompt}</Typography>
                 </Grid>
-
                 <Grid
                     item
                     container 
@@ -268,7 +311,6 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
                     alignItems="center"
                     rowSpacing={2}>    
                     <Grid item>
-                        
                         <Typography>{text.onboard.org.tagSelectionPrompt}</Typography>
                     </Grid>
                     <Grid item >

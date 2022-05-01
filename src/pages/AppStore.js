@@ -4,7 +4,7 @@ import { Auth } from 'aws-amplify';
 export default class AppStore {
     shelterData = undefined;
     claimStatus = {};
-    highlightedComment = undefined;
+    highlightedComment = {};
     userProfilePic = {}
     shelterDataList = []
     username = undefined;
@@ -37,8 +37,11 @@ export default class AppStore {
         console.log("new claims", this.claimStatus)
     }
 
-    setHighlightedComment(comment) {
-        this.highlightedComment = comment;
+    setHighlightedComment(post_id, comment) {
+        this.highlightedComment = {
+            ...this.highlightedComment,
+            [post_id]: comment
+        }
     }
 
     setUserProfilePic(username, pathToProfileImg) {
