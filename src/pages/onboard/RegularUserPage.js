@@ -14,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import { useStore } from '../Hook.js';
 import { DEFAULT_COUNTRY } from '../../utils/utilityFunctions';
 import AppContext from '../../AppContext';
+import { Auth } from 'aws-amplify';
 
 const RegularUserPage = () => {
     const navigate = useNavigate();
@@ -21,9 +22,14 @@ const RegularUserPage = () => {
     const onboardCtx = useContext(OnBoardContext);
     const appCtx = useContext(AppContext);
     const [errorMsg, setErrorMsg] = useState(null);
-    const apiStore = useStore().apiStore;; 
+    const apiStore = useStore().apiStore;
+    const [email, setEmail] = useState(null);
 
     useEffect(() => {
+        Auth.currentAuthenticatedUser()
+        .then(userData => setEmail(userData.attributes.email))
+        .catch(() => console.log('Not signed in'));
+
         onboardCtx.setActiveStep(2)
     }, [onboardCtx, onboardCtx.activeStep])
 
@@ -105,9 +111,10 @@ const RegularUserPage = () => {
                     required
                     fullWidth
                     name="email"
-                    label="email"
                     type="email"
+                    disabled
                     id="email"
+                    value={email}
                     onChange={onboardCtx.handleEmailChange}
                   />
                 <Grid
