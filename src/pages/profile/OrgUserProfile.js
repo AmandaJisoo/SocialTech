@@ -1,10 +1,10 @@
 import {React, useState, useEffect, useContext } from 'react';
-import ShelterList from "../../ShelterList";
-import { useStore } from '../../Hook';
+import ShelterList from "../ShelterList";
+import { useStore } from '../Hook';
 import { useNavigate } from 'react-router-dom';
-import text from "../../../text/text.json"
+import text from "../../text/text.json"
 import { Grid, Button } from '@mui/material';
-import ShelterCard from '../../../components/ShelterCard/ShelterCard';
+import ShelterCard from '../../components/ShelterCard/ShelterCard';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,16 +13,79 @@ import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider';
-import UserComment from '../../../components/UserComment';
-import AppContext from '../../../AppContext.js';
+import UserComment from '../../components/UserComment';
+import AppContext from '../../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
 import Link from '@mui/material/Link';
-import { DEFAULT_COUNTRY } from '../../../utils/utilityFunctions';
+import { DEFAULT_COUNTRY } from '../../utils/utilityFunctions';
+import ShelterClaim from '../../components/ShelterClaim';
+
+const SHLETER_CLAIM_PLACEHOLDER_DATA = [
+    {
+        "claimed_utilities": [ "shower", "bathroom" ], 
+        "username": "fuckers1", 
+        "post_id": "lori shelter#98001", 
+        "status": "pending"
+    },
+    {
+        "claimed_utilities": [ "shower", "bathroom" ], 
+        "username": "fuckers1", 
+        "post_id": "lori shelter#980012", 
+        "status": "pending"
+    },
+    {
+        "claimed_utilities": [ "shower", "bathroom" ], 
+        "username": "fuckers1", 
+        "post_id": "lori shelter#980013", 
+        "status": "pending"
+    }
+]
+
+const CLAIMED_SHELTER_PLACEHOLDER_DATA = [
+    {
+        "city": "seattle",
+        "zipcode": "98105",
+        "num_of_comments": 1,
+        "post_id": "The BLOCK Project#98105",
+        "profile_pic_path": "https://socialtechcapstone.s3.amazonaws.com/public/image_not_available.jpg?AWSAccessKeyId=ASIA3ZCWBAZCWO6ZZFR4&Signature=cqf8WAeOJUQh1AV7bYApXT2s1pA%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEGAaCXVzLWVhc3QtMSJIMEYCIQDCtFenHB8SPtnL1RaRb2WDMpl1xxwX8t%2FymM1uTkjm6AIhAOfP5TyJJbH0MsgWlFm74ZpgY7xyyvf1LLtjiXmc5uL6KpECCCgQAhoMODA5NzgxNzU3NTA5IgyeTgXirbk4K2A33Uoq7gFbCoaIeVh%2FwscWSQpmjYutBj2my1OZC0RXXN6YGXtZNSg4BPLIv8GSIP6%2FJDg4QRo%2Fkt%2Bwq%2FR62lqiplN3IPqyfO%2BsJmFnsEx2q0RYEO5zZSihvpaaIyF4FqV2KOoK5KOByypiPKlmN6dzDkUdvMTIfzVK%2F%2FQ%2BNhapJCI9KAu5SbOlvdzM%2Bsy20IPPNbZvFcply%2Fica2fe%2FIMH9yAVoSHgQj4opMZmTPWlx1SFGa53XnjOznqfEXy7SgvLwhrJN1HQvxaIlfasZQeLVZ1ptTO9t0vNKx8XKfkrpXEC8Sb63XO1OeM81M2ukELDgsd2MIXiuJMGOpkBpr9Frkjn1KerXWCGz%2BZL2FABgZy09pqjy%2FxjwSricFIhx6ndoF4ORDPuIuXh2Jfxbb5acCgL9qqJg8VsAQrZC7nRYTLm%2FqwzCM33vn9rdRBVW%2F6es%2Fwx12WJ8BZkReolkVEKICJRZVfZZF9fXNQlrwPFsJcbU4SsB%2FiVDmoz24rEsTmoFrXHgHUaFfCnDSpemVOzzvYary6i&Expires=1651993479",
+        "utilities": [
+            "Wheelchair Ramp",
+            "Free Clothes",
+            "Well-Maintained Amenities",
+            "Free Hygiene kits"
+        ],
+        "num_of_bookmarks": 0,
+        "state": "WA",
+        "street": "4001 9th ave ne",
+        "title": "The BLOCK Project",
+        "avg_rating": 0,
+        "distanceToUserLocation": "1.5 mi"
+    },
+    {
+        "city": "seattle",
+        "zipcode": "98105",
+        "num_of_comments": 0,
+        "post_id": "Roots Young Adult Shelter#98105",
+        "profile_pic_path": "https://socialtechcapstone.s3.amazonaws.com/user_uploads/75fdb483-894b-444d-96f5-832abc4e1bd2-photo?AWSAccessKeyId=ASIA3ZCWBAZCWO6ZZFR4&Signature=WxKFdpCf96gM8bDuc9v8nmRsOFg%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEGAaCXVzLWVhc3QtMSJIMEYCIQDCtFenHB8SPtnL1RaRb2WDMpl1xxwX8t%2FymM1uTkjm6AIhAOfP5TyJJbH0MsgWlFm74ZpgY7xyyvf1LLtjiXmc5uL6KpECCCgQAhoMODA5NzgxNzU3NTA5IgyeTgXirbk4K2A33Uoq7gFbCoaIeVh%2FwscWSQpmjYutBj2my1OZC0RXXN6YGXtZNSg4BPLIv8GSIP6%2FJDg4QRo%2Fkt%2Bwq%2FR62lqiplN3IPqyfO%2BsJmFnsEx2q0RYEO5zZSihvpaaIyF4FqV2KOoK5KOByypiPKlmN6dzDkUdvMTIfzVK%2F%2FQ%2BNhapJCI9KAu5SbOlvdzM%2Bsy20IPPNbZvFcply%2Fica2fe%2FIMH9yAVoSHgQj4opMZmTPWlx1SFGa53XnjOznqfEXy7SgvLwhrJN1HQvxaIlfasZQeLVZ1ptTO9t0vNKx8XKfkrpXEC8Sb63XO1OeM81M2ukELDgsd2MIXiuJMGOpkBpr9Frkjn1KerXWCGz%2BZL2FABgZy09pqjy%2FxjwSricFIhx6ndoF4ORDPuIuXh2Jfxbb5acCgL9qqJg8VsAQrZC7nRYTLm%2FqwzCM33vn9rdRBVW%2F6es%2Fwx12WJ8BZkReolkVEKICJRZVfZZF9fXNQlrwPFsJcbU4SsB%2FiVDmoz24rEsTmoFrXHgHUaFfCnDSpemVOzzvYary6i&Expires=1651993480",
+        "utilities": [
+            "Shower",
+            "Employment Help enter",
+            "Bathroom",
+            "Free Hygiene kits"
+        ],
+        "num_of_bookmarks": 0,
+        "state": "WA",
+        "street": "4541 19th ave ne",
+        "title": "Roots Young Adult Shelter",
+        "avg_rating": 0,
+        "distanceToUserLocation": "1.8 mi"
+    }
+]
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
-const RegularUserProfile = observer(props => {
+const OrgUserProfile = observer(props => {
     const { apiStore } = useStore();
     const [page, setPage] = useState(0);
     const [loaderActive, setLoaderActive] = useState(false);
@@ -30,6 +93,8 @@ const RegularUserProfile = observer(props => {
     const [shelterData, setShelterData] = useState([])
     const [commentData, setCommentData] = useState(null)
     const [userProfileData, setUserProfileData] = useState(null)
+    const [pendingClaims, setPendingClaims] = useState(null)
+    const [claimedShelters, setClaimedShelters] = useState(null)
     const [errorMsg, setErrorMsg] = useState([])
     const appCtx = useContext(AppContext)
     const { appStore } = useStore()
@@ -76,11 +141,43 @@ const RegularUserProfile = observer(props => {
         }
     }
 
+    const loadPendingClaims = async () => {
+        try {
+            if (!appStore.username) {
+                await appStore.getUsername()
+            }
+
+            // use placeholder data since API is not yet provided 
+            setPendingClaims(SHLETER_CLAIM_PLACEHOLDER_DATA)
+          } catch(error) {
+            console.log("load pending claim err" + error.message)
+        }
+    }
+
+    const loadClaimedShelter = async () => {
+        try {
+            if (!appStore.username) {
+                await appStore.getUsername()
+            }
+            // let commentDataResponse = await apiStore.loadAllComments(appStore.username);
+            // setCommentData(commentDataResponse)
+
+
+            // use placeholder data since API is not yet provided 
+            setClaimedShelters(CLAIMED_SHELTER_PLACEHOLDER_DATA)
+          } catch(error) {
+            console.log("load claimed shelter err" + error.message)
+        }
+    }
+
+
     useEffect(() => {
         setLoaderActive(true)
-        loadBookmarks();
-        loadAllComments()
-        loadUserProfile()
+        // loadBookmarks();
+        // loadAllComments()
+        // loadUserProfile()
+        loadPendingClaims()
+        loadClaimedShelter()
         setLoaderActive(false)
     }, [])
 
@@ -115,6 +212,39 @@ const RegularUserProfile = observer(props => {
                             setCommentData={setCommentData}/>
                     </div>
                 )
+            })
+        }
+    }
+
+    const claimedShelterEles = () => {
+        if (claimedShelters !== null) {
+            return claimedShelters.length === 0 ? 
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                style={{height: "20vh"}}>
+                <Typography>You haven't claimed any chelters</Typography>
+                </Grid> :
+                 <ShelterList user={appCtx.user} shelterData={claimedShelters} loaderActive={false} /> 
+            
+        }
+    }
+
+    const pendingClaimsEles = () => {
+        if (pendingClaims !== null) {
+            return pendingClaims.length === 0 ? 
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                style={{height: "20vh"}}>
+                <Typography>You have no pending claims</Typography>
+                </Grid> :
+                pendingClaims.map(claim => {
+                return <ShelterClaim claim_data={claim} key={claim.post_id}/> 
             })
         }
     }
@@ -166,7 +296,7 @@ const RegularUserProfile = observer(props => {
                                     <Typography>{"Hi, " + appCtx.user}</Typography>
                                 <Button
                                     onClick={() => {
-                                        setPage(1)
+                                        //setPage(1)
                                     }}>
                                     Edit Profile
                                 </Button>
@@ -179,28 +309,12 @@ const RegularUserProfile = observer(props => {
                                 justifyContent="flex-start"
                                 alignItems="center"
                                 style={{}}>
-                                    <Typography variant='h5'>Bookmarked Shelters</Typography>
+                                    <Typography variant='h5'>Claimed Shelters</Typography>
                             </Grid>
                             
 
 
-                            {shelterBookmarkData.length === 0 ? 
-                            <Grid
-                                container
-                                direction="row"
-                                justifyContent="center"
-                                alignItems="center"
-                                style={{height: "20vh"}}>
-                                    <Typography>You haven't bookmarked any shelters</Typography>
-                            </Grid> : 
-                            
-                            <ShelterList
-                                loaderActive={loaderActive}
-                                user={props.user}
-                                setUser={props.setUser}
-                                shelterData={shelterData}
-                                setShelterData={setShelterData}
-                                bookmarks={shelterBookmarkData}/>}
+                            {claimedShelterEles()}
 
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
 
@@ -211,11 +325,11 @@ const RegularUserProfile = observer(props => {
                                 justifyContent="flex-start"
                                 alignItems="center"
                                 style={{}}>
-                                    <Typography variant='h5'>Posted Comments</Typography>
+                                    <Typography variant='h5'>Pending Claims</Typography>
                             </Grid>
 
                             <Grid style={{width: "100%", margin: "20px", padding: "20px"}}>
-                                {comments()}
+                                {pendingClaimsEles()}
                             </Grid>
                         </>
                     }
@@ -226,7 +340,7 @@ const RegularUserProfile = observer(props => {
     );
 });
 
-export default RegularUserProfile;
+export default OrgUserProfile;
 
 
 const UpdateProfileForm = ({profileData, setPage}) => {

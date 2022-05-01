@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, Navigate } from "react-router-dom"
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom"
 import './App.css';
 import { ThemeProvider } from "@mui/material";
 import appThemeMui from "./theme/appThemeMui";
@@ -15,10 +15,12 @@ import SelectAccountPage from './pages/onboard/SelectAccountPage';
 import RegularUserPage from './pages/onboard/RegularUserPage';
 import OrgPage from './pages/onboard/OrgUser';
 import CompletedPage from './pages/onboard/CompletedPage';
-import RegularUserProfile from './pages/profile/regular-user/RegularUserProfile';
+import RegularUserProfile from './pages/profile/RegularUserProfile';
+import { Button } from '@mui/material';
 import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
+import OrgUserProfile from './pages/profile/OrgUserProfile';
 // window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
@@ -116,6 +118,7 @@ const App = () => {
   const [userStatus, setUserStatus] = useState(null)
   const { apiStore, appStore } = useStore(); 
   const [dataLoading, setDataLoading] = useState(true)
+  const navigate = useNavigate()
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
@@ -138,7 +141,7 @@ const App = () => {
           const fullAddress = `${streetAddress} ${cityAddress}`
 
           let distance = await apiStore.getDistanceBetweenZipcodes(98103, fullAddress)
-          console.log("distance: " + distance)
+          //console.log("distance: " + distance)
           shelterPostData['distanceToUserLocation'] = distance
         }
 
@@ -153,11 +156,10 @@ const App = () => {
 
     const getUserStatus = async () => {
       try {
-          // const userData = await Auth.currentAuthenticatedUser();
-          // console.log(userData);
-          //Yichi: to call api do this 2
-          const userStatusResponse = await apiStore.getUserStatus(user);
+          const userData = await Auth.currentAuthenticatedUser();
+          const userStatusResponse = await apiStore.getUserStatus(userData.username);
           setUserStatus(userStatusResponse.UserStatus)
+          console.log("current status: " + userStatus)
       } catch (err) {
           console.log(err);
           console.log("Error in fetching user status: Not authenticated");
@@ -244,10 +246,13 @@ const App = () => {
           <Route path="app/regular-user-profile/:id" element={
             <RegularUserProfile user={user} setUser={setUser} />
           } >
-            <Route path="edit-profile" element={
-                <SignUp setUser={setUser}/>
-              } />
-            </Route>
+          </Route>
+
+          <Route path="app/org-user-profile/:id" element={
+            <OrgUserProfile />
+          } >
+          </Route>
+
           <Route path="*" element={
             <Navigate to="/app/dashboard"/>
           } />

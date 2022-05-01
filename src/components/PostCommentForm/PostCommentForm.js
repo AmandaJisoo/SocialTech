@@ -1,4 +1,4 @@
-import {React, useState, useContext, useRef} from 'react';
+import {React, useState, useContext, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import text from "../../text/text.json"
 import { Grid } from '@mui/material';
@@ -17,17 +17,33 @@ import Popover from '@mui/material/Popover';
 import ImageThumbNailWithLightBox from '../ImageThumbNailWithLightBox';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
-const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateComment, commentData }) => {
+const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateComment, commentData, setCommentData }) => {
     const [commentText, setCommentText] = useState(commentData ? commentData.comment_body : "");
     const [selectedTags, setSelectedTags] = useState(commentData ? commentData.tags : []);
     const [starRating, setStarRating] = useState(commentData ? commentData.rating : 0);
-    const [selectedFile, setSelectedFile] = useState(commentData ? commentData.pics : []);
+    const [selectedFile, setSelectedFile] = useState([]);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const buttonRef = useRef(null);
     // const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
     const fileInputRef = useRef(null);
     const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
+
+    useEffect(() => {
+        const convertImageUrlToBlob = async () => {
+            if (commentData) {
+                let res = await Promise.all(commentData.pics.map(async (url) => {
+                    return fetch(url)
+                }))
+                let imgBlob = await Promise.all(res.map(async (res) => {
+                    return res.blob()
+                }))
+            
+                setSelectedFile(imgBlob)
+            }
+        }
+        convertImageUrlToBlob()
+    }, [])
 
     const handleTextChange = (event) => {
         setCommentText(event.target.value)
@@ -57,12 +73,13 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
 
     const handleUpdateComment = async () => {
         try {
-            // let imageUploadResponse = []
-            // for (let i = 0; i < selectedFile.length; i++) {
-            //     imageUploadResponse.push(await apiStore.uploadImageToS3(selectedFile[i]));
-            // }
-            // console.log(imageUploadResponse)
-            console.log(commentData.comment_id, shelter_post_id, starRating, commentData.pics)
+            let imageUploadResponse = []
+            for (let i = 0; i < selectedFile.length; i++) {
+                imageUploadResponse.push(await apiStore.uploadImageToS3(selectedFile[i]));
+            }
+            console.log(imageUploadResponse)
+            
+
             const updateCommnetRes = await apiStore.updateComment({
                 comment_id: commentData.comment_id,
                 post_id: shelter_post_id,
@@ -70,9 +87,11 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                 username: appCtx.user,
                 comment_body: commentText,
                 tags: selectedTags,
-                pics: commentData.pics
+                pics: imageUploadResponse
             })
             console.log(updateCommnetRes)
+            let commentDataResponse = await apiStore.loadAllComments(appCtx.user);
+            setCommentData(commentDataResponse)
         } catch (err) {
             console.log("update comment" + err.message)
         }
@@ -86,11 +105,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
         let fileArray = Array.from(selectedFile)
         let imgArray = []
          for (let i = 0; i < fileArray.length; i++) {
-             if (!isUpdateComment) {
-                imgArray.push(URL.createObjectURL(fileArray[i]))
-             } else {
-                 imgArray.push(fileArray[i])
-             }
+            imgArray.push(URL.createObjectURL(fileArray[i]))
          }
          
         return fileArray.length === 0 ? null :

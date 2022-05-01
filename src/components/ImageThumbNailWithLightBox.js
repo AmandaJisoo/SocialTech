@@ -13,9 +13,8 @@ const COMMENT_IMG_THUMBNAIL_DIMENSION = {
 const ImageThumbNailWithLightBox = ({ imgs, index, selectedFile, setSelectedFile, isDeletable }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [photoIdx, setPhotoIdx] = useState(index)
-    const public_url = process.env.PUBLIC_URL;
     const startingImgIdx = index;
-    const thumbnailImgAddr = selectedFile ? imgs[index] : public_url + imgs[startingImgIdx];
+    const thumbnailImgAddr = imgs[index];
     console.log("img addr: " + thumbnailImgAddr)
     return (
         <Grid
@@ -43,7 +42,7 @@ const ImageThumbNailWithLightBox = ({ imgs, index, selectedFile, setSelectedFile
 
             {isOpen && (
             <Lightbox
-            mainSrc={public_url + imgs[photoIdx]}
+            mainSrc={imgs[photoIdx]}
             nextSrc={imgs[(photoIdx + 1) % imgs.length]}
             prevSrc={imgs[(photoIdx + imgs.length - 1) % imgs.length]}
             onCloseRequest={() => setIsOpen(false)}

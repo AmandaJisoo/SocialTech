@@ -25,7 +25,7 @@ const public_url = process.env.PUBLIC_URL;
 
 const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
     const { apiStore, appStore } = useStore(); 
-    const [open, setOpen] = useState(undefined)
+    const [open, setOpen] = useState(false)
     const favoritebBttonRef = useRef(null);
     const appCtx = useContext(AppContext);
     const [likeState, setLikeState] = useState(undefined);
@@ -177,11 +177,6 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
                                 container
                                 alignItems="center"
                                 style={{justifyContent: "right"}}>
-                                <Button onClick={() => {
-                                    setIsEditAccordionOpen(true);
-                                }}>
-                                    Edit
-                                </Button>
                                 <Button
                                 ref={deleteButtonRef}
                                 onClick={() => {
@@ -298,13 +293,13 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
                 </Grid>
 
                 {isEditAndDeleteable && 
-                <Accordion>
+                <Accordion style={{width: "100%"}}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                         >
-                    <Typography>Edit comments</Typography>
+                    <Typography>Edit comment</Typography>
                     </AccordionSummary>
 
                     <AccordionDetails>

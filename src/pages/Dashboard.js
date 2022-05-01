@@ -67,7 +67,11 @@ const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = fa
                     <Typography>Welcome, {appCtx.user}</Typography>
                     <Button onClick={ handleSignOut }>Log out</Button>
                     <Button onClick={ () => {
-                        navigate("/app/regular-user-profile/" + appCtx.user)
+                        if (appCtx.userStatus === "shelter_owner") {
+                            navigate('/app/org-user-profile/' + appCtx.user)
+                        } else {
+                            navigate("/app/regular-user-profile/" + appCtx.user)
+                        }
                     } }>Profile</Button>
                 </> :
                  <>

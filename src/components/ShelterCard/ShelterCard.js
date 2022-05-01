@@ -75,7 +75,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                 setHighlightedComment(topComment[0]);
                 appStore.setHighlightedComment(topComment[0])
                 let profile = await apiStore.getUserProfile(topComment[0].username)
-                console.log('profile card', profile)
+                //console.log('profile card', profile)
                 setUserProfile(profile)
                 appStore.setUserProfilePic(topComment[0].username, profile.profile_pic_path)
             } 
