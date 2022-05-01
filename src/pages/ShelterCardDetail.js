@@ -27,6 +27,8 @@ import Popover from '@mui/material/Popover';
 import ShelterClaimStatusText from '../components/ShelterClaimStatusText'
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import UserNotLoggedInPopOverContent from '../components/UserNotLoggedInPopOverContent';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
 
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
@@ -137,15 +139,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const highlightedCommentEle = () => {
         if (comments === undefined) {
             return (
-                <Grid   
-                container
-                direction="column"
-                justifyContent="center" 
-                alignItems="center"
-                style={{height: "15vh"}}>
-                    <CircularProgress/>
-                    <Typography>Loading reviews</Typography>
-                </Grid>
+                <LoadingSpinner text={"Loading reviews"} size={LOADING_SPINNER_SIZE.small} />
             )
         } else if (comments.length === 0) {
             return null
@@ -162,15 +156,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const commentEles = () => {
         if (comments === undefined) {
             return (
-                <Grid   
-                container
-                direction="column"
-                justifyContent="center" 
-                alignItems="center"
-                style={{height: "15vh"}}>
-                    <CircularProgress/>
-                    <Typography>Loading comments</Typography>
-                </Grid>
+                <LoadingSpinner text={"Loading comments"} size={LOADING_SPINNER_SIZE.small} />
             )
         } else if (comments.length === 0) {
             return (
@@ -280,15 +266,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                 </Grid>
                 }
                 {shelterPostData === undefined ? 
-                <Grid   
-                    container
-                    direction="column"
-                    justifyContent="center" 
-                    alignItems="center"
-                    style={{height: "25vh"}}>
-                    <CircularProgress/>
-                    <Typography>Loading Shelter Data</Typography>
-                </Grid> :
+                <LoadingSpinner text={"Loading Shelter Data"} size={LOADING_SPINNER_SIZE.medium} />
+                 :
                 <>
                     <ImageGallery imgAddr={shelterPostData.profile_pic_path}/>
                     <Grid

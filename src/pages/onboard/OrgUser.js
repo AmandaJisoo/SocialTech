@@ -9,14 +9,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import OnBoardContext from './OnBoardContext';
-import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert';
 import { useStore } from '../Hook.js';
 import { formatShelterAddress } from '../../utils/utilityFunctions';
 import AppContext from '../../AppContext'
-import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH } from '../../utils/utilityFunctions';
+import { DEFAULT_COUNTRY, DEFAULT_PROFILE_PATH, LOADING_SPINNER_SIZE } from '../../utils/utilityFunctions';
 import AmenityFilterTab from '../../components/AmenityFilterTab';
 import { Auth } from 'aws-amplify';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 
 const OrgOnBoardPages = {
@@ -200,14 +200,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                 </Grid>
 
                 {(loadingAvailableShleter) &&
-                    <Grid   
-                    container
-                    direction="column"
-                    justifyContent="center" 
-                    alignItems="center"
-                    style={{height: "10vh"}}>
-                        <CircularProgress/>
-                    </Grid>
+                    <LoadingSpinner text={"Loading available shelters"} size={LOADING_SPINNER_SIZE.small} />
                 }
 
                 {(availableShelterData && !loadingAvailableShleter) && 

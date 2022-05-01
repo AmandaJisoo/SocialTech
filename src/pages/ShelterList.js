@@ -2,6 +2,8 @@ import { React } from 'react';
 import { Grid } from '@mui/material';
 import ShelterCard from '../components/ShelterCard/ShelterCard';
 import CircularProgress from '@mui/material/CircularProgress'
+import LoadingSpinner from '../components/LoadingSpinner';
+import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
 
 const ShelterList = ({user, shelterData, setShelterData, loaderActive, bookmarks = []}) => {
 
@@ -10,14 +12,8 @@ const ShelterList = ({user, shelterData, setShelterData, loaderActive, bookmarks
     const shelterCards = () => {
         return (
             (shelterData === undefined) || loaderActive ? 
-                <Grid   
-                container
-                direction="column"
-                justifyContent="center" 
-                alignItems="center"
-                style={{height: "80vh"}}>
-                    <CircularProgress/>
-                </Grid> : 
+                <LoadingSpinner text={"Loading card"} size={LOADING_SPINNER_SIZE.large} />
+                : 
             shelterData.map((cardInfo) => {
                 return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.post_id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />
             })

@@ -8,7 +8,8 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider';
 import UserReview from './UserReview';
 import AppContext from '../AppContext.js';
-
+import LoadingSpinner from '../components/LoadingSpinner'
+import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
 
 //TODO: Yichi only show this when user is logged in as a part of menu
 const OrgUserProfile = props => {
@@ -80,15 +81,7 @@ const OrgUserProfile = props => {
                     style={{height: "100vh", width: "100vw", maxWidth: "50em"}}>
     
                     {loaderActive ? 
-                        <Grid   
-                            container
-                            direction="column"
-                            justifyContent="center" 
-                            alignItems="center"
-                            style={{height: "80vh"}}>
-                                <Typography>Loading your profile</Typography>
-                                <CircularProgress/>
-                        </Grid> : 
+                        <LoadingSpinner text={"Loading your profile"} size={LOADING_SPINNER_SIZE.large} /> : 
                         <>
                             <Grid   
                                 container

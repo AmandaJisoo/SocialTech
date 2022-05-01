@@ -10,15 +10,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider';
 import UserComment from '../../components/UserComment';
 import AppContext from '../../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
 import Link from '@mui/material/Link';
-import { DEFAULT_COUNTRY } from '../../utils/utilityFunctions';
-
+import { DEFAULT_COUNTRY, LOADING_SPINNER_SIZE } from '../../utils/utilityFunctions';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 //TODO: Yichi only show this when user is logged in as a part of menu
 const RegularUserProfile = observer(props => {
@@ -139,15 +138,8 @@ const RegularUserProfile = observer(props => {
                     rowSpacing={2}
                     style={{height: "100vh", width: "100vw", maxWidth: "50em", padding: "20px"}}>
                     {loaderActive ?
-                        <Grid
-                            container
-                            direction="column"
-                            justifyContent="center"
-                            alignItems="center"
-                            style={{height: "80vh"}}>
-                                <Typography>Loading your profile</Typography>
-                                <CircularProgress/>
-                        </Grid> :
+                    <LoadingSpinner text={"Loading your profile"} size={LOADING_SPINNER_SIZE.large} />
+                    :
                         <>
                             <Grid
                                 item

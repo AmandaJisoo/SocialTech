@@ -19,10 +19,18 @@ export const TAGS_FOR_SPECIFIC_CATEGORY = new Map([
     ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
 ])
 
+export const LOADING_SPINNER_SIZE = {
+    small: "15vh",
+	medium: "25vh",
+    large: "80vh"
+}
+
 export const SORT_OPTIONS = ["Distance", "Rating", "Rating (reversed)", "Favorite", "Most Reviewed", "Name"];
 
-export const DEFAULT_UNIT = "km"
-
+export const SHELTER_CARD_DISPLAY_STATUS = {
+	regular: "REGULAR",
+	shelterClaim: "SHELTER_CLAIM"
+}
 
 export function truncateComment(comment) {
     return comment.length > MAX_LENGTH_OF_COMMNET_IN_SHELTERCARD ? 

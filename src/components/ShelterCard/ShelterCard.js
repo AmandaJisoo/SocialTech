@@ -8,7 +8,7 @@ import Rating from '@mui/material/Rating';
 import { Grid } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { truncateComment, DEFAULT_UNIT, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
+import { truncateComment, SHELTER_CARD_DISPLAY_STATUS, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
 import TagContainer from '../SelectableTags/TagContainer';
 import { React, useState, useRef, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
@@ -21,7 +21,12 @@ import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
 const public_url = process.env.PUBLIC_URL;
 
-const ShelterCard = ({ user, shelterData, isBookmarked }) => {
+const ShelterCard = ({ 
+    user, 
+    shelterData, 
+    isBookmarked, 
+    displayStatus = SHELTER_CARD_DISPLAY_STATUS.regular}) => {
+
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
@@ -115,9 +120,10 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
         }
     }
        
-    const unit = DEFAULT_UNIT;
     //TODO: yichi fix the profile pic line 206 
 
+    console.log("shelterData for card", shelterData);
+    
     return (
         <Card 
             onClick={() => {
@@ -150,7 +156,7 @@ const ShelterCard = ({ user, shelterData, isBookmarked }) => {
                 >
                 <CardMedia
                     component="img"
-                    image={public_url + shelterData.profile_pic_path}
+                    image={shelterData.profile_pic_path}
                     alt="shelter_preview"
                     style={{ 
                         maxWidth: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.width,

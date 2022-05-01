@@ -10,6 +10,8 @@ import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
 import ShelterList from './ShelterList';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
 
 const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = false}) => {
     const appCtx = useContext(AppContext);
@@ -124,16 +126,9 @@ const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = fa
                     <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 </Grid>
             </>
-            ): (
-                <Grid   
-                container
-                direction="column"
-                justifyContent="center" 
-                alignItems="center"
-                style={{height: "80vh"}}>
-                    <CircularProgress/>
-                </Grid>
-            )}
+            ): 
+                <LoadingSpinner text={"Loading Data"} size={LOADING_SPINNER_SIZE.large} />
+            }
     </Grid>
 </Grid>)   
 };
