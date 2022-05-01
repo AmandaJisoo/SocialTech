@@ -61,19 +61,25 @@ const ConfirmSignUp = ({username, password, setSignUpPage}) => {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          rowSpacing={2}
-          style={{width: "100%", maxWidth: "50em", padding: "10px"}}>
-          <Typography>Enter Verification Code</Typography>
-
+          style={{width: "100%", maxWidth: "50em", fontSize:"3rem" }}>
+            <Grid
+              item
+              container
+              wrap="nowrap"
+              justifyContent="center"
+              alignItems="center"
+              style={{}}>
+              <Typography>Enter Verification Code</Typography>
+            </Grid>
           <Grid
               item
               container
-              spacing={2}
+              spacing={12}
               wrap="nowrap"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center">
       
-              <Grid item>
+              <Grid item >
                 <TextField
                     margin="normal"
                     required
@@ -94,18 +100,18 @@ const ConfirmSignUp = ({username, password, setSignUpPage}) => {
                 alignItems="center"
                 style={{margin: "20px 0 40px 0"}}>
 
-                <Button variant='contained' onClick={() => {
+                <Button variant='contained' style={{margin:"15px"}} onClick={() => {
                     setSignUpPage(prev => prev - 1)
                 }}>
                     Back
                 </Button>
 
-                <Button variant='contained' onClick={() => {
+                <Button variant='contained'  style={{margin:"15px"}} onClick={() => {
                     handleConfirmSignUp()
                 }}>
                     Submit
                 </Button>
-                <Button variant='contained' onClick={() => {
+                <Button variant='contained'  style={{margin:"15px"}} onClick={() => {
                     handleResendCode()
                 }}>
                     Resend code

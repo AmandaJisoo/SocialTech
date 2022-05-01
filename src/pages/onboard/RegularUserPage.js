@@ -124,17 +124,16 @@ const RegularUserPage = () => {
                     style={{margin: "20px 0 40px 0"}}>
                     {/* <TagContainer tagData={["place-holder"]} isSelectable={true}/> */}
                 </Grid>
-
                 <Grid
                     container
                     justifyContent="space-between"
                     alignItems="center">
-                    <Button variant='contained' onClick={() => {
+                    <Button variant='contained' style={{marginRight: "10px"}}onClick={() => {
                         navigate("/app/onboard/select-account-type")
                     }}>
                         Back
                     </Button>
-                    <Button variant='contained' onClick={() => {
+                    <Button variant='contained' style={{marginRight: "10px"}} onClick={() => {
                         handleNext()
                     }}>
                         Continue
