@@ -11,6 +11,8 @@ export default class AppStore {
     zipcode = "";
     searchOption = "";
     searchQuery = "";
+    showNoLocationError = false;
+
     constructor() {
         makeObservable(this, {
             shelterData: observable,
@@ -30,8 +32,14 @@ export default class AppStore {
             searchOption: observable,
             setSearchOption: action,
             searchQuery: observable,
-            setSearchQuery: action
+            setSearchQuery: action,
+            showNoLocationError: observable,
+            setShowNoLocationError: action,
         })
+    }
+
+    setShowNoLocationError(val) {
+        this.showNoLocationError = val
     }
 
     setSearchQuery(searchQuery) {

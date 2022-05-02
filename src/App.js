@@ -157,10 +157,13 @@ const App = () => {
         appStore.setShelterDataList(shelterDataResponse)
         setDataLoading(false)
     }
+    const errorLookup = () => {
+      appStore.setShowNoLocationError(true);
+    }
     const getShelterData = async () => {
       try {
         //TODO: Amanda check
-        window.navigator.geolocation.getCurrentPosition(successLookup, console.log)
+        window.navigator.geolocation.getCurrentPosition(successLookup, errorLookup)
         } catch (err) {
           console.log(err.message)
         }

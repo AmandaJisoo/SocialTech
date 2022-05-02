@@ -12,10 +12,11 @@ import AppContext from '../AppContext.js';
 import ShelterList from './ShelterList';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
+import { observer } from "mobx-react"
 
-const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = false}) => {
+const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoading = false}) => {
     const appCtx = useContext(AppContext);
-    const { apiStore } = useStore(); 
+    const { apiStore, appStore } = useStore(); 
     const [bookmarks, setBookmarks] = useState([]);
     const [page, setPage] = useState(1)
     const pageSize = 10;
@@ -111,7 +112,10 @@ const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = fa
 
             {/* change this to <ShelterList/> element */}
             
-            {!dataLoading? 
+            {appStore.showNoLocationError ? <>
+                <Typography>Cannot load information without location enabled.</Typography>
+            </>
+            : !dataLoading? 
             (<>
                 <ShelterList 
                     loaderActive={isLoaderActive} 
@@ -131,6 +135,6 @@ const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = fa
             }
     </Grid>
 </Grid>)   
-};
+});
 
 export default Dashboard
