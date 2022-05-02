@@ -27,6 +27,7 @@ let cookieDomain = 'localhost';
 let redirectSignIn = 'http://localhost:3000';
 let redirectSignOut = 'http://localhost:3000';
 let secureCookie = false;
+const API_KEY = "AIzaSyAuMD4BYcnn_dTDIe0RJIKjsjNElEEk2Xw"
 
 const deployConfig = {
   'https://uw-social-tech.netlify.app': {
@@ -110,8 +111,6 @@ Amplify.configure({
   }
 });
 
-const CURRENT_USER_ZIPCODE_PLACEHOLDER = 98105
-
 const App = () => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState([]);
@@ -126,34 +125,43 @@ const App = () => {
 
   useEffect(() => {
     // get user zipcode 
-
-    const getShelterData = async () => {
-      try {
-        //TODO: Amanda check
-
-        const shelterDataResponse = await apiStore.loadOverview(CURRENT_USER_ZIPCODE_PLACEHOLDER, CURRENT_USER_ZIPCODE_PLACEHOLDER)
-        console.log("Shelter data: ", shelterDataResponse)
-
+    const successLookup = async (position) => {
+      const { latitude, longitude } = position.coords;
+      let response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=` + API_KEY);
+      response = await response.json();
+      let zipcode;
+      for (let o of response['results']) {
+        o = o['address_components']
+        for (let e of o) {
+            if (e['types'][0] === 'postal_code') {
+               zipcode = e['long_name'];
+            }
+        }
+      }
+      // zipcode = 98108
+      const shelterDataResponse = await apiStore.loadOverview(zipcode, zipcode)
+      console.log("Shelter data: ", shelterDataResponse)
         //get distance between user and shetler for each shelter in shelterDataResponse
-        for (const shelterPostData of shelterDataResponse) {
+      for (const shelterPostData of shelterDataResponse) {
           const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
           const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
           const fullAddress = `${streetAddress} ${cityAddress}`
-
-          let distance = await apiStore.getDistanceBetweenZipcodes(98103, fullAddress)
+          let distance = await apiStore.getDistanceBetweenZipcodes(zipcode, fullAddress)
           //console.log("distance: " + distance)
           shelterPostData['distanceToUserLocation'] = distance
         }
-
         setShelterData(shelterDataResponse)
         appStore.setShelterDataList(shelterDataResponse)
         setDataLoading(false)
-
-      } catch (err) {
-        console.log(err.message)
-      }
     }
-
+    const getShelterData = async () => {
+      try {
+        //TODO: Amanda check
+        window.navigator.geolocation.getCurrentPosition(successLookup, console.log)
+        } catch (err) {
+          console.log(err.message)
+        }
+    }
     const getUserStatus = async () => {
       try {
           const userData = await Auth.currentAuthenticatedUser();
@@ -165,7 +173,6 @@ const App = () => {
           console.log("Error in fetching user status: Not authenticated");
       }
     }
-
     getShelterData();
     getUserStatus();
   }, [user, userStatus, apiStore, appStore])
