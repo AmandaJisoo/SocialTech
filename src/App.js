@@ -139,6 +139,8 @@ const App = () => {
         }
       }
       appStore.setZipcode(zipcode);
+      appStore.setSearchOption("zipcode");
+      appStore.setSearchQuery(zipcode);
       // zipcode = 98108
       const shelterDataResponse = await apiStore.loadOverview(zipcode, zipcode)
       console.log("Shelter data: ", shelterDataResponse)

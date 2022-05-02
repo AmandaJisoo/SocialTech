@@ -17,11 +17,11 @@ import { useStore } from '../pages/Hook';
 const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
     const { apiStore, appStore } = useStore();
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
-    const [query, setQuery] = useState(appStore.zipcode);
+    const [query, setQuery] = useState(appStore.searchQuery);
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
     const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
-    const [searchBarOption, setSearchBarOption] = useState('zipcode');
+    const [searchBarOption, setSearchBarOption] = useState(appStore.searchOption);
     console.log("searchBarOption", searchBarOption)
     console.log('shelterData', shelterData)
 
@@ -77,6 +77,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
         const searchQuery = event.target.value
         console.log("searchQuery", searchQuery)
         setQuery(searchQuery);
+        appStore.setZipcode(searchQuery)
         // const lowerSearchQuery = searchQuery.toLowerCase();
         // shelterData = appStore.shelterDataList.filter(data => {
         //     console.log("title and query: ", data.title, searchQuery)
@@ -89,8 +90,12 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
     }
 
     useEffect(() => {
-        setQuery(appStore.zipcode)
-    }, [appStore.zipcode])
+        setQuery(appStore.searchQuery)
+    }, [appStore.searchQuery])
+
+    useEffect(() => {
+        setSearchBarOption(appStore.searchOption)
+    }, [appStore.searchOption])
 
     const handleSearch = async() => {
         let responseOfQuery = []
@@ -105,6 +110,13 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
         } else {
             
         }
+        for (const shelterPostData of responseOfQuery) {
+            const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+            const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+            const fullAddress = `${streetAddress} ${cityAddress}`
+            let distance = await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress)
+            shelterPostData['distanceToUserLocation'] = distance
+          }
         appStore.setShelterDataList(responseOfQuery)
         setShelterData(responseOfQuery)
         setIsLoaderActive(false);
@@ -177,6 +189,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
     
     const handleChange = (event) => {
         setSearchBarOption(event.target.value);
+        appStore.setSearchOption(event.target.value);
     };
 
     return (

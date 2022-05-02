@@ -29,6 +29,7 @@ import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import UserNotLoggedInPopOverContent from '../components/UserNotLoggedInPopOverContent';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { LOADING_SPINNER_SIZE, ICON_RESPONSIVE_FONTSIZE } from '../utils/utilityFunctions';
+import Pagination from '@mui/material/Pagination';
 
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
@@ -43,7 +44,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const { apiStore, appStore } = useStore();
     const currentShelterData = appStore.shelterData;
     console.log("currentShelterData", currentShelterData)
-    const [comments, setComments] = useState(undefined);
+    const [comments, setComments] = useState([]);
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const shelterPostData = appStore.shelterData;
     const navigate = useNavigate();
@@ -60,12 +61,23 @@ const ShelterDetail = observer(({ shelterData }) => {
     const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
     const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
     const fullAddress = `${streetAddress} ${cityAddress}`
+    const [page, setPage] = useState(1)
+    const [distance, setDistance] = useState(undefined)
+
+    useEffect(() => {
+        (async () => {
+            if (appStore.zipcode != "") {
+                setDistance(await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress))
+            }
+        })()
+    })
+    const pageSize = 10;
 
     const getCommentData = async () => {
         try {
             const commentDataRes = await apiStore.loadComment(post_id);
             console.log("comment response: ", commentDataRes)
-            setComments(commentDataRes.reverse())
+            setComments(commentDataRes.sort((a, b) => b.post_time.localeCompare(a.post_time)))
         } catch (err) {
             console.log(err.message)
         }
@@ -171,7 +183,7 @@ const ShelterDetail = observer(({ shelterData }) => {
             )
         } else {
             console.log('comments', comments)
-            return comments.slice(0, comments.length).sort((a, b) => b.post_time.localeCompare(a.post_time)).map((commentData, idx) => {
+            return comments.slice(pageSize * (page - 1), pageSize * page).map((commentData, idx) => {
                 if (highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id)) {
                     return <UserComment 
                                 shelterName={shelterData.title}
@@ -316,7 +328,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             item
                             container
                             direction="row">
-                        <Typography>{`${DISTANCE_PLACEHOLDER} away`}</Typography>
+                        {distance && <Typography>{`${distance} away`}</Typography>}
                         </Grid>
                         <Grid item>
                             <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
@@ -379,6 +391,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
                 <Grid style={{width: "100%"}}>{commentEles()}</Grid>
+                <Pagination count={Math.floor(comments.length / pageSize) + ((comments.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
             </Grid>
         </Grid>
     );

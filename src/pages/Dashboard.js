@@ -121,7 +121,7 @@ const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = fa
                     setShelterData={setShelterData}
                     bookmarks={bookmarks}/>
 
-                <Pagination count={shelterData.length / pageSize + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
+                <Pagination count={Math.floor(shelterData.length / pageSize) + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
                 <Grid item>
                     <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 </Grid>

@@ -87,7 +87,8 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                 username: appCtx.user,
                 comment_body: commentText,
                 tags: selectedTags,
-                pics: imageUploadResponse
+                pics: imageUploadResponse,
+                likes: commentData.likes
             })
             console.log(updateCommnetRes)
             let commentDataResponse = await apiStore.loadAllComments(appCtx.user);

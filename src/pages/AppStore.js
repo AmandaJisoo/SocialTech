@@ -9,6 +9,8 @@ export default class AppStore {
     shelterDataList = []
     username = undefined;
     zipcode = "";
+    searchOption = "";
+    searchQuery = "";
     constructor() {
         makeObservable(this, {
             shelterData: observable,
@@ -24,8 +26,20 @@ export default class AppStore {
             username: observable,
             getUsername: action,
             zipcode: observable,
-            setZipcode: action
+            setZipcode: action,
+            searchOption: observable,
+            setSearchOption: action,
+            searchQuery: observable,
+            setSearchQuery: action
         })
+    }
+
+    setSearchQuery(searchQuery) {
+        this.searchQuery = searchQuery
+    }
+
+    setSearchOption(searchOption) {
+        this.searchOption = searchOption
     }
 
     setZipcode(zipcode) {
