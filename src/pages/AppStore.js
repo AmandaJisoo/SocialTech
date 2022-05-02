@@ -8,6 +8,7 @@ export default class AppStore {
     userProfilePic = {}
     shelterDataList = []
     username = undefined;
+    zipcode = "";
     constructor() {
         makeObservable(this, {
             shelterData: observable,
@@ -22,7 +23,13 @@ export default class AppStore {
             setShelterDataList: action,
             username: observable,
             getUsername: action,
+            zipcode: observable,
+            setZipcode: action
         })
+    }
+
+    setZipcode(zipcode) {
+        this.zipcode = zipcode
     }
 
     setShelterData(shelter) {

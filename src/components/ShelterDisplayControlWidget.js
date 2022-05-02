@@ -15,8 +15,9 @@ import Select from '@mui/material/Select';
 import { useStore } from '../pages/Hook';
 
 const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
+    const { apiStore, appStore } = useStore();
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
-    const [query, setQuery] = useState("98105");
+    const [query, setQuery] = useState(appStore.zipcode);
     const [sortDrawerOpen, setSortDrawerOpen] = useState(false);
     const [filterByAmenityDrawerOpen, setFilterByAmenityDrawerOpen] = useState(false);
     const [selectedAmenityTags, setSelectedAmenityTags] = useState([]);
@@ -24,7 +25,6 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
     console.log("searchBarOption", searchBarOption)
     console.log('shelterData', shelterData)
 
-    const { apiStore, appStore } = useStore();
 
     const handleSort = () => {
 
@@ -87,6 +87,10 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
         // })
         // setShelterData(shelterData)
     }
+
+    useEffect(() => {
+        setQuery(appStore.zipcode)
+    }, [appStore.zipcode])
 
     const handleSearch = async() => {
         let responseOfQuery = []
