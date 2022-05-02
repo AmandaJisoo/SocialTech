@@ -170,7 +170,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                 </Grid>
             )
         } else {
-            return comments.slice(0, comments.length).map((commentData, idx) => {
+            console.log('comments', comments)
+            return comments.slice(0, comments.length).sort((a, b) => b.post_time.localeCompare(a.post_time)).map((commentData, idx) => {
                 if (highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id)) {
                     return <UserComment 
                                 shelterName={shelterData.title}
