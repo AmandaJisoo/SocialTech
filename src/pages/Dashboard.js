@@ -100,7 +100,7 @@ const Dashboard = ({user, setUser, shelterData, setShelterData, dataLoading = fa
             style={{ width: "100vw", maxWidth: "50em"}}>
                 
             <Grid item>
-                <Typography variant="h4" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
+                <Typography variant="h3" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
             </Grid>
 
             {welcomeMsg}

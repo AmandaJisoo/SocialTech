@@ -23,13 +23,8 @@ const RegularUserPage = () => {
     const appCtx = useContext(AppContext);
     const [errorMsg, setErrorMsg] = useState(null);
     const apiStore = useStore().apiStore;
-    const [email, setEmail] = useState(null);
 
     useEffect(() => {
-        Auth.currentAuthenticatedUser()
-        .then(userData => setEmail(userData.attributes.email))
-        .catch(() => console.log('Not signed in'));
-
         onboardCtx.setActiveStep(2)
     }, [onboardCtx, onboardCtx.activeStep])
 
@@ -53,11 +48,11 @@ const RegularUserPage = () => {
     }
 
     const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
-        return <MenuItem value={val}>{val}</MenuItem>
+        return <MenuItem key={val} value={val}>{val}</MenuItem>
     })
     
     const stateMenuItems = text.usStates.map(val => {
-        return <MenuItem value={val}>{val}</MenuItem>
+        return <MenuItem key={val} value={val}>{val}</MenuItem>
     })
 
     const errorMsgEle = errorMsg ? <Alert severity="error">{errorMsg}</Alert> : null;
@@ -65,7 +60,7 @@ const RegularUserPage = () => {
     return ( 
         <>
             <Grid style={{maxWidth: "50em"}}>
-                <Typography variant="h4">{text.onboard.regular.prompt}</Typography>
+                <Typography variant="h3">{text.onboard.regular.prompt}</Typography>
                 
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} fullWidth>
                       <InputLabel id="demo-simple-select-standard-label">Gender</InputLabel>
@@ -105,23 +100,6 @@ const RegularUserPage = () => {
                           {stateMenuItems}
                       </Select>
                     </FormControl>
-                </Grid>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="email"
-                    type="email"
-                    disabled
-                    id="email"
-                    value={email}
-                    onChange={onboardCtx.handleEmailChange}
-                  />
-                <Grid
-                    container
-                    justifyContent="flex-start"
-                    alignItems="center">
-                    <Typography>{text.onboard.regular.tagPrompt}</Typography>
                 </Grid>
                 
                 <Grid

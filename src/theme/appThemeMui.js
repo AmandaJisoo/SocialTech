@@ -38,7 +38,34 @@ const appTheme = createTheme({
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
       ].join(','),
+      h3: {
+        fontSize: '1.5rem',
+        '@media (min-width:600px)': {
+          fontSize: '2.5rem',
+        },
+        lineHeight: 1.5
+      },
+      h2: {
+        fontSize: '1.5rem',
+        '@media (min-width:600px)': {
+          fontSize: '2.5rem',
+        },
+        lineHeight: 1.5
+      },
+      h1: {
+        fontSize: '1.5rem',
+        '@media (min-width:600px)': {
+          fontSize: '2.5rem',
+        },
+        lineHeight: 1.5
+      }
     },
+    BookmarkBorderOutlinedIcon: {
+      '@media (max-width:200px)': {
+        fontSize: '50px',
+      },
+
+    }
     // neutrals: {
     //     darkest: "#151522",
     //     darker: "#7E7E7E",

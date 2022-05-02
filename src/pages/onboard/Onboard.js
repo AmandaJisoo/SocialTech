@@ -79,6 +79,7 @@ const Onboard = props => {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
+                wrap='nowrap'
                 style={{height: "100vh", padding: "2em"}}
             >
                 <Outlet/>

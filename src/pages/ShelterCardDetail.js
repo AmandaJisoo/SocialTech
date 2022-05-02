@@ -28,7 +28,7 @@ import ShelterClaimStatusText from '../components/ShelterClaimStatusText'
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import UserNotLoggedInPopOverContent from '../components/UserNotLoggedInPopOverContent';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
+import { LOADING_SPINNER_SIZE, ICON_RESPONSIVE_FONTSIZE } from '../utils/utilityFunctions';
 
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
@@ -220,7 +220,7 @@ const ShelterDetail = observer(({ shelterData }) => {
         </IconButton> :
         (<>
         <IconButton onClick={handleBookmark} ref={buttonRef}>
-            <BookmarkBorderOutlinedIcon sx={{ fontSize: 50}}/>
+            <BookmarkBorderOutlinedIcon sx={ICON_RESPONSIVE_FONTSIZE}/>
         </IconButton>
         <Popover open={open} onClose={() => setOpen(false)} anchorEl={buttonRef.current}>
             <UserNotLoggedInPopOverContent />
@@ -259,7 +259,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     }}>
                         {text.shelterDetail.backButton
                     }</Button>
-                    <Typography variant="h4"style={{marginRight: "40px" }}>{shelterPostData.title}</Typography>
+                    <Typography variant="h3"style={{marginRight: "40px" }}>{shelterPostData.title}</Typography>
                         {bookmarkState !== undefined && favoriteIcon()}  
                         {/* Disable share icon for now. May come back and implement it */}
                         {/* <IosShareIcon/> */}

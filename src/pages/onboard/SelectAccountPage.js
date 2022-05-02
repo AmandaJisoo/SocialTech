@@ -32,7 +32,7 @@ const SelectAccountPage = () => {
                 direction="column" 
                 justifyContent="center" 
                 alignItems="center">
-                <Typography variant="h4" style={{marginBottom: "20px"}}>{text.onboard.mainPrompt}</Typography>
+                <Typography variant="h3" style={{marginBottom: "20px"}}>{text.onboard.mainPrompt}</Typography>
                 <Typography>
                     Select a <span className="primary-color" style={{color: "#F34343"}}>option</span> below. This will tell us how we can help you reach your goals!
                 </Typography>

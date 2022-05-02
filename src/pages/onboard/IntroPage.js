@@ -20,7 +20,7 @@ const IntroPage = () => {
     return(
         <>
             <Typography variant="h3">{"Hi, " + username}</Typography>
-            <Typography variant="h4">{text.onboard.Intro}</Typography>
+            <Typography variant="h3">{text.onboard.Intro}</Typography>
             <Typography
                 style={{marginBottom: "5em", width: "300px"}}>
                 {text.onboard.subIntro}

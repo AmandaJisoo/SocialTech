@@ -121,8 +121,6 @@ const ShelterCard = ({
     }
        
     //TODO: yichi fix the profile pic line 206 
-
-    console.log("shelterData for card", shelterData);
     
     return (
         <Card 

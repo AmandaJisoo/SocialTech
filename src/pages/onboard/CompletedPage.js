@@ -18,7 +18,7 @@ const CompletedPage = () => {
     return(
         <>
             <Grid item>
-                <Typography variant="h4">{text.onboard.completion.message1}</Typography>
+                <Typography variant="h3">{text.onboard.completion.message1}</Typography>
             </Grid> 
 
 

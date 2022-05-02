@@ -179,26 +179,7 @@ const App = () => {
         setUserStatus: setUserStatus
     }}>
       <ThemeProvider theme={appThemeMui}>
-        {/* <Button
-            onClick={(e) => {
-              // https://www.google.com/maps/dir/4535+12th+Ave+NE,+Seattle,+WA+98105/77+Massachusetts+Ave,+Cambridge,+MA+02139
-              // https://maps.google.com?saddr=4535+12th+Ave+NE,+Seattle,+WA,+98105/q=77+Massachusetts+Ave,+Cambridge,+MA+02139
-              e.preventDefault();
-              let url = "https://www.google.com/maps/dir/";
-              let startAddress = "699 Renmin Road, Suzhou, Jiangsu 215007 China";
-              startAddress = startAddress.replace(/\s/g, "+")
-              let endAddress = "77 Massachusetts Ave, Cambridge, MA 02139";
-              endAddress = endAddress.replace(/\s/g, "+")
-              console.log(startAddress);
-              console.log(endAddress);
-              url = url + startAddress + '/' + endAddress;
-              console.log(url);
-              window.location.href=url;
-              }}
-        > Google Map Redirect</Button> */}
-
         <Routes>
-        
           <Route index path="/app/dashboard" element={
             <Dashboard 
               user={user} 

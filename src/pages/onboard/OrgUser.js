@@ -128,19 +128,19 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                 alignItems="center" 
                 style={{maxWidth: "50em"}}
                 wrap="nowrap"
-                rowSpacing={5}>
+                rowSpacing={2}>
                 <Grid item>
-                    <Typography variant="h4">{text.onboard.org.prompt}</Typography>
+                    <Typography variant="h3">{text.onboard.org.prompt}</Typography>
                 </Grid>
+
                 <Grid
                 container 
                 direction="row" 
-                justifyContent="left"
-                alignItems="left" 
+                justifyContent="center"
+                alignItems="center" 
                 wrap="nowrap"
-                rowSpacing={5}
                 style={{marginTop: "10px"}}>
-                <TextField
+                {/* <TextField
                     margin="normal"
                     required
                     name="email"
@@ -148,7 +148,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                     disabled
                     id="email"
                     value={email}
-                  />
+                  /> */}
                   </Grid>
                 <Grid
                     item
@@ -182,9 +182,9 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
 
                 <Grid item
                     container
-                    justifyContent="left">
+                    justifyContent="center">
                     <Button variant='outlined' 
-                    disabled={onboardCtx.city == ""}
+                    disabled={onboardCtx.city === ""}
                     onClick={() => {
                         fetchAvailableShelterData();
                     }}>
@@ -294,7 +294,7 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
                 wrap="nowrap"
                 rowSpacing={2}>
                 <Grid item>
-                    <Typography variant="h4">{text.onboard.org.prompt}</Typography>
+                    <Typography variant="h3">{text.onboard.org.prompt}</Typography>
                 </Grid>
                 <Grid
                     item
