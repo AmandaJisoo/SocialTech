@@ -23,7 +23,8 @@ import PostCommentForm from './PostCommentForm/PostCommentForm';
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, isEditAndDeleteable, setCommentData }) => {
+const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData }) => {
+    console.log("commentData0", commentData)
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(false)
     const favoritebBttonRef = useRef(null);
@@ -35,6 +36,9 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
     const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
     const deleteButtonRef = useRef(null);
     const navigate = useNavigate();
+    console.log("commentData1",  commentData)
+    console.log("commentData1 likes",  commentData.likes)
+    console.log("numOfLikes", numOfLikes)
 
     const highlightedText = 
     (isHighLighted && commentData && commentData.likes > 0)?
@@ -62,6 +66,9 @@ const UserComment = ({shelterName, shelter_post_id, commentData, isHighLighted, 
                 setLikeState(likeResponse.like)
                 setNumOfLikes(likeResponse.num_of_likes)
                 console.log("likeState after clicking", likeState)
+                if (onLike) {
+                    await onLike();
+                }
             } else {
                 setOpen(true)
             }

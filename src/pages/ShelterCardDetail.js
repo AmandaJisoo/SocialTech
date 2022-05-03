@@ -30,7 +30,10 @@ import UserNotLoggedInPopOverContent from '../components/UserNotLoggedInPopOverC
 import LoadingSpinner from '../components/LoadingSpinner';
 import { LOADING_SPINNER_SIZE, ICON_RESPONSIVE_FONTSIZE } from '../utils/utilityFunctions';
 import Pagination from '@mui/material/Pagination';
-
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
@@ -66,6 +69,8 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [distance, setDistance] = useState(undefined)
     const [modalTitleStatus, setModalTitleStatus] = useState("")
     const [modalSubTitleStatus, setModalSubTitleStatus] = useState("")
+    const [filterOption, setFilterOption] = useState("latest");
+    console.log(comments)
 
     useEffect(() => {
         (async () => {
@@ -80,7 +85,7 @@ const ShelterDetail = observer(({ shelterData }) => {
         try {
             const commentDataRes = await apiStore.loadComment(post_id);
             console.log("comment response: ", commentDataRes)
-            setComments(commentDataRes.sort((a, b) => b.post_time.localeCompare(a.post_time)))
+            setComments(commentDataRes)
         } catch (err) {
             console.log(err.message)
         }
@@ -193,17 +198,32 @@ const ShelterDetail = observer(({ shelterData }) => {
             )
         } else {
             console.log('comments', comments)
-            return comments.slice(pageSize * (page - 1), pageSize * page).map((commentData, idx) => {
-                if (highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id)) {
-                    return <UserComment 
+            let sortedComments;
+            if (filterOption == "latest") {
+                sortedComments = comments.slice().sort((a, b) => b.post_time.localeCompare(a.post_time))
+            } else if (filterOption == "oldest") {
+                sortedComments = comments.slice().sort((a, b) => a.post_time.localeCompare(b.post_time))
+            } else if (filterOption == "likes")  {
+                sortedComments = comments.slice().sort((a, b) => b.likes - a.likes)
+            }  else if (filterOption == "rating") {
+                sortedComments = comments.slice().sort((a, b) => b.rating - a.rating)
+            } else {
+                console.error("no filter option defined for ", filterOption)
+            }
+            console.log("sorted", sortedComments)
+            const commentPage = sortedComments.slice(pageSize * (page - 1), pageSize * page);
+            console.log("commentPage", commentPage)
+            return commentPage
+                .filter((commentData) => highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id))
+                .map((commentData) => <UserComment 
                                 shelterName={shelterData.title}
                                 shelter_post_id={post_id}
                                 commentData={commentData} 
                                 isHighLighted={false} 
-                                key={idx}
-                                isEditAndDeleteable={false}/>
-                }
-            })
+                                key={commentData.comment_id}
+                                onLike={getCommentData}
+                                isEditAndDeleteable={false}/> 
+            )
         }
     }
 
@@ -249,6 +269,40 @@ const ShelterDetail = observer(({ shelterData }) => {
             <UserNotLoggedInPopOverContent />
         </Popover>
         </>)
+
+    const handleChange = (event) => {
+        setFilterOption(event.target.value);
+        console.log('event.target.value',event.target.value);
+        // sortDataByOption();
+        // appStore.setSearchOption(event.target.value);
+    };
+
+    //Amanda here
+    // useEffect(() => {
+    //     // setSearchBarOption(appStore.searchOption)\
+    //     sortDataByOption();
+    // }, [filterOption])
+
+    // const sortDataByOption = async () => {
+    //     try {
+    //         if (comments.length == 0) {
+    //             return
+    //         } 
+    //         console.log("filterOption when filtering", filterOption)
+    //         console.log(comments)
+    //         if (filterOption == "latest") {
+    //             setComments(comments.slice().sort((a, b) => b.post_time.localeCompare(a.post_time)))
+    //         } else if (filterOption == "oldest") {
+    //             setComments(comments.slice().sort((a, b) => a.post_time.localeCompare(b.post_time)))
+    //         } else if (filterOption == "star")  {
+    //             setComments(comments.slice().sort((a, b) => b.likes - a.likes))
+    //         }  else if (filterOption == "rating"){
+    //             setComments(comments.slice().sort((a, b) => b.rating - a.rating))
+    //         }   
+    //     } catch (err) {
+    //         console.log(err.message)
+    //     }
+    // }
 
     return (
         <>
@@ -391,9 +445,7 @@ const ShelterDetail = observer(({ shelterData }) => {
 
             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
             <Grid style={{width: "100%"}}>{highlightedCommentEle()}</Grid>
-                
-
-
+               
                 <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                 <Grid
                     item
@@ -403,6 +455,21 @@ const ShelterDetail = observer(({ shelterData }) => {
                     alignItems="center">
                     <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
+                <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">option</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={filterOption}
+                        label="option"
+                        onChange={handleChange}
+                        >
+                        <MenuItem value={'latest'}>latest</MenuItem>
+                        <MenuItem value={'oldest'}>oldest</MenuItem>
+                        <MenuItem value={'likes'}>number of Likes</MenuItem>
+                        <MenuItem value={'rating'}>rating</MenuItem>
+                        </Select>
+                </FormControl>
                 <Grid style={{width: "100%"}}>{commentEles()}</Grid>
                 <Pagination count={Math.floor(comments.length / pageSize) + ((comments.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
             </Grid>
