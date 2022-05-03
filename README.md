@@ -27,7 +27,7 @@ The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
 
-#### Team Collaboation Rules
+### Team Collaboation Rules
 - create code review before pushing the code 
 - work on local/seperate branch and later merge to main once code review is approved
 - write clear comments on each commit to track workflow easier
