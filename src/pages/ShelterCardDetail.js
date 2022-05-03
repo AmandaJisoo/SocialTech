@@ -2,7 +2,7 @@ import {React, useContext, useState, useEffect, useRef} from 'react';
 import { observer } from "mobx-react";
 import PropTypes from 'prop-types';
 import UserComment from '../components/UserComment';
-import { Alert, Card, Grid } from '@mui/material';
+import { Alert, Card, Grid, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ImageGallery from '../components/ImageGallery'
@@ -55,6 +55,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [isCommentSubmitted, setIsCommentSubmitted] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(undefined);
     const [open, setOpen] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
     const [snackBarOpen, setSnackBarOpen] = useState(false)
     const buttonRef = useRef(null);
     console.log("bookmarkState", bookmarkState)
@@ -241,6 +242,9 @@ const ShelterDetail = observer(({ shelterData }) => {
         </>)
 
     return (
+        <>
+
+
         <Grid 
             container
             direction="column"
@@ -293,7 +297,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             item
                             container
                             direction="row">
-                        <ShelterClaimStatusText claim_status={isClaimed}/>
+                        <ShelterClaimStatusText openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
                         </Grid>
                     </Grid>
 
@@ -394,6 +398,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 <Pagination count={Math.floor(comments.length / pageSize) + ((comments.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
             </Grid>
         </Grid>
+        </>
     );
 });
 
