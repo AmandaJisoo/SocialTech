@@ -12,7 +12,7 @@ import AppContext from '../../AppContext';
 
 const SignUp = ({setUser}) => {
   const [signUpPage, setSignUpPage] = useState(0);
-  const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
+  // const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
   const [username, setUsername] = useState(undefined)
   const [password, setPassword] = useState(undefined)
   const [email, setEmail] = useState(undefined)
@@ -68,9 +68,9 @@ const SignUp = ({setUser}) => {
     setEmail(event.target.value)
   };
   
-  const handleCheckBoxChange = (event) => {
-    setIsRememberMeChecked(event.target.value)
-  };
+  // const handleCheckBoxChange = (event) => {
+  //   setIsRememberMeChecked(event.target.value)
+  // };
 
   const errorEle = errorMsg ?
       <Alert severity="error">{errorMsg}</Alert> :
@@ -188,7 +188,7 @@ const SignUp = ({setUser}) => {
                 onChange={handlePasswordChange}
               />
 
-              <Grid
+              {/* <Grid
                 items
                 container 
                 direction="row"
@@ -199,7 +199,7 @@ const SignUp = ({setUser}) => {
                     checked={isRememberMeChecked}
                     onChange={handleCheckBoxChange}/>} 
                   label="Remember me" />
-              </Grid>
+              </Grid> */}
 
               {errorEle}
 
