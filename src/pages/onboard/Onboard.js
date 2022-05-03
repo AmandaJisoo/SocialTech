@@ -51,7 +51,7 @@ const Onboard = props => {
     };
 
     const handleCityChange = (event) => {
-        setCity(event.target.value)
+        setCity(event.target.value.replace(/[^a-zA-Z]/g, ""))
     };
   
     return(

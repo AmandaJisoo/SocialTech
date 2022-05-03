@@ -176,6 +176,7 @@ const SignUp = ({setUser}) => {
               <Button 
                 fullWidth 
                 variant="contained"
+                disabled={!username || !email || !password} 
                 onClick={() => {
                   handleSignUp()
                 }}>

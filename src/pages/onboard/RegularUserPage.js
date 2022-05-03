@@ -86,10 +86,11 @@ const RegularUserPage = () => {
                         label="City"
                         type="City"
                         id="City"
+                        value={onboardCtx.city}
                         onChange={onboardCtx.handleCityChange}
                     />
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
+                      <InputLabel required id="demo-simple-select-standard-label">State</InputLabel>
                       <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
@@ -118,7 +119,7 @@ const RegularUserPage = () => {
                     }}>
                         Back
                     </Button>
-                    <Button variant='contained' style={{marginRight: "10px"}} onClick={() => {
+                    <Button variant='contained' style={{marginRight: "10px"}} disabled={!onboardCtx.city || !onboardCtx.state} onClick={() => {
                         handleNext()
                     }}>
                         Continue

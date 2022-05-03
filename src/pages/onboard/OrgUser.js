@@ -30,6 +30,7 @@ const OrgPage = () => {
     const [selectedShelter, setSelectedShelter] = useState("");
 
     const onboardCtx = useContext(OnBoardContext);
+    onboardCtx.state = 'WA - Washington'
 
     useEffect(() => {
         onboardCtx.setActiveStep(2)
@@ -55,9 +56,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
         Auth.currentAuthenticatedUser()
         .then(userData => setEmail(userData.attributes.email))
         .catch(() => console.log('Not signed in'));
-
         onboardCtx.setActiveStep(2)
-        
     }, [onboardCtx, onboardCtx.activeStep])
     const fetchAvailableShelterData = () => {
         const getShelterDataByCity = async () => {
@@ -70,7 +69,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                 setSelectedShelter("")
                 setAvailableShelterData(undefined)
               } else {
-                setSelectedShelter(formatShelterAddress(shelterDataResponse[0]))
+                setSelectedShelter("")
                 setAvailableShelterData(shelterDataResponse);
               }
             } catch (err) {
@@ -157,12 +156,12 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                     alignItems="center">
                         
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
+                      <InputLabel required id="demo-simple-select-standard-label">State</InputLabel>
                       <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         label="State"
-                        value={"WA - Washington"}
+                        value={onboardCtx.state}
                         onChange={onboardCtx.handleStateChange}
                       >
                           {stateMenuItems}
@@ -176,6 +175,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                         label="City"
                         type="City"
                         id="City"
+                        value={onboardCtx.city}
                         onChange={onboardCtx.handleCityChange}
                     />
                 </Grid>
@@ -184,7 +184,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                     container
                     justifyContent="center">
                     <Button variant='outlined' 
-                    disabled={onboardCtx.city === ""}
+                    disabled={!onboardCtx.city}
                     onClick={() => {
                         fetchAvailableShelterData();
                     }}>
@@ -229,7 +229,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                         onClick={() => {
                         setPage(OrgOnBoardPages.shelterAdminInfoFormPage)
                         }}
-                        disabled={selectedShelter === undefined}
+                        disabled={!onboardCtx.city || !onboardCtx.state || !selectedShelter || selectedShelter === ""}
                     >
                         Continue
                     </Button>
@@ -274,7 +274,6 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
             console.log(appCtx.user, selectedShelter, selectedAmenityTags)
             const createClaimResponse = await apiStore.createClaim(appCtx.user, selectedShelter, "pending", selectedAmenityTags)
             console.log("create claim result: ", createClaimResponse)
-
             navigate("/app/onboard/completed")
         } catch(err) {
             setErrorMsg(err.message)
