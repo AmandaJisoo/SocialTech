@@ -64,6 +64,8 @@ const ShelterDetail = observer(({ shelterData }) => {
     const fullAddress = `${streetAddress} ${cityAddress}`
     const [page, setPage] = useState(1)
     const [distance, setDistance] = useState(undefined)
+    const [modalTitleStatus, setModalTitleStatus] = useState("")
+    const [modalSubTitleStatus, setModalSubTitleStatus] = useState("")
 
     useEffect(() => {
         (async () => {
@@ -127,6 +129,13 @@ const ShelterDetail = observer(({ shelterData }) => {
                 const claimStatus = await apiStore.getIsClaimed(post_id);
                 console.log("claimStatus response: ", claimStatus)
                 setIsClaimed(claimStatus)
+                if (claimStatus == "no_claim") {
+                    setModalTitleStatus("Unclaimed Buisness")
+                    setModalSubTitleStatus("The buisness has not yet been claimed by the owner by the shelter or a representative")
+                } else if (claimStatus == "pending") {
+                    setModalTitleStatus("Pending Buisness")
+                    setModalSubTitleStatus("The buisness is in process of verfication")
+                } 
             } catch (err) {
                 console.log(err.message)
             }
@@ -297,7 +306,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             item
                             container
                             direction="row">
-                        <ShelterClaimStatusText openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
+                        <ShelterClaimStatusText modalSubTitleStatus={modalSubTitleStatus} modalTitleStatus = {modalTitleStatus} openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
                         </Grid>
                     </Grid>
 
