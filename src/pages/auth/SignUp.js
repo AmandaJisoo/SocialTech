@@ -20,12 +20,14 @@ const SignUp = ({setUser}) => {
   const appCtx = useContext(AppContext);
 
   const navigate = useNavigate()
+  console.log("email loaded", email)
   
   useEffect(() => {
     try {
       Auth.currentAuthenticatedUser()
       .then(userData => setEmail(userData.attributes.email))
       .catch(() => console.log('Not signed in'));
+      console.log("email loaded", email)
     } catch (err) {
       console.error(err)
     }
@@ -152,14 +154,13 @@ const SignUp = ({setUser}) => {
               rowSpacing={2}
               alignItems="center">
               {email? (<TextField
-                  disabled
                   margin="normal"
                   required
                   fullWidth
                   name="email"
-                  label="email"
                   type="email"
                   id="email"
+                  value={email}
                   autoComplete="current-email"
                   onChange={handleEmailChange}
                 />) :
