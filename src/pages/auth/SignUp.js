@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useContext, useEffect} from 'react';
 import { Button, Checkbox, Typography, Alert } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import { Auth } from 'aws-amplify';
 import ConfirmSignUp from './ConfirmSignUp';
+import AppContext from '../../AppContext';
 
 const SignUp = ({setUser}) => {
   const [signUpPage, setSignUpPage] = useState(0);
@@ -16,8 +17,23 @@ const SignUp = ({setUser}) => {
   const [password, setPassword] = useState(undefined)
   const [email, setEmail] = useState(undefined)
   const [errorMsg, setErrorMsg] = useState(undefined)
+  const appCtx = useContext(AppContext);
 
   const navigate = useNavigate()
+  
+  useEffect(() => {
+    try {
+      Auth.currentAuthenticatedUser()
+      .then(userData => setEmail(userData.attributes.email))
+      .catch(() => console.log('Not signed in'));
+    } catch (err) {
+      console.error(err)
+    }
+
+
+    // onboardCtx.setActiveStep(2)
+    
+  }, [])
 
    const handleSignUp = async () => {
     setErrorMsg(undefined)
@@ -135,7 +151,8 @@ const SignUp = ({setUser}) => {
               justifyContent="center"
               rowSpacing={2}
               alignItems="center">
-              <TextField
+              {email? (<TextField
+                  disabled
                   margin="normal"
                   required
                   fullWidth
@@ -145,7 +162,19 @@ const SignUp = ({setUser}) => {
                   id="email"
                   autoComplete="current-email"
                   onChange={handleEmailChange}
-                />
+                />) :
+                (<TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="email"
+                  label="email"
+                  type="email"
+                  id="email"
+                  autoComplete="current-email"
+                  onChange={handleEmailChange}
+                />) 
+                }
               <TextField
                 margin="normal"
                 required
