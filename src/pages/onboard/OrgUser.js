@@ -30,7 +30,7 @@ const OrgPage = () => {
     const [selectedShelter, setSelectedShelter] = useState("");
 
     const onboardCtx = useContext(OnBoardContext);
-    onboardCtx.state = 'WA - Washington'
+    
 
     useEffect(() => {
         onboardCtx.setActiveStep(2)
@@ -184,7 +184,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                     container
                     justifyContent="center">
                     <Button variant='outlined' 
-                    disabled={!onboardCtx.city}
+                    disabled={!onboardCtx.city || !onboardCtx.state}
                     onClick={() => {
                         fetchAvailableShelterData();
                     }}>
