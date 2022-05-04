@@ -5,7 +5,6 @@ import { Grid, Button, Divider } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 import ShelterDisplayControlWidget from '../components/ShelterDisplayControlWidget';
-import CircularProgress from '@mui/material/CircularProgress'
 import { Auth } from 'aws-amplify';
 import { useStore } from './Hook.js';
 import AppContext from '../AppContext.js';
@@ -124,7 +123,7 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
                     shelterData={paginatedShelterData} 
                     setShelterData={setShelterData}
                     bookmarks={bookmarks}/>
-                {shelterData && shelterData.length == 0? 
+                {shelterData && shelterData.length === 0 ? 
                 (<div style={{justifyContent: "center", alignItems:"center"}}>
                 <Typography style={{marginTop: '25vh', fontSize: "1.3rem"}}>No shelter found at this zipcode.</Typography>
                 <Typography style={{fontSize: "1.3rem"}}> Please try City or Name option</Typography>

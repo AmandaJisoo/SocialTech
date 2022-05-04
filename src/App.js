@@ -21,6 +21,7 @@ import AppContext from './AppContext'
 import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
 import OrgUserProfile from './pages/profile/OrgUserProfile';
+import AppMenu from './components/AppMenu'
 // window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
@@ -192,6 +193,9 @@ const App = () => {
         setUserStatus: setUserStatus
     }}>
       <ThemeProvider theme={appThemeMui}>
+
+        <AppMenu user={user} setUser={setUser}/> 
+        
         <Routes>
           <Route index path="/app/dashboard" element={
             <Dashboard 
@@ -244,6 +248,13 @@ const App = () => {
 
           <Route path="app/org-user-profile/:id" element={
             <OrgUserProfile />
+          } >
+          </Route>
+
+          <Route path="app/about-us" element={
+            <>
+              About us
+            </>
           } >
           </Route>
 
