@@ -78,32 +78,6 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
         }
     }
 
-    const welcomeMsg = 
-        <Grid
-            container
-            justifyContent="center" 
-            alignItems="center"
-            style={{height: "10vh"}}>
-            {appCtx.user ?
-                <>
-                    <Typography>Welcome, {appCtx.user}</Typography>
-                    <Button onClick={ handleSignOut }>Log out</Button>
-                    <Button onClick={ () => {
-                        if (appCtx.userStatus === "shelter_owner") {
-                            navigate('/app/org-user-profile/' + appCtx.user)
-                        } else {
-                            navigate("/app/regular-user-profile/" + appCtx.user)
-                        }
-                    } }>Profile</Button>
-                </> :
-                 <>
-                 <Button onClick={() => {
-                     navigate("/app/auth/sign-in")
-                 }}>Sign in</Button>
-                </> 
-            }    
-        </Grid>
-
         return (<Grid
         container
         direction="column" 
@@ -121,9 +95,6 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
             
             <Typography variant="h3" sx={{marginTop: "1em", color: "#F34343"}} >Shelp</Typography>
             <Typography style={{marginTop: "1px", fontSize:"1.1rem"}}>Find shelters that meet your needs</Typography>
-           
-            
-            {welcomeMsg}
 
             <Grid item container style={{width: "90%"}}>
                 <ShelterDisplayControlWidget setIsLoaderActive={setIsLoaderActive} shelterData={shelterData} setShelterData={setShelterData} />

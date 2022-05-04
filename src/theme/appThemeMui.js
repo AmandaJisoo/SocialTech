@@ -46,7 +46,7 @@ const appTheme = createTheme({
         lineHeight: 1.5
       },
       h2: {
-        fontSize: '1.5rem',
+        fontSize: '1.4rem',
         '@media (min-width:600px)': {
           fontSize: '2rem',
         },

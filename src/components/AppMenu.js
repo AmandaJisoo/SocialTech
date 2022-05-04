@@ -93,13 +93,13 @@ const AppMenu = ({user, setUser}) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             <img
-            
-              src={public_url + '/assets/imgs/logo.jpg'}
+              src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'}
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, width: "100px", height: "100px"}}
-              alt='app logo'/>
-          </Box> */}
+              alt='app logo'
+              style={{width: "60px", height: "50px"}}/>
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -135,11 +135,12 @@ const AppMenu = ({user, setUser}) => {
             </Menu>
           </Box>
 
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <img
-              src={public_url + '/assets/imgs/logo.jpg'}
-              alt='app logo'/>
-          </Box> */}
+              src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'}
+              alt='app logo'
+              style={{width: "60px", height: "50px"}}/>
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {deskTopAppBarMenuItem()}
@@ -183,14 +184,14 @@ const AppMenu = ({user, setUser}) => {
                 </MenuItem>
             </Menu>
           </Box> : 
-        <Button
-            onClick={() => {
-                handleCloseNavMenu()
-                navigate("/app/auth/sign-in")
-            }}
-            sx={{ my: 2, color: 'white', display: 'block' }}>
-            Sign In
-        </Button> }
+          <Button
+              onClick={() => {
+                  handleCloseNavMenu()
+                  navigate("/app/auth/sign-in")
+              }}
+              sx={{ my: 2, color: 'white', display: 'block' }}>
+              Sign In
+          </Button> }
         </Toolbar>
       </Container>
     </AppBar>
