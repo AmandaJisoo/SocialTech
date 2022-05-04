@@ -7,7 +7,7 @@ export default class AppStore {
     highlightedComment = {};
     userProfilePic = {}
     shelterDataList = []
-    username = undefined;
+    username = "";
     zipcode = "";
     searchOption = "";
     searchQuery = "";

@@ -8,13 +8,15 @@ import { TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import appTheme from '../../theme/appTheme.json'
 import { Auth } from 'aws-amplify';
+import { useStore } from '../Hook';
 
 const SignIn = ({setUser}) => {
     const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
     const [username, setUsername] = useState(undefined);
     const [password, setPassword] = useState(undefined);
     const [errorMsg, setErrorMsg] = useState(undefined);
-     
+    const { apiStore, appStore } = useStore(); 
+
     const navigate = useNavigate();
 
     const handleUsernameChange = (event) => {
@@ -34,7 +36,9 @@ const SignIn = ({setUser}) => {
         
         try {
           const user = await Auth.signIn(username, password);
-          console.log(user)
+          const userProfile = await apiStore.getUserProfile(username);
+          appStore.setUserProfilePic(username, userProfile.profile_pic_path)
+
           navigate("/app/dashboard")
         } catch (error) {
           setErrorMsg(error.message)

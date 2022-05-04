@@ -125,6 +125,18 @@ const App = () => {
       .then(userData => setUser(userData.username))
       .catch(() => console.log('Not signed in'));
 
+  React.useEffect(() => {
+    (async () => {
+        try {
+            await appStore.getUsername()
+            const userProfile = await apiStore.getUserProfile(appStore.username);
+            appStore.setUserProfilePic(appStore.username, userProfile.profile_pic_path)
+        } catch (err) {
+            console.error(err)
+        }
+    })()
+  }, [])
+
   useEffect(() => {
     // get user zipcode 
     const successLookup = async (position) => {

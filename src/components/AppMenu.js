@@ -14,27 +14,29 @@ import MenuItem from '@mui/material/MenuItem';
 import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../pages/Hook';
+import { observer } from 'mobx-react';
 
 const public_url = process.env.PUBLIC_URL;
 
-const AppMenu = ({user, setUser}) => {
+const AppMenu = observer(({user, setUser}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [username, setUsername] = React.useState("");
   const navigate = useNavigate();
-  const { appStore } = useStore(); 
+  const { appStore, apiStore } = useStore(); 
 
 
-  React.useEffect(() => {
-    (async () => {
-        try {
-            const userData = await Auth.currentAuthenticatedUser();
-            setUsername(userData.username);
-        } catch (err) {
-            console.error(err)
-        }
-    })()
-}, [])
+//   React.useEffect(() => {
+//     (async () => {
+//         try {
+//             const userData = await Auth.currentAuthenticatedUser();
+//             const userProfile = await apiStore.getUserProfile(userData.username);
+//             appStore.setUserProfilePic(userData.username, userProfile.profile_pic_path)
+//             setUsername(userData.username);
+//         } catch (err) {
+//             console.error(err)
+//         }
+//     })()
+// }, [])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -165,7 +167,7 @@ const AppMenu = ({user, setUser}) => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 
-                <Avatar alt="Remy Sharp" src={appStore.userProfilePic[username]} />
+                <Avatar alt="Remy Sharp" src={appStore.userProfilePic[appStore.username]} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -210,5 +212,5 @@ const AppMenu = ({user, setUser}) => {
       </Container>
     </AppBar>
   );
-};
+});
 export default AppMenu;
