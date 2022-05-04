@@ -12,7 +12,6 @@ export default class AppStore {
     searchOption = "";
     searchQuery = "";
     showNoLocationError = false;
-
     constructor() {
         makeObservable(this, {
             shelterData: observable,

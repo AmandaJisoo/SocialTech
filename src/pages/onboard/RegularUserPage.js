@@ -50,10 +50,15 @@ const RegularUserPage = () => {
        
         setErrorMsg(null)
         try {
+            let s3Path = ""
             console.log("img", selectedFile && selectedFile.length > 0? selectedFile[0] : "")
+            if (selectedFile && selectedFile.length > 0) {
+                s3Path = await apiStore.uploadImageToS3(selectedFile[0])
+                console.log("s3Path", s3Path)
+            }
             const createAccountResult = await apiStore.createUser({
                 username: appCtx.user,
-                profile_pic_path: selectedFile && selectedFile.length > 0? selectedFile[0] : "",
+                profile_pic_path: s3Path,
                 user_role: "user",
             })   
             console.log("create account result: ", createAccountResult)

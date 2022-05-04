@@ -13,13 +13,28 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
+import { useStore } from '../pages/Hook';
 
 const public_url = process.env.PUBLIC_URL;
 
 const AppMenu = ({user, setUser}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [username, setUsername] = React.useState("");
   const navigate = useNavigate();
+  const { appStore } = useStore(); 
+
+
+  React.useEffect(() => {
+    (async () => {
+        try {
+            const userData = await Auth.currentAuthenticatedUser();
+            setUsername(userData.username);
+        } catch (err) {
+            console.error(err)
+        }
+    })()
+}, [])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -150,7 +165,7 @@ const AppMenu = ({user, setUser}) => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 
-                <Avatar alt="Remy Sharp" src={public_url + '/assets/imgs/user_profile_img_placeholder.jpeg'} />
+                <Avatar alt="Remy Sharp" src={appStore.userProfilePic[username]} />
               </IconButton>
             </Tooltip>
             <Menu
