@@ -130,7 +130,6 @@ const AppMenu = ({user, setUser}) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              
               {mobileAppBarMenuItem()}
             </Menu>
           </Box>
