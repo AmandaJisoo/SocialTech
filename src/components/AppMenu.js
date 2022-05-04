@@ -93,11 +93,13 @@ const AppMenu = ({user, setUser}) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <img 
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <img
             
-            src={public_url + '/assets/imgs/logo.jpg'} 
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, width: "100px", height: "100px"}}
-            alt='app logo'/> */}
+              src={public_url + '/assets/imgs/logo.jpg'}
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, width: "100px", height: "100px"}}
+              alt='app logo'/>
+          </Box> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -133,10 +135,11 @@ const AppMenu = ({user, setUser}) => {
             </Menu>
           </Box>
 
-          {/* <img 
-            src={public_url + '/assets/imgs/logo.jpg'} 
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-            alt='app logo'/> */}
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <img
+              src={public_url + '/assets/imgs/logo.jpg'}
+              alt='app logo'/>
+          </Box> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {deskTopAppBarMenuItem()}

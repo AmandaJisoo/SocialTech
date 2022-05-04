@@ -22,6 +22,7 @@ import { Amplify } from 'aws-amplify';
 import Dashboard from './pages/Dashboard'
 import OrgUserProfile from './pages/profile/OrgUserProfile';
 import AppMenu from './components/AppMenu'
+import AboutUs from './pages/AboutUs';
 // window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
@@ -252,11 +253,8 @@ const App = () => {
           </Route>
 
           <Route path="app/about-us" element={
-            <>
-              About us
-            </>
-          } >
-          </Route>
+            <AboutUs />
+          }/>
 
           <Route path="*" element={
             <Navigate to="/app/dashboard"/>

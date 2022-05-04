@@ -38,6 +38,20 @@ const appTheme = createTheme({
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
       ].join(','),
+      h1: {
+        fontSize: '2.5rem',
+        '@media (min-width:600px)': {
+          fontSize: '3rem',
+        },
+        lineHeight: 1.5
+      },
+      h2: {
+        fontSize: '1.5rem',
+        '@media (min-width:600px)': {
+          fontSize: '2rem',
+        },
+        lineHeight: 1.5
+      },
       h3: {
         fontSize: '1.5rem',
         '@media (min-width:600px)': {
@@ -45,17 +59,10 @@ const appTheme = createTheme({
         },
         lineHeight: 1.5
       },
-      h2: {
-        fontSize: '1.5rem',
+      h4: {
+        fontSize: '1rem',
         '@media (min-width:600px)': {
-          fontSize: '2.5rem',
-        },
-        lineHeight: 1.5
-      },
-      h1: {
-        fontSize: '1.5rem',
-        '@media (min-width:600px)': {
-          fontSize: '2.5rem',
+          fontSize: '1.5rem',
         },
         lineHeight: 1.5
       }
