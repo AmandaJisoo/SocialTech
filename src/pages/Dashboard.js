@@ -124,11 +124,18 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
                     shelterData={paginatedShelterData} 
                     setShelterData={setShelterData}
                     bookmarks={bookmarks}/>
-
-                <Pagination count={Math.floor(shelterData.length / pageSize) + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
-                <Grid item>
-                    <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-                </Grid>
+                {shelterData && shelterData.length == 0? 
+                (<div style={{justifyContent: "center", alignItems:"center"}}>
+                <Typography style={{marginTop: '25vh', fontSize: "1.3rem"}}>No shelter found at this zipcode.</Typography>
+                <Typography style={{fontSize: "1.3rem"}}> Please try City or Name option</Typography>
+                </div>)
+                    :(<>
+                    <Pagination count={Math.floor(shelterData.length / pageSize) + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
+                    <Grid item>
+                        <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                    </Grid>
+                    </>)
+                }
             </>
             ): 
                 <LoadingSpinner text={"Loading Data"} size={LOADING_SPINNER_SIZE.large} />
