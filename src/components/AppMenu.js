@@ -24,20 +24,6 @@ const AppMenu = observer(({user, setUser}) => {
   const navigate = useNavigate();
   const { appStore, apiStore } = useStore(); 
 
-
-//   React.useEffect(() => {
-//     (async () => {
-//         try {
-//             const userData = await Auth.currentAuthenticatedUser();
-//             const userProfile = await apiStore.getUserProfile(userData.username);
-//             appStore.setUserProfilePic(userData.username, userProfile.profile_pic_path)
-//             setUsername(userData.username);
-//         } catch (err) {
-//             console.error(err)
-//         }
-//     })()
-// }, [])
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
