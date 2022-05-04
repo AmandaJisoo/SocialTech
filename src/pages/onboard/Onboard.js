@@ -8,7 +8,7 @@ import { useNavigate, Outlet,  } from 'react-router-dom';
 import { useStore } from '../Hook';
 import AppContext from '../../AppContext';
 
-const steps = ['Welcome', 'Select account type', 'Detail', "Complete"];
+const steps = ['Welcome', 'Select account type', 'Profile Imgage', "Complete"];
 
 const Onboard = props => {
     const { apiStore } = useStore();
