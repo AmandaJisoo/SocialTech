@@ -1,6 +1,8 @@
-import { React, useContext, useEffect, useState } from 'react';
+import { React, useContext, useEffect, useRef, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
 import text from "../../text/text.json"
 import { TextField } from '@mui/material';
@@ -15,6 +17,9 @@ import { useStore } from '../Hook.js';
 import { DEFAULT_COUNTRY } from '../../utils/utilityFunctions';
 import AppContext from '../../AppContext';
 import { Auth } from 'aws-amplify';
+import IconButton from '@mui/material/IconButton';
+import ImageIcon from '@mui/icons-material/Image';
+import ImageThumbNailWithLightBox from '../../components/ImageThumbNailWithLightBox';
 
 const RegularUserPage = () => {
     const navigate = useNavigate();
@@ -23,25 +28,38 @@ const RegularUserPage = () => {
     const appCtx = useContext(AppContext);
     const [errorMsg, setErrorMsg] = useState(null);
     const apiStore = useStore().apiStore;
+    const [file, setFile] = useState(null);
+    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState([]);
+    
+        console.log("selected files:", selectedFile)
+
+    const Input = styled('input')({
+        display: 'none',
+      });
 
     useEffect(() => {
         onboardCtx.setActiveStep(2)
     }, [onboardCtx, onboardCtx.activeStep])
 
+    const selectFile = () => {
+        fileInputRef.current.click()
+    } 
+
     const handleNext = async () => {
        
         setErrorMsg(null)
         try {
+            console.log("img", selectedFile && selectedFile.length > 0? selectedFile[0] : "")
             const createAccountResult = await apiStore.createUser({
                 username: appCtx.user,
-                profile_pic_path: "",
-                user_role: onboardCtx.accountType,
-                gender: onboardCtx.gender,
-                city: onboardCtx.city,
-                state: onboardCtx.state,
-                country: DEFAULT_COUNTRY
-            })       
+                profile_pic_path: selectedFile && selectedFile.length > 0? selectedFile[0] : "",
+                user_role: "user",
+            })   
+            console.log("create account result: ", createAccountResult)
+    
             navigate("/app/onboard/completed")
+            // createAccountResult();
         } catch(err) {
             setErrorMsg(err.message)
         }
@@ -56,70 +74,81 @@ const RegularUserPage = () => {
     })
 
     const errorMsgEle = errorMsg ? <Alert severity="error">{errorMsg}</Alert> : null;
+    
+    const selectedImagePreview = () => {
+        let fileArray = Array.from(selectedFile)
+        let imgArray = []
+         for (let i = 0; i < fileArray.length; i++) {
+            imgArray.push(URL.createObjectURL(fileArray[i]))
+         }
+         
+        return fileArray.length === 0 ? null :
+        <Grid container justifyContent='center'>
+            {/* {fileArray.map(data => {
+                return <Typography>{data.name}</Typography>
+            })} */}
+            {imgArray.map((url, index) => {
+                return < ImageThumbNailWithLightBox
+                        key={index}
+                        index={index}
+                        imgs={imgArray}
+                        selectedFile={selectedFile}
+                        setSelectedFile={setSelectedFile} 
+                        isDeletable={true}/>
+            })}
+        </Grid>
+    } 
 
     return ( 
         <>
-            <Grid style={{maxWidth: "50em"}}>
-                <Typography variant="h3">{text.onboard.regular.prompt}</Typography>
-                
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} fullWidth>
-                      <InputLabel id="demo-simple-select-standard-label">Gender</InputLabel>
-                      <Select 
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={onboardCtx.gender}
-                        label="Gender"
-                        onChange={onboardCtx.handleGenderChange}
-                      >
-                          {genderMenuItems}
-                      </Select>
-                </FormControl>
+            <Grid style={{maxWidth: "50em", maxHeight: "100vh"}}>
+                <Typography variant="h3">Please provide your proilfe img</Typography>
+                <Typography>Please provide your proilfe img. If you continue without selecting, default image will be used</Typography>
+
                 <Grid
                     container
-                    justifyContent="space-between"
-                    alignItems="center">
-                
-                    <TextField
-                        margin="normal"
-                        required
-                        name="City"
-                        label="City"
-                        type="City"
-                        id="City"
-                        value={onboardCtx.city}
-                        onChange={onboardCtx.handleCityChange}
-                    />
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel required id="demo-simple-select-standard-label">State</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        label="State"
-                        value={onboardCtx.state}
-                        onChange={onboardCtx.handleStateChange}
-                      >
-                          {stateMenuItems}
-                      </Select>
-                    </FormControl>
-                </Grid>
-                
-                <Grid
-                    container
-                    justifyContent="center"
+                    direction="row" 
+                    justifyContent="flex-end" 
                     alignItems="center"
-                    style={{margin: "20px 0 40px 0"}}>
-                    {/* <TagContainer tagData={["place-holder"]} isSelectable={true}/> */}
-                </Grid>
+                    >
+                    <Grid container alignItems="center" style={{padding: "5px", justifyContent: "flex-start"}}>
+                    <Box component="span" sx={{ p: 2, border: '1px solid grey', width: '70vw' }}>
+                        <input
+                            type="file"
+                            name="file"
+                            onChange={ () => {
+                                console.log("selected files: ", fileInputRef.current.files)
+                                setSelectedFile(Array.from(fileInputRef.current.files))
+                            }}
+                            accept="image/*"
+                            ref={fileInputRef}
+                            style={{display: "none"}}/>
+                        {/* <Grid direction="row" justifyContent="flex-start" > */}
+                        <Button onClick={() => selectFile()} 
+                        style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                            }}>
+                            <ImageIcon onClick={() => selectFile()} style={{cursor: "pointer"}}/>
+                            {selectedFile && selectedFile.length > 0? 
+                            <Typography>{selectedFile[0].name}</Typography>: <Typography>No file selected yet</Typography>}
+                        </Button>
+                        {/* </Grid> */}
+                        </Box>
+                    </Grid>
+                    {selectedImagePreview()}
+                </Grid> 
                 <Grid
                     container
                     justifyContent="space-between"
                     alignItems="center">
-                    <Button variant='contained' style={{marginRight: "10px"}}onClick={() => {
+                    <Button variant='contained' style={{marginRight: "10px", marginTop: "15px"}}onClick={() => {
                         navigate("/app/onboard/select-account-type")
                     }}>
                         Back
                     </Button>
-                    <Button variant='contained' style={{marginRight: "10px"}} disabled={!onboardCtx.city || !onboardCtx.state} onClick={() => {
+                    <Button variant='contained' style={{marginRight: "10px", marginTop: "15px"}} onClick={() => {
                         handleNext()
                     }}>
                         Continue

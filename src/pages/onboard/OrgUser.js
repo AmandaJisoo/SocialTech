@@ -262,7 +262,7 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
             const createAccountResult = await apiStore.createUser({
                 username: appCtx.user,
                 profile_pic_path: DEFAULT_PROFILE_PATH,
-                user_role: onboardCtx.accountType,
+                user_role: "shelter_owner",
                 gender: "NOT_APPLIERD",
                 city: onboardCtx.city,
                 state: onboardCtx.state,
