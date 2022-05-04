@@ -23,7 +23,7 @@ import PostCommentForm from './PostCommentForm/PostCommentForm';
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData }) => {
+const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData}) => {
     console.log("commentData0", commentData)
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(false)
@@ -34,6 +34,9 @@ const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefi
     const [userProfile, setUserProfile] = useState(undefined);
     const [isEditAccordionOpen, setIsEditAccordionOpen] = useState(false);
     const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
+    const [isHover, setIsHover] = useState(false);
+
+    
     const deleteButtonRef = useRef(null);
     const navigate = useNavigate();
     console.log("commentData1",  commentData)
@@ -143,12 +146,19 @@ const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefi
     console.log("comment data", commentData)
     return (
       <Card 
+        onMouseEnter={() => {
+            setIsHover(true)
+        }}
+        onMouseLeave={() => {
+            setIsHover(false)}}
         style={{
             padding: "20px",
             margin: "20px 0px",
             boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
-            borderRadius: "8px"
-        }}>
+            borderRadius: "8px",
+            backgroundColor: isHover? 'rgba(114,114,114,0.1)' : "rgba(0,0,0,0)"
+      }}> 
+       
             <Grid
                 container
                 direction="col" 

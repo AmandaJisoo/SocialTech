@@ -110,7 +110,8 @@ const RegularUserProfile = observer(props => {
                             isUpdateComment={false}
                             isHighLighted={false} 
                             isEditAndDeleteable={true}
-                            setCommentData={setCommentData}/>
+                            setCommentData={setCommentData}          
+                            />
                     </div>
                 )
             })
