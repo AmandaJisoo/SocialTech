@@ -12,7 +12,7 @@ const ShelterList = ({user, shelterData, setShelterData, loaderActive, bookmarks
     const shelterCards = () => {
         return (
             (shelterData === undefined) || loaderActive ? 
-                <LoadingSpinner text={"Loading card"} size={LOADING_SPINNER_SIZE.large} />
+                <LoadingSpinner text={"Loading Data"} size={LOADING_SPINNER_SIZE.large} />
                 : 
             shelterData.map((cardInfo) => {
                 return <ShelterCard user={user} shelterData={cardInfo} key={cardInfo.post_id} isBookmarked={bookmarks.includes(cardInfo.post_id)} />

@@ -93,16 +93,16 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
         <Grid
             container
             direction="column" 
-            justifyContent="flex-start" 
+            justifyContent="center" 
             alignItems="center"
             wrap="nowrap"
             rowSpacing={3}
             style={{ width: "100vw", maxWidth: "50em"}}>
-                
-            <Grid item>
-                <Typography variant="h3" sx={{marginTop: "1em"}}>{text.shelterList.header}</Typography>
-            </Grid>
-
+            
+            <Typography variant="h3" sx={{marginTop: "1em", color: "#F34343"}} >Shelp</Typography>
+            <Typography style={{marginTop: "1px", fontSize:"1.1rem"}}>Find shelters that meet your needs</Typography>
+           
+            
             {welcomeMsg}
 
             <Grid item container style={{width: "90%"}}>
