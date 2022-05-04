@@ -22,10 +22,30 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
     console.log(page)
     const paginatedShelterData = shelterData.slice(pageSize * (page - 1), pageSize * page)
     const [isLoaderActive, setIsLoaderActive] = useState(false)
-
+    // const [userStatus, setUserStatus] = useState("")
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const getUserStatus = async () => {
+            try {
+                console.log("ctxt", appCtx.userStatus)
+                const userData = await Auth.currentAuthenticatedUser();
+                const userStatusResponse = await apiStore.getUserStatus(userData.username);
+                // setUserStatus(userStatusResponse)
+                if (userStatusResponse.UserStatus === "does_not_exist") {
+                    console.log("here is called")
+                    navigate("/app/onboard/intro")
+                }
+                console.log("current status in dashboard: ", userStatusResponse)
+            } catch (err) {
+                console.log(err);
+                console.error("Error in fetching user status: Not authenticated");
+            }
+          }
+
+          getUserStatus();
+    }, [])
     useEffect(() => {
         const getShelterPostBookmarkData = async () => {
             //TODO: Amanda maybe?

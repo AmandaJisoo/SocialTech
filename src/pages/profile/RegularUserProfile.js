@@ -244,7 +244,7 @@ const UpdateProfileForm = ({profileData, setPage}) => {
         try {
             const createAccountResult = await apiStore.createUser({
                 username: appCtx.user,
-                profile_pic_path: "DEFAULT_PROFILE_PATH",
+                profile_pic_path: "",
                 user_role: appCtx.userStatus,
                 gender: gender,
                 city: city,
