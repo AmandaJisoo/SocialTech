@@ -18,11 +18,12 @@ import AmenityFilterTab from '../../components/AmenityFilterTab';
 import { Auth } from 'aws-amplify';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
-
 const OrgOnBoardPages = {
     shelterInfoFormPage: "SHELTER_INFO_FORM_PAGE",
     shelterAdminInfoFormPage: "SHELTER_ADMIN_INFO_FORM_PAGE"
 }
+
+
 
 const OrgPage = () => {
     const navigate = useNavigate();
@@ -94,9 +95,16 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
     };
 
 
-    const stateMenuItems = text.usStates.map(val => {
+    const stateCityMap = new Map(Object.entries(text.usStates));
+    const stateList = Array.from(stateCityMap.keys());
+    stateList.sort();
+    const stateMenuItems = stateList.map(val => {
         return <MenuItem value={val}>{val}</MenuItem>
     })
+
+    const cityMenuItems = onboardCtx.state? stateCityMap.get(onboardCtx.state).map(val => {
+        return <MenuItem value={val}>{val}</MenuItem>
+    }) : [<MenuItem value={""}>{}</MenuItem>];
 
     // I'm using tags temporaily to display shelters that are available for claim
     const availableShelterSelection = (availableShelterData && availableShelterData.length !== 0) ? 
@@ -161,23 +169,27 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         label="State"
+                        required
                         value={onboardCtx.state}
                         onChange={onboardCtx.handleStateChange}
                       >
                           {stateMenuItems}
                       </Select>
                     </FormControl>
-
-                    <TextField
-                        margin="normal"
-                        required
-                        name="City"
-                        label="City"
-                        type="City"
-                        id="City"
-                        value={onboardCtx.city}
-                        onChange={onboardCtx.handleCityChange}
-                    />
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            margin="normal"
+                            required
+                            label="City"
+                            value={onboardCtx.city}
+                            onChange={onboardCtx.handleCityChange}
+                            disabled = {!onboardCtx.state}
+                        >   
+                            {cityMenuItems}
+                        </Select>
+                    </FormControl>
                 </Grid>
 
                 <Grid item

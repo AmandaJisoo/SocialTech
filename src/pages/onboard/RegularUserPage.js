@@ -70,13 +70,13 @@ const RegularUserPage = () => {
         }
     }
 
-    const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
-        return <MenuItem key={val} value={val}>{val}</MenuItem>
-    })
+    // const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
+    //     return <MenuItem key={val} value={val}>{val}</MenuItem>
+    // })
     
-    const stateMenuItems = text.usStates.map(val => {
-        return <MenuItem key={val} value={val}>{val}</MenuItem>
-    })
+    // const stateMenuItems = text.usStates.map(val => {
+    //     return <MenuItem key={val} value={val}>{val}</MenuItem>
+    // })
 
     const errorMsgEle = errorMsg ? <Alert severity="error">{errorMsg}</Alert> : null;
     
