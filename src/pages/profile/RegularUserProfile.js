@@ -263,7 +263,6 @@ const RegularUserProfile = observer(props => {
                                 style={{}}>
                                     <Typography variant='h5'>Posted Comments</Typography>
                             </Grid>
-
                             <Grid style={{width: "100%", margin: "20px", padding: "20px"}}>
                                 {comments()}
                             </Grid>

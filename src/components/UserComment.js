@@ -24,9 +24,14 @@ import { observer } from 'mobx-react';
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserComment = observer(({shelterName, shelter_post_id, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData}) => {
-    console.log("commentData0", commentData)
+const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefined, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData}) => {
+
     const { apiStore, appStore } = useStore(); 
+    console.log("commentData0", commentData)
+    console.log("osEdit", isEditAndDeleteable)
+    console.log("name", commentData.username == appStore.username)
+    console.log("shelterName", shelterName)
+    console.log("UserCommentshelter_post_id", shelter_post_id)
     const [open, setOpen] = useState(false)
     const favoritebBttonRef = useRef(null);
     const appCtx = useContext(AppContext);
@@ -36,6 +41,7 @@ const UserComment = observer(({shelterName, shelter_post_id, commentData, onLike
     const [isEditAccordionOpen, setIsEditAccordionOpen] = useState(false);
     const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
     const [isHover, setIsHover] = useState(false);
+    const [isOpenEditComment, setIsOpenEditComment] = useState(false);
 
     
     const deleteButtonRef = useRef(null);
@@ -48,6 +54,16 @@ const UserComment = observer(({shelterName, shelter_post_id, commentData, onLike
     (isHighLighted && commentData && commentData.likes > 0)?
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Comment</Typography> :
         <span/>;
+
+    console.log('user comment post id', shelter_post_id)
+
+    const handleClose = async() => {
+        //TODO: Amanda
+        if (reloadData) {
+            await reloadData();
+        }
+        setIsOpenEditComment(false)
+    }
 
     const loadLike = async() => {
         try {
@@ -314,12 +330,13 @@ const UserComment = observer(({shelterName, shelter_post_id, commentData, onLike
                     {imageThumbnailAndLightBox}
                 </Grid>
 
-                {isEditAndDeleteable && 
-                <Accordion style={{width: "100%"}}>
+                {isEditAndDeleteable &&
+                <Accordion style={{width: "100%"}} expanded={isOpenEditComment}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
+                        onClick={() => setIsOpenEditComment(!isOpenEditComment)}
                         >
                     <Typography>Edit comment</Typography>
                     </AccordionSummary>
@@ -330,8 +347,9 @@ const UserComment = observer(({shelterName, shelter_post_id, commentData, onLike
                             shelter_post_id={shelter_post_id}
                             commentData={commentData}
                             setCommentData={setCommentData}
+                            handleClose={handleClose}
                             isUpdateComment={true}/>
-                    </AccordionDetails>
+                    </AccordionDetails> 
                 </Accordion>}
             </Grid>
       </Card>

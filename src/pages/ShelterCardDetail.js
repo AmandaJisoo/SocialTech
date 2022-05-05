@@ -44,6 +44,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const params = useParams();
     const { hash } = useLocation();
     const post_id = `${params.id}${hash}`;
+    console.log("sheltercarddetail post_id", post_id)
     const { apiStore, appStore } = useStore();
     const currentShelterData = appStore.shelterData;
     console.log("currentShelterData", currentShelterData)
@@ -70,6 +71,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [modalTitleStatus, setModalTitleStatus] = useState("")
     const [modalSubTitleStatus, setModalSubTitleStatus] = useState("")
     const [filterOption, setFilterOption] = useState("latest");
+    const [currentUsername, setCurrentUsername] = useState("")
     console.log(comments)
 
     useEffect(() => {
@@ -111,12 +113,18 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
 
+    const reloadData = async () => {
+        getCommentData()
+        getShelterPostData()
+    }
+
     useEffect(() => {
 
         const loadBookmarks = async () => {
             try {
                 let authRes = await Auth.currentAuthenticatedUser();
                 let username = authRes.username;
+                setCurrentUsername(username);
                 console.log("username for bookmarks", username);
                 let bookmarksResponse = await apiStore.getSavedBookmarks(username);
                 console.log("bookmarksResponse amanda", bookmarksResponse)
@@ -175,7 +183,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                 return <UserComment 
                         commentData={highlightedComment} 
                         isHighLighted={true}
-                        isEditAndDeleteable={false}/>
+                        isEditAndDeleteable={currentUsername && currentUsername == highlightedComment.username}/>
             }
         }
     }
@@ -213,16 +221,18 @@ const ShelterDetail = observer(({ shelterData }) => {
             console.log("sorted", sortedComments)
             const commentPage = sortedComments.slice(pageSize * (page - 1), pageSize * page);
             console.log("commentPage", commentPage)
+            console.log("commentPage post_id", post_id);
             return commentPage
                 .filter((commentData) => highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id))
                 .map((commentData) => <UserComment 
-                                shelterName={shelterData.title}
+                                shelterName={currentShelterData.title}
                                 shelter_post_id={post_id}
                                 commentData={commentData} 
                                 isHighLighted={false} 
                                 key={commentData.comment_id}
                                 onLike={getCommentData}
-                                isEditAndDeleteable={false}/> 
+                                reloadData={reloadData}
+                                isEditAndDeleteable={currentUsername && currentUsername == commentData.username}/> 
             )
         }
     }

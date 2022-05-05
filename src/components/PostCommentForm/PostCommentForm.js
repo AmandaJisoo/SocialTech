@@ -29,6 +29,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
     const { apiStore } = useStore();
     const appCtx = useContext(AppContext);
 
+    console.log("shelter_post_id in post", shelter_post_id)
     useEffect(() => {
         const convertImageUrlToBlob = async () => {
             if (commentData) {
@@ -73,11 +74,13 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
 
     const handleUpdateComment = async () => {
         try {
+            console.log("hello? ")
             let imageUploadResponse = []
             for (let i = 0; i < selectedFile.length; i++) {
                 imageUploadResponse.push(await apiStore.uploadImageToS3(selectedFile[i]));
             }
             console.log(imageUploadResponse)
+            console.log("shelter_post_id", shelter_post_id)
             
 
             const updateCommnetRes = await apiStore.updateComment({
@@ -90,9 +93,12 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                 pics: imageUploadResponse,
                 likes: commentData.likes
             })
-            console.log(updateCommnetRes)
-            let commentDataResponse = await apiStore.loadAllComments(appCtx.user);
-            setCommentData(commentDataResponse)
+            console.log("updateCommnetRes", updateCommnetRes)
+            if (setCommentData){
+                let commentDataResponse = await apiStore.loadAllComments(appCtx.user);
+                setCommentData(commentDataResponse)
+            }
+            handleClose()
         } catch (err) {
             console.log("update comment" + err.message)
         }
