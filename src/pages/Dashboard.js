@@ -114,11 +114,11 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
                     shelterData={paginatedShelterData} 
                     setShelterData={setShelterData}
                     bookmarks={bookmarks}/>
-                {shelterData && shelterData.length === 0 ? 
-                (<div style={{justifyContent: "center", alignItems:"center"}}>
-                <Typography style={{marginTop: '25vh', fontSize: "1.3rem"}}>No shelter found at this zipcode.</Typography>
-                <Typography style={{fontSize: "1.3rem"}}> Please try City or Name option</Typography>
-                </div>)
+                {(shelterData && shelterData.length === 0 && !isLoaderActive)? 
+                    (<div style={{justifyContent: "center", alignItems:"center"}}>
+                    <Typography style={{marginTop: '25vh', fontSize: "1.3rem"}}>No shelter found at this zipcode.</Typography>
+                    <Typography style={{fontSize: "1.3rem"}}> Please try City or Name option</Typography>
+                    </div>)
                     :(<>
                     <Pagination count={Math.floor(shelterData.length / pageSize) + ((shelterData.length % pageSize == 0) ? 0 : 1)} page={page} onChange={(event, value) => {console.log(event); console.log(value); setPage(value)}} />
                     <Grid item>

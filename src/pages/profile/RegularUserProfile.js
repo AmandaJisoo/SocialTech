@@ -177,22 +177,21 @@ const RegularUserProfile = observer(props => {
                                 item
                                 container
                                 direction="row"
-                                justifyContent="space-between"
+                                justifyContent="center"
                                 alignItems="center"
                                 style={{}}>
+                                <Grid
+                                item item xs={5}>
                                 <Button
                                     onClick={() => {
                                         navigate("/app/dashboard")
                                     }}>
                                     Back
                                 </Button>
-                                    <Typography>{"Hi, " + appCtx.user}</Typography>
-                                <Button
-                                    onClick={() => {
-                                        setPage(1)
-                                    }}>
-                                    Edit Profile
-                                </Button>
+                                </Grid>
+                                <Grid item xs={7}>
+                                    <Typography style={{fontWeight: "bold"}}>{"Hi, " + appCtx.user}</Typography>
+                                </Grid>
                             </Grid>
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                             <Grid

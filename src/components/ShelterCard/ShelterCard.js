@@ -215,7 +215,7 @@ const ShelterCard = observer(({
                             justifyContent="flex-start"
                             alignItems="center">
                             <img
-                                style={{width: 40, height: 40, borderRadius: 40/ 2, borderWidth: 2, borderColor: "black", borderStyle: "solid"}}
+                                style={{width: 40, height: 40, borderRadius: 40/ 2, borderWidth: 1, borderColor: "black", borderStyle: "solid"}}
                                 src={appStore.userProfilePic[userProfile.username]}
                                 alt='user profile placeholder'
                                 />
