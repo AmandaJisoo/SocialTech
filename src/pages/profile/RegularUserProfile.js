@@ -1,4 +1,4 @@
-import {React, useState, useEffect, useContext } from 'react';
+import {React, useState, useEffect, useContext, useRef } from 'react';
 import ShelterList from "../ShelterList";
 import { useStore } from '../Hook';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,9 @@ import { observer } from "mobx-react";
 import Link from '@mui/material/Link';
 import { DEFAULT_COUNTRY, LOADING_SPINNER_SIZE } from '../../utils/utilityFunctions';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import Avatar from '@mui/material/Avatar';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
 
 //TODO: Yichi only show this when user is logged in as a part of menu
 const RegularUserProfile = observer(props => {
@@ -32,6 +35,16 @@ const RegularUserProfile = observer(props => {
     const appCtx = useContext(AppContext)
     const { appStore } = useStore()
     const navigate = useNavigate()
+    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState([]);
+
+    const selectFile = () => {
+        console.log("selected file called")
+        fileInputRef.current.click()
+    } 
+    const Input = styled('input')({
+        display: 'none',
+    });
 
     const loadBookmarks = async () => {
         try {
@@ -118,6 +131,27 @@ const RegularUserProfile = observer(props => {
         }
     }
 
+    const handleNext = async (file) => {
+        try {
+            let s3Path = ""
+            if (file) {
+                s3Path = await apiStore.uploadImageToS3(file)
+                console.log("s3Path", s3Path)
+            }
+            const createAccountResult = await apiStore.createUser({
+                username: appCtx.user,
+                profile_pic_path: s3Path,
+                user_role: "user",
+            })   
+            let profile = await apiStore.getUserProfile(appCtx.user)
+            appStore.setUserProfilePic(appCtx.user, profile.profile_pic_path)
+            console.log("create account result: ", createAccountResult)
+                // createAccountResult();
+        } catch(err) {
+            setErrorMsg(err.message)
+        }
+    }
+
     // console.log(`comments by user ${appCtx.user}: ` + commentData)
     // console.log(`${appCtx.user}'s profile: ` + userProfileData)
 
@@ -164,7 +198,38 @@ const RegularUserProfile = observer(props => {
                                 </Button>
                             </Grid>
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-                            {/* bookmarks */}
+                            <Grid
+                            container
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                style={{}}>
+                                    <Typography variant='h5'>Profile</Typography>
+                            </Grid>
+                            <Avatar sx={{ width: 100, height: 100 }} alt="Remy Sharp" src={appStore.userProfilePic[appStore.username]} />
+                            <label htmlFor="contained-button-file">
+                                {/* <Input accept="image/*" id="contained-button-file" type="file"                             
+                                    onChange={ () => {
+                                    console.log("selected files: ", fileInputRef.current.files)
+                                    setSelectedFile(Array.from(fileInputRef.current.files))
+                                    }}
+                                    inputRef={fileInputRef}/> */}
+                                <input
+                                type="file"
+                                name="file"
+                                onChange={ () => {
+                                    console.log("selected files: ", fileInputRef.current.files)
+                                    handleNext(fileInputRef.current.files[0])
+                                    setSelectedFile(Array.from(fileInputRef.current.files))
+                                }}
+                                accept="image/*"
+                                ref={fileInputRef}
+                                style={{display: "none"}}/>
+                                <Button variant="contained" component="span" style={{marginTop: "13px"}} onClick={() => selectFile()}>
+                                    Change Profile
+                                </Button>
+                            </label>
+                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
                             <Grid
                                 container
                                 direction="row"
@@ -173,9 +238,6 @@ const RegularUserProfile = observer(props => {
                                 style={{}}>
                                     <Typography variant='h5'>Bookmarked Shelters</Typography>
                             </Grid>
-                            
-
-
                             {shelterBookmarkData.length === 0 ? 
                             <Grid
                                 container
