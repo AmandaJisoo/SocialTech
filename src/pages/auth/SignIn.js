@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import { Button, Checkbox, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
@@ -36,6 +36,7 @@ const SignIn = ({setUser}) => {
         
         try {
           const user = await Auth.signIn(username, password);
+          await appStore.getUsername();
           const userProfile = await apiStore.getUserProfile(username);
           appStore.setUserProfilePic(username, userProfile.profile_pic_path)
 

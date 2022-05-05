@@ -23,6 +23,7 @@ import Dashboard from './pages/Dashboard'
 import OrgUserProfile from './pages/profile/OrgUserProfile';
 import AppMenu from './components/AppMenu'
 import AboutUs from './pages/AboutUs';
+import {observer} from "mobx-react"
 // window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
@@ -113,7 +114,7 @@ Amplify.configure({
   }
 });
 
-const App = () => {
+const App = observer(() => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState([]);
   const [userStatus, setUserStatus] = useState(null)
@@ -131,11 +132,13 @@ const App = () => {
             await appStore.getUsername()
             const userProfile = await apiStore.getUserProfile(appStore.username);
             appStore.setUserProfilePic(appStore.username, userProfile.profile_pic_path)
+            console.log("hello app js profile setting up")
+
         } catch (err) {
             console.error(err)
         }
     })()
-  }, [])
+  }, [appStore.username])
 
   useEffect(() => {
     // get user zipcode 
@@ -275,6 +278,6 @@ const App = () => {
       </ThemeProvider>
     </AppContext.Provider>
   );
-}
+});
 
 export default App;
