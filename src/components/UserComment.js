@@ -19,11 +19,12 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PostCommentForm from './PostCommentForm/PostCommentForm';
+import { observer } from 'mobx-react';
 
 
 const public_url = process.env.PUBLIC_URL;
 
-const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData}) => {
+const UserComment = observer(({shelterName, shelter_post_id, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData}) => {
     console.log("commentData0", commentData)
     const { apiStore, appStore } = useStore(); 
     const [open, setOpen] = useState(false)
@@ -189,7 +190,7 @@ const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefi
                                 style={{width: "100%", justifyContent: "left"}}>
                             <img 
                             style={{width: 60, height: 60, borderRadius: 60/ 2}} 
-                            src={public_url + "/assets/imgs/user_profile_img_placeholder.jpeg"}
+                            src={appStore.userProfilePic[commentData.username]}
                             alt='user profile placeholder'
                             />
                             </Grid>
@@ -335,6 +336,6 @@ const UserComment = ({shelterName, shelter_post_id, commentData, onLike = undefi
             </Grid>
       </Card>
     );
-};
+});
 
 export default UserComment;
