@@ -18,10 +18,11 @@ import { Auth } from 'aws-amplify';
 import ShelterClaimStatusText from '../ShelterClaimStatusText'
 import { useStore } from '../../pages/Hook';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
+import { observer } from 'mobx-react';
 
 const public_url = process.env.PUBLIC_URL;
 
-const ShelterCard = ({ 
+const ShelterCard = observer(({ 
     user, 
     shelterData, 
     isBookmarked, 
@@ -35,6 +36,7 @@ const ShelterCard = ({
     const [userProfile, setUserProfile] = useState(undefined);
 
     const { apiStore, appStore } = useStore(); 
+    
     
     const loadBookmarks = async () => {
         try {
@@ -213,8 +215,8 @@ const ShelterCard = ({
                             justifyContent="flex-start"
                             alignItems="center">
                             <img
-                                style={{width: 40, height: 40, borderRadius: 40/ 2}}
-                                src={public_url + "/assets/imgs/user_profile_img_placeholder.jpeg"}
+                                style={{width: 40, height: 40, borderRadius: 40/ 2, borderWidth: 2, borderColor: "black", borderStyle: "solid"}}
+                                src={appStore.userProfilePic[userProfile.username]}
                                 alt='user profile placeholder'
                                 />
                             <Typography style={{marginLeft: "10px"}}>{userProfile.username}</Typography>
@@ -232,13 +234,12 @@ const ShelterCard = ({
                     justifyContent="space-between" 
                     alignItems="center">
                     {favoriteIcon()}  
-                    {/* <ShelterClaimStatusText claim_status={isClaimed} /> */}
                 </Grid>
 
             </Grid>
         </Grid>
     </Card>)
-};
+});
 
 
 export default ShelterCard; 

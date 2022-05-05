@@ -151,10 +151,7 @@ const RegularUserProfile = observer(props => {
             setErrorMsg(err.message)
         }
     }
-
-    // console.log(`comments by user ${appCtx.user}: ` + commentData)
-    // console.log(`${appCtx.user}'s profile: ` + userProfileData)
-
+    
     return (
         <>
            {page === 0 ? <Grid 
