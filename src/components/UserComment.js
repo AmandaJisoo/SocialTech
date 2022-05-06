@@ -58,7 +58,6 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
     console.log('user comment post id', shelter_post_id)
 
     const handleClose = async() => {
-        //TODO: Amanda
         if (reloadData) {
             await reloadData();
         }
