@@ -33,7 +33,7 @@ const ConfirmSignUp = ({username, password, setSignUpPage}) => {
     setResendCodeStatusMsg("")
 
     try {
-      await Auth.resendSignUp(username, verificationCode) 
+      await Auth.resendSignUp(username);
       setResendCodeStatusMsg('code resent successfully')
       setResendCodeSnackBarOpen(true)
     } catch (error) {
