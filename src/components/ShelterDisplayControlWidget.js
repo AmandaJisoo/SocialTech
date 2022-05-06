@@ -13,8 +13,9 @@ import AmenityFilterTab from './AmenityFilterTab';
 import SortOption from './SortOption';
 import Select from '@mui/material/Select';
 import { useStore } from '../pages/Hook';
+import { observer } from 'mobx-react-lite';
 
-const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
+const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
     const { apiStore, appStore } = useStore();
     const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
     const [query, setQuery] = useState(appStore.searchQuery);
@@ -77,6 +78,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
         const searchQuery = event.target.value
         console.log("searchQuery", searchQuery)
         setQuery(searchQuery);
+
         appStore.setZipcode(searchQuery)
         // const lowerSearchQuery = searchQuery.toLowerCase();
         // shelterData = appStore.shelterDataList.filter(data => {
@@ -107,6 +109,8 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
             setIsLoaderActive(true);
             responseOfQuery = await apiStore.loadOverview(query, query)
             console.log('responseOfQuery zipcode', responseOfQuery)
+            appStore.setZipcode(query)
+            console.log("zipcode here", appStore.zipcode)
         } else {
             
         }
@@ -218,7 +222,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
                     </FormControl>
                     </Box>
                 <Grid item xs={12} md={12}>
-                    <TextField onKeyDown={(e) => e.keyCode === 13 && handleSearch()} id="outlined-basic" value={query} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
+                    <TextField onKeyDown={(e) => e.keyCode === 13 && handleSearch()} id="outlined-basic" value={appStore.zipcode} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
                 </Grid>
     
                 <SearchIcon 
@@ -270,7 +274,7 @@ const ShelterDisplayControlWidget = ({setShelterData, shelterData, setIsLoaderAc
                 </>
         </Box>
     );
-};
+});
 
 ShelterDisplayControlWidget.propTypes = {};
 
