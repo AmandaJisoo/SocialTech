@@ -118,9 +118,12 @@ const App = observer(() => {
   const [user, setUser] = useState(null);
   const [shelterData, setShelterData] = useState([]);
   const [userStatus, setUserStatus] = useState(null)
+  const [userRole, serUserRole] = useState("");
   const { apiStore, appStore } = useStore(); 
   const [dataLoading, setDataLoading] = useState(true)
   const navigate = useNavigate()
+
+  appStore.setSetUserFn(setUser);
 
   Auth.currentAuthenticatedUser()
       .then(userData => setUser(userData.username))
@@ -210,7 +213,7 @@ const App = observer(() => {
     }}>
       <ThemeProvider theme={appThemeMui}>
 
-        <AppMenu user={user} setUser={setUser}/> 
+        <AppMenu user={user} setUser={setUser} userStatus={userStatus}/> 
         
         <Routes>
           <Route index path="/app/dashboard" element={

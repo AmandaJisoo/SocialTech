@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import OnBoardContext from './OnBoardContext';
 import { useStore } from '../Hook';
 import { Auth } from 'aws-amplify';
+import { observer } from 'mobx-react';
 
-const CompletedPage = () => {
+const CompletedPage = observer(() => {
     const navigate = useNavigate();
     const public_url = process.env.PUBLIC_URL;
     const ctx = useContext(OnBoardContext);
@@ -58,6 +59,6 @@ const CompletedPage = () => {
 
         </>
     )
-}
+})
 
 export default CompletedPage;

@@ -18,11 +18,22 @@ import { observer } from 'mobx-react';
 
 const public_url = process.env.PUBLIC_URL;
 
-const AppMenu = observer(({user, setUser}) => {
+const AppMenu = observer(({user, setUser, userStatus}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const { appStore, apiStore } = useStore(); 
+  console.log("userStatus", userStatus)
+  const [profilePath, setProfilePath] =  React.useState("")
+  
+  React.useEffect(async() => {
+    console.log("appStore.username", appStore.username)
+    const currentRole = await apiStore.getUserStatus(appStore.username)
+    console.log("currentRole", currentRole)
+    let path = currentRole && currentRole.UserStatus === "shelter_owner"?  "app/org-user-profile/" + user: "/app/regular-user-profile/" + user 
+    console.log("path", path)
+    setProfilePath(path)
+  })
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -174,7 +185,7 @@ const AppMenu = observer(({user, setUser}) => {
             >
                 <MenuItem  onClick={() => {
                     handleCloseNavMenu()
-                    navigate("/app/regular-user-profile/" + user)
+                    navigate(profilePath)
                 }}>
                     <Typography textAlign="center">Profile</Typography>
                 </MenuItem>

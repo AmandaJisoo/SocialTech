@@ -12,8 +12,10 @@ export default class AppStore {
     searchOption = "";
     searchQuery = "";
     showNoLocationError = false;
+    setUserFn = () => {};
     constructor() {
         makeObservable(this, {
+            setUsername: action,
             shelterData: observable,
             setShelterData: action,
             claimStatus: observable,
@@ -34,7 +36,13 @@ export default class AppStore {
             setSearchQuery: action,
             showNoLocationError: observable,
             setShowNoLocationError: action,
+            setUserFn: observable,
+            setSetUserFn: action
         })
+    }
+
+    setSetUserFn(fn) {
+        this.setUserFn = fn
     }
 
     setShowNoLocationError(val) {
@@ -87,5 +95,9 @@ export default class AppStore {
     async getUsername() {
         let authRes = await Auth.currentAuthenticatedUser();
         this.username = authRes.username;
+    }
+
+    setUsername(username) {
+        this.username = username
     }
 }

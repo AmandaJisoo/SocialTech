@@ -173,7 +173,9 @@ const OrgUserProfile = observer(props => {
                 style={{height: "20vh"}}>
                 <Typography>You have no claims</Typography>
                 </Grid> :
-                allClaims.map(claim_data => {
+                allClaims
+                .filter((claim) =>  claim.status == "pending")
+                .map(claim_data => {
                 return <ShelterCard 
                     user={appStore.username} 
                     shelterData={claim_data.shelter_summary} 

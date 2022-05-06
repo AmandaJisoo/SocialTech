@@ -62,7 +62,6 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
     const fetchAvailableShelterData = () => {
         const getShelterDataByCity = async () => {
             try {
-              //TODO: Amanda check
               const shelterDataResponse = await apiStore.getShelterByCity(onboardCtx.city);
               shelterDataResponse.sort((a, b) => a.post_id.localeCompare(b.post_id))
               if (shelterDataResponse.length == 0) {

@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../pages/Hook';
 import { HomeRepairServiceRounded } from '@mui/icons-material';
+import { Auth } from 'aws-amplify';
 
 
 const ShelterClaimStatusText = ({ postId, currentUsername, modalSubTitleStatus, modalTitleStatus, openModal, setOpenModal, claim_status }) => {
@@ -58,6 +59,18 @@ const ShelterClaimStatusText = ({ postId, currentUsername, modalSubTitleStatus, 
     const navigate = useNavigate();
     const modelBody = "Claim the shelter to provide most upto date information about shelter including amenities"
     const appCtx = useContext(AppContext);
+
+    const handleSignOut = async () => {
+        try {
+            await Auth.signOut();
+            appStore.setUsername("");
+            appStore.setUserFn(null)
+            //setUser(null)
+            navigate("/app/auth/sign-up")
+        } catch (error) {
+            console.log('error signing out: ', error);
+        }
+    }
     
     const modal = (
         <Modal
@@ -92,7 +105,7 @@ const ShelterClaimStatusText = ({ postId, currentUsername, modalSubTitleStatus, 
             }
              {userRole != "shelter_owner"?
                 (<Grid container sx={{ mt: 3 }} alignItems="center">
-                <Button variant='outlined'style={{marginTop: "10px", marginRight: "10px" }} onClick={() => {navigate("/app/auth/sign-up")}} >
+                <Button variant='outlined'style={{marginTop: "10px", marginRight: "10px" }} onClick={() => {handleSignOut()}} >
                     Create Shelter Ownner Account
                 </Button>
                 <Button variant='outlined'  style={{marginTop: "10px"}} onClick={() => setOpenModal(false)}>
