@@ -183,6 +183,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                 return <UserComment 
                         commentData={highlightedComment} 
                         isHighLighted={true}
+                        reloadData={reloadData}
+                        shelterName={currentShelterData.title}
+                        shelter_post_id={post_id}
+                        onLike={getCommentData}
                         isEditAndDeleteable={currentUsername && currentUsername == highlightedComment.username}/>
             }
         }
