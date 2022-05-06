@@ -219,6 +219,7 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
                                 ref={deleteButtonRef}
                                 onClick={() => {
                                     setIsDeletePopoverOpen(true)
+                                    
                                 }}>
                                     Delete
                                 </Button>
@@ -246,6 +247,7 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
                                             <Button
                                             onClick={() => {
                                                 handleDeleteComment()
+                                                handleClose()
                                                 setIsDeletePopoverOpen(false);
                                             }}>
                                                 Yes
