@@ -9,9 +9,11 @@ import Box from '@mui/material/Box';
 import AppContext from '../AppContext';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
+import { useStore } from '../pages/Hook';
+import { HomeRepairServiceRounded } from '@mui/icons-material';
 
 
-const ShelterClaimStatusText = ({ modalSubTitleStatus, modalTitleStatus, openModal, setOpenModal, claim_status }) => {
+const ShelterClaimStatusText = ({ postId, currentUsername, modalSubTitleStatus, modalTitleStatus, openModal, setOpenModal, claim_status }) => {
     const style = {
         position: 'absolute',
         top: '50%',
@@ -24,7 +26,22 @@ const ShelterClaimStatusText = ({ modalSubTitleStatus, modalTitleStatus, openMod
         p: 4,
       }
       const [userRole, setUserRole] = useState("")
+      const { apiStore, appStore } = useStore();
+      const [showCreateShelter, setShowCreateShelter] = useState(false)
+      console.log("showCreateShelter", showCreateShelter)
 
+      useEffect(async() => {
+          console.log("res, user, postId", currentUsername, postId);
+            if (appStore.usename === "") {
+                setShowCreateShelter(true)
+            }
+            let res = await apiStore.getClaim(currentUsername, postId)
+            console.log('res here', res)
+            if (res == undefined) {
+                setShowCreateShelter(true)
+            }
+      }, [postId])
+      
       useEffect(() => {
         try {
             console.log("appCtx shelter claim", appCtx)
@@ -41,14 +58,7 @@ const ShelterClaimStatusText = ({ modalSubTitleStatus, modalTitleStatus, openMod
     const navigate = useNavigate();
     const modelBody = "Claim the shelter to provide most upto date information about shelter including amenities"
     const appCtx = useContext(AppContext);
-
-    let directionMsg = '' 
-    if (appCtx.userStatus == "admin") {
-        directionMsg = "Please claim shelters by clicking Claim Shelter button below"
-    } else {
-        directionMsg = "To Claim Shelter, please create a new Shelter Owner account using the Create Shelter Ownner Account button below. Once you file the claim, our team will contact for verification."
-    }
-
+    
     const modal = (
         <Modal
             open={openModal}
@@ -60,21 +70,25 @@ const ShelterClaimStatusText = ({ modalSubTitleStatus, modalTitleStatus, openMod
                 <IconButton onClick={() => setOpenModal(false)}>
                     <CloseIcon />
                 </IconButton>
-            <Typography id="modal-modal-title" variant="h6" component="h1" align="center" style={{fontWeight: "bold"}}>
+            <Typography id="modal-modal-title" variant="h6" component="h1" align="center" style={{fontWeight: "bold", fintSize: "2rem"}}>
                 {modalTitleStatus}
             </Typography>
-            <Typography id="modal-modal-description" component="h2" style={{fontWeight: "bold"}} sx={{ mt: 6 }}>
-                {modalSubTitleStatus}
-            </Typography>
-            <Typography id="modal-modal-description-2" component="h2" sx={{ mt: 4 }}>
-                {modelBody}
-            </Typography>
-            <Typography id="modal-modal-description-2" component="h2" sx={{ mt: 3 }}>
-                {directionMsg}
-            </Typography>
-            {userRole != "shelter_owner"?
-            <Typography sx={{ mt: 3 }}>To Claim Shelter, please create a <Box component="span" fontWeight='fontWeightMedium' color='red'>new Shelter Owner account</Box> by clicking Create Shelter Ownner Account button below. Currently you are using regular user account.</Typography>: 
-            <Typography sx={{ mt: 3 }}>Please claim shelters by clicking Claim Shelter button below</Typography>
+            {showCreateShelter? 
+                (<>
+                <Typography id="modal-modal-description" component="h2" style={{fontWeight: "bold"}} sx={{ mt: 6 }}>
+                    {modalSubTitleStatus}
+                </Typography>
+                <Typography id="modal-modal-description-2" component="h2" sx={{ mt: 4 }}>
+                    {modelBody}
+                </Typography>
+                {userRole != "shelter_owner"?
+                <Typography sx={{ mt: 3 }}>To Claim Shelter, please create a <Box component="span" fontWeight='fontWeightMedium' color='red'>new Shelter Owner account</Box> by clicking Create Shelter Ownner Account button below. Currently you are using regular user account.</Typography>: 
+                <Typography sx={{ mt: 3 }}>Please claim shelters by clicking Claim Shelter button below</Typography>
+                }
+                </>) :
+                 (<Typography id="modal-modal-description" component="h2" style={{fontWeight: "bold"}} sx={{ mt: 6 }}>
+                 {`You already have filed the claim for ${postId.slice(0, -6)}`}
+                </Typography>)
             }
              {userRole != "shelter_owner"?
                 (<Grid container sx={{ mt: 3 }} alignItems="center">
@@ -87,7 +101,7 @@ const ShelterClaimStatusText = ({ modalSubTitleStatus, modalTitleStatus, openMod
                 </Grid>) :
                     (<Grid container
                     justifyContent="space-around" sx={{ mt: 3 }}>
-                        <Button variant='outlined' style={{marginTop: "10px", marginRight: "10px" }}  onClick={() => {navigate("/app/onboard/org-user")}}>
+                        <Button variant='outlined' style={{marginTop: "10px", marginRight: "10px" }}  disabled={!showCreateShelter} onClick={() => navigate("/app/onboard/org-user")}>
                             Claim Shelter
                         </Button>
                         <Button variant='outlined' style={{marginTop: "10px"}} onClick={() => setOpenModal(false)}>

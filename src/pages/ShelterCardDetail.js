@@ -71,7 +71,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [modalTitleStatus, setModalTitleStatus] = useState("")
     const [modalSubTitleStatus, setModalSubTitleStatus] = useState("")
     const [filterOption, setFilterOption] = useState("latest");
-    const [currentUsername, setCurrentUsername] = useState("")
+    const [currentUsername, setCurrentUsername] = useState(appStore.username)
     console.log(comments)
 
     useEffect(() => {
@@ -374,7 +374,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             item
                             container
                             direction="row">
-                        <ShelterClaimStatusText modalSubTitleStatus={modalSubTitleStatus} modalTitleStatus = {modalTitleStatus} openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
+                        <ShelterClaimStatusText postId={shelterPostData.post_id} currentUsername={currentUsername}modalSubTitleStatus={modalSubTitleStatus} modalTitleStatus = {modalTitleStatus} openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
                         </Grid>
                     </Grid>
 
