@@ -54,6 +54,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
     try {
         await Auth.signOut();
         setUser(null)
+        navigate("/app/dashboard")
     } catch (error) {
         console.log('error signing out: ', error);
     }

@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import ImageGallery from '../components/ImageGallery'
 import Rating from '@mui/material/Rating';
 import appTheme from '../theme/appTheme.json';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined'
@@ -34,6 +35,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import TagSelectionTab from '../components/PostCommentForm/TagSelectionTab';
+import AmenityFilterTab from '../components/AmenityFilterTab';
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
@@ -72,13 +75,33 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [modalSubTitleStatus, setModalSubTitleStatus] = useState("")
     const [filterOption, setFilterOption] = useState("latest");
     const [currentUsername, setCurrentUsername] = useState(appStore.username)
+    const [openEdit, setOpenEdit] = useState(false)
+    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState([]);
+    const [editTitle, setEditTitle] = useState("")
+    const [editStreet, setEditStreet] = useState("")
+    const [editCity, setEditCity] = useState("")
+    const [editState, setEditState] = useState("")
+    const [editZipcode, setEditZipcode] = useState("")
+    const [editUtilities, setEditUtilities] = useState([])
+    const [showEditLoader, setShowEditLoader] = useState(false)
+    const [isOwner, setIsOwner] = useState(false);
     console.log(comments)
+    console.log("selectedFile", selectedFile)
 
     useEffect(() => {
         (async () => {
             if (appStore.zipcode != "") {
                 setDistance(await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress))
             }
+        })()
+    })
+
+    useEffect(() => {
+        (async () => {
+            await appStore.getUsername();
+            const getClaimResponse = await apiStore.getClaim(appStore.username, post_id);
+            setIsOwner('claimed' == getClaimResponse.status)
         })()
     })
     const pageSize = 10;
@@ -98,6 +121,18 @@ const ShelterDetail = observer(({ shelterData }) => {
             console.log("post_id before load summary: " + post_id)
             const shelterPostDataResponse = await apiStore.loadSummary(post_id);
             appStore.setShelterData(shelterPostDataResponse);
+            setEditTitle(shelterPostDataResponse.title)
+            setEditStreet(shelterPostDataResponse.street)
+            setEditCity(shelterPostDataResponse.city)
+            setEditState(shelterPostDataResponse.state)
+            setEditZipcode(shelterPostDataResponse.zipcode)
+            setEditUtilities(shelterPostDataResponse.utilities)
+            console.log("before fetch")
+            const fetchData = await fetch(shelterPostDataResponse.profile_pic_path)
+            const blobData = await fetchData.blob()
+            console.log("blob", blobData)
+            setSelectedFile([blobData])
+            console.log("after set")
 
             console.log("shelter data response: ", shelterPostDataResponse)
 
@@ -290,7 +325,9 @@ const ShelterDetail = observer(({ shelterData }) => {
         // sortDataByOption();
         // appStore.setSearchOption(event.target.value);
     };
-
+    const selectFile = () => {
+        fileInputRef.current.click()
+    } 
     //Amanda here
     // useEffect(() => {
     //     // setSearchBarOption(appStore.searchOption)\
@@ -321,7 +358,140 @@ const ShelterDetail = observer(({ shelterData }) => {
     return (
         <>
 
+<Modal
+  open={openEdit}
+  onClose={() => setOpenEdit(false)}
+>
+  <Box sx={{
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}}>
+    {showEditLoader ?
+    <LoadingSpinner text={"Processing"} size={LOADING_SPINNER_SIZE.small} />
+    : <>
 
+<input
+    type="file"
+    name="file"
+    onChange={ () => {
+        setSelectedFile(Array.from(fileInputRef.current.files))
+    }}
+    accept="image/*"
+    ref={fileInputRef}
+    style={{display: "none"}}/>
+
+<Grid 
+            container
+            >
+<Grid 
+            item xs={6}
+            >
+<Typography>Title</Typography> 
+<TextField
+          required
+          id="outlined-required"
+          label="Required"
+          value={editTitle}
+          onChange={setEditTitle}
+        /></Grid>
+        <Grid 
+                    item xs={6}
+                    >
+<Typography>Street</Typography> 
+<TextField
+          required
+          id="outlined-required"
+          label="Required"
+          value={editStreet}
+          onChange={setEditStreet}
+        />
+</Grid>
+<Grid 
+            item xs={6}
+            >
+<Typography>City</Typography> 
+<TextField
+          required
+          id="outlined-required"
+          label="Required"
+          value={editCity}
+          onChange={setEditCity}
+        />
+</Grid>
+<Grid 
+            item xs={6}
+            >
+<Typography>State</Typography> 
+<TextField
+          required
+          id="outlined-required"
+          label="Required"
+          value={editState}
+          onChange={setEditState}
+        />
+</Grid>
+<Grid 
+            item xs={6}
+            >
+<Typography>Zipcode</Typography> 
+<TextField
+          required
+          id="outlined-required"
+          label="Required"
+          value={editZipcode}
+          onChange={setEditZipcode}
+        />
+
+        </Grid>
+        <Grid 
+            item xs={6}
+            >
+<Button variant="contained" component="span" style={{marginTop: "13px"}} onClick={() => selectFile()}>
+                                    Change Picture
+                                </Button>
+                            {selectedFile && selectedFile.length > 0? 
+                            <Typography>{selectedFile[0].name}</Typography>: <Typography>No file selected yet</Typography>}
+
+</Grid>
+        </Grid>
+
+<Typography>Amenities</Typography> 
+<AmenityFilterTab
+            selectedAmenityTags={editUtilities} setSelectedAmenityTags={setEditUtilities}
+            displayShowResultButton={false}
+            handleFilter={() => {}}
+            displayClearAllButton={false}
+            />
+    <Button onClick={async () => {
+        setShowEditLoader(true)
+        const s3Path = await apiStore.uploadImageToS3(selectedFile[0])
+        console.log("upsert profile", s3Path);
+        await apiStore.upsertPost({
+            post_id: post_id,
+            title: editTitle,
+            zipcode: editZipcode,
+            street: editStreet,
+            city: editCity,
+            state: editState,
+            utilities: editUtilities,
+            profile_pic_path: s3Path
+        })
+        await getShelterPostData();
+        setOpenEdit(false);
+        setShowEditLoader(false)
+        }}>Submit</Button>
+        </>}
+
+
+  </Box>
+</Modal>
         <Grid 
             container
             direction="column"
@@ -375,9 +545,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                             container
                             direction="row">
                         <ShelterClaimStatusText postId={shelterPostData.post_id} currentUsername={currentUsername}modalSubTitleStatus={modalSubTitleStatus} modalTitleStatus = {modalTitleStatus} openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
+
+                        {isOwner && <Button onClick={()=> setOpenEdit(true)}>Edit Shelter</Button>}
                         </Grid>
                     </Grid>
-
                     <Grid
                         item
                         container

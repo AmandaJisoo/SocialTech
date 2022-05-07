@@ -24,6 +24,7 @@ import OrgUserProfile from './pages/profile/OrgUserProfile';
 import AppMenu from './components/AppMenu'
 import AboutUs from './pages/AboutUs';
 import {observer} from "mobx-react"
+import OrgUserProfileForm from './components/OrgUserShelterForm';
 // window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
@@ -213,7 +214,7 @@ const App = observer(() => {
     }}>
       <ThemeProvider theme={appThemeMui}>
 
-        <AppMenu user={user} setUser={setUser} userStatus={userStatus}/> 
+        <AppMenu user={user} setUser={setUser} userStatus={userStatus} /> 
         
         <Routes>
           <Route index path="/app/dashboard" element={
@@ -267,6 +268,11 @@ const App = observer(() => {
 
           <Route path="app/org-user-profile/:id" element={
             <OrgUserProfile />
+          } >
+          </Route>
+
+          <Route path="app/org-user-profile/edit/:id" element={
+            <OrgUserProfileForm />
           } >
           </Route>
 
