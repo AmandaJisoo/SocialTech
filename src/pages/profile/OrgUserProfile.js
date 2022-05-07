@@ -243,15 +243,8 @@ const OrgUserProfile = observer(props => {
                                     Back
                                 </Button>
                                     <Typography>{"Hi, " + appCtx.user}</Typography>
-                                <Button
-                                    onClick={() => {
-                                        //setPage(1)
-                                    }}>
-                                    Edit Profile
-                                </Button>
                             </Grid>
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-                            {/* bookmarks */}
                             <Grid
                                 container
                                 direction="row"
