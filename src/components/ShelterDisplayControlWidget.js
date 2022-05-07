@@ -77,6 +77,7 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
     const handleQueryChange = (event) => {
         const searchQuery = event.target.value
         console.log("searchQuery", searchQuery)
+        appStore.setSearchQuery(searchQuery)
         setQuery(searchQuery);
 
         appStore.setZipcode(searchQuery)

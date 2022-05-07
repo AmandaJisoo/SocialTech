@@ -123,7 +123,7 @@ const App = observer(() => {
   const { apiStore, appStore } = useStore(); 
   const [dataLoading, setDataLoading] = useState(true)
   const navigate = useNavigate()
-
+  appStore.setSetShelterDataFn(setShelterData);
   appStore.setSetUserFn(setUser);
 
   Auth.currentAuthenticatedUser()

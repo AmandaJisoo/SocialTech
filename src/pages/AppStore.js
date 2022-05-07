@@ -13,6 +13,7 @@ export default class AppStore {
     searchQuery = "";
     showNoLocationError = false;
     setUserFn = () => {};
+    setShelterDataFn = () => {};
     constructor() {
         makeObservable(this, {
             setUsername: action,
@@ -37,8 +38,14 @@ export default class AppStore {
             showNoLocationError: observable,
             setShowNoLocationError: action,
             setUserFn: observable,
-            setSetUserFn: action
+            setSetUserFn: action,
+            setShelterDataFn: observable,
+            setSetShelterDataFn: action
         })
+    }
+
+    setSetShelterDataFn(fn) {
+        this.setShelterDataFn = fn;
     }
 
     setSetUserFn(fn) {

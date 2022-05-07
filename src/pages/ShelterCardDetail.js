@@ -518,11 +518,29 @@ const ShelterDetail = observer(({ shelterData }) => {
                     spacing={1}
                     >
                     <Button 
-                    onClick={() => {
+                    onClick={async() => {
                         navigate("/app/dashboard")
+                        let shelterData = []
+                        console.log("search optino", appStore.searchOption);
+                        console.log("search query", appStore.searchQuery)
+                        if (appStore.searchOption == "zipcode") {
+                            shelterData = await apiStore.loadOverview(appStore.searchQuery, appStore.searchQuery)
+                        } else if (appStore.searchOption == "city") {
+                            shelterData = await apiStore.getShelterByCity(appStore.searchQuery)
+                        }
+                        for (const shelterPostData of shelterData) {
+                            const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+                            const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+                            const fullAddress = `${streetAddress} ${cityAddress}`
+                            let distance = await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress)
+                            //console.log("distance: " + distance)
+                            shelterPostData['distanceToUserLocation'] = distance
+                          }
+                        appStore.setShelterDataFn(shelterData)
+                        appStore.setShelterDataList(shelterData)
                     }}>
-                        {text.shelterDetail.backButton
-                    }</Button>
+                        {text.shelterDetail.backButton}
+                    </Button>
                     <Typography variant="h3"style={{marginRight: "40px" }}>{shelterPostData.title}</Typography>
                         {bookmarkState !== undefined && favoriteIcon()}  
                         {/* Disable share icon for now. May come back and implement it */}

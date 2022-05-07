@@ -244,8 +244,8 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
                                                 Cancel
                                             </Button>
                                             <Button
-                                            onClick={() => {
-                                                handleDeleteComment()
+                                            onClick={async () => {
+                                                await handleDeleteComment()
                                                 handleClose()
                                                 setIsDeletePopoverOpen(false);
                                             }}>
