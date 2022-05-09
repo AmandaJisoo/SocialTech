@@ -11,6 +11,7 @@ export default class AppStore {
     zipcode = "";
     searchOption = "";
     searchQuery = "";
+    searchRange = "verifiedInfo";
     showNoLocationError = false;
     setUserFn = () => {};
     setShelterDataFn = () => {};
@@ -40,7 +41,9 @@ export default class AppStore {
             setUserFn: observable,
             setSetUserFn: action,
             setShelterDataFn: observable,
-            setSetShelterDataFn: action
+            setSetShelterDataFn: action,
+            searchRange: observable,
+            setSeachRange: action
         })
     }
 
@@ -50,6 +53,10 @@ export default class AppStore {
 
     setSetUserFn(fn) {
         this.setUserFn = fn
+    }
+
+    setSeachRange(val) {
+        this.searchRange = val
     }
 
     setShowNoLocationError(val) {

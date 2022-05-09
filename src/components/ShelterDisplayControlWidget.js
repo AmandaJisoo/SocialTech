@@ -142,6 +142,17 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
         const matchingRes = []
         const promises = []
 
+
+        // if (appStore.searchRange == "verifiedInfo") {
+        //     // responseOfQuery = await apiStore.loadOverview(query, query)
+        //     appStore.shelterDataList.fil
+
+        // } else if (appStore.searchRange == "allInfo") {
+
+        // }
+
+
+
         const commentFilter = async(element) => {
             const reviewsDataResponse = await apiStore.loadComment(element.post_id);
             const commentUtilities = reviewsDataResponse.map(comment => comment.tags).flat(1)
@@ -160,7 +171,7 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
                     matchingRes.push(element)
                 }
             }
-            if (!isMatch) {
+            if (!isMatch && appStore.searchRange == "allInfo") {
                 promises.push(commentFilter(element))
             }
         }
@@ -250,7 +261,9 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
                                 selectedAmenityTags={selectedAmenityTags} 
                                 setSelectedAmenityTags={setSelectedAmenityTags}
                                 displayShowResultButton={true}
-                                handleFilter={handleFilterByAmenityTags}/>
+                                handleFilter={handleFilterByAmenityTags}
+                                isDashboard={true}
+                                />
                         </Grid>
                     </SwipeableDrawer>
                 </>

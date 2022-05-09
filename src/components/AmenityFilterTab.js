@@ -5,6 +5,15 @@ import Divider from '@mui/material/Divider';
 import appTheme from '../theme/appTheme.json';
 import Button from '@mui/material/Button';
 import Tag from './SelectableTags/Tag';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import AppStore from '../pages/AppStore';
+import { useStore } from '../pages/Hook';
+import { observer } from 'mobx-react';
+
 
 const CATEGORY_PLACE_HOLDER = ["Amenties", "Disability Amenities", "Maintained", "Groups", "Others"]
 const TAGS_FOR_SPECIFIC_AMENITY = new Map([
@@ -14,10 +23,15 @@ const TAGS_FOR_SPECIFIC_AMENITY = new Map([
     ["Groups", ["Female Only", "Male Only", "Pet Friendly", "Kid Friendly", "LGBTQ Friendly", "Ex-Convict Friendly"]],
     ["Others", ["Free Clothes", "Free Hygiene kits", "Employment Help enter"]]
 ])
-
-const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter, displayClearAllButton = true, maxHeight = "100%" }) => {
+//TODO: AMANDA update the deault isDashboard to false
+const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter, displayClearAllButton = true, maxHeight = "100%", isDashboard = false }) => {
     const [selectedTab, setSelectedTab] = useState(CATEGORY_PLACE_HOLDER[0]);
+    const [selectedInfoRange, setSelectedInfoRange] = useState("verfiedInfo")
+    const { appStore } = useStore(); 
+
+
     console.log("displayClearAllButton", displayClearAllButton)
+    console.log("selectedInfoRange", selectedInfoRange)
     const tabs = CATEGORY_PLACE_HOLDER.map((name) => {
         return (
         <Grid key={name}>
@@ -62,6 +76,16 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
         container
         direction="column"
         style={{minWidth: "400px", maxHeight: maxHeight}}>
+            {isDashboard &&  <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue={appStore.searchRange != ""? appStore.searchRange : "verfiedInfo"}
+                name="radio-buttons-group"
+            >
+                <FormControlLabel value="verfiedInfo" onClick={() => {setSelectedInfoRange("verfiedInfo")
+                                                                    appStore.setSeachRange("verfiedInfo")}} control={<Radio />} label="Verified amenities by shelter owner only" />
+                <FormControlLabel value="allInfo"  onClick={() => {setSelectedInfoRange("allInfo")
+                                                                    appStore.setSeachRange("allInfo")}} control={<Radio />} label="Include all amenities including tags provided by comments" />
+            </RadioGroup>}
           <Grid
             container
             direction="row">
@@ -110,6 +134,6 @@ const AmenityFilterTab = ({ selectedAmenityTags, setSelectedAmenityTags, display
         }
       </Grid>
     );
-};
+});
 
 export default AmenityFilterTab;
