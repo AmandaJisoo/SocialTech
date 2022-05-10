@@ -14,6 +14,7 @@ import SortOption from './SortOption';
 import Select from '@mui/material/Select';
 import { useStore } from '../pages/Hook';
 import { observer } from 'mobx-react-lite';
+import { Apps } from '@mui/icons-material';
 
 const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setIsLoaderActive = () => {}}) => {
     const { apiStore, appStore } = useStore();
@@ -80,7 +81,6 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
         appStore.setSearchQuery(searchQuery)
         setQuery(searchQuery);
 
-        appStore.setZipcode(searchQuery)
         // const lowerSearchQuery = searchQuery.toLowerCase();
         // shelterData = appStore.shelterDataList.filter(data => {
         //     console.log("title and query: ", data.title, searchQuery)
@@ -110,14 +110,13 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
             setIsLoaderActive(true);
             responseOfQuery = await apiStore.loadOverview(query, query)
             console.log('responseOfQuery zipcode', responseOfQuery)
-            appStore.setZipcode(query)
             console.log("zipcode here", appStore.zipcode)
         } else if (searchBarOption === 'name'){
             setIsLoaderActive(true);
             responseOfQuery = await apiStore.getShelterByName(query)
             console.log('responseOfQuery name', responseOfQuery)
         }
-        
+
         for (const shelterPostData of responseOfQuery) {
             const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
             const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
@@ -237,7 +236,7 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
                     </FormControl>
                     </Box>
                 <Grid item xs={12} md={12}>
-                    <TextField onKeyDown={(e) => e.keyCode === 13 && handleSearch()} id="outlined-basic" value={appStore.zipcode} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
+                    <TextField onKeyDown={(e) => e.keyCode === 13 && handleSearch()} id="outlined-basic" value={appStore.searchQuery} label="Search" variant="outlined" onChange={handleQueryChange} fullWidth/>
                 </Grid>
     
                 <SearchIcon 
