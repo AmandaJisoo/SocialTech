@@ -19,7 +19,8 @@ import ShelterClaimStatusText from '../ShelterClaimStatusText'
 import { useStore } from '../../pages/Hook';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 import { observer } from 'mobx-react';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HelpIcon from '@mui/icons-material/Help';
 const public_url = process.env.PUBLIC_URL;
 
 const ShelterCard = observer(({ 
@@ -31,7 +32,7 @@ const ShelterCard = observer(({
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
-    const [isClaimed, setIsClaimed] = useState(undefined);
+    const [claimStatus, setClaimeStatus] = useState(undefined);
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const [userProfile, setUserProfile] = useState(undefined);
 
@@ -69,7 +70,7 @@ const ShelterCard = observer(({
         try {
             const claimStatus = await apiStore.getIsClaimed(shelterData.post_id);
             //console.log("claimStatus response: ", claimStatus)
-            setIsClaimed(claimStatus)
+            setClaimeStatus(claimStatus)
         } catch (err) {
             console.log(err.message)
         }
@@ -112,15 +113,15 @@ const ShelterCard = observer(({
         </Popover>
         </>)
 
-    const verifiedText = () => {
-        if (isClaimed === "no_claim") {
-            return <Typography>unclaimed shelter</Typography>
-        } else if (isClaimed === "pending") {
-            return <div>shelter in process of claiming</div>
-        } else {
-            return <div>claimed shelter</div>
-        }
-    }
+    // const verifiedText = () => {
+    //     if (isClaimed === "no_claim") {
+    //         return <Typography>unclaimed shelter</Typography>
+    //     } else if (isClaimed === "pending") {
+    //         return <div>shelter in process of claiming</div>
+    //     } else {
+    //         return <div>claimed shelter</div>
+    //     }
+    // }
        
     //TODO: yichi fix the profile pic line 206 
     
@@ -188,14 +189,21 @@ const ShelterCard = observer(({
                         <Typography>{`${shelterData.distanceToUserLocation} away`}</Typography>
                     </Grid>
                     <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
-                    {shelterData && shelterData.utilities.length === 0 ?
-                        <Typography>No Amenties Claimed</Typography>:
-                        (<>
-                        <Typography>Verfied Amenties:</Typography>
-                        <TagContainer tagData={shelterData.utilities} isSelectable={false}/></>)}
-
-                    
-
+                    {claimStatus == "claimed" && shelterData && shelterData.utilities.length > 0 ?
+                        (<div>
+                        <IconButton aria-label="business claim status">
+                            <CheckCircleIcon style={{ color: '#48AAAD' }}/>
+                            <Typography style={{marginRight: "20px", color: '#48AAAD'}}>Claimed Amenties</Typography>
+                        </IconButton>
+                        <TagContainer tagData={shelterData.utilities} isSelectable={false}/>
+                        </div>):
+                          (<div>
+                            <IconButton aria-label="business claim status">
+                            <HelpIcon style={{ color: '#48AAAD' }}/>
+                                <Typography style={{marginRight: "20px", color: '#48AAAD'}}>No Claimed Amenties</Typography>
+                            </IconButton>
+                            <TagContainer tagData={shelterData.utilities} isSelectable={false}/>
+                            </div>)}
                 </Grid>
 
 
