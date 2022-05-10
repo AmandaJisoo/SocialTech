@@ -3,7 +3,9 @@ import { Grid, Button, Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import appTheme from '../theme/appThemeMui';
 import Box from '@mui/material/Box';
+import { Navigate, useNavigate } from 'react-router-dom';
 const public_url = process.env.PUBLIC_URL
+
 
 const team_info = [
     {
@@ -46,6 +48,7 @@ const teamInfoEle = () => {
 }
 
 const AboutUs = ( )=> {
+    const navigate = useNavigate()
 
     return (
         <Grid
@@ -95,6 +98,15 @@ const AboutUs = ( )=> {
                             style={{fontWeight: "500"}}>
                                 Find Shelters to help you! Make Shelters more helpful!
                         </Typography>
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                navigate("/app/dashboard")
+                            }}
+                            style={{color: "black", marginTop: "12px"}}
+                            >
+                            Explore Shelters
+                        </Button>
                     </Grid>
                 
                     <Box sx={{display: { xs: 'none', sm: 'none', md: 'block' }}}>
@@ -132,7 +144,7 @@ const AboutUs = ( )=> {
                                 style={{width: "257px", height: "124px"}}/>
                         </Box>
 
-                        <Typography>How might individuals in need of shelter gain better access to shelter information, so that they can make better informed decisions about the condition and risk before arriving?</Typography>
+                        <Typography style={{fontSize: "1.5rem"}}>How might individuals in need of shelter gain better access to shelter information, so that they can make better informed decisions about the condition and risk before arriving?</Typography>
                     </Grid>
                 </Grid>
                 
@@ -152,8 +164,8 @@ const AboutUs = ( )=> {
                         wrap="nowrap"
                         sx={{alignItems: { xs: 'center', sm: 'center', md: 'flex-start' }}}>
                         <Typography variant='h1' style={{fontWeight: "700", marginBottom: "1rem"}}>Solution</Typography>
-                        <Typography>Social platform for people in need of shelter to rate, comment, and search for suitable shelters.</Typography>
-                        <ul style={{marginLeft: "-20px"}}>
+                        <Typography style={{fontSize: "1.5rem"}}>Social platform for people in need of shelter to rate, comment, and search for suitable shelters.</Typography>
+                        <ul style={{marginLeft: "-20px", fontSize: "1.2rem"}}>
                             <li>Custom search & sort</li>
                             <li>Basic five star rating system</li>
                             <li>Official shelter account authentication</li>
@@ -205,11 +217,11 @@ const AboutUs = ( )=> {
                         alignItems="flex-start"
                         sx={{alignItems: { xs: 'center', sm: 'center', md: 'flex-start' }}}>
                         
-                        <Typography variant='h1' style={{fontWeight: "700", marginBottom: "1rem"}}>Outcome</Typography>
-                        <Typography>We want to provide more detailed information on shelter but not just simple star rating.</Typography>
-                        <Typography>We want to provide Platform for sharing experience on specific shelter could reduce one’s concern/ fear on making visits on sheltersWe don’t want one bad experience or rumors on shelters make people hesitant to visit shelter.</Typography>
+                        <Typography variant='h1' style={{fontWeight: "700", marginBottom: "2rem", fontSize: "1.5rem"}}>Outcome</Typography>
+                        <Typography style={{fontSize: "1.2rem"}}>We want to provide more detailed information on shelter but not just simple star rating.</Typography>
+                        <Typography style={{ fontSize: "1.2rem"}}>We want to provide Platform for sharing experience on specific shelter could reduce one’s concern/ fear on making visits on sheltersWe don’t want one bad experience or rumors on shelters make people hesitant to visit shelter.</Typography>
                         
-                        <Box sx={{display: { xs: 'block', sm: 'block', md: 'none' }}}>
+                        <Box sx={{display: { xs: 'block', sm: 'block', md: 'none', marginTop: "20px"}}}>
                             <img 
                                 src={public_url + "/assets/imgs/about_us/phone2.jpg"} 
                                 alt='prototype'
