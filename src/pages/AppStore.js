@@ -43,7 +43,7 @@ export default class AppStore {
             setShelterDataFn: observable,
             setSetShelterDataFn: action,
             searchRange: observable,
-            setSeachRange: action
+            setSearchRange: action
         })
     }
 
@@ -55,7 +55,7 @@ export default class AppStore {
         this.setUserFn = fn
     }
 
-    setSeachRange(val) {
+    setSearchRange(val) {
         this.searchRange = val
     }
 

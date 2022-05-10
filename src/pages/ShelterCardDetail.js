@@ -461,32 +461,35 @@ const ShelterDetail = observer(({ shelterData }) => {
 
 </Grid>
         </Grid>
-
-<Typography>Amenities</Typography> 
+    <Typography style={{marginTop: "13px"}}>Amenities</Typography> 
 <AmenityFilterTab
             selectedAmenityTags={editUtilities} setSelectedAmenityTags={setEditUtilities}
             displayShowResultButton={false}
             handleFilter={() => {}}
             displayClearAllButton={false}
             />
-    <Button onClick={async () => {
-        setShowEditLoader(true)
-        const s3Path = await apiStore.uploadImageToS3(selectedFile[0])
-        console.log("upsert profile", s3Path);
-        await apiStore.upsertPost({
-            post_id: post_id,
-            title: editTitle,
-            zipcode: editZipcode,
-            street: editStreet,
-            city: editCity,
-            state: editState,
-            utilities: editUtilities,
-            profile_pic_path: s3Path
-        })
-        await getShelterPostData();
-        setOpenEdit(false);
-        setShowEditLoader(false)
-        }}>Submit</Button>
+    <div style={{ display: "flex", justifyContent: 'flex-end'}}>
+        <Button 
+            onClick={async () => {
+            setShowEditLoader(true)
+            const s3Path = await apiStore.uploadImageToS3(selectedFile[0])
+            console.log("upsert profile", s3Path);
+            await apiStore.upsertPost({
+                post_id: post_id,
+                title: editTitle,
+                zipcode: editZipcode,
+                street: editStreet,
+                city: editCity,
+                state: editState,
+                utilities: editUtilities,
+                profile_pic_path: s3Path
+            })
+            await getShelterPostData();
+            setOpenEdit(false);
+            setShowEditLoader(false)
+            }}>Submit
+        </Button>
+    </div>
         </>}
 
 

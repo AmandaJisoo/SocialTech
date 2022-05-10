@@ -82,9 +82,9 @@ const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags
                 name="radio-buttons-group"
             >
                 <FormControlLabel value="verfiedInfo" onClick={() => {setSelectedInfoRange("verfiedInfo")
-                                                                    appStore.setSeachRange("verfiedInfo")}} control={<Radio />} label="Verified amenities by shelter owner only" />
+                                                                    appStore.setSearchRange("verfiedInfo")}} control={<Radio />} label="Verified amenities by shelter owner only" />
                 <FormControlLabel value="allInfo"  onClick={() => {setSelectedInfoRange("allInfo")
-                                                                    appStore.setSeachRange("allInfo")}} control={<Radio />} label="Include all amenities including tags provided by comments" />
+                                                                    appStore.setSearchRange("allInfo")}} control={<Radio />} label="Include all amenities including tags provided by comments" />
             </RadioGroup>}
           <Grid
             container

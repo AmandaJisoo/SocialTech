@@ -103,7 +103,7 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
             container
             direction="column"
             alignItems='center'
-            style={{width: "90%"}}>
+            style={{width: "99%"}}>
                 <Box sx={{width: "100%", height: "100%", overflow: "scroll", borderRadius: "10px", border: "1px solid rgba(228, 228, 228, 0.6)"}}>
 
                 <Grid
