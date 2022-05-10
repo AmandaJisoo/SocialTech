@@ -112,9 +112,12 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
             console.log('responseOfQuery zipcode', responseOfQuery)
             appStore.setZipcode(query)
             console.log("zipcode here", appStore.zipcode)
-        } else {
-            
+        } else if (searchBarOption === 'name'){
+            setIsLoaderActive(true);
+            responseOfQuery = await apiStore.getShelterByName(query)
+            console.log('responseOfQuery name', responseOfQuery)
         }
+        
         for (const shelterPostData of responseOfQuery) {
             const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
             const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""

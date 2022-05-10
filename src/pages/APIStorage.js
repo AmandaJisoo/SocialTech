@@ -300,5 +300,17 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async getShelterByName(shelter_name) {
+        try {
+            return await API.get('SocialTechService', "/GetShelterByName", {
+                queryStringParameters: {
+                    shelter_name: shelter_name,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
