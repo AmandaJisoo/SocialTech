@@ -114,6 +114,7 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
                     shelterData={paginatedShelterData} 
                     setShelterData={setShelterData}
                     bookmarks={bookmarks}/>
+                    
                 {(shelterData && shelterData.length === 0 && !isLoaderActive)? 
                     (<div style={{justifyContent: "center", alignItems:"center"}}>
                     <Typography style={{marginTop: '25vh', fontSize: "1.3rem"}}>No shelter found at this zipcode.</Typography>

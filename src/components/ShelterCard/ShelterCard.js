@@ -135,7 +135,8 @@ const ShelterCard = observer(({
                 padding: "5px 20px 5px 20px",
                 margin: "20px",
                 boxShadow: "0px 16px 16px rgba(50, 50, 71, 0.08), 0px 24px 32px rgba(50, 50, 71, 0.08)",
-                borderRadius: "8px"
+                borderRadius: "8px",
+        
             }}
         >
         <Grid

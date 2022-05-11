@@ -358,143 +358,133 @@ const ShelterDetail = observer(({ shelterData }) => {
     return (
         <>
 
-<Modal
-  open={openEdit}
-  onClose={() => setOpenEdit(false)}
->
-  <Box sx={{
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}}>
-    {showEditLoader ?
-    <LoadingSpinner text={"Processing"} size={LOADING_SPINNER_SIZE.small} />
-    : <>
-
-<input
-    type="file"
-    name="file"
-    onChange={ () => {
-        setSelectedFile(Array.from(fileInputRef.current.files))
-    }}
-    accept="image/*"
-    ref={fileInputRef}
-    style={{display: "none"}}/>
-
-<Grid 
-            container
+            <Modal
+                open={openEdit}
+                onClose={() => setOpenEdit(false)}
             >
-<Grid 
-            item xs={6}
-            >
-<Typography>Title</Typography> 
-<TextField
-          required
-          id="outlined-required"
-          label="Required"
-          value={editTitle}
-          onChange={setEditTitle}
-        /></Grid>
-        <Grid 
-                    item xs={6}
-                    >
-<Typography>Street</Typography> 
-<TextField
-          required
-          id="outlined-required"
-          label="Required"
-          value={editStreet}
-          onChange={setEditStreet}
-        />
-</Grid>
-<Grid 
-            item xs={6}
-            >
-<Typography>City</Typography> 
-<TextField
-          required
-          id="outlined-required"
-          label="Required"
-          value={editCity}
-          onChange={setEditCity}
-        />
-</Grid>
-<Grid 
-            item xs={6}
-            >
-<Typography>State</Typography> 
-<TextField
-          required
-          id="outlined-required"
-          label="Required"
-          value={editState}
-          onChange={setEditState}
-        />
-</Grid>
-<Grid 
-            item xs={6}
-            >
-<Typography>Zipcode</Typography> 
-<TextField
-          required
-          id="outlined-required"
-          label="Required"
-          value={editZipcode}
-          onChange={setEditZipcode}
-        />
+                <Box 
+                sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '60vw',
+                maxWidth: '600px',
+                maxHeight: '80vh',
+                overflowY: 'scroll',
+                bgcolor: 'background.paper',
+                border: '2px solid #000',
+                boxShadow: 24,
+                p: 4,
+                }}
+                >
+                {showEditLoader ?
+                <LoadingSpinner text={"Processing"} size={LOADING_SPINNER_SIZE.small} /> :
+                <>
+                    <input
+                    type="file"
+                    name="file"
+                    onChange={ () => {
+                        setSelectedFile(Array.from(fileInputRef.current.files))
+                    }}
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{display: "none"}}/>
 
-        </Grid>
-        <Grid 
-            item xs={6}
-            >
-<Button variant="contained" component="span" style={{marginTop: "13px"}} onClick={() => selectFile()}>
-                                    Change Picture
-                                </Button>
-                            {selectedFile && selectedFile.length > 0? 
-                            <Typography>{selectedFile[0].name}</Typography>: <Typography>No file selected yet</Typography>}
+                    <Grid container>
+                        <Grid item xs={10}>
+                                <Typography>Title</Typography> 
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                value={editTitle}
+                                onChange={setEditTitle}/>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Typography>Street</Typography> 
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                value={editStreet}
+                                onChange={setEditStreet}
+                            />
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Typography>City</Typography> 
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                value={editCity}
+                                onChange={setEditCity}/>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Typography>State</Typography> 
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                value={editState}
+                                onChange={setEditState}
+                            />
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Typography>Zipcode</Typography> 
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Required"
+                                value={editZipcode}
+                                onChange={setEditZipcode}
+                            />
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Button 
+                                variant="contained" 
+                                component="span" 
+                                style={{marginTop: "13px"}} 
+                                onClick={() => selectFile()}>
+                                Change Picture
+                            </Button>
+                            {selectedFile && selectedFile.length > 0 ? 
+                            <Typography>{selectedFile[0].name}</Typography> : <Typography>No file selected yet</Typography>}
 
-</Grid>
-        </Grid>
-    <Typography style={{marginTop: "13px"}}>Amenities</Typography> 
-<AmenityFilterTab
-            selectedAmenityTags={editUtilities} setSelectedAmenityTags={setEditUtilities}
-            displayShowResultButton={false}
-            handleFilter={() => {}}
-            displayClearAllButton={false}
-            />
-    <div style={{ display: "flex", justifyContent: 'flex-end'}}>
-        <Button 
-            onClick={async () => {
-            setShowEditLoader(true)
-            const s3Path = await apiStore.uploadImageToS3(selectedFile[0])
-            console.log("upsert profile", s3Path);
-            await apiStore.upsertPost({
-                post_id: post_id,
-                title: editTitle,
-                zipcode: editZipcode,
-                street: editStreet,
-                city: editCity,
-                state: editState,
-                utilities: editUtilities,
-                profile_pic_path: s3Path
-            })
-            await getShelterPostData();
-            setOpenEdit(false);
-            setShowEditLoader(false)
-            }}>Submit
-        </Button>
-    </div>
-        </>}
-
-
-  </Box>
-</Modal>
+                        </Grid>
+                    </Grid>
+                    <Typography style={{marginTop: "13px"}}>Amenities</Typography> 
+                    <AmenityFilterTab
+                        selectedAmenityTags={editUtilities} setSelectedAmenityTags={setEditUtilities}
+                        displayShowResultButton={false}
+                        handleFilter={() => {}}
+                        displayClearAllButton={false}/>
+                    <div style={{ display: "flex", justifyContent: 'flex-end'}}>
+                    <Button 
+                        onClick={async () => {
+                        setShowEditLoader(true)
+                        const s3Path = await apiStore.uploadImageToS3(selectedFile[0])
+                        console.log("upsert profile", s3Path);
+                        await apiStore.upsertPost({
+                            post_id: post_id,
+                            title: editTitle,
+                            zipcode: editZipcode,
+                            street: editStreet,
+                            city: editCity,
+                            state: editState,
+                            utilities: editUtilities,
+                            profile_pic_path: s3Path
+                        })
+                        await getShelterPostData();
+                        setOpenEdit(false);
+                        setShowEditLoader(false)
+                        }}>Submit
+                    </Button>
+                </div>
+                </>}
+                </Box>
+            </Modal>
+            
         <Grid 
             container
             direction="column"

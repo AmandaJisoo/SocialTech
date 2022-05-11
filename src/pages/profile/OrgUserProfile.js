@@ -226,6 +226,7 @@ const OrgUserProfile = observer(props => {
                     wrap="nowrap"
                     rowSpacing={2}
                     style={{ width: "100vw", maxWidth: "50em", padding: "20px"}}>
+                        
                     {loaderActive ?
                     <LoadingSpinner text={"Loading your profile"} size={LOADING_SPINNER_SIZE.large} /> :
                         <>
@@ -253,7 +254,10 @@ const OrgUserProfile = observer(props => {
                                 style={{}}>
                                     <Typography variant='h5'>Claimed Shelters</Typography>
                             </Grid>
-                            {claimedShelterEles()}
+
+                            <Grid>
+                                {claimedShelterEles()}
+                            </Grid>
                             
                             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
 
