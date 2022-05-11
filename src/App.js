@@ -25,6 +25,7 @@ import AppMenu from './components/AppMenu'
 import AboutUs from './pages/AboutUs';
 import {observer} from "mobx-react"
 import OrgUserProfileForm from './components/OrgUserShelterForm';
+import Application from './components/Application';
 // window.LOG_LEVEL = 'DEBUG';
 
 let cookieDomain = 'localhost';
@@ -278,6 +279,10 @@ const App = observer(() => {
 
           <Route path="app/about-us" element={
             <AboutUs />
+          }/>
+
+          <Route path="app/application" element={
+            <Application />
           }/>
 
           <Route path="*" element={

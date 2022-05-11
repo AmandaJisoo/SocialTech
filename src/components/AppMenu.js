@@ -25,13 +25,17 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
   const { appStore, apiStore } = useStore(); 
   console.log("userStatus", userStatus)
   const [profilePath, setProfilePath] =  React.useState("")
+  // const [userStatus, setUserStatus] =  React.useState("")
+
   
   React.useEffect(async() => {
     console.log("appStore.username", appStore.username)
     const currentRole = await apiStore.getUserStatus(appStore.username)
     console.log("currentRole", currentRole)
+    // setUserStatus(currentRole)
     let path = currentRole && currentRole.UserStatus === "shelter_owner"?  "app/org-user-profile/" + user: "/app/regular-user-profile/" + user 
     console.log("path", path)
+    console.log("currentRole", currentRole)
     setProfilePath(path)
   })
 
@@ -59,7 +63,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
         console.log('error signing out: ', error);
     }
   }
-  
+  //AMANDA EDIT MENU
   const mobileAppBarMenuItem = () => {
       return (
           <>
@@ -70,6 +74,14 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
                 }}>
                  <Typography textAlign="center">Dashboard</Typography>
             </MenuItem>
+              <MenuItem 
+                  onClick={() => {
+                      handleCloseNavMenu()
+                      navigate("/app/application")
+                  }}>
+                  <Typography textAlign="center">Application</Typography>
+              </MenuItem>
+        
             <MenuItem 
                 onClick={() => {
                     handleCloseNavMenu()

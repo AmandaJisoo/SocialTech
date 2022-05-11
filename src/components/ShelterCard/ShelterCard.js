@@ -203,7 +203,6 @@ const ShelterCard = observer(({
                             <HelpIcon style={{ color: '#48AAAD' }}/>
                                 <Typography style={{marginRight: "20px", color: '#48AAAD'}}>No Claimed Amenties</Typography>
                             </IconButton>
-                            <TagContainer tagData={shelterData.utilities} isSelectable={false}/>
                             </div>)}
                 </Grid>
 

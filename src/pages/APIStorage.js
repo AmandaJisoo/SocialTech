@@ -312,5 +312,17 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async getClaimsByStatus(status) {
+        try {
+            return await API.get('SocialTechService', "/GetClaimsByStatus", {
+                queryStringParameters: {
+                    status: status,
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
