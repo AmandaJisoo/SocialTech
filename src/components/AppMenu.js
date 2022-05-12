@@ -26,18 +26,20 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
   console.log("userStatus", userStatus)
   const [profilePath, setProfilePath] =  React.useState("")
   // const [userStatus, setUserStatus] =  React.useState("")
+  const [userRole, setUserRole] = React.useState(null);
 
   
-  React.useEffect(async() => {
-    console.log("appStore.username", appStore.username)
+  React.useEffect(() => {
+    (async () => {console.log("appStore.username", appStore.username)
     const currentRole = await apiStore.getUserStatus(appStore.username)
     console.log("currentRole", currentRole)
-    // setUserStatus(currentRole)
+    setUserRole(currentRole.UserStatus)
     let path = currentRole && currentRole.UserStatus === "shelter_owner"?  "app/org-user-profile/" + user: "/app/regular-user-profile/" + user 
     console.log("path", path)
     console.log("currentRole", currentRole)
     setProfilePath(path)
-  })
+  })()
+  }, [appStore.username])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -77,18 +79,19 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
             <MenuItem 
                 onClick={() => {
                     handleCloseNavMenu()
-                    navigate("/app/application")
-                }}>
-                <Typography textAlign="center">Application</Typography>
-            </MenuItem>
-        
-            <MenuItem 
-                onClick={() => {
-                    handleCloseNavMenu()
                     navigate("/app/about-us")
                 }}>
                  <Typography textAlign="center">About Us</Typography>
             </MenuItem>
+            {userRole == "admin" && 
+            <MenuItem 
+                onClick={() => {
+                    handleCloseNavMenu()
+                    navigate("/app/application")
+                }}>
+                <Typography textAlign="center">Application</Typography>
+            </MenuItem>
+            }
           </>
       )
   }
@@ -112,6 +115,15 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
             sx={{ my: 2, color: 'white', display: 'block' }}>
             About Us
         </Button>
+        {userRole == "admin" && 
+        <Button
+            onClick={() => {
+                handleCloseNavMenu()
+                navigate("/app/application")
+            }}
+            sx={{ my: 2, color: 'white', display: 'block' }}>
+            Application
+        </Button>}
         </>
     )
 }
