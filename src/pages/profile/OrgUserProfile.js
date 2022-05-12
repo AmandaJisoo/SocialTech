@@ -267,7 +267,7 @@ const OrgUserProfile = observer(props => {
                                     onClick={() => {
                                         navigate("/app/dashboard")
                                     }}>
-                                    hello
+                                    Back
                                 </Button>
                             </Grid>
                             <Typography style={{ fontWeight: "bold" }}>{"Hi, " + appCtx.user}</Typography>
