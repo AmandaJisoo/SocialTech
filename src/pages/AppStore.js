@@ -11,7 +11,7 @@ export default class AppStore {
     zipcode = "";
     searchOption = "";
     searchQuery = "";
-    searchRange = "verifiedInfo";
+    searchRange = "";
     showNoLocationError = false;
     setUserFn = () => {};
     setShelterDataFn = () => {};

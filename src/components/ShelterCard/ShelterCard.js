@@ -104,18 +104,19 @@ const ShelterCard = observer(({
                 <TagContainer tagData={shelterData.utilities} isSelectable={false} />
             </div>
         } else if (shelterStatus == "pending") {
-            res = <Grid container direction="row" alignItems="center">
-                <Grid item>
-                    <IconButton aria-label="business claim status">
-                        <PendingIcon style={{ color: '#48AAAD' }} />
-                    </IconButton>
-                </Grid>
-                <Grid item>
-                    <Typography style={{ fontSize: "17px", color: '#48AAAD' }}>
-                        Pending Verification
-                    </Typography>
-                </Grid>
+            res =
+            <Grid container direction="row" alignItems="center">
+            <Grid item>
+                <IconButton aria-label="business claim status">
+                    <PendingIcon style={{ color: '#48AAAD' }} />
+                </IconButton>
             </Grid>
+            <Grid item>
+                <Typography style={{ fontSize: "17px", color: '#48AAAD' }}>
+                    Pending 
+                </Typography>
+            </Grid>
+        </Grid>
         } else if (shelterStatus == "no_claim") {
             res = <Grid container direction="row" alignItems="center">
                 <Grid item>
