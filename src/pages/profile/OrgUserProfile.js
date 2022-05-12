@@ -1,4 +1,4 @@
-import {React, useState, useEffect, useContext } from 'react';
+import { React, useState, useEffect, useContext, useRef } from 'react';
 import ShelterList from "../ShelterList";
 import { useStore } from '../Hook';
 import { useNavigate } from 'react-router-dom';
@@ -18,9 +18,10 @@ import AppContext from '../../AppContext.js';
 import Alert from '@mui/material/Alert';
 import { observer } from "mobx-react";
 import Link from '@mui/material/Link';
-import { DEFAULT_COUNTRY, SHELTER_CARD_DISPLAY_STATUS, LOADING_SPINNER_SIZE} from '../../utils/utilityFunctions';
+import { DEFAULT_COUNTRY, SHELTER_CARD_DISPLAY_STATUS, LOADING_SPINNER_SIZE } from '../../utils/utilityFunctions';
 import ShelterClaim from '../../components/ShelterClaim';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import Avatar from '@mui/material/Avatar';
 
 
 //TODO: Yichi only show this when user is logged in as a part of menu
@@ -38,6 +39,34 @@ const OrgUserProfile = observer(props => {
     const appCtx = useContext(AppContext)
     const { appStore } = useStore()
     const navigate = useNavigate()
+    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState([]);
+
+
+    const handleNext = async (file) => {
+        try {
+            let s3Path = ""
+            if (file) {
+                s3Path = await apiStore.uploadImageToS3(file)
+                console.log("s3Path", s3Path)
+            }
+            const createAccountResult = await apiStore.createUser({
+                username: appCtx.user,
+                profile_pic_path: s3Path,
+                user_role: appCtx.userStatus,
+            })
+            let profile = await apiStore.getUserProfile(appCtx.user)
+            appStore.setUserProfilePic(appCtx.user, profile.profile_pic_path)
+            console.log("create account result: ", createAccountResult)
+        } catch (err) {
+            setErrorMsg(err.message)
+        }
+    }
+
+    const selectFile = () => {
+        console.log("selected file called")
+        fileInputRef.current.click()
+    }
 
     const loadBookmarks = async () => {
         try {
@@ -48,7 +77,7 @@ const OrgUserProfile = observer(props => {
             setShelterBookmarkData(bookmarksResponse)
             let shelterDataResponse = await Promise.all(bookmarksResponse.map(async (post_id) => apiStore.loadSummary(post_id)));
             setShelterData(shelterDataResponse)
-          } catch(err) {
+        } catch (err) {
             console.log("load bookmarks error: " + err.message)
             setErrorMsg(err.message)
         }
@@ -61,7 +90,7 @@ const OrgUserProfile = observer(props => {
             }
             let userProfileResponse = await apiStore.getUserProfile(appStore.username);
             setUserProfileData(userProfileResponse)
-          } catch(error) {
+        } catch (error) {
             console.log("load user profile err " + error.message)
             setErrorMsg(error.message)
         }
@@ -74,7 +103,7 @@ const OrgUserProfile = observer(props => {
             }
             let commentDataResponse = await apiStore.loadAllComments(appStore.username);
             setCommentData(commentDataResponse)
-          } catch(error) {
+        } catch (error) {
             console.log("load all comment err" + error.message)
             setErrorMsg(error.message)
         }
@@ -102,7 +131,7 @@ const OrgUserProfile = observer(props => {
                 const fullAddress = `${streetAddress} ${cityAddress}`
 
                 let distance = await apiStore.getDistanceBetweenZipcodes(98103, fullAddress)
-          //console.log("distance: " + distance)
+                //console.log("distance: " + distance)
                 claim_data['shelter_summary']['distanceToUserLocation'] = distance
             }
 
@@ -113,96 +142,93 @@ const OrgUserProfile = observer(props => {
 
             setAllClaims(loadClaimResponse)
             setClaimedShelters(claimedShelters)
-          } catch(error) {
+        } catch (error) {
             console.log("load pending claim err" + error.message)
         }
     }
 
     useEffect(() => {
         setLoaderActive(true)
-        // loadBookmarks();
-        // loadAllComments()
-        // loadUserProfile()
         loadAllClaims()
         setLoaderActive(false)
     }, [])
 
     const comments = () => {
         if (commentData !== null) {
-            return commentData.length === 0 ? 
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{height: "20vh"}}>
-                <Typography>You haven't post any comments</Typography>
+            return commentData.length === 0 ?
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{ height: "20vh" }}>
+                    <Typography>You haven't post any comments</Typography>
                 </Grid> :
                 commentData.map(data => {
-                return (
-                    <div> 
-                        <Typography style={{color: "#F34343", fontWeight:"bold", fontSize: "1.2em"}}>Comment on <Link
-                        onClick={() => {
-                            navigate("/app/shelter-detail/" + data.post_id)
-                        }} color="inherit">
-                            {data.post_id.slice(0, -6)}</Link>
-                        </Typography>
-                        <UserComment 
-                            key={data.comment_id} 
-                            shelterName={data.post_id.slice(0, -6)}
-                            shelter_post_id={data.post_id}
-                            commentData={data} 
-                            isUpdateComment={false}
-                            isHighLighted={false} 
-                            isEditAndDeleteable={true}
-                            setCommentData={setCommentData}/>
-                    </div>
-                )
-            })
+                    return (
+                        <div>
+                            <Typography style={{ color: "#F34343", fontWeight: "bold", fontSize: "1.2em" }}>Comment on <Link
+                                onClick={() => {
+                                    navigate("/app/shelter-detail/" + data.post_id)
+                                }} color="inherit">
+                                {data.post_id.slice(0, -6)}</Link>
+                            </Typography>
+                            <UserComment
+                                key={data.comment_id}
+                                shelterName={data.post_id.slice(0, -6)}
+                                shelter_post_id={data.post_id}
+                                commentData={data}
+                                isUpdateComment={false}
+                                isHighLighted={false}
+                                isEditAndDeleteable={true}
+                                setCommentData={setCommentData} />
+                        </div>
+                    )
+                })
         }
     }
 
     const claimsEles = () => {
         if (allClaims !== null) {
-            return allClaims.length === 0 ? 
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{height: "20vh"}}>
-                <Typography>You have no claims</Typography>
+            return allClaims.length === 0 ?
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{ height: "20vh" }}>
+                    <Typography>You have no claims</Typography>
                 </Grid> :
                 allClaims
-                .filter((claim) =>  claim.status == "pending")
-                .map(claim_data => {
-                return <ShelterCard 
-                    user={appStore.username} 
-                    shelterData={claim_data.shelter_summary} 
-                    isBookmarked={false}
-                    displayStatus={SHELTER_CARD_DISPLAY_STATUS.shelterClaim}/>
-            })
+                    .filter((claim) => claim.status == "pending")
+                    .map(claim_data => {
+                        return <ShelterCard
+                            user={appStore.username}
+                            shelterData={claim_data.shelter_summary}
+                            isBookmarked={false}
+                            displayStatus={SHELTER_CARD_DISPLAY_STATUS.shelterClaim} />
+                    })
         }
     }
 
     const claimedShelterEles = () => {
         if (claimedShelters !== null) {
-            return claimedShelters.length === 0 ? 
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{height: "20vh"}}>
-                <Typography>No Shelter claimed</Typography>
+            return claimedShelters.length === 0 ?
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{ height: "20vh" }}>
+                    <Typography>No Shelter claimed</Typography>
                 </Grid> :
                 claimedShelters.map(claim_data => {
-                return <ShelterCard 
-                    user={appStore.username} 
-                    shelterData={claim_data.shelter_summary} 
-                    isBookmarked={false}
-                    displayStatus={SHELTER_CARD_DISPLAY_STATUS.shelterClaim}/>
-            })
+                    return <ShelterCard
+                        user={appStore.username}
+                        shelterData={claim_data.shelter_summary}
+                        isBookmarked={false}
+                        displayStatus={SHELTER_CARD_DISPLAY_STATUS.shelterClaim} />
+                })
         }
     }
 
@@ -211,13 +237,13 @@ const OrgUserProfile = observer(props => {
 
     return (
         <>
-           {page === 0 ? <Grid 
+            {page === 0 ? <Grid
                 container
                 direction="row"
                 justifyContent="center"
                 alignItems="flex-start"
                 wrap="nowrap"
-                style={{height: "100vh", width: "100vw"}}>
+                style={{ height: "100vh", width: "100vw" }}>
                 <Grid
                     container
                     direction="column"
@@ -225,10 +251,10 @@ const OrgUserProfile = observer(props => {
                     alignItems="center"
                     wrap="nowrap"
                     rowSpacing={2}
-                    style={{ width: "100vw", maxWidth: "50em", padding: "20px"}}>
-                        
+                    style={{ width: "100vw", maxWidth: "50em", padding: "20px" }}>
+
                     {loaderActive ?
-                    <LoadingSpinner text={"Loading your profile"} size={LOADING_SPINNER_SIZE.large} /> :
+                        <LoadingSpinner text={"Loading your profile"} size={LOADING_SPINNER_SIZE.large} /> :
                         <>
                             <Grid
                                 item
@@ -241,26 +267,41 @@ const OrgUserProfile = observer(props => {
                                     onClick={() => {
                                         navigate("/app/dashboard")
                                     }}>
-                                    Back
+                                    hello
                                 </Button>
-                                    <Typography>{"Hi, " + appCtx.user}</Typography>
                             </Grid>
-                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                            <Typography style={{ fontWeight: "bold" }}>{"Hi, " + appCtx.user}</Typography>
+
+                            <Avatar sx={{ width: 100, height: 100 }} alt="Remy Sharp" src={appStore.userProfilePic[appStore.username]} />
+                            <label htmlFor="contained-button-file">
+                                å<input
+                                    type="file"
+                                    name="file"
+                                    onChange={() => {
+                                        console.log("selected files: ", fileInputRef.current.files)
+                                        handleNext(fileInputRef.current.files[0])
+                                        setSelectedFile(Array.from(fileInputRef.current.files))
+                                    }}
+                                    accept="image/*"
+                                    ref={fileInputRef}
+                                    style={{ display: "none" }} />
+                                <Button variant="contained" component="span" style={{ marginTop: "13px" }} onClick={() => selectFile()}>
+                                    Change Profile
+                                </Button>
+                            </label>
+                            <Divider style={{ width: "100%", marginTop: "20px", marginBottom: "20px" }} />
                             <Grid
                                 container
                                 direction="row"
                                 justifyContent="flex-start"
                                 alignItems="center"
                                 style={{}}>
-                                    <Typography variant='h5'>Claimed Shelters</Typography>
+                                <Typography variant='h5'>Claimed Shelters</Typography>
                             </Grid>
-
                             <Grid>
                                 {claimedShelterEles()}
                             </Grid>
-                            
-                            <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
-
+                            <Divider style={{ width: "100%", marginTop: "20px", marginBottom: "20px" }} />
                             <Grid
                                 item
                                 container
@@ -268,24 +309,24 @@ const OrgUserProfile = observer(props => {
                                 justifyContent="flex-start"
                                 alignItems="center"
                                 style={{}}>
-                                    <Typography variant='h5'>Your Claims</Typography>
+                                <Typography variant='h5'>Your Claims</Typography>
                             </Grid>
 
-                            <Grid style={{width: "100%", margin: "20px", padding: "20px"}}>
+                            <Grid style={{ width: "100%", margin: "20px", padding: "20px" }}>
                                 {claimsEles()}
                             </Grid>
                         </>
                     }
                 </Grid>
             </Grid> :
-            <UpdateProfileForm profileData={userProfileData} setPage={setPage}/>}
+                <UpdateProfileForm profileData={userProfileData} setPage={setPage} />}
         </>
     );
 });
 
 export default OrgUserProfile;
 
-const UpdateProfileForm = ({profileData, setPage}) => {
+const UpdateProfileForm = ({ profileData, setPage }) => {
     const [gender, setGender] = useState(profileData.gender)
     const [city, setCity] = useState(profileData.city)
     const [state, setState] = useState(profileData.state)
@@ -297,7 +338,7 @@ const UpdateProfileForm = ({profileData, setPage}) => {
     const genderMenuItems = text.onboard.regular.genderOptions.map(val => {
         return <MenuItem value={val}>{val}</MenuItem>
     })
-    
+
     const stateMenuItems = text.usStates.map(val => {
         return <MenuItem value={val}>{val}</MenuItem>
     })
@@ -317,7 +358,7 @@ const UpdateProfileForm = ({profileData, setPage}) => {
                 country: DEFAULT_COUNTRY
             })
             console.log("account info update result: ", createAccountResult)
-        } catch(err) {
+        } catch (err) {
             setErrorMsg(err.message)
         }
     }
@@ -338,27 +379,39 @@ const UpdateProfileForm = ({profileData, setPage}) => {
         <>
             <Grid
                 container
-                direction="column" 
-                justifyContent="center" 
+                direction="column"
+                justifyContent="center"
                 alignItems="center"
                 style={{}}>
-                <Grid
+                {/* <Grid
                     container
-                    direction="column" 
-                    justifyContent="center" 
+                    direction="column"
+                    justifyContent="center"
                     alignItems="center"
                     wrap="nowrap"
                     rowSpacing={3}
-                    style={{ width: "100vw", maxWidth: "50em"}}>
-
+                    style={{ width: "100vw", maxWidth: "50em" }}> */}
+                <Grid
+                    item
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{}}>
                     <Grid
-                        item
-                        container
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        style={{}}>
+                        item xs={5}>
                         <Button
+                            onClick={() => {
+                                setPage(0)
+                            }}>
+                            Back
+                        </Button>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography style={{ fontWeight: "bold" }}>{"Hi, " + appCtx.user}</Typography>
+                    </Grid>
+                </Grid>
+                {/* <Button
                             onClick={() => {
                                 setPage(0)
                             }}>
@@ -370,39 +423,39 @@ const UpdateProfileForm = ({profileData, setPage}) => {
                                 setPage(1)
                             }}>
                             Edit Profile
-                        </Button>
-                    </Grid>
-                    
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} fullWidth>
-                      <InputLabel id="demo-simple-select-standard-label">Gender</InputLabel>
-                      <Select 
+                        </Button> */}
+                {/* </Grid> */}
+
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} fullWidth>
+                    <InputLabel id="demo-simple-select-standard-label">Gender</InputLabel>
+                    <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         value={gender}
                         label="Gender"
                         onChange={handleGenderChange}
-                      >
-                          {genderMenuItems}
-                      </Select>
-                    </FormControl>      
+                    >
+                        {genderMenuItems}
+                    </Select>
+                </FormControl>
 
-                    
-                    <Grid
-                        container
-                        justifyContent="space-between"
-                        alignItems="center">
-                    
-                        <TextField
-                            margin="normal"
-                            required
-                            name="City"
-                            label="City"
-                            type="City"
-                            id="City"
-                            value={city}
-                            onChange={handleCityChange}
-                        />
-                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+
+                <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center">
+
+                    <TextField
+                        margin="normal"
+                        required
+                        name="City"
+                        label="City"
+                        type="City"
+                        id="City"
+                        value={city}
+                        onChange={handleCityChange}
+                    />
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
@@ -413,29 +466,29 @@ const UpdateProfileForm = ({profileData, setPage}) => {
                         >
                             {stateMenuItems}
                         </Select>
-                        </FormControl>
-                    </Grid>
-
-
-                    <Grid
-                        container
-                        justifyContent="space-between"
-                        alignItems="center">
-                        <Button variant='contained' onClick={() => {
-                            //navigate("/app/onboard/select-account-type")
-                        }}>
-                            Cancel
-                        </Button>
-                        <Button variant='contained' onClick={() => {
-                            handleUpdateUserProfile()
-                        }}>
-                            Save
-                        </Button>
-                    </Grid>
-                    
-                    {errorMsgEle}
-
+                    </FormControl>
                 </Grid>
+
+
+                <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center">
+                    <Button variant='contained' onClick={() => {
+                        //navigate("/app/onboard/select-account-type")
+                    }}>
+                        Cancel
+                    </Button>
+                    <Button variant='contained' onClick={() => {
+                        handleUpdateUserProfile()
+                    }}>
+                        Save
+                    </Button>
+                </Grid>
+
+                {errorMsgEle}
+
+                {/* </Grid> */}
             </Grid>
         </>
     )
