@@ -159,6 +159,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                 <Grid
                     item
                     container
+                    direction="row" 
                     justifyContent="space-between"
                     alignItems="center">
                         
@@ -175,7 +176,7 @@ const ShelterInfoForm = ({ setPage, navigate, selectedShelter, setSelectedShelte
                           {stateMenuItems}
                       </Select>
                     </FormControl>
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120, marginTop :"23px" }}>
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
