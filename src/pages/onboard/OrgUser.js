@@ -313,7 +313,6 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
                     direction="column" 
                     justifyContent="center" 
                     alignItems="center"
-                    // rowSpacing={5}
                     >    
                     <Grid item >
                         <Typography style={{marginRight: "70px"}}>Select all that</Typography>
