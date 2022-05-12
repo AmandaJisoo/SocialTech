@@ -274,7 +274,7 @@ const OrgUserProfile = observer(props => {
 
                             <Avatar sx={{ width: 100, height: 100 }} alt="Remy Sharp" src={appStore.userProfilePic[appStore.username]} />
                             <label htmlFor="contained-button-file">
-                                å<input
+                                <input
                                     type="file"
                                     name="file"
                                     onChange={() => {
