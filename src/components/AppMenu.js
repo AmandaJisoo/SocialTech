@@ -74,13 +74,13 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
                 }}>
                  <Typography textAlign="center">Dashboard</Typography>
             </MenuItem>
-              <MenuItem 
-                  onClick={() => {
-                      handleCloseNavMenu()
-                      navigate("/app/application")
-                  }}>
-                  <Typography textAlign="center">Application</Typography>
-              </MenuItem>
+            <MenuItem 
+                onClick={() => {
+                    handleCloseNavMenu()
+                    navigate("/app/application")
+                }}>
+                <Typography textAlign="center">Application</Typography>
+            </MenuItem>
         
             <MenuItem 
                 onClick={() => {

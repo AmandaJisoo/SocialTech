@@ -324,5 +324,31 @@ export default class APIStorage {
             console.log(err);
         }
     }
+
+    async approveClaim(post_id, utilities) {
+        try {
+            return await API.post('SocialTechService', "/ApproveClaim", {
+                body: {
+                    post_id: post_id,
+                    utilities: utilities
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async deleteClaim(post_id, username) {
+        try {
+            return await API.post('SocialTechService', "/DeleteClaim", {
+                body: {
+                    post_id: post_id,
+                    username: username
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
