@@ -17,7 +17,7 @@ import Popover from '@mui/material/Popover';
 import ImageThumbNailWithLightBox from '../ImageThumbNailWithLightBox';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
 
-const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateComment, commentData, setCommentData }) => {
+const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateComment, commentData, setCommentData, getShelterPostData = undefined }) => {
     const [commentText, setCommentText] = useState(commentData ? commentData.comment_body : "");
     const [selectedTags, setSelectedTags] = useState(commentData ? commentData.tags : []);
     const [starRating, setStarRating] = useState(commentData ? commentData.rating : 0);
@@ -66,7 +66,11 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                 pics: imageUploadResponse
             })
             console.log(commentUploadRes)
-            handleClose()
+            if (getShelterPostData){
+                console.log('clicked here amanda')
+                await getShelterPostData();
+            }
+            await handleClose()
         } catch (err) {
             console.log("img upload error: " + err.message)
         }
@@ -215,12 +219,12 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                 <Button 
                     ref={buttonRef}
                     variant="contained"
-                    onClick={() => {
+                    onClick={async() => {
                         if (!appCtx.user) {
                             setIsPopoverOpen(true)
                             return
                         }
-                        handleUploadComment()
+                        await handleUploadComment()
                         setCommentText("")
                         setSelectedTags([])
                         setSelectedFile([])

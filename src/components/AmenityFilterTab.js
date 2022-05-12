@@ -21,7 +21,7 @@ const TAGS_FOR_SPECIFIC_AMENITY = new Map([
     ["Disability Amenities", ["Wheelchair Ramp", "Elevator"]],
     ["Maintained", ["Well-Maintained Amenities"]],
     ["Groups", ["Female Only", "Male Only", "Pet Friendly", "Kid Friendly", "LGBTQ Friendly", "Ex-Convict Friendly"]],
-    ["Others", ["Free Clothes", "Free Hygiene kits", "Employment Help enter"]]
+    ["Others", ["Free Clothes", "Free Hygiene kits", "Employment Help Center"]]
 ])
 //TODO: AMANDA update the deault isDashboard to false
 const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter, displayClearAllButton = true, maxHeight = "100%", isDashboard = false }) => {

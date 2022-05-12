@@ -10,12 +10,12 @@ export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL = {
 	height: "20em"
 }
 
-export const TAG_CATEGORY_PLACE_HOLDER = ["Cleaness", "Safety", "Warmth", "Utilities", "Others"]
+export const TAG_CATEGORY_PLACE_HOLDER = ["Cleaness", "Safety", "Temperature", "Utilities", "Others"]
 export const TAGS_FOR_SPECIFIC_CATEGORY = new Map([
-    ["Cleaness", ["Very clean", "Clean", "So-so", "Not clean", "Messy", "Dirty"]],
+    ["Cleaness", ["Very clean", "Clean", "Avg clean", "Not clean", "Messy", "Dirty"]],
     ["Safety", ["Very safe", "safe", "unsafe", "Dangerous"]],
-    ["Warmth", ["Warm", "Not worm"]],
-    ["Utilities", ["Fully-equipipped", "Just okay", "Lack utilities "]],
+    ["Temperature", ["Good temperature", "Avg temperature", "Unreasonable temperature"]],
+    ["Utilities", ["Fully equipipped", "Reasonably equipipped", "Sparsely equipipped "]],
     ["Others", ["free clothes", "free hygiene kits", "employment help center"]]
 ])
 

@@ -206,6 +206,10 @@ const ShelterDetail = observer(({ shelterData }) => {
         }
     }
 
+    // const reloadScreen = async () => {
+    //     apiStore.loadSummary()
+    // }
+
     const highlightedCommentEle = () => {
         if (comments === undefined) {
             return (
@@ -624,6 +628,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                         handleClose={handleClose}
                         isUpdateComment={false}
                         commentData={null}
+                        getShelterPostData={getShelterPostData}
                     />
                     </Grid>
         }
