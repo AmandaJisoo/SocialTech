@@ -20,7 +20,7 @@ const TAGS_FOR_SPECIFIC_AMENITY = new Map([
     ["Amenties", ["Bathroom", "Shower", "Hot water", "Heating System"]],
     ["Disability Amenities", ["Wheelchair Ramp", "Elevator"]],
     ["Maintained", ["Well-Maintained Amenities"]],
-    ["Groups", ["Female Only", "Male Only", "Pet Friendly", "Kid Friendly", "LGBTQ Friendly", "Ex-Convict Friendly"]],
+    ["Groups", ["Female Only", "Male Only", "Youth Only", "Pet Friendly", "Kid Friendly", "LGBTQ Friendly", "Ex-Convict Friendly"]],
     ["Others", ["Free Clothes", "Free Hygiene kits", "Employment Help Center"]]
 ])
 //TODO: AMANDA update the deault isDashboard to false
