@@ -313,9 +313,13 @@ const ShelterAdminInfoForm = ({navigate, setPage, selectedShelter}) => {
                     direction="column" 
                     justifyContent="center" 
                     alignItems="center"
-                    rowSpacing={2}>    
-                    <Grid item>
-                        <Typography>{text.onboard.org.tagSelectionPrompt}</Typography>
+                    // rowSpacing={5}
+                    >    
+                    <Grid item >
+                        <Typography style={{marginRight: "70px"}}>Select all that</Typography>
+                    </Grid>
+                    <Grid item >
+                        <Typography style={{marginRight: "70px", marginBottom: "10px"}}>your shelter owns/represents</Typography>
                     </Grid>
                     <Grid item >
                         
