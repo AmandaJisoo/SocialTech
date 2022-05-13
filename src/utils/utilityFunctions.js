@@ -3,12 +3,23 @@ export const DEFAULT_COUNTRY = "USA"
 export const DEFAULT_PROFILE_PATH = "" 
 export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD = {
 	width: "20em",
-	height: "15em"
+	height: "15em",
+	radius: "10px"
 }
+
+
+export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD_MOBILE = {
+	width: "100%",
+	height: "15em",
+	radius: "10px"
+}
+
 export const MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_DETAIL = {
 	width: "100%",
 	height: "20em"
 }
+
+export const MAX_NUMBER_OF_TAGS_IN_SHELTER_CARD = 6
 
 export const TAG_CATEGORY_PLACE_HOLDER = ["Cleaness", "Safety", "Temperature", "Utilities", "Others"]
 export const TAGS_FOR_SPECIFIC_CATEGORY = new Map([
@@ -47,14 +58,5 @@ export function truncateComment(comment) {
 }
 
 export function formatShelterAddress(data) {
-	// TODO: handle choosing highlighted review (either reviews with most likes or star rating)
     return data.title + ", " + data.street + ", " + data.city + ", " + data.state + ", " + data.zipcode
-}
-
-export function isShelterFavorited(userFavoritedShelterSet, shelterId) {
-    return userFavoritedShelterSet.has(shelterId)
-}
-
-export function isReviewFavorited(userFavoritedReview, reviewId) {
-    return userFavoritedReview.has(reviewId)
 }

@@ -8,7 +8,12 @@ import Rating from '@mui/material/Rating';
 import { Grid, Button } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { truncateComment, SHELTER_CARD_DISPLAY_STATUS, MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD } from '../../utils/utilityFunctions'
+import { 
+    truncateComment, 
+    SHELTER_CARD_DISPLAY_STATUS, 
+    MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD,
+    MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD_MOBILE, 
+    MAX_NUMBER_OF_TAGS_IN_SHELTER_CARD} from '../../utils/utilityFunctions'
 import TagContainer from '../SelectableTags/TagContainer';
 import { React, useState, useRef, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
@@ -101,7 +106,20 @@ const ShelterCard = observer(({
                     <CheckCircleIcon style={{ color: '#48AAAD' }} />
                     <Typography style={{ marginRight: "20px", color: '#48AAAD' }}>Claimed Amenties</Typography>
                 </IconButton>
-                <TagContainer tagData={shelterData.utilities} isSelectable={false} />
+
+                <Grid sx={{display: {xs: "block", sm: "block", md: "none"}}} >
+                    <TagContainer
+                        tagData={shelterData.utilities}
+                        isSelectable={false}
+                        isMobileDisplay={true}/>
+                </Grid>
+                <Grid sx={{display: {xs: "none", sm: "none", md: "block"}}}>
+                    <TagContainer
+                        tagData={shelterData.utilities}
+                        isSelectable={false}
+                        isMobileDisplay={false}/>
+                </Grid>
+
             </div>
         } else if (shelterStatus == "pending") {
             res =
@@ -166,14 +184,16 @@ const ShelterCard = observer(({
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                spacing={1}>
+                spacing={1}
+                sx={{flexDirection: {xs: 'column',sm: "column", md: "row"}}}>
                 <Grid
                     container
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
                     item
-                    xs={5}
+                    sm={12}
+                    md={5}
                     onClick={() => {
                         navigate("/app/shelter-detail/" + shelterData.post_id)
                     }}
@@ -184,9 +204,25 @@ const ShelterCard = observer(({
                         alt="shelter_preview"
                         style={{
                             maxWidth: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.width,
-                            maxHeight: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.height
-                        }} />
+                            maxHeight: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.height,
+                            borderRadius: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD.radius,
+                        }} 
+                        sx={{display: {xs: 'none',sm: "none", md: "block"}}}/>
+
+
+                    <CardMedia
+                        component="img"
+                        image={shelterData.profile_pic_path}
+                        alt="shelter_preview"
+                        style={{
+                            maxWidth: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD_MOBILE.width,
+                            maxHeight: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD_MOBILE.height,
+                            borderRadius: MAX_SHELTER_CARD_IMAGE_DIMENSION_SHELTER_CARD_MOBILE.radius
+                        }} 
+                        sx={{display: {xs: 'flex',sm: "flex", md: "none"}}}/>
                 </Grid>
+
+                
 
                 <Grid
                     container
@@ -194,7 +230,8 @@ const ShelterCard = observer(({
                     justifyContent="space-around"
                     alignItems="flex-start"
                     item
-                    xs={6}
+                    sm={12}
+                    md={6}
                     style={{ minHeight: "300px" }}
                 >
                     <Grid
@@ -260,3 +297,11 @@ const ShelterCard = observer(({
 
 
 export default ShelterCard; 
+
+const ShelterCardMobile = () => {
+
+
+
+    
+
+}
