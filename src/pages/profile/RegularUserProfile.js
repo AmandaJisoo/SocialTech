@@ -181,7 +181,7 @@ const RegularUserProfile = observer(props => {
                                 alignItems="center"
                                 style={{}}>
                                 <Grid
-                                item item xs={5}>
+                                item xs={5}>
                                 <Button
                                     onClick={() => {
                                         navigate("/app/dashboard")
@@ -202,7 +202,7 @@ const RegularUserProfile = observer(props => {
                                 style={{}}>
                                     <Typography variant='h5'>Profile</Typography>
                             </Grid>
-                            <Avatar sx={{ width: 100, height: 100 }} alt="Remy Sharp" src={appStore.userProfilePic[appStore.username]} />
+                            <Avatar sx={{ width: 100, height: 100 }} alt="user avatar" src={appStore.userProfilePic[appStore.username]} />
                             <label htmlFor="contained-button-file">
                                 {/* <Input accept="image/*" id="contained-button-file" type="file"                             
                                     onChange={ () => {

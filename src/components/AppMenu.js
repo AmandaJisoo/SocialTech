@@ -189,7 +189,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 
-                <Avatar alt="Remy Sharp" src={appStore.userProfilePic[appStore.username]} />
+                <Avatar alt="user avatar" src={appStore.userProfilePic[appStore.username]} />
               </IconButton>
             </Tooltip>
             <Menu

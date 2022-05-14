@@ -28,6 +28,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HelpIcon from '@mui/icons-material/Help';
 import PendingIcon from '@mui/icons-material/Pending';
 import InfoIcon from '@mui/icons-material/Info';
+import Avatar from '@mui/material/Avatar';
 
 const ShelterCard = observer(({
     user,
@@ -271,11 +272,9 @@ const ShelterCard = observer(({
                                 direction="row"
                                 justifyContent="flex-start"
                                 alignItems="center">
-                                <img
-                                    style={{ width: 40, height: 40, borderRadius: 40 / 2, borderWidth: 1, borderColor: "black", borderStyle: "solid" }}
-                                    src={appStore.userProfilePic[userProfile.username]}
-                                    alt='user profile placeholder'
-                                />
+                                <Avatar 
+                                    alt='user avatar' 
+                                    src={appStore.userProfilePic[userProfile.username]}/>
                                 <Typography style={{ marginLeft: "10px" }}>{userProfile.username}</Typography>
                             </Grid>
 

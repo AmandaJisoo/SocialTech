@@ -103,7 +103,8 @@ const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags
 
               <Grid 
                 item
-                style={{marginLeft: "10px", width: "200px"}}>
+                style={{marginLeft: "10px"}}
+                sx={{width: {xs: "150px", sm: "300px"}}}>
                   {tagsFilteredByCategory()}
               </Grid>
           </Grid>

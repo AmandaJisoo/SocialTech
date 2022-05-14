@@ -20,6 +20,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PostCommentForm from './PostCommentForm/PostCommentForm';
 import { observer } from 'mobx-react';
+import Avatar from '@mui/material/Avatar';
 
 
 const public_url = process.env.PUBLIC_URL;
@@ -203,11 +204,10 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
                                 direction="col" 
                                 alignItems="flex-start"
                                 style={{width: "100%", justifyContent: "left"}}>
-                            <img 
-                            style={{width: 60, height: 60, borderRadius: 60/ 2}} 
-                            src={appStore.userProfilePic[commentData.username]}
-                            alt='user profile placeholder'
-                            />
+                           
+                                <Avatar 
+                                    alt='user avatar' 
+                                    src={appStore.userProfilePic[commentData.username]}/>
                             </Grid>
 
                             {isEditAndDeleteable && <Grid item
