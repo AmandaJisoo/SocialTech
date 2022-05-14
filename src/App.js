@@ -137,7 +137,7 @@ const App = observer(() => {
             await appStore.getUsername()
             const userProfile = await apiStore.getUserProfile(appStore.username);
             appStore.setUserProfilePic(appStore.username, userProfile.profile_pic_path)
-            console.log("hello app js profile setting up")
+            //console.log("hello app js profile setting up")
 
         } catch (err) {
             console.error(err)
@@ -165,7 +165,7 @@ const App = observer(() => {
       appStore.setSearchQuery(zipcode);
       // zipcode = 98108
       const shelterDataResponse = await apiStore.loadOverview(zipcode, zipcode)
-      console.log("Shelter data: ", shelterDataResponse)
+      //console.log("Shelter data: ", shelterDataResponse)
         //get distance between user and shetler for each shelter in shelterDataResponse
       for (const shelterPostData of shelterDataResponse) {
           const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
@@ -195,7 +195,7 @@ const App = observer(() => {
           const userData = await Auth.currentAuthenticatedUser();
           const userStatusResponse = await apiStore.getUserStatus(userData.username);
           setUserStatus(userStatusResponse.UserStatus)
-          console.log("current status: " + userStatus)
+          //console.log("current status: " + userStatus)
       } catch (err) {
           console.log(err);
           console.log("Error in fetching user status: Not authenticated");

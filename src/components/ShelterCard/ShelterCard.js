@@ -39,10 +39,9 @@ const ShelterCard = observer(({
     const [open, setOpen] = useState(false)
     const [bookmarkState, setBookmarkState] = useState(isBookmarked);
     const buttonRef = useRef(null);
-    const [claimStatus, setClaimeStatus] = useState(undefined);
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const [userProfile, setUserProfile] = useState(undefined);
-    const [shelterStatus, setShelterStatus] = useState(undefined)
+    const [claimStatus, setClaimStatus] = useState(undefined)
     const { apiStore, appStore } = useStore();
 
 
@@ -52,14 +51,21 @@ const ShelterCard = observer(({
             let username = authRes.username;
             let bookmarksResponse = await apiStore.getSavedBookmarks(username);
             let res = bookmarksResponse.includes(shelterData.post_id)
-            console.log("res", res)
-            let shelterClaimRes = await apiStore.getIsClaimed(shelterData.post_id)
-            console.log("shelterClaimRes", shelterClaimRes)
-            setShelterStatus(shelterClaimRes)
-            setBookmarkState(bookmarksResponse.includes(shelterData.post_id));
+            //console.log("res", res)
+            setBookmarkState(res);
         } catch {
             //do pop up?
             setBookmarkState(false)
+        }
+    }
+
+    const loadClaimStatus = async () => {
+        try {
+            let shelterClaimRes = await apiStore.getIsClaimed(shelterData.post_id)
+            //console.log("shelterClaimRes", shelterClaimRes)
+            setClaimStatus(shelterClaimRes)
+        } catch(err) {
+
         }
     }
 
@@ -95,13 +101,14 @@ const ShelterCard = observer(({
     useEffect(() => {
         getHighLightedComment();
         loadBookmarks();
+        loadClaimStatus()
     }, [])
 
     const navigate = useNavigate();
 
     const claimStatusWithIcon = () => {
         let res = <></>;
-        if (shelterStatus === "claimed") {
+        if (claimStatus === "claimed") {
             res = <>
                 <IconButton aria-label="business claim status">
                     <CheckCircleIcon style={{ color: '#48AAAD' }} />
@@ -122,7 +129,7 @@ const ShelterCard = observer(({
                 </Grid>
 
             </>
-        } else if (shelterStatus == "pending") {
+        } else if (claimStatus == "pending") {
             res = <>
                 <Grid item>
                     <IconButton aria-label="business claim status">
@@ -135,7 +142,7 @@ const ShelterCard = observer(({
                     </Typography>
                 </Grid>
             </>
-        } else if (shelterStatus == "no_claim") {
+        } else if (claimStatus == "no_claim") {
             res = <>
                 <Grid item>
                     <IconButton aria-label="business claim status">
@@ -150,7 +157,7 @@ const ShelterCard = observer(({
             </>
         }
         return (
-            <Grid container direction="row" alignItems="center">
+            <Grid container direction="row" alignItems="center" style={{marginLeft: '-10px'}}>
                 {res}
             </Grid>
         );
@@ -172,7 +179,7 @@ const ShelterCard = observer(({
     return (
         <Card
             onClick={() => {
-                console.log("shelterData for card", shelterData);
+                //console.log("shelterData for card", shelterData);
                 appStore.setShelterData(shelterData);
             }}
             style={{
@@ -249,7 +256,7 @@ const ShelterCard = observer(({
                             justifyContent="space-between"
                             alignItems="center"
                             style={{ width: "100%" }}>
-                            <Typography style={{ fontWeight: "bold", marginTop: "10px" }}>{shelterData.title}</Typography>
+                            <Typography variant='h4' style={{ fontWeight: "bold", marginTop: "10px" }}>{shelterData.title}</Typography>
                             <Typography>{`${shelterData.distanceToUserLocation} away`}</Typography>
                         </Grid>
                         <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{ color: appTheme.palette.primary.main }} />
@@ -288,7 +295,8 @@ const ShelterCard = observer(({
                         container
                         direction="row"
                         justifyContent="space-between"
-                        alignItems="center">
+                        alignItems="center"
+                        style={{marginLeft: "-12px"}}>
                         {favoriteIcon()}
                     </Grid>
 
@@ -299,11 +307,3 @@ const ShelterCard = observer(({
 
 
 export default ShelterCard; 
-
-const ShelterCardMobile = () => {
-
-
-
-    
-
-}

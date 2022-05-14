@@ -15,7 +15,7 @@ const ImageThumbNailWithLightBox = ({ imgs, index, selectedFile, setSelectedFile
     const [photoIdx, setPhotoIdx] = useState(index)
     const startingImgIdx = index;
     const thumbnailImgAddr = imgs[index];
-    console.log("img addr: " + thumbnailImgAddr)
+    //console.log("img addr: " + thumbnailImgAddr)
     return (
         <Grid
             style={{margin: "0 10px", position: 'relative', borderRadius: "10px"}}

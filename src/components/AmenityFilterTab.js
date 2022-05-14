@@ -31,8 +31,8 @@ const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags
     const { appStore } = useStore(); 
 
 
-    console.log("displayClearAllButton", displayClearAllButton)
-    console.log("selectedInfoRange", selectedInfoRange)
+    //console.log("displayClearAllButton", displayClearAllButton)
+    //console.log("selectedInfoRange", selectedInfoRange)
     const tabs = CATEGORY_PLACE_HOLDER.map((name) => {
         return (
         <Grid key={name}>

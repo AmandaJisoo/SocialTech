@@ -11,7 +11,7 @@ import AmenityFilterTab from '../AmenityFilterTab';
 
 const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
     const [selectedTab, setSelectedTab] = useState(TAG_CATEGORY_PLACE_HOLDER[0]);
-    console.log("selectedTab1", selectedTab)
+    //console.log("selectedTab1", selectedTab)
     const shelterUtilityTab = "ShelterUtilities";
     const categoryTabs = <>
         {TAG_CATEGORY_PLACE_HOLDER.map((name) => {
@@ -112,7 +112,7 @@ const TagSelectionTab = ({ selectedTags, setSelectedTags, handleFilter }) => {
                     direction="row"
                     alignItems='center'
                     justifyContent='center'
-                    style={{width: "100%"}}
+                    style={{width: "100%", marginTop: "10px"}}
                 >
                     {categoryTabs}
                 </Grid>

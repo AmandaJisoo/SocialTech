@@ -28,11 +28,11 @@ const public_url = process.env.PUBLIC_URL;
 const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefined, commentData, onLike = undefined, isHighLighted, isEditAndDeleteable, setCommentData}) => {
 
     const { apiStore, appStore } = useStore(); 
-    console.log("commentData0", commentData)
-    console.log("osEdit", isEditAndDeleteable)
-    console.log("name", commentData.username == appStore.username)
-    console.log("shelterName", shelterName)
-    console.log("UserCommentshelter_post_id", shelter_post_id)
+    // console.log("commentData0", commentData)
+    // console.log("osEdit", isEditAndDeleteable)
+    // console.log("name", commentData.username == appStore.username)
+    // console.log("shelterName", shelterName)
+    // console.log("UserCommentshelter_post_id", shelter_post_id)
     const [open, setOpen] = useState(false)
     const favoritebBttonRef = useRef(null);
     const appCtx = useContext(AppContext);
@@ -47,16 +47,16 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
     
     const deleteButtonRef = useRef(null);
     const navigate = useNavigate();
-    console.log("commentData1",  commentData)
-    console.log("commentData1 likes",  commentData.likes)
-    console.log("numOfLikes", numOfLikes)
+    // console.log("commentData1",  commentData)
+    // console.log("commentData1 likes",  commentData.likes)
+    // console.log("numOfLikes", numOfLikes)
 
     const highlightedText = 
     (isHighLighted && commentData && commentData.likes > 0)?
         <Typography style={{color: appTheme.palette.accent1.main}}>Highlighted Comment</Typography> :
         <span/>;
 
-    console.log('user comment post id', shelter_post_id)
+    // console.log('user comment post id', shelter_post_id)
 
     const handleClose = async() => {
         if (reloadData) {
@@ -80,12 +80,12 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
     const handleLike = async () => {
         try {
             if (appCtx.user) {
-                console.log('appCtx.user', appCtx.user)
+                //console.log('appCtx.user', appCtx.user)
                 let likeResponse = await apiStore.handleLike(commentData.comment_id, commentData.post_id, appCtx.user)
-                console.log('likeResponse', likeResponse)
+                //console.log('likeResponse', likeResponse)
                 setLikeState(likeResponse.like)
                 setNumOfLikes(likeResponse.num_of_likes)
-                console.log("likeState after clicking", likeState)
+                //console.log("likeState after clicking", likeState)
                 if (onLike) {
                     await onLike();
                 }
@@ -102,9 +102,9 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
                 setUserProfile(appStore.userProfilePic[commentData.username])
             } else {
                 let profile = await apiStore.getUserProfile(commentData.username)
-                console.log("profile", profile)
+                //console.log("profile", profile)
                 appStore.setUserProfilePic(commentData.username, profile.profile_pic_path)
-                console.log('profile', profile)
+                //console.log('profile', profile)
                 setUserProfile(profile)
             }
             } catch {
@@ -121,7 +121,7 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
         }
     }
 
-    console.log("likeState", likeState);
+    //console.log("likeState", likeState);
 
     const likeIcon = () => likeState? 
         (<Grid container
@@ -160,7 +160,7 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
         getUserPofile();
     }, [])
 
-    console.log("comment data", commentData)
+    //console.log("comment data", commentData)
     return (
       <Card 
         onMouseEnter={() => {

@@ -93,7 +93,7 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
             rowSpacing={3}
             style={{ width: "100vw", maxWidth: "50em"}}>
             
-            <Typography variant="h3" sx={{marginTop: "1em", color: "#F34343"}} >Shelp</Typography>
+            <Typography variant="h3" fontWeight={600} sx={{marginTop: "1em", color: "#F34343"}} >Shelp</Typography>
             <Typography style={{marginTop: "1px", fontSize:"1.1rem"}}>Matching you to shelters that provide the resources you need</Typography>
 
             <Grid item container style={{width: "90%"}}>

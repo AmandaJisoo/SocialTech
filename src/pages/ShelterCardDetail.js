@@ -5,7 +5,6 @@ import UserComment from '../components/UserComment';
 import { Alert, Card, Grid, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import ImageGallery from '../components/ImageGallery'
 import Rating from '@mui/material/Rating';
 import appTheme from '../theme/appTheme.json';
 import TextField from '@mui/material/TextField';
@@ -35,28 +34,29 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import TagSelectionTab from '../components/PostCommentForm/TagSelectionTab';
 import AmenityFilterTab from '../components/AmenityFilterTab';
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css"
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
 
 const ShelterDetail = observer(({ shelterData }) => {
 
-    console.log("shelterdetail sheter data", shelterData);
+    //console.log("shelterdetail sheter data", shelterData);
     const params = useParams();
     const { hash } = useLocation();
     const post_id = `${params.id}${hash}`;
     console.log("sheltercarddetail post_id", post_id)
     const { apiStore, appStore } = useStore();
     const currentShelterData = appStore.shelterData;
-    console.log("currentShelterData", currentShelterData)
+    //onsole.log("currentShelterData", currentShelterData)
     const [comments, setComments] = useState([]);
     const [highlightedComment, setHighlightedComment] = useState(undefined);
     const shelterPostData = appStore.shelterData;
     const navigate = useNavigate();
     const appCtx = useContext(AppContext);
-    console.log('highlightedComment', highlightedComment)
+    //console.log('highlightedComment', highlightedComment)
     const [isClaimed, setIsClaimed] = useState(undefined);
     const [loaderActive, setLoaderActive] = useState(true);
     const [isCommentSubmitted, setIsCommentSubmitted] = useState(false)
@@ -65,7 +65,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [openModal, setOpenModal] = useState(false);
     const [snackBarOpen, setSnackBarOpen] = useState(false)
     const buttonRef = useRef(null);
-    console.log("bookmarkState", bookmarkState)
+    //console.log("bookmarkState", bookmarkState)
     const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
     const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
     const fullAddress = `${streetAddress} ${cityAddress}`
@@ -86,8 +86,9 @@ const ShelterDetail = observer(({ shelterData }) => {
     const [editUtilities, setEditUtilities] = useState([])
     const [showEditLoader, setShowEditLoader] = useState(false)
     const [isOwner, setIsOwner] = useState(false);
-    console.log(comments)
-    console.log("selectedFile", selectedFile)
+    const [galleryImgs, setGalleryImgs] = useState([]);
+    // console.log(comments)
+    // console.log("selectedFile", selectedFile)
 
     useEffect(() => {
         (async () => {
@@ -109,8 +110,21 @@ const ShelterDetail = observer(({ shelterData }) => {
     const getCommentData = async () => {
         try {
             const commentDataRes = await apiStore.loadComment(post_id);
+            
             console.log("comment response: ", commentDataRes)
             setComments(commentDataRes)
+            let res = commentDataRes.reduce((a, b) => {
+                return a.concat(b.pics)
+            }, [])
+            res = res.map(img => {
+                return {
+                    original: img,
+                    thumbnail: img
+                }
+            })
+            console.log("reduce res: ", res)
+            setGalleryImgs(res)
+
         } catch (err) {
             console.log(err.message)
         }
@@ -118,7 +132,7 @@ const ShelterDetail = observer(({ shelterData }) => {
 
     const getShelterPostData = async () => {
         try {
-            console.log("post_id before load summary: " + post_id)
+            //console.log("post_id before load summary: " + post_id)
             const shelterPostDataResponse = await apiStore.loadSummary(post_id);
             appStore.setShelterData(shelterPostDataResponse);
             setEditTitle(shelterPostDataResponse.title)
@@ -127,21 +141,21 @@ const ShelterDetail = observer(({ shelterData }) => {
             setEditState(shelterPostDataResponse.state)
             setEditZipcode(shelterPostDataResponse.zipcode)
             setEditUtilities(shelterPostDataResponse.utilities)
-            console.log("before fetch")
+            //console.log("before fetch")
             const fetchData = await fetch(shelterPostDataResponse.profile_pic_path)
             const blobData = await fetchData.blob()
-            console.log("blob", blobData)
+            //console.log("blob", blobData)
             setSelectedFile([blobData])
-            console.log("after set")
+            //console.log("after set")
 
-            console.log("shelter data response: ", shelterPostDataResponse)
+            //console.log("shelter data response: ", shelterPostDataResponse)
 
             const topComment = await apiStore.getMostLikedComment(post_id);
-            console.log("top/comment", topComment)
+            //console.log("top/comment", topComment)
             if (topComment.length > 0) {
                 appStore.setHighlightedComment(post_id, topComment[0])
                 setHighlightedComment(topComment[0]);
-                console.log("loading new comment data");
+                //console.log("loading new comment data");
             }
         } catch (err) {
             console.error(err.message)
@@ -160,11 +174,11 @@ const ShelterDetail = observer(({ shelterData }) => {
                 let authRes = await Auth.currentAuthenticatedUser();
                 let username = authRes.username;
                 setCurrentUsername(username);
-                console.log("username for bookmarks", username);
+                //console.log("username for bookmarks", username);
                 let bookmarksResponse = await apiStore.getSavedBookmarks(username);
-                console.log("bookmarksResponse amanda", bookmarksResponse)
+                //console.log("bookmarksResponse amanda", bookmarksResponse)
                 let res = bookmarksResponse.includes(post_id)
-                console.log("res", res)
+                //console.log("res", res)
                 setBookmarkState(bookmarksResponse.includes(post_id));
                 setLoaderActive(false);
               } catch {
@@ -175,7 +189,7 @@ const ShelterDetail = observer(({ shelterData }) => {
         const getClaimStatus = async() => {
             try {
                 const claimStatus = await apiStore.getIsClaimed(post_id);
-                console.log("claimStatus response: ", claimStatus)
+                //console.log("claimStatus response: ", claimStatus)
                 setIsClaimed(claimStatus)
                 if (claimStatus == "no_claim") {
                     setModalTitleStatus("Unclaimed Buisness")
@@ -248,7 +262,6 @@ const ShelterDetail = observer(({ shelterData }) => {
                 </Grid>
             )
         } else {
-            console.log('comments', comments)
             let sortedComments;
             if (filterOption == "latest") {
                 sortedComments = comments.slice().sort((a, b) => b.post_time.localeCompare(a.post_time))
@@ -261,10 +274,10 @@ const ShelterDetail = observer(({ shelterData }) => {
             } else {
                 console.error("no filter option defined for ", filterOption)
             }
-            console.log("sorted", sortedComments)
+            //console.log("sorted", sortedComments)
             const commentPage = sortedComments.slice(pageSize * (page - 1), pageSize * page);
-            console.log("commentPage", commentPage)
-            console.log("commentPage post_id", post_id);
+            //console.log("commentPage", commentPage)
+            //console.log("commentPage post_id", post_id);
             return commentPage
                 .filter((commentData) => highlightedComment && commentData && (commentData.comment_id !== highlightedComment.comment_id))
                 .map((commentData) => <UserComment 
@@ -304,9 +317,9 @@ const ShelterDetail = observer(({ shelterData }) => {
           let url = "http://maps.google.com/?q=";
           let endAddress = fullAddress
           endAddress = endAddress.replace(/\s/g, "+")
-          console.log(endAddress);
+          //console.log(endAddress);
           url = url + endAddress
-          console.log(url);
+          //console.log(url);
           window.location.href=url;
     }
 
@@ -332,6 +345,7 @@ const ShelterDetail = observer(({ shelterData }) => {
     const selectFile = () => {
         fileInputRef.current.click()
     } 
+
     //Amanda here
     // useEffect(() => {
     //     // setSearchBarOption(appStore.searchOption)\
@@ -468,7 +482,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                         onClick={async () => {
                         setShowEditLoader(true)
                         const s3Path = await apiStore.uploadImageToS3(selectedFile[0])
-                        console.log("upsert profile", s3Path);
+                        //console.log("upsert profile", s3Path);
                         await apiStore.upsertPost({
                             post_id: post_id,
                             title: editTitle,
@@ -518,8 +532,8 @@ const ShelterDetail = observer(({ shelterData }) => {
                     onClick={async() => {
                         navigate("/app/dashboard")
                         let shelterData = []
-                        console.log("search optino", appStore.searchOption);
-                        console.log("search query", appStore.searchQuery)
+                        //console.log("search optino", appStore.searchOption);
+                        //console.log("search query", appStore.searchQuery)
                         if (appStore.searchOption == "zipcode") {
                             shelterData = await apiStore.loadOverview(appStore.searchQuery, appStore.searchQuery)
                         } else if (appStore.searchOption == "city") {
@@ -538,7 +552,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     }}>
                         {text.shelterDetail.backButton}
                     </Button>
-                    <Typography variant="h3"style={{marginRight: "40px" }}>{shelterPostData.title}</Typography>
+                    <Typography variant="h3" fontWeight={600} style={{marginRight: "40px" }}>{shelterPostData.title}</Typography>
                         {bookmarkState !== undefined && favoriteIcon()}  
                         {/* Disable share icon for now. May come back and implement it */}
                         {/* <IosShareIcon/> */}
@@ -548,7 +562,13 @@ const ShelterDetail = observer(({ shelterData }) => {
                 <LoadingSpinner text={"Loading Shelter Data"} size={LOADING_SPINNER_SIZE.medium} />
                  :
                 <>
-                    <ImageGallery imgAddr={shelterPostData.profile_pic_path}/>
+                    <Grid style={{width: "100%", borderRadius: "30px"}}>
+                        <ImageGallery 
+                            items={[{original: shelterPostData.profile_pic_path, 
+                                thumbnail: shelterPostData.profile_pic_path}, ...galleryImgs]}
+                            showBullets={true}
+                            showPlayButton={false}/>
+                    </Grid>
                     <Grid
                         item
                         container
@@ -558,8 +578,9 @@ const ShelterDetail = observer(({ shelterData }) => {
                         <Grid 
                             item
                             container
-                            direction="row">
-                        <ShelterClaimStatusText postId={shelterPostData.post_id} currentUsername={currentUsername}modalSubTitleStatus={modalSubTitleStatus} modalTitleStatus = {modalTitleStatus} openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
+                            direction="row"
+                            style={{marginLeft: "-10px"}}>
+                            <ShelterClaimStatusText postId={shelterPostData.post_id} currentUsername={currentUsername}modalSubTitleStatus={modalSubTitleStatus} modalTitleStatus = {modalTitleStatus} openModal={openModal} setOpenModal={setOpenModal} claim_status={isClaimed}/>
 
                         {isOwner && <Button onClick={()=> setOpenEdit(true)}>Edit Shelter</Button>}
                         </Grid>
@@ -568,11 +589,25 @@ const ShelterDetail = observer(({ shelterData }) => {
                         item
                         container
                         direction="column"
-                        alignItems="flex-start">
-                        Overall Rating: 
-                        <Rating name="size-large" value={shelterPostData.avg_rating}  sx={{fontSize: "2rem"}} readOnly precision={0.5} style={{color: appTheme.palette.primary.main }}/>
+                        alignItems="flex-start"
+                        rowSpacing={1}>
+                    
+                        <Grid item>
+                            <Typography  style={{fontWeight: "bold"}}>Overall Rating: </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Rating
+                                name="size-large"
+                                value={shelterPostData.avg_rating}
+                                sx={{fontSize: "2rem"}} readOnly precision={0.5}
+                                style={{color: appTheme.palette.primary.main, marginLeft: '-5px' }}/>
+                        </Grid>
 
-                        <TagContainer tagData={shelterPostData.utilities} isSelectable={false}/>
+                        <Grid item style={{marginLeft: "-5px"}}>
+                            <TagContainer
+                                tagData={shelterPostData.utilities}
+                                isSelectable={false}/>
+                        </Grid>
                     </Grid>
                     
                     <Grid
@@ -588,8 +623,9 @@ const ShelterDetail = observer(({ shelterData }) => {
                             direction="column"
                             justifyContent="space-between"
                             alignItems="flex-start">
-                            <Typography  style={{fontWeight: "bold"}}>{streetAddress}</Typography>
-                            <Typography style={{fontWeight: "bold"}}>{cityAddress}</Typography>
+                            <Typography style={{fontWeight: "bold"}}>Address: </Typography>
+                            <Typography>{streetAddress}</Typography>
+                            <Typography>{cityAddress}</Typography>
                         </Grid>
                         <Grid 
                             item
@@ -645,19 +681,30 @@ const ShelterDetail = observer(({ shelterData }) => {
             </Snackbar>
 
             <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+            
+            <Grid
+                item
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center">
+                <Typography variant='h4' fontWeight={600}>Top Comment</Typography>
+            </Grid>
+            
+
             <Grid style={{width: "100%"}}>{highlightedCommentEle()}</Grid>
                
-                <Divider style={{width: "100%", marginTop: "20px", marginBottom: "20px"}}/>
+                <Divider style={{width: "100%", marginTop: "10px", marginBottom: "10px"}}/>
                 <Grid
                     item
                     container
                     direction="row"
                     justifyContent="flex-start"
                     alignItems="center">
-                    <Typography>{text.shelterDetail.otherReviewSectionHeader}</Typography>
+                    <Typography variant='h4' fontWeight={600}>{text.shelterDetail.otherReviewSectionHeader}</Typography>
                 </Grid>
-                <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">option</InputLabel>
+                <FormControl fullWidth style={{marginTop: "10px"}}>
+                        <InputLabel id="demo-simple-select-label">Sort By:</InputLabel>
                         <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -665,10 +712,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                         label="option"
                         onChange={handleChange}
                         >
-                        <MenuItem value={'latest'}>latest</MenuItem>
-                        <MenuItem value={'oldest'}>oldest</MenuItem>
-                        <MenuItem value={'likes'}>number of Likes</MenuItem>
-                        <MenuItem value={'rating'}>rating</MenuItem>
+                        <MenuItem value={'latest'}>Latest</MenuItem>
+                        <MenuItem value={'oldest'}>Oldest</MenuItem>
+                        <MenuItem value={'likes'}>Number of Likes</MenuItem>
+                        <MenuItem value={'rating'}>Rating</MenuItem>
                         </Select>
                 </FormControl>
                 <Grid style={{width: "100%"}}>{commentEles()}</Grid>
@@ -678,9 +725,5 @@ const ShelterDetail = observer(({ shelterData }) => {
         </>
     );
 });
-
-ShelterDetail.propTypes = {
-    data: PropTypes.array,
-};
 
 export default ShelterDetail;

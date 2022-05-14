@@ -150,7 +150,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                 justifyContent="center" 
                 alignItems="center"
             >
-                <Typography > {`Rate ${shelterName}`}</Typography>
+                <Typography variant='h4' fontWeight={600}> {`Rate ${shelterName}`}</Typography>
                 <Rating 
                     value={starRating} 
                     precision={0.5} 
@@ -173,7 +173,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                         maxRows={6}
                         value={commentText}
                         placeholder={text.postCommentForm.textFieldPlaceHolder}
-                        style={{width: "98%", height: "120px"}}
+                        style={{width: "98%", height: "120px", fontFamily: "Roboto"}}
                         onChange={handleTextChange}/>
                 </Grid>  
                 <Divider style={{width: "100%"}}/> 

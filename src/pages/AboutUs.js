@@ -92,18 +92,18 @@ const AboutUs = ( )=> {
                         <Typography 
                             variant='h2'
                             style={{fontWeight: "500"}}>
-                                We want you to live better in Shelter!</Typography>
+                                We want you to live better in Homeless Shelter!</Typography>
                         <Typography 
                             variant='h2'
                             style={{fontWeight: "500"}}>
-                                Find Shelters to help you! Make Shelters more helpful!
+                                Find Homeless Shelters to help you! Make Shelters more helpful!
                         </Typography>
                         <Button
                             variant="contained"
                             onClick={() => {
                                 navigate("/app/dashboard")
                             }}
-                            style={{color: "black", marginTop: "12px"}}
+                            style={{color: "white", marginTop: "12px"}}
                             >
                             Explore Shelters
                         </Button>
@@ -144,7 +144,7 @@ const AboutUs = ( )=> {
                                 style={{width: "257px", height: "124px"}}/>
                         </Box>
 
-                        <Typography style={{fontSize: "1.5rem"}}>How might individuals in need of shelter gain better access to shelter information, so that they can make better informed decisions about the condition and risk before arriving?</Typography>
+                        <Typography style={{fontSize: "1.5rem"}}>How might individuals in need of temporary shelter gain better access to shelter information, so that they can make better informed decisions about the condition and risk before arriving?</Typography>
                     </Grid>
                 </Grid>
                 
@@ -217,7 +217,7 @@ const AboutUs = ( )=> {
                         alignItems="flex-start"
                         sx={{alignItems: { xs: 'center', sm: 'center', md: 'flex-start' }}}>
                         
-                        <Typography variant='h1' style={{fontWeight: "700", marginBottom: "2rem", fontSize: "1.5rem"}}>Outcome</Typography>
+                        <Typography variant='h1' style={{fontWeight: "700", marginBottom: "2rem"}}>Outcome</Typography>
                         <Typography style={{fontSize: "1.2rem"}}>We want to provide more detailed information on shelter but not just simple star rating.</Typography>
                         <Typography style={{ fontSize: "1.2rem"}}>We want to provide Platform for sharing experience on specific shelter could reduce one’s concern/ fear on making visits on sheltersWe don’t want one bad experience or rumors on shelters make people hesitant to visit shelter.</Typography>
                         
@@ -258,8 +258,8 @@ const AboutUs = ( )=> {
                      wrap="nowrap" 
                      justifyContent='space-around'
                      style={{width: "60%"}}>
-                        <Typography variant='h4'>Team Social Tech</Typography>
-                        <Typography variant='h4'>2022 Spring Capstone</Typography>
+                        <Typography variant='h4' fontWeight={450}>Team Social Tech</Typography>
+                        <Typography variant='h4' fontWeight={450}>2022 Spring Capstone</Typography>
                     </Grid>
                 
                 </Grid>
@@ -278,11 +278,11 @@ const AboutUs = ( )=> {
                         <img src={public_url + "/assets/imgs/about_us/ischool.png"} alt='ischool logo' />
                     </Grid>
                     <Grid item>
-                        <Typography variant='h4'>Team Social Tech</Typography>
+                        <Typography variant='h2' fontWeight={450}>Team Social Tech</Typography>
                     </Grid>
 
                     <Grid item>
-                        <Typography variant='h4'>2022 Spring Capstone</Typography>
+                        <Typography variant='h2' fontWeight={450}>2022 Spring Capstone</Typography>
                     </Grid>
                 
                 </Grid>

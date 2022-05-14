@@ -221,7 +221,7 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
                 style={{position: "relative"}}>
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">option</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Load By</InputLabel>
                         <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -229,9 +229,9 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
                         label="option"
                         onChange={handleChange}
                         >
-                        <MenuItem value={'city'}>city</MenuItem>
-                        <MenuItem value={'zipcode'}>zipcode</MenuItem>
-                        <MenuItem value={'name'}>name</MenuItem>
+                        <MenuItem value={'city'}>City</MenuItem>
+                        <MenuItem value={'zipcode'}>Zipcode</MenuItem>
+                        <MenuItem value={'name'}>Name</MenuItem>
                         </Select>
                     </FormControl>
                     </Box>

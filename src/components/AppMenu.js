@@ -23,7 +23,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const { appStore, apiStore } = useStore(); 
-  console.log("userStatus", userStatus)
+  //console.log("userStatus", userStatus)
   const [profilePath, setProfilePath] =  React.useState("")
   // const [userStatus, setUserStatus] =  React.useState("")
   const [userRole, setUserRole] = React.useState(null);
@@ -65,37 +65,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
         console.log('error signing out: ', error);
     }
   }
-  //AMANDA EDIT MENU
-  const mobileAppBarMenuItem = () => {
-      return (
-          <>
-            <MenuItem 
-                onClick={() => {
-                    handleCloseNavMenu()
-                    navigate("/app/dashboard")
-                }}>
-                 <Typography textAlign="center">Dashboard</Typography>
-            </MenuItem>
-            <MenuItem 
-                onClick={() => {
-                    handleCloseNavMenu()
-                    navigate("/app/about-us")
-                }}>
-                 <Typography textAlign="center">About Us</Typography>
-            </MenuItem>
-            {userRole == "admin" && 
-            <MenuItem 
-                onClick={() => {
-                    handleCloseNavMenu()
-                    navigate("/app/application")
-                }}>
-                <Typography textAlign="center">Application</Typography>
-            </MenuItem>
-            }
-          </>
-      )
-  }
-
+  
   const deskTopAppBarMenuItem = () => {
     return (
         <>
@@ -169,7 +139,28 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {mobileAppBarMenuItem()}
+              <MenuItem 
+                onClick={() => {
+                    handleCloseNavMenu()
+                    navigate("/app/dashboard")
+                }}>
+                 <Typography textAlign="center">Dashboard</Typography>
+              </MenuItem>
+              <MenuItem 
+                  onClick={() => {
+                      handleCloseNavMenu()
+                      navigate("/app/about-us")
+                  }}>
+                  <Typography textAlign="center">About Us</Typography>
+              </MenuItem>
+              {userRole == "admin" && 
+              <MenuItem 
+                  onClick={() => {
+                      handleCloseNavMenu()
+                      navigate("/app/application")
+                  }}>
+                  <Typography textAlign="center">Application</Typography>
+              </MenuItem>}
             </Menu>
           </Box>
 
