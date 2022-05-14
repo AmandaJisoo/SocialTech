@@ -23,6 +23,7 @@ const TAGS_FOR_SPECIFIC_AMENITY = new Map([
     ["Groups", ["Female Only", "Male Only", "Youth Only", "Pet Friendly", "Kid Friendly", "LGBTQ Friendly", "Ex-Convict Friendly"]],
     ["Others", ["Free Clothes", "Free Hygiene kits", "Employment Help Center"]]
 ])
+
 //TODO: AMANDA update the deault isDashboard to false
 const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags, displayShowResultButton, handleFilter, displayClearAllButton = true, maxHeight = "100%", isDashboard = false }) => {
     const [selectedTab, setSelectedTab] = useState(CATEGORY_PLACE_HOLDER[0]);
@@ -86,9 +87,11 @@ const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags
                 <FormControlLabel value="allInfo"  onClick={() => {setSelectedInfoRange("allInfo")
                                                                     appStore.setSearchRange("allInfo")}} control={<Radio />} label="Include all amenities including tags provided by comments" />
             </RadioGroup>}
+
           <Grid
             container
-            direction="row">
+            direction="row"
+            wrap='nowrap'>
               <Grid
                 item
                 container
@@ -100,7 +103,7 @@ const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags
 
               <Grid 
                 item
-                style={{marginLeft: "20px", width: "300px"}}>
+                style={{marginLeft: "10px", width: "200px"}}>
                   {tagsFilteredByCategory()}
               </Grid>
           </Grid>

@@ -100,8 +100,8 @@ const ShelterCard = observer(({
 
     const claimStatusWithIcon = () => {
         let res = <></>;
-        if (shelterStatus == "claimed") {
-            res = <div>
+        if (shelterStatus === "claimed") {
+            res = <>
                 <IconButton aria-label="business claim status">
                     <CheckCircleIcon style={{ color: '#48AAAD' }} />
                     <Typography style={{ marginRight: "20px", color: '#48AAAD' }}>Claimed Amenties</Typography>
@@ -120,23 +120,22 @@ const ShelterCard = observer(({
                         isMobileDisplay={false}/>
                 </Grid>
 
-            </div>
+            </>
         } else if (shelterStatus == "pending") {
-            res =
-            <Grid container direction="row" alignItems="center">
-            <Grid item>
-                <IconButton aria-label="business claim status">
-                    <PendingIcon style={{ color: '#48AAAD' }} />
-                </IconButton>
-            </Grid>
-            <Grid item>
-                <Typography style={{ fontSize: "17px", color: '#48AAAD' }}>
-                    Pending 
-                </Typography>
-            </Grid>
-        </Grid>
+            res = <>
+                <Grid item>
+                    <IconButton aria-label="business claim status">
+                        <PendingIcon style={{ color: '#48AAAD' }} />
+                    </IconButton>
+                </Grid>
+                <Grid item>
+                    <Typography style={{ fontSize: "17px", color: '#48AAAD' }}>
+                        Pending 
+                    </Typography>
+                </Grid>
+            </>
         } else if (shelterStatus == "no_claim") {
-            res = <Grid container direction="row" alignItems="center">
+            res = <>
                 <Grid item>
                     <IconButton aria-label="business claim status">
                         <InfoIcon style={{ color: '#48AAAD' }} />
@@ -147,9 +146,13 @@ const ShelterCard = observer(({
                         Unclaimed
                     </Typography>
                 </Grid>
-            </Grid>
+            </>
         }
-        return res;
+        return (
+            <Grid container direction="row" alignItems="center">
+                {res}
+            </Grid>
+        );
     }
 
     const favoriteIcon = () => bookmarkState ?
