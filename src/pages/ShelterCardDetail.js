@@ -598,11 +598,11 @@ const ShelterDetail = observer(({ shelterData }) => {
                         {distance && <Typography>{`${distance} away`}</Typography>}
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
+                            <Button style ={{marginBottom: "25px"}} variant="contained" onClick={handleGetDirection}>{text.shelterDetail.directToHereButtonText}</Button>
                         </Grid>
                     </Grid>
                 </>}                
-                {shelterPostData !== undefined && 
+                {/* {shelterPostData !== undefined && 
                 <Grid
                     item
                     container
@@ -614,7 +614,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             {text.shelterDetail.visitWebSiteButtonText}
                         </a>
                     </Button>
-                </Grid>}
+                </Grid>} */}
         {shelterPostData !== undefined && 
             <Grid
                 container
