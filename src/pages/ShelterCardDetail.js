@@ -527,7 +527,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     direction="row"
                     justifyContent="space-between"
                     alignItems="center"
-                    style={{margin: "80px 0 30px 0"}}
+                    sx={{margin: {sx: "10px 0 30px 0", sm: "10px 0 30px 0", md: "80px 0 30px 0"}}}
                     spacing={1}
                     >
                     <Button 
