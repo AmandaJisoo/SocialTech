@@ -110,7 +110,13 @@ const AboutUs = ( )=> {
                     </Grid>
                 
                     <Box sx={{display: { xs: 'none', sm: 'none', md: 'block' }}}>
-                        <img src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'} alt='app logo' />
+                        <img 
+                            src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'} 
+                            alt='app logo'
+                            style={{cursor: 'pointer'}}
+                            onClick={() => {
+                                navigate("/app/dashboard")
+                            }} />
                     </Box>
                 
                 </Grid>
@@ -177,7 +183,6 @@ const AboutUs = ( )=> {
                             <img 
                                 src={public_url + "/assets/imgs/about_us/phone2.jpg"} 
                                 alt='prototype'
-                                style={{borderRadius: "28px"}}
                                 />
                         </Box>
                     </Grid>

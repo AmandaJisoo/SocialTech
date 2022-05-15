@@ -295,7 +295,7 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
                         onClose={toggleSortDrawer(false)}
                     >
                         <Grid
-                            style={{padding: "20px", marginBottom: "100px"}}
+                            style={{padding: "20px"}}
                         >
                             {sortOptionEles}
                         </Grid>

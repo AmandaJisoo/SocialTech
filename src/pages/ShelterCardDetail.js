@@ -121,7 +121,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                     original: img,
                     thumbnail: img,
                     originalClass: "gallery-img-original",
-                    thumbnailClass: "gallery-img-thumbnail"
+                    thumbnailClass: "gallery-img-thumbnail",
                 }
             })
             console.log("reduce res: ", res)
@@ -567,7 +567,10 @@ const ShelterDetail = observer(({ shelterData }) => {
                     <Grid style={{width: "100%", borderRadius: "30px"}}>
                         <ImageGallery 
                             items={[{original: shelterPostData.profile_pic_path, 
-                                thumbnail: shelterPostData.profile_pic_path}, ...galleryImgs]}
+                                     thumbnail: shelterPostData.profile_pic_path,
+                                     originalClass: "gallery-img-original",
+                                     thumbnailClass: "gallery-img-thumbnail",
+                                     }, ...galleryImgs]}
                             showBullets={true}
                             showPlayButton={false}/>
                     </Grid>

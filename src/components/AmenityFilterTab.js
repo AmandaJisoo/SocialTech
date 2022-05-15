@@ -86,6 +86,9 @@ const AmenityFilterTab = observer(({ selectedAmenityTags, setSelectedAmenityTags
                                                                     appStore.setSearchRange("verfiedInfo")}} control={<Radio />} label="Verfied by owner" />
                 <FormControlLabel value="allInfo"  onClick={() => {setSelectedInfoRange("allInfo")
                                                                     appStore.setSearchRange("allInfo")}} control={<Radio />} label="Include comments" />
+                <Typography
+                    style={{color: 'grey', fontSize: "13px"}}
+                > *Amenities tags can be contributed by shelter owner and user. Choose the "Claimed shelter only" if you only want to see info from shelter owner.</Typography>
             </RadioGroup>}
 
           <Grid

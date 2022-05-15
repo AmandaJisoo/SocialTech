@@ -107,7 +107,10 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
               src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'}
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, width: "100px", height: "100px"}}
               alt='app logo'
-              style={{width: "60px", height: "50px"}}/>
+              style={{width: "60px", height: "50px", cursor: "pointer"}}
+              onClick={() => {
+                navigate("/app/dashboard")
+              }}/>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -167,11 +170,14 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
           <Box 
             sx={{ 
               flexGrow: 1, display: { xs: 'flex', md: 'none' }, 
-              marginLeft: "-12px"}}>
+              marginLeft: "15px"}}>
             <img
               src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'}
               alt='app logo'
-              style={{width: "60px", height: "50px"}}/>
+              style={{width: "60px", height: "50px", cursor: "pointer"}}
+              onClick={() => {
+                navigate("/app/dashboard")
+              }}/>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

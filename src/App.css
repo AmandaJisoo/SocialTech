@@ -6,3 +6,24 @@ html {
   width: 100vw;
   height: 100vh;
 }
+
+.gallery-img-original {
+  max-height: 220px;
+}
+
+.image-gallery-thumbnail-image {
+
+  max-height: 80px;
+}
+
+@media (min-width: 600px) {
+  .gallery-img-original {
+    max-height: 400px;
+  }
+}
+
+@media (min-width: 900px) {
+  .gallery-img-original {
+    max-height: 500px;
+  }
+}
