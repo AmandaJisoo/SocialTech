@@ -119,7 +119,9 @@ const ShelterDetail = observer(({ shelterData }) => {
             res = res.map(img => {
                 return {
                     original: img,
-                    thumbnail: img
+                    thumbnail: img,
+                    originalClass: "gallery-img-original",
+                    thumbnailClass: "gallery-img-thumbnail"
                 }
             })
             console.log("reduce res: ", res)
@@ -569,6 +571,7 @@ const ShelterDetail = observer(({ shelterData }) => {
                             showBullets={true}
                             showPlayButton={false}/>
                     </Grid>
+
                     <Grid
                         item
                         container

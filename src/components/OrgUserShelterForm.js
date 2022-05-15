@@ -1,5 +1,4 @@
 import { observer } from "mobx-react";
-import ImageGallery from '../components/ImageGallery'
 import { Grid } from '@mui/material';
 
 
