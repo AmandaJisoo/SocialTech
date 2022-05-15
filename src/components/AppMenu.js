@@ -170,7 +170,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
           <Box 
             sx={{ 
               flexGrow: 1, display: { xs: 'flex', md: 'none' }, 
-              marginLeft: "15px"}}>
+              marginLeft: user ? "-10px" : "15px" }}>
             <img
               src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'}
               alt='app logo'
