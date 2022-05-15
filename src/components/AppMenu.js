@@ -164,7 +164,10 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box 
+            sx={{ 
+              flexGrow: 1, display: { xs: 'flex', md: 'none' }, 
+              marginLeft: "-12px"}}>
             <img
               src={public_url + '/assets/imgs/about_us/logo_transparent.jpg'}
               alt='app logo'
