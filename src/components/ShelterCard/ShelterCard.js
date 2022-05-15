@@ -257,7 +257,7 @@ const ShelterCard = observer(({
                             alignItems="center"
                             style={{ width: "100%" }}>
                             <Typography variant='h4' style={{ fontWeight: "bold", marginTop: "10px" }}>{shelterData.title}</Typography>
-                            <Typography>{`${shelterData.distanceToUserLocation} away`}</Typography>
+                            {shelterData.distanceToUserLocation && <Typography>{`${shelterData.distanceToUserLocation} away`}</Typography>}
                         </Grid>
                         <Rating value={shelterData.avg_rating} readOnly precision={0.5} style={{ color: appTheme.palette.primary.main }} />
                         {claimStatusWithIcon()}

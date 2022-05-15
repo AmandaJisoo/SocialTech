@@ -96,15 +96,15 @@ const ShelterDetail = observer(({ shelterData }) => {
                 setDistance(await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress))
             }
         })()
-    })
+    }, [appStore.zipcode])
 
     useEffect(() => {
         (async () => {
             await appStore.getUsername();
             const getClaimResponse = await apiStore.getClaim(appStore.username, post_id);
-            setIsOwner('claimed' == getClaimResponse.status)
+            setIsOwner(getClaimResponse && 'claimed' == getClaimResponse.status)
         })()
-    })
+    }, [appStore.username])
     const pageSize = 10;
 
     const getCommentData = async () => {

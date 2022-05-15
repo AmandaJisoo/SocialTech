@@ -117,15 +117,28 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
             console.log('responseOfQuery name', responseOfQuery)
         }
 
-        for (const shelterPostData of responseOfQuery) {
+        appStore.setShelterDataList(responseOfQuery)
+        setShelterData(responseOfQuery)
+        setIsLoaderActive(false);
+        await Promise.all(responseOfQuery.map(async (shelterPostData) => {
             const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
             const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
             const fullAddress = `${streetAddress} ${cityAddress}`
             let distance = await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress)
             shelterPostData['distanceToUserLocation'] = distance
-          }
+        }))
+
+        // for (const shelterPostData of responseOfQuery) {
+        //     const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+        //     const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+        //     const fullAddress = `${streetAddress} ${cityAddress}`
+        //     let distance = await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress)
+        //     shelterPostData['distanceToUserLocation'] = distance
+        //   }
+
         appStore.setShelterDataList(responseOfQuery)
         setShelterData(responseOfQuery)
+        setIsLoaderActive(true);
         setIsLoaderActive(false);
     }
 
