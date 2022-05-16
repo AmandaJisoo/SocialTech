@@ -95,19 +95,19 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
             
             <Typography variant="h3" fontWeight={600} sx={{marginTop: "1em", color: "#F34343"}} >Shelp</Typography>
             
-            <Typography 
+            {/* <Typography 
                 style={{marginTop: "1px", fontSize:"1.1rem"}}
                 sx={{display: {xs: "none", small: "none", md: "block"}}}
                 align="center">
-                    Matching you to shelters that provide the resources you need
-                </Typography>
+                    Matching you to emergency housings that provide the resources you need
+                </Typography> */}
 
             <Grid
                 container
                 justifyContent='center'
                 alignItems='center'
                 sx={{display: {xs: "block", small: "block", md: "none"}}}>
-                 <Typography align="center" style={{marginTop: "1px", fontSize:"1.1rem"}}>Matching you to shelters</Typography>
+                 <Typography align="center" style={{marginTop: "1px", fontSize:"1.1rem"}}>Matching you to emergency housing</Typography>
                  <Typography align="center" style={{marginTop: "1px", fontSize:"1.1rem"}}>that provide the resources you need</Typography>
             </Grid>
 
