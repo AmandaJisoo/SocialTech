@@ -28,7 +28,7 @@ import Avatar from '@mui/material/Avatar';
 const OrgUserProfile = observer(props => {
     const { apiStore } = useStore();
     const [page, setPage] = useState(0);
-    const [loaderActive, setLoaderActive] = useState(false);
+    const [loaderActive, setLoaderActive] = useState(true);
     const [shelterBookmarkData, setShelterBookmarkData] = useState([])
     const [shelterData, setShelterData] = useState([])
     const [commentData, setCommentData] = useState(null)
@@ -148,9 +148,10 @@ const OrgUserProfile = observer(props => {
     }
 
     useEffect(() => {
-        setLoaderActive(true)
-        loadAllClaims()
-        setLoaderActive(false)
+        (async () => {
+            await loadAllClaims()
+            setLoaderActive(false)
+        })()
     }, [])
 
     const comments = () => {
