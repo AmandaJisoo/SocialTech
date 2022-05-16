@@ -23,7 +23,6 @@ const ClaimCard = ({claimInfo, reloadApplication}) => {
 
     const handleApprove = async() => {
         try {
-            claimInfo.claimed_utilities = ["Bathroom"]
             const shelterData = await apiStore.approveClaim(claimInfo.post_id, claimInfo.claimed_utilities);
         } catch(err) {
             console.error(err)
