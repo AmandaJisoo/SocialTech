@@ -37,6 +37,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AmenityFilterTab from '../components/AmenityFilterTab';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css"
+import { Cookie } from '@mui/icons-material';
 
 const WEBSITE_PLACEHOLDER = "https://www.google.com/"
 const DISTANCE_PLACEHOLDER = 1.5 + "km"
@@ -144,11 +145,15 @@ const ShelterDetail = observer(({ shelterData }) => {
             setEditZipcode(shelterPostDataResponse.zipcode)
             setEditUtilities(shelterPostDataResponse.utilities)
             //console.log("before fetch")
+            try {
             const fetchData = await fetch(shelterPostDataResponse.profile_pic_path)
             const blobData = await fetchData.blob()
             //console.log("blob", blobData)
             setSelectedFile([blobData])
             //console.log("after set")
+            } catch(err) {
+                console.error(err)
+            }
 
             //console.log("shelter data response: ", shelterPostDataResponse)
 
