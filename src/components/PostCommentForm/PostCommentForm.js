@@ -16,6 +16,8 @@ import TagSelectionTab from './TagSelectionTab';
 import Popover from '@mui/material/Popover';
 import ImageThumbNailWithLightBox from '../ImageThumbNailWithLightBox';
 import UserNotLoggedInPopOverContent from '../UserNotLoggedInPopOverContent';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { DEFAULT_COUNTRY, SHELTER_CARD_DISPLAY_STATUS, LOADING_SPINNER_SIZE } from '../../utils/utilityFunctions';
 
 const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateComment, commentData, setCommentData, getShelterPostData = undefined }) => {
     const [commentText, setCommentText] = useState(commentData ? commentData.comment_body : "");
@@ -24,6 +26,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
     const [selectedFile, setSelectedFile] = useState([]);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const buttonRef = useRef(null);
+    const [isLoaderActive, setIsLoaderActive] = useState(false);
     // const [fileSelectionErrMsg, setFileSelectionErrMsg] = useState(null);
     const fileInputRef = useRef(null);
     const { apiStore } = useStore();
@@ -137,6 +140,8 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
     } 
 
     return (
+        isLoaderActive?
+        <LoadingSpinner text={"Loading Data"} size={LOADING_SPINNER_SIZE.large} />:
         <Grid
             sx={style}
             container
@@ -201,7 +206,6 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
 
             {selectedImagePreview()}
             <br />
-
             <Grid
                 container
                 direction="row" 
@@ -220,6 +224,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                     ref={buttonRef}
                     variant="contained"
                     onClick={async() => {
+                        setIsLoaderActive(true)
                         if (!appCtx.user) {
                             setIsPopoverOpen(true)
                             return
@@ -229,6 +234,7 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                         setSelectedTags([])
                         setSelectedFile([])
                         setStarRating(0)
+                        setIsLoaderActive(false)
                     }}>
                     {text.postCommentForm.postCommentBtn}
                 </Button> }
@@ -239,8 +245,8 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
                     </Grid>
                 </Popover>
             </Grid>  
-
-        </Grid>    
+        </Grid>   
+         
     );
 };
 

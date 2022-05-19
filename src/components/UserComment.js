@@ -21,6 +21,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PostCommentForm from './PostCommentForm/PostCommentForm';
 import { observer } from 'mobx-react';
 import Avatar from '@mui/material/Avatar';
+import LoadingSpinner from './LoadingSpinner';
+import { LOADING_SPINNER_SIZE } from '../utils/utilityFunctions';
+
 
 
 const public_url = process.env.PUBLIC_URL;
@@ -43,6 +46,7 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
     const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
     const [isHover, setIsHover] = useState(false);
     const [isOpenEditComment, setIsOpenEditComment] = useState(false);
+    const [isLoaderActive, setIsLoaderActive] = useState(false)
 
     
     const deleteButtonRef = useRef(null);
@@ -162,6 +166,8 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
 
     //console.log("comment data", commentData)
     return (
+    isLoaderActive ? 
+        <LoadingSpinner text={"Deleteing your comment"} size={LOADING_SPINNER_SIZE.large} /> :
       <Card 
         onMouseEnter={() => {
             setIsHover(true)
@@ -245,9 +251,11 @@ const UserComment = observer(({shelterName, shelter_post_id, reloadData = undefi
                                             </Button>
                                             <Button
                                             onClick={async () => {
+                                                setIsLoaderActive(true)
                                                 await handleDeleteComment()
                                                 handleClose()
-                                                setIsDeletePopoverOpen(false);
+                                                setIsDeletePopoverOpen(false)
+                                                setIsLoaderActive(false)
                                             }}>
                                                 Yes
                                             </Button>
