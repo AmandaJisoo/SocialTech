@@ -215,7 +215,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
                     handleCloseUserMenu()
                     navigate(profilePath)
                 }}>
-                    <Typography textAlign="center">Profile test</Typography>
+                    <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
                 <MenuItem  onClick={() => {
                     handleCloseUserMenu()
