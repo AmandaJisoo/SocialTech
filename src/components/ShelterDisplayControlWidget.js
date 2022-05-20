@@ -33,47 +33,50 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
         console.log(sortOption)
         switch (sortOption) {
             case SORT_OPTIONS[0]: // Distance
-                 shelterData = shelterData.sort((a, b) => {
-                    return a.distanceToUserLocation - b.distanceToUserLocation
+                if (appStore.shelterDataList.length > 0 && appStore.shelterDataList[0].distanceToUserLocation) {
+                 shelterData = appStore.shelterDataList.sort((a, b) => {
+                    return parseFloat(a.distanceToUserLocation.split(' ')[0]) - parseFloat(b.distanceToUserLocation.split(' ')[0])
                 })
                 setShelterData(shelterData.slice())
+                }
             break;
             case SORT_OPTIONS[1]: // Rating (ascending)
-                shelterData.sort((a, b) => {
+                shelterData = appStore.shelterDataList.sort((a, b) => {
                     return a.avg_rating - b.avg_rating
                 })
                 setShelterData(shelterData.slice())
             break;
             case SORT_OPTIONS[2]: // Rating (descending)
-                shelterData.sort((a, b) => {
+                shelterData = appStore.shelterDataList.sort((a, b) => {
                     return b.avg_rating - a.avg_rating
                 })
                 
                 setShelterData(shelterData.slice())
             break;
             case SORT_OPTIONS[3]: // Bookmark (descending)
-                    shelterData = shelterData.sort((a, b) => {
+                    shelterData = appStore.shelterDataList.sort((a, b) => {
                     return b.num_of_bookmarks - a.num_of_bookmarks
                 })
                 setShelterData(shelterData.slice())
             break;
             case SORT_OPTIONS[4]: // Reviews / comments (descending)
-                    shelterData = shelterData.sort((a, b) => {
+                    shelterData = appStore.shelterDataList.sort((a, b) => {
                     return b.num_of_comments - a.num_of_comments
                 })
                 setShelterData(shelterData.slice())
             break;
             case SORT_OPTIONS[5]: // name (alphabetically)
-                shelterData = shelterData.sort((a, b) => a.title > b.title ? 1 : b.title > a.title ? -1 : 0)
+                shelterData = appStore.shelterDataList.sort((a, b) => a.title > b.title ? 1 : b.title > a.title ? -1 : 0)
                 setShelterData(shelterData.slice())
             break;
             default:
         }
     }
+
     useEffect(() => {
         console.log("use called")
         handleSort()
-    }, [sortOption])
+    }, [sortOption, appStore.shelterDataList])
 
     const handleQueryChange = (event) => {
         const searchQuery = event.target.value
@@ -117,9 +120,9 @@ const ShelterDisplayControlWidget = observer(({setShelterData, shelterData, setI
             console.log('responseOfQuery name', responseOfQuery)
         }
 
-        appStore.setShelterDataList(responseOfQuery)
-        setShelterData(responseOfQuery)
-        setIsLoaderActive(false);
+        // appStore.setShelterDataList(responseOfQuery)
+        // setShelterData(responseOfQuery)
+        // setIsLoaderActive(false);
         await Promise.all(responseOfQuery.map(async (shelterPostData) => {
             const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
             const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""

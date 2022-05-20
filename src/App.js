@@ -160,6 +160,7 @@ const App = observer(() => {
             }
         }
       }
+      // zipcode = "98105";
       appStore.setZipcode(zipcode);
       appStore.setSearchOption("zipcode");
       appStore.setSearchQuery(zipcode);
@@ -167,14 +168,21 @@ const App = observer(() => {
       const shelterDataResponse = await apiStore.loadOverview(zipcode, zipcode)
       //console.log("Shelter data: ", shelterDataResponse)
         //get distance between user and shetler for each shelter in shelterDataResponse
-      for (const shelterPostData of shelterDataResponse) {
+      // for (const shelterPostData of shelterDataResponse) {
+      //     const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
+      //     const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
+      //     const fullAddress = `${streetAddress} ${cityAddress}`
+      //     let distance = await apiStore.getDistanceBetweenZipcodes(zipcode, fullAddress)
+      //     //console.log("distance: " + distance)
+      //     shelterPostData['distanceToUserLocation'] = distance
+      //   }
+        await Promise.all(shelterDataResponse.map(async (shelterPostData) => {
           const streetAddress = shelterPostData ? shelterPostData.street.toUpperCase() : ""
           const cityAddress = shelterPostData ? `${shelterPostData.city}, ${shelterPostData.state}, ${shelterPostData.zipcode}`.toUpperCase() : ""
           const fullAddress = `${streetAddress} ${cityAddress}`
-          let distance = await apiStore.getDistanceBetweenZipcodes(zipcode, fullAddress)
-          //console.log("distance: " + distance)
+          let distance = await apiStore.getDistanceBetweenZipcodes(appStore.zipcode, fullAddress)
           shelterPostData['distanceToUserLocation'] = distance
-        }
+      }))
         setShelterData(shelterDataResponse)
         appStore.setShelterDataList(shelterDataResponse)
         setDataLoading(false)

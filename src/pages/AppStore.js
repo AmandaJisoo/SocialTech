@@ -12,6 +12,7 @@ export default class AppStore {
     searchOption = "";
     searchQuery = "";
     searchRange = "";
+    // sortOption = "";
     showNoLocationError = false;
     setUserFn = () => {};
     setShelterDataFn = () => {};
@@ -43,9 +44,15 @@ export default class AppStore {
             setShelterDataFn: observable,
             setSetShelterDataFn: action,
             searchRange: observable,
-            setSearchRange: action
+            setSearchRange: action,
+            // sortOption: action,
+            // setSortOption: observable,
         })
     }
+
+    // setSortOption(searchQuery) {
+    //     this.searchQuery = searchQuery
+    // }
 
     setSetShelterDataFn(fn) {
         this.setShelterDataFn = fn;

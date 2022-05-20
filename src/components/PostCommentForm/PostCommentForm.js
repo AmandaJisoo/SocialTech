@@ -36,12 +36,16 @@ const PostCommentForm = ({ shelterName, shelter_post_id, handleClose, isUpdateCo
     useEffect(() => {
         const convertImageUrlToBlob = async () => {
             if (commentData) {
+                console.log("ocmment data pics", commentData.pics)
                 let res = await Promise.all(commentData.pics.map(async (url) => {
                     return fetch(url)
                 }))
-                let imgBlob = await Promise.all(res.map(async (res) => {
-                    return res.blob()
+                console.log("comment data res", res);
+                let imgBlob = await Promise.all(res.map(async (item) => {
+                    return item.blob()
                 }))
+
+                console.log("comment data blob", imgBlob);
             
                 setSelectedFile(imgBlob)
             }

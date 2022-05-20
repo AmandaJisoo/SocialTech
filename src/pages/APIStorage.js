@@ -29,8 +29,15 @@ export default class APIStorage {
 
     //still for local file upload
     async uploadImageToS3(file) {
+        const uuidv4 = () => {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+              (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+          };
         try {
-            const res = await Storage.put(file.name, file, {
+            const name = file.name != undefined ? file.name : uuidv4()
+            const res = await Storage.put(name, file, {
+            // const res = await Storage.put(file.name, file, {
                 contentType: file.type,
                 level: "private",
             });
