@@ -21,6 +21,7 @@ const public_url = process.env.PUBLIC_URL;
 const AppMenu = observer(({user, setUser, userStatus}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
   const navigate = useNavigate();
   const { appStore, apiStore } = useStore(); 
   //console.log("userStatus", userStatus)
@@ -45,6 +46,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
+    setUserMenuOpen(true)
     setAnchorElUser(event.currentTarget);
   };
 
@@ -53,6 +55,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
   };
 
   const handleCloseUserMenu = () => {
+    setUserMenuOpen(false);
     setAnchorElUser(null);
   };
 
@@ -205,17 +208,17 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              open={Boolean(anchorElUser)}
+              open={userMenuOpen}
               onClose={handleCloseUserMenu}
             >
                 <MenuItem  onClick={() => {
-                    handleCloseNavMenu()
+                    handleCloseUserMenu()
                     navigate(profilePath)
                 }}>
-                    <Typography textAlign="center">Profile</Typography>
+                    <Typography textAlign="center">Profile test</Typography>
                 </MenuItem>
                 <MenuItem  onClick={() => {
-                    handleCloseNavMenu()
+                    handleCloseUserMenu()
                     handleSignOut()
                 }}>
                     <Typography textAlign="center">Log out</Typography>
@@ -224,7 +227,7 @@ const AppMenu = observer(({user, setUser, userStatus}) => {
           </Box> : 
           <Button
               onClick={() => {
-                  handleCloseNavMenu()
+                  handleCloseUserMenu()
                   navigate("/app/auth/sign-in")
               }}
               sx={{ my: 2, color: 'white', display: 'block' }}>

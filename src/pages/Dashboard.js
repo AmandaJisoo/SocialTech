@@ -102,14 +102,14 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
                     Matching you to emergency housings that provide the resources you need
                 </Typography> */}
 
-            <Grid
+            {/* <Grid
                 container
                 justifyContent='center'
                 alignItems='center'
                 sx={{display: {xs: "block", small: "block", md: "none"}}}>
                  <Typography align="center" style={{marginTop: "1px", fontSize:"1.1rem"}}>Matching you to emergency housing</Typography>
                  <Typography align="center" style={{marginTop: "1px", fontSize:"1.1rem"}}>that provide the resources you need</Typography>
-            </Grid>
+            </Grid> */}
 
             <Grid item container style={{width: "90%"}}>
                 <ShelterDisplayControlWidget setIsLoaderActive={setIsLoaderActive} shelterData={shelterData} setShelterData={setShelterData} />
@@ -118,7 +118,13 @@ const Dashboard = observer(({user, setUser, shelterData, setShelterData, dataLoa
             {/* change this to <ShelterList/> element */}
             
             {appStore.showNoLocationError ? <>
-                <Typography>Cannot load information without location enabled.</Typography>
+                <Grid
+                    container
+                    justifyContent='center'
+                    alignItems="center"
+                    style={{height: "60vh"}}>
+                    <Typography>Cannot load information without location enabled.</Typography>
+                </Grid>
             </>
             : !dataLoading? 
             (<>
